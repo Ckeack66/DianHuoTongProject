@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="colorWhite">#ffffff</color>
+    <color name="colorBlack">#000000</color>
+    <color name="color04c1ab">#04c1ab</color>
+    <color name="colorTransp">#00ffffff</color>
+    <color name="colorBFBFBF">#BFBFBF</color>
+    <!--login颜色-->
+    <color name="colorbuttonS">#0DE8CE</color>
+    <color name="colorbuttonE">#04C1AB</color>
+</resources>
