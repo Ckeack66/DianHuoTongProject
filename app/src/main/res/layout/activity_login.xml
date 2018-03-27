@@ -83,7 +83,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="60dp"
             android:text="@string/login_text"
             android:gravity="center"
             android:textSize="18sp"
@@ -94,6 +94,20 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="@string/login_register"
+                android:textColor="@color/colorBFBFBF"
+                android:padding="2dp"
+                android:textSize="18sp"
+                android:layout_alignParentLeft="true"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/login_forgetpwd"
+                android:textColor="@color/colorBFBFBF"
+                android:padding="2dp"
+                android:textSize="18sp"
+                android:layout_alignParentRight="true"
                 />
         </RelativeLayout>
     </LinearLayout>
