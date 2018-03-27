@@ -1,4 +1,32 @@
 <resources>
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="text_pading">2dp</dimen>
+    <dimen name="x1">1dp</dimen>
+    <dimen name="x2">2dp</dimen>
+    <dimen name="x3">3dp</dimen>
+    <dimen name="x4">4dp</dimen>
+    <dimen name="x5">5dp</dimen>
+    <dimen name="x6">6dp</dimen>
+    <dimen name="x7">7dp</dimen>
+    <dimen name="x8">8dp</dimen>
+    <dimen name="x9">9</dimen>
+    <dimen name="x10">10dp</dimen>
+    <dimen name="x11">11dp</dimen>
+    <dimen name="x12">12dp</dimen>
+    <dimen name="x13">13dp</dimen>
+    <dimen name="x14">14dp</dimen>
+    <dimen name="x15">15dp</dimen>
+    <dimen name="x16">16dp</dimen>
+    <dimen name="x17">17dp</dimen>
+    <dimen name="x19">19dp</dimen>
+    <dimen name="x22">22dp</dimen>
+    <dimen name="x25">25dp</dimen>
+    <dimen name="x30">30dp</dimen>
+    <dimen name="x49">49dp</dimen>
+    <dimen name="x50">50dp</dimen>
+    <dimen name="x52">52dp</dimen>
+    <dimen name="x57">57dp</dimen>
+    <dimen name="x64">64dp</dimen>
+    <dimen name="x203">203dp</dimen>
+    <dimen name="x217">217dp</dimen>
 </resources>

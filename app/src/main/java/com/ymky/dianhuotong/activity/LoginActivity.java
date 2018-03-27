@@ -26,6 +26,9 @@ public class LoginActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
+        inIt();
+    }
+    private void inIt(){
         diaHuiTongBaseTitleBar.setLeftImage(R.mipmap.icon_back);
         diaHuiTongBaseTitleBar.setCenterTextView("登录");
         diaHuiTongBaseTitleBar.setBackGround(Color.parseColor("#00ffffff"));
