@@ -30,15 +30,15 @@
             android:background="@color/colorWhite"
             android:orientation="horizontal">
             <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_width="26dp"
+                android:layout_height="26dp"
                 android:layout_marginLeft="12dp"
                 android:src="@mipmap/icon_user"/>
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
                 android:layout_marginLeft="12dp"
-                android:textSize="18sp"
+                android:textSize="16sp"
                 android:textColor="@color/colorBlack"
                 android:textColorHint="@color/colorBFBFBF"
                 android:hint="@string/login_username"
@@ -59,21 +59,21 @@
             android:orientation="horizontal"
             android:layout_marginTop="30dp">
             <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_width="26dp"
+                android:layout_height="26dp"
                 android:layout_marginLeft="12dp"
                 android:src="@mipmap/icon_lock"/>
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
                 android:layout_marginLeft="12dp"
-                android:textSize="18sp"
+                android:textSize="16sp"
                 android:textColor="@color/colorBlack"
                 android:textColorHint="@color/colorBFBFBF"
                 android:hint="@string/login_password"
                 android:padding="@dimen/text_pading"
                 android:background="@null"
-                android:maxLength="11"/>
+                android:inputType="textPassword"/>
         </LinearLayout>
         <View
             android:layout_width="match_parent"
@@ -90,14 +90,15 @@
             android:background="@drawable/shape_login_button"/>
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:paddingTop="3dp">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/login_register"
                 android:textColor="@color/colorBFBFBF"
-                android:padding="2dp"
-                android:textSize="18sp"
+                android:layout_marginLeft="5dp"
+                android:textSize="14sp"
                 android:layout_alignParentLeft="true"
                 />
             <TextView
@@ -105,8 +106,8 @@
                 android:layout_height="wrap_content"
                 android:text="@string/login_forgetpwd"
                 android:textColor="@color/colorBFBFBF"
-                android:padding="2dp"
-                android:textSize="18sp"
+                android:layout_marginRight="5dp"
+                android:textSize="14sp"
                 android:layout_alignParentRight="true"
                 />
         </RelativeLayout>
