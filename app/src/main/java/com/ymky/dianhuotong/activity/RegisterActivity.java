@@ -35,7 +35,7 @@ public class RegisterActivity extends BaseActivity {
     }
 
     private void inIt() {
-        diaHuiTongBaseTitleBar.setLeftImage(R.mipmap.icon_back);
+        diaHuiTongBaseTitleBar.setLeftImage(R.drawable.icon_back);
         diaHuiTongBaseTitleBar.setCenterTextView("注册");
 //         StatusBarUtil.setTranslucent(this);
 //        StatusBarUtil.setColor(this, Color.parseColor("#04c1ab"));

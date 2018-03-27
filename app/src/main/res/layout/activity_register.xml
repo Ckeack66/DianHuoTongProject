@@ -19,7 +19,8 @@
         android:layout_marginRight="@dimen/x49"
         android:layout_marginTop="@dimen/x57"
         android:background="@color/colorWhite"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:id="@+id/linearLayout">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -31,7 +32,7 @@
                 android:layout_width="@dimen/x15"
                 android:layout_height="@dimen/x22"
                 android:layout_gravity="center_vertical"
-                android:src="@mipmap/icon_phone" />
+                android:src="@drawable/icon_phone" />
 
             <EditText
                 android:layout_width="match_parent"
@@ -51,8 +52,8 @@
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginTop="5dp"
+            android:layout_height="@dimen/x1"
+            android:layout_marginTop="@dimen/x5"
             android:background="@color/colorBFBFBF" />
 
         <LinearLayout
@@ -66,7 +67,7 @@
                 android:layout_width="17dp"
                 android:layout_height="19dp"
                 android:layout_gravity="center_vertical"
-                android:src="@mipmap/icon_lock" />
+                android:src="@drawable/icon_lock" />
 
             <EditText
                 android:layout_width="0dp"
@@ -95,22 +96,22 @@
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginTop="5dp"
+            android:layout_height="@dimen/x1"
+            android:layout_marginTop="@dimen/x5"
             android:background="@color/colorBFBFBF" />
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="30dp"
-            android:layout_marginTop="40dp"
+            android:layout_height="@dimen/x30"
+            android:layout_marginTop="@dimen/x40"
             android:background="@color/colorWhite"
             android:orientation="horizontal">
 
             <ImageView
-                android:layout_width="17dp"
-                android:layout_height="19dp"
+                android:layout_width="@dimen/x17"
+                android:layout_height="@dimen/x19"
                 android:layout_gravity="center_vertical"
-                android:src="@mipmap/icon_lock" />
+                android:src="@drawable/icon_lock" />
 
             <EditText
                 android:layout_width="0dp"
@@ -134,16 +135,35 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:scaleType="center"
-                android:src="@mipmap/icon_hide_pwd" />
+                android:src="@drawable/icon_hide_pwd" />
         </LinearLayout>
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginTop="5dp"
+            android:layout_height="@dimen/x1"
+            android:layout_marginTop="@dimen/x5"
             android:background="@color/colorBFBFBF" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/x33"
+            android:layout_marginTop="@dimen/x71"
+            android:text="@string/login_register"
+            android:gravity="center"
+            android:textSize="@dimen/t12"
+            android:background="@drawable/shape_login_button"/>
 
     </LinearLayout>
+
+    <CheckBox
+        android:id="@+id/checkBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/linearLayout"
+        android:layout_below="@+id/linearLayout"
+        android:layout_marginTop="53dp"
+        android:gravity="center"
+        android:checked="true"
+        style="@style/My_View_CheckBox" />
 
 
 </RelativeLayout>

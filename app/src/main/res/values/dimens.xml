@@ -22,11 +22,23 @@
     <dimen name="x22">22dp</dimen>
     <dimen name="x25">25dp</dimen>
     <dimen name="x30">30dp</dimen>
+    <dimen name="x33">33dp</dimen>
+    <dimen name="x40">40dp</dimen>
     <dimen name="x49">49dp</dimen>
     <dimen name="x50">50dp</dimen>
     <dimen name="x52">52dp</dimen>
     <dimen name="x57">57dp</dimen>
     <dimen name="x64">64dp</dimen>
+    <dimen name="x71">71dp</dimen>
     <dimen name="x203">203dp</dimen>
     <dimen name="x217">217dp</dimen>
+
+
+    <!--字体大小-->
+    <dimen name="t11">11sp</dimen>
+    <dimen name="t12">12sp</dimen>
+    <dimen name="t22">22sp</dimen>
+    <dimen name="t24">24sp</dimen>
+    <dimen name="t28">28sp</dimen>
+    <dimen name="t36">36sp</dimen>
 </resources>

@@ -29,7 +29,7 @@ public class LoginActivity extends BaseActivity {
         inIt();
     }
     private void inIt(){
-        diaHuiTongBaseTitleBar.setLeftImage(R.mipmap.icon_back);
+        diaHuiTongBaseTitleBar.setLeftImage(R.drawable.icon_back);
         diaHuiTongBaseTitleBar.setCenterTextView("登录");
         diaHuiTongBaseTitleBar.setBackGround(Color.parseColor("#00ffffff"));
     }

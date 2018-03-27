@@ -12,5 +12,9 @@
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+    
+    <style name="My_View_CheckBox" parent="Widget.AppCompat.CompoundButton.CheckBox">
+       <item name="android:button">@drawable/selector_register_checkbox</item>
+    </style>
 
 </resources>
