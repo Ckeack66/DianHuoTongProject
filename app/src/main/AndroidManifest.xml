@@ -17,15 +17,9 @@
             android:name=".activity.RegisterActivity"
             android:screenOrientation="portrait"></activity>
         <activity android:name=".activity.ForgetPasswordActivity">
-        </activity>
-        <activity
-            android:name=".activity.MainActivity"
-            android:label="@string/title_activity_main"
-            android:theme="@style/AppTheme">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
     </application>
