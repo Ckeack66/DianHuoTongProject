@@ -17,4 +17,10 @@
     <!--忘记密码文字资源-->
     <string name="forget_ok">确认</string>
     <string name="forget_input_newpwd">请输入新密码(6-20位数字字母组合)</string>
+    <string name="title_activity_main">MainActivity</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
 </resources>
