@@ -9,14 +9,17 @@ import android.view.Display;
 import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 
+import com.jake.library.GridViewLine;
 import com.ymky.dianhuotong.R;
 import com.ymky.dianhuotong.custom.DiaHuiTongBaseTitleBar;
 import com.ymky.dianhuotong.main.MainIF;
 import com.ymky.dianhuotong.main.adpter.DrawerLayoutAdapter;
+import com.ymky.dianhuotong.main.adpter.GridViewAdapter;
 import com.ymky.dianhuotong.main.presenter.MainActivityPrecenter;
 
 import java.util.ArrayList;
@@ -35,9 +38,12 @@ public class MainActivity extends AppCompatActivity implements MainIF,DrawerLayo
     RelativeLayout relativeLayout;
     @BindView(R.id.drawer_linearlayout)
     RelativeLayout linearLayout;
+    @BindView(R.id.main_gridview)
+    GridViewLine gridView;
     boolean isOpenDrawer = false;
     private MainActivityPrecenter mainActivityPrecenter;
     private DrawerLayoutAdapter drawerLayoutAdapter;
+    private GridViewAdapter gridViewAdapter;
     private WindowManager windowManager;
     private Display display;
     @Override
@@ -64,6 +70,7 @@ public class MainActivity extends AppCompatActivity implements MainIF,DrawerLayo
         });
         mainActivityPrecenter=new MainActivityPrecenter(this,this);
         mainActivityPrecenter.getlistData();
+        mainActivityPrecenter.getGridData();
         windowManager=(WindowManager) getSystemService(Context.WINDOW_SERVICE);
         display=windowManager.getDefaultDisplay();
         drawerLayout.setScrimColor(Color.TRANSPARENT);
@@ -73,6 +80,12 @@ public class MainActivity extends AppCompatActivity implements MainIF,DrawerLayo
     public void updateListview(int[] array, ArrayList<String> list) {
         drawerLayoutAdapter=new DrawerLayoutAdapter(list,array,this);
         listView.setAdapter(drawerLayoutAdapter);
+    }
+
+    @Override
+    public void updateGridView(int[] array, ArrayList<String> list) {
+        gridViewAdapter=new GridViewAdapter(this,list,array);
+        gridView.setAdapter(gridViewAdapter);
     }
 
     @Override

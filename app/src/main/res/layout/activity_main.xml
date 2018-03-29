@@ -8,6 +8,4 @@
     android:id="@+id/main_relativelayout_root">
     <include layout="@layout/drawer_layout"/>
 
-
-
 </RelativeLayout>

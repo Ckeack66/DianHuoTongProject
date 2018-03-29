@@ -8,4 +8,5 @@ import java.util.ArrayList;
 
 public interface MainIF {
     void updateListview(int[] array,ArrayList<String> list);
+    void updateGridView(int[] array,ArrayList<String> list);
 }

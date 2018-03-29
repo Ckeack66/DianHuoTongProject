@@ -47,7 +47,16 @@
     <string name="drawer_list_name">典货通</string>
     <string name="drawer_bottom">典货通V</string>
 
-
+    <!--MainGridView文字资源-->
+    <string name="main_gridview_1">食药前沿</string>
+    <string name="main_gridview_2">典货通</string>
+    <string name="main_gridview_3">药邻网</string>
+    <string name="main_gridview_4">佲惠付</string>
+    <string name="main_gridview_5">121健康网</string>
+    <string name="main_gridview_6">国药店</string>
+    <string name="main_gridview_7">老P之家</string>
+    <string name="main_gridview_8">大咖在线</string>
+    <string name="main_gridview_9">联系我们</string>
 
     <string name="title_activity_main">MainActivity</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
