@@ -12,7 +12,8 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:clickable="true"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:background="@color/colorDDEAF2">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -24,7 +25,9 @@
                 android:layout_width="@dimen/x94"
                 android:layout_height="@dimen/x94"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="@dimen/x64" />
+                android:layout_marginTop="@dimen/x64"
+                android:src="@drawable/icon_header_big"
+                android:background="@color/colorTransp"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -42,6 +45,7 @@
             android:id="@+id/drawer_listview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/x13"
             android:background="@color/colorDDEAF2" />
     </LinearLayout>
 

@@ -1,51 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/titleBarRelativeLayoutRoot"
     android:layout_width="match_parent"
     android:layout_height="64dp"
-    android:id="@+id/titleBarConstrantlayoutRoot"
     android:background="@color/color04c1ab">
 
     <TextView
         android:id="@+id/textView_center"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="34dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="@dimen/x14"
+        android:background="@color/colorTransp"
         android:text=""
         android:textColor="@color/colorWhite"
-        android:textSize="18sp"
-        android:background="@color/colorTransp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:textSize="18sp" />
 
     <ImageView
         android:id="@+id/imageView_left"
-        android:layout_width="13dp"
-        android:layout_height="23dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="31dp"
-        android:background="@color/colorTransp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:scaleType="center"
+        android:background="@color/colorTransp" />
 
     <ImageView
         android:id="@+id/imageView_right"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginTop="31dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="@dimen/x16"
+        android:layout_marginRight="@dimen/x16"
         android:background="@color/colorTransp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-</android.support.constraint.ConstraintLayout>
+        android:scaleType="center" />
+
+    <TextView
+        android:id="@+id/textView_right"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="@dimen/x16"
+        android:layout_marginRight="@dimen/x16"
+        android:background="@color/colorTransp"
+        android:text=""
+        android:textColor="@color/colorWhite"
+        android:textSize="@dimen/t15" />
+</RelativeLayout>

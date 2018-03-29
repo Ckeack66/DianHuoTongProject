@@ -24,7 +24,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".person.PersonInfmoActivity"></activity>
+        <activity android:name=".activity.PersonInfoActivity" />
+        <activity android:name=".activity.PersonInfoUpdateActivity">
+
+        </activity>
     </application>
 
 </manifest>

@@ -1,14 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/coloreeeeee"
-    android:orientation="vertical"
-    tools:context="com.ymky.dianhuotong.person.PersonInfmoActivity">
+    android:orientation="vertical">
 
     <com.ymky.dianhuotong.custom.DiaHuiTongBaseTitleBar
-        android:id="@+id/personinfo_title"
+        android:id="@+id/person_info_update_title"
         android:layout_width="match_parent"
         android:layout_height="@dimen/x64" />
 
@@ -30,11 +28,13 @@
                 android:text="@string/person_header"
                 android:textColor="@color/color333333"
                 android:textSize="@dimen/t14" />
+
             <ImageView
                 android:layout_width="@dimen/x33"
                 android:layout_height="@dimen/x34"
+                android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:layout_alignParentRight="true"/>
+                android:src="@drawable/icon_person_header" />
         </RelativeLayout>
 
         <View
@@ -57,21 +57,24 @@
                 android:text="@string/person_username"
                 android:textColor="@color/color333333"
                 android:textSize="@dimen/t14" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_alignParentRight="true"
-                android:textColor="@color/color333333"
-                android:textSize="@dimen/t14"
                 android:gravity="center_vertical"
-                android:text="@string/person_username_default"/>
+                android:text="@string/person_username_default"
+                android:textColor="@color/color333333"
+                android:textSize="@dimen/t14" />
         </RelativeLayout>
+
         <View
             android:layout_width="match_parent"
             android:layout_height="@dimen/x1"
             android:layout_marginLeft="@dimen/x15"
             android:layout_marginRight="@dimen/x15"
             android:background="@color/colorCDCDCD" />
+
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="@dimen/x49"
@@ -85,21 +88,24 @@
                 android:text="@string/person_username_internet"
                 android:textColor="@color/color333333"
                 android:textSize="@dimen/t14" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_alignParentRight="true"
-                android:textColor="@color/color333333"
-                android:textSize="@dimen/t14"
                 android:gravity="center_vertical"
-                android:text="@string/person_username_internet_default"/>
+                android:text="@string/person_username_internet_default"
+                android:textColor="@color/color333333"
+                android:textSize="@dimen/t14" />
         </RelativeLayout>
+
         <View
             android:layout_width="match_parent"
             android:layout_height="@dimen/x1"
             android:layout_marginLeft="@dimen/x15"
             android:layout_marginRight="@dimen/x15"
             android:background="@color/colorCDCDCD" />
+
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="@dimen/x49"
@@ -113,14 +119,15 @@
                 android:text="@string/person_sex"
                 android:textColor="@color/color333333"
                 android:textSize="@dimen/t14" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_alignParentRight="true"
-                android:textColor="@color/color333333"
-                android:textSize="@dimen/t14"
                 android:gravity="center_vertical"
-                android:text="@string/person_sex_defalut"/>
+                android:text="@string/person_sex_defalut"
+                android:textColor="@color/color333333"
+                android:textSize="@dimen/t14" />
         </RelativeLayout>
     </LinearLayout>
 
@@ -129,6 +136,7 @@
         android:layout_height="@dimen/x147"
         android:layout_marginTop="@dimen/x9"
         android:orientation="vertical">
+
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="@dimen/x49"
@@ -144,21 +152,24 @@
                 android:text="@string/person_shop_name"
                 android:textColor="@color/color333333"
                 android:textSize="@dimen/t14" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_alignParentRight="true"
-                android:textColor="@color/color333333"
-                android:textSize="@dimen/t14"
                 android:gravity="center_vertical"
-                android:text="@string/person_shop_name_default"/>
+                android:text="@string/person_shop_name_default"
+                android:textColor="@color/color333333"
+                android:textSize="@dimen/t14" />
         </RelativeLayout>
+
         <View
             android:layout_width="match_parent"
             android:layout_height="@dimen/x1"
             android:layout_marginLeft="@dimen/x15"
             android:layout_marginRight="@dimen/x15"
             android:background="@color/colorCDCDCD" />
+
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="@dimen/x49"
@@ -172,21 +183,24 @@
                 android:text="@string/person_work"
                 android:textColor="@color/color333333"
                 android:textSize="@dimen/t14" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_alignParentRight="true"
-                android:textColor="@color/color333333"
-                android:textSize="@dimen/t14"
                 android:gravity="center_vertical"
-                android:text="@string/person_work_default"/>
+                android:text="@string/person_work_default"
+                android:textColor="@color/color333333"
+                android:textSize="@dimen/t14" />
         </RelativeLayout>
+
         <View
             android:layout_width="match_parent"
             android:layout_height="@dimen/x1"
             android:layout_marginLeft="@dimen/x15"
             android:layout_marginRight="@dimen/x15"
             android:background="@color/colorCDCDCD" />
+
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="@dimen/x49"
@@ -200,15 +214,17 @@
                 android:text="@string/person_phone"
                 android:textColor="@color/color333333"
                 android:textSize="@dimen/t14" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_alignParentRight="true"
-                android:textColor="@color/color333333"
-                android:textSize="@dimen/t14"
                 android:gravity="center_vertical"
-                android:text="@string/person_phone_default"/>
+                android:text="@string/person_phone_default"
+                android:textColor="@color/color333333"
+                android:textSize="@dimen/t14" />
         </RelativeLayout>
+
         <View
             android:layout_width="match_parent"
             android:layout_height="@dimen/x1"

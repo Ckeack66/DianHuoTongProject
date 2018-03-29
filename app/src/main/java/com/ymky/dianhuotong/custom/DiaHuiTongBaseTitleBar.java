@@ -2,11 +2,11 @@ package com.ymky.dianhuotong.custom;
 
 import android.content.Context;
 import android.support.annotation.Nullable;
-import android.support.constraint.ConstraintLayout;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.ymky.dianhuotong.R;
@@ -20,24 +20,26 @@ public class DiaHuiTongBaseTitleBar extends LinearLayout {
     private ImageView imageViewLeft;
     private TextView textView;
     private ImageView imageViewRight;
-    private ConstraintLayout constraintLayout;
+    private RelativeLayout relativeLayout;
+    private TextView rightTextView;
     private Context mContext;
+
     public DiaHuiTongBaseTitleBar(Context context) {
         super(context);
-        mContext=context;
+        mContext = context;
         inIt();
 
     }
 
     public DiaHuiTongBaseTitleBar(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
-        mContext=context;
+        mContext = context;
         inIt();
     }
 
     public DiaHuiTongBaseTitleBar(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        mContext=context;
+        mContext = context;
         inIt();
     }
 
@@ -46,7 +48,8 @@ public class DiaHuiTongBaseTitleBar extends LinearLayout {
         imageViewLeft = (ImageView) findViewById(R.id.imageView_left);
         textView = (TextView) findViewById(R.id.textView_center);
         imageViewRight = (ImageView) findViewById(R.id.imageView_right);
-        constraintLayout = (ConstraintLayout)findViewById(R.id.titleBarConstrantlayoutRoot);
+        rightTextView = (TextView) findViewById(R.id.textView_right);
+        relativeLayout = (RelativeLayout) findViewById(R.id.titleBarRelativeLayoutRoot);
     }
 
     public void setLeftImage(int leftImageId) {
@@ -56,17 +59,31 @@ public class DiaHuiTongBaseTitleBar extends LinearLayout {
     public void setCenterTextView(String txt) {
         textView.setText(txt);
     }
+
     public void setRightImage(int rightImageId) {
+        rightTextView.setVisibility(GONE);
         imageViewRight.setImageResource(rightImageId);
     }
-    public void setBackGround(int colorId){
-        constraintLayout.setBackgroundColor(colorId);
+
+    public void setRightText(String text) {
+        imageViewRight.setVisibility(GONE);
+        rightTextView.setText(text);
     }
-    public void setLeftOnclickListener(OnClickListener onclickListenerL){
+
+    public void setBackGround(int colorId) {
+        relativeLayout.setBackgroundColor(colorId);
+    }
+
+    public void setLeftOnclickListener(OnClickListener onclickListenerL) {
         imageViewLeft.setOnClickListener(onclickListenerL);
     }
-    public void setRightOnclickListener(OnClickListener onclickListenerR){
+
+    public void setRightOnclickListener(OnClickListener onclickListenerR) {
         imageViewRight.setOnClickListener(onclickListenerR);
+    }
+
+    public void setRightTextViewListener(OnClickListener onClickListener) {
+        rightTextView.setOnClickListener(onClickListener);
     }
 
 }
