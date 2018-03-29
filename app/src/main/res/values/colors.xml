@@ -11,4 +11,6 @@
     <!--login颜色-->
     <color name="colorbuttonS">#0DE8CE</color>
     <color name="colorbuttonE">#04C1AB</color>
+    <!--main颜色-->
+    <color name="colorDDEAF2">#ddeaf2</color>
 </resources>
