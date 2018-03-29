@@ -1,26 +1,123 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorE6E6E6"
-    tools:context="com.ymky.dianhuotong.activity.MyselectedActivity"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context="com.ymky.dianhuotong.activity.MyselectedActivity">
 
     <com.ymky.dianhuotong.custom.DiaHuiTongBaseTitleBar
         android:id="@+id/myselect_title"
         android:layout_width="match_parent"
         android:layout_height="@dimen/x64" />
     <!--<LinearLayout-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="@dimen/x25"-->
-        <!--android:layout_below="@id/myselect_title"-->
-        <!--android:background="@drawable/shape_myselected_search"-->
-        <!--android:layout_marginLeft="@dimen/x15"-->
-        <!--android:layout_marginRight="@dimen/x15"-->
-        <!--android:layout_marginTop="@dimen/x9"-->
-        <!--android:orientation="horizontal">-->
-        <include layout="@layout/search_layout"/>
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="@dimen/x25"-->
+    <!--android:layout_below="@id/myselect_title"-->
+    <!--android:background="@drawable/shape_myselected_search"-->
+    <!--android:layout_marginLeft="@dimen/x15"-->
+    <!--android:layout_marginRight="@dimen/x15"-->
+    <!--android:layout_marginTop="@dimen/x9"-->
+    <!--android:orientation="horizontal">-->
+    <LinearLayout
+        android:id="@+id/myselect_search"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/myselect_title">
+
+        <include layout="@layout/search_layout" />
+    </LinearLayout>
 
 
-</LinearLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/x50"
+        android:layout_below="@id/myselect_search"
+        android:layout_marginTop="@dimen/x9"
+        android:background="@color/colorWhite">
+
+        <TextView
+            android:id="@+id/myselect_body1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/x20"
+            android:layout_marginTop="@dimen/x8"
+            android:gravity="center"
+            android:text="@string/myselect_body1"
+            android:textColor="@color/color333333"
+            android:textSize="@dimen/t12" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@id/myselect_body1"
+            android:layout_below="@id/myselect_body1"
+            android:layout_marginTop="@dimen/x5"
+            android:gravity="center"
+            android:text="@string/myselect_body2"
+            android:textColor="@color/color717171"
+            android:textSize="@dimen/t12" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/x18"
+            android:background="@drawable/icon_go" />
+
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/x49"
+        android:layout_alignParentBottom="true"
+        android:background="@color/colorWhite"
+        android:orientation="horizontal"
+        android:layout_marginBottom="@dimen/x50">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:drawableTop="@drawable/icon_thing"
+            android:layout_weight="1"
+            android:textSize="@dimen/t12"
+            android:gravity="center"
+            android:paddingTop="@dimen/x7"
+            android:textColor="@color/color717171"
+            android:text="@string/myselect_bottom1"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:drawableTop="@drawable/icon_love"
+            android:textSize="@dimen/t12"
+            android:textColor="@color/color717171"
+            android:paddingTop="@dimen/x7"
+            android:text="@string/myselect_bottom2"
+            android:gravity="center"
+            android:layout_weight="1"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:drawableTop="@drawable/icon_buyinfo"
+            android:textSize="@dimen/t12"
+            android:textColor="@color/color717171"
+            android:paddingTop="@dimen/x7"
+            android:text="@string/myselect_bottom3"
+            android:gravity="center"
+            android:layout_weight="1"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:drawableTop="@drawable/icon_history"
+            android:textSize="@dimen/t12"
+            android:textColor="@color/color717171"
+            android:paddingTop="@dimen/x7"
+            android:text="@string/myselect_bottom4"
+            android:gravity="center"
+            android:layout_weight="1"/>
+    </LinearLayout>
+
+</RelativeLayout>

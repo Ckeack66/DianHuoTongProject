@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity implements MainIF,DrawerLayo
 
     private void inIt(){
         diaHuiTongBaseTitleBar.setLeftImage(R.drawable.icon_go_personal);
-        diaHuiTongBaseTitleBar.setCenterTextView(getString(R.string.app_name));
+        diaHuiTongBaseTitleBar.setCenterTextView(getString(R.string.main_title));
         diaHuiTongBaseTitleBar.setLeftOnclickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

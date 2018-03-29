@@ -48,6 +48,7 @@
     <string name="drawer_bottom">典货通V</string>
 
     <!--MainGridView文字资源-->
+    <string name="main_title">佲惠康宇健康平台 </string>
     <string name="main_gridview_1">食药前沿</string>
     <string name="main_gridview_2">典货通</string>
     <string name="main_gridview_3">药邻网</string>
@@ -63,6 +64,15 @@
     <string name="myselect_title">我的采购单</string>
     <string name="myselected_right">账单</string>
     <string name="myselect_search_text">药品、商家、订单编号</string>
+    <string name="myselect_body1">我的资质</string>
+    <string name="myselect_body2">济南国美大药房</string>
+    <string name="myselect_bottom1">收藏商品</string>
+    <string name="myselect_bottom2">关注商家</string>
+    <string name="myselect_bottom3">常购商品</string>
+    <string name="myselect_bottom4">浏览历史</string>
+
+
+
     <string name="title_activity_main">MainActivity</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
