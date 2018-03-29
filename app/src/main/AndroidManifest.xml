@@ -16,7 +16,7 @@
         <activity
             android:name=".activity.RegisterActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".activity.ForgetPasswordActivity"></activity>
+        <activity android:name=".activity.ForgetPasswordActivity" />
         <activity android:name=".activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -24,6 +24,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".person.PersonInfmoActivity"></activity>
     </application>
 
 </manifest>

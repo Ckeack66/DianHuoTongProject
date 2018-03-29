@@ -17,10 +17,27 @@
     <!--忘记密码文字资源-->
     <string name="forget_ok">确认</string>
     <string name="forget_input_newpwd">请输入新密码(6-20位数字字母组合)</string>
-    <string name="title_activity_main">MainActivity</string>
 
+
+
+    <!--个人中心文字-->
+    <string name="person_header">头像</string>
+    <string name="person_sex">称谓</string>
+    <string name="person_username">姓名</string>
+    <string name="person_username_internet">昵称</string>
+    <string name="person_shop_name">所属店铺</string>
+    <string name="person_work">职位</string>
+    <string name="person_phone">绑定手机</string>
+    <string name="person_username_default">张涛</string>
+    <string name="person_sex_defalut">先生</string>
+    <string name="person_username_internet_default">一只快乐的萤火虫</string>
+    <string name="person_shop_name_default">山东济南XXXXXXXXXXXXXXXXX大药房</string>
+    <string name="person_work_default">店长</string>
+    <string name="person_phone_default">123****6789</string>
+
+
+    <string name="title_activity_main">MainActivity</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-
     <string name="action_settings">Settings</string>
 </resources>
