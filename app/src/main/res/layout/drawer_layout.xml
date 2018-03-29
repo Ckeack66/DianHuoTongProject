@@ -8,40 +8,41 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <com.ymky.dianhuotong.custom.DiaHuiTongBaseTitleBar
             android:id="@+id/mian_titlebar"
             android:layout_width="match_parent"
             android:layout_height="@dimen/x64" />
+
         <ImageView
             android:id="@+id/main_title_image"
-            android:layout_below="@id/mian_titlebar"
             android:layout_width="match_parent"
             android:layout_height="@dimen/x150"
-            android:src="@drawable/image_banner"/>
+            android:layout_below="@id/mian_titlebar"
+            android:src="@drawable/image_banner" />
         <!--<GridView-->
-            <!--android:id="@+id/main_gridview"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="match_parent"-->
-            <!--android:layout_below="@id/main_title_image"-->
+        <!--android:id="@+id/main_gridview"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:layout_below="@id/main_title_image"-->
 
-            <!--android:columnWidth="@dimen/x114"-->
-            <!--android:numColumns="3"-->
-            <!--android:gravity="center"-->
-            <!--android:stretchMode="columnWidth"-->
-            <!--/>-->
+        <!--android:columnWidth="@dimen/x114"-->
+        <!--android:numColumns="3"-->
+        <!--android:gravity="center"-->
+        <!--android:stretchMode="columnWidth"-->
+        <!--/>-->
         <com.jake.library.GridViewLine
             android:id="@+id/main_gridview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@id/main_title_image"
-            android:layout_marginTop="@dimen/x43"
             android:layout_marginLeft="@dimen/x15"
             android:layout_marginRight="@dimen/x15"
-            android:numColumns="3"
+            android:layout_marginTop="@dimen/x43"
             android:gravity="center"
-            app:line_color="@color/colorE6E6E6"
-            app:line_width="1dp">
-        </com.jake.library.GridViewLine>
+            android:numColumns="3"
+            app:line_color="@color/colorEDEDED"
+            app:line_width="0.5dp"/>
     </RelativeLayout>
 
     <RelativeLayout
@@ -52,6 +53,7 @@
         android:background="@color/colorDDEAF2"
         android:clickable="true"
         android:orientation="vertical">
+
         <RelativeLayout
             android:id="@+id/drawer_title"
             android:layout_width="match_parent"
@@ -78,38 +80,42 @@
                 android:textColor="@color/colorWhite"
                 android:textSize="@dimen/t14" />
         </RelativeLayout>
+
         <ListView
             android:id="@+id/drawer_listview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_below="@id/drawer_title"
+            android:layout_marginBottom="@dimen/x28"
             android:layout_marginTop="@dimen/x13"
             android:background="@color/colorDDEAF2"
-            android:clickable="true"
-            android:layout_below="@id/drawer_title"
-            android:layout_marginBottom="@dimen/x28"/>
+            android:clickable="true" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/x19"
-            android:orientation="horizontal"
             android:layout_alignParentBottom="true"
             android:layout_marginBottom="@dimen/x16"
-            android:background="@color/colorTransp">
+            android:layout_marginLeft="@dimen/x19"
+            android:background="@color/colorTransp"
+            android:orientation="horizontal">
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:background="@color/colorTransp"
                 android:text="@string/drawer_bottom"
                 android:textColor="@color/colorB5B6B6"
-                android:textSize="@dimen/t12"
-                android:background="@color/colorTransp"/>
+                android:textSize="@dimen/t12" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:background="@color/colorTransp"
                 android:gravity="center"
-                android:textColor="@color/colorB5B6B6"
                 android:text="1.1.1"
-                android:textSize="@dimen/t12"
-                android:background="@color/colorTransp"/>
+                android:textColor="@color/colorB5B6B6"
+                android:textSize="@dimen/t12" />
         </LinearLayout>
     </RelativeLayout>
 

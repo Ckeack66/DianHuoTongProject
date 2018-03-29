@@ -25,7 +25,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".activity.PersonInfoActivity" />
-        <activity android:name=".activity.PersonInfoUpdateActivity">
+        <activity android:name=".activity.PersonInfoUpdateActivity"></activity>
+        <activity android:name=".activity.MyselectedActivity">
 
         </activity>
     </application>

@@ -36,7 +36,7 @@
     <string name="person_phone_default">123****6789</string>
     <string name="person_update_title">资料修改</string>
     <string name="person_update_save">保存</string>
-    
+
     <!--DrawerListView文字资源-->
     <string name="drawer_list_caigou">我的采购单</string>
     <string name="drawer_list_info_update">资料修改</string>
@@ -58,6 +58,11 @@
     <string name="main_gridview_8">大咖在线</string>
     <string name="main_gridview_9">联系我们</string>
 
+
+    <!--MyselectedActivity我的采购单-->
+    <string name="myselect_title">我的采购单</string>
+    <string name="myselected_right">账单</string>
+    <string name="myselect_search_text">药品、商家、订单编号</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
