@@ -6,9 +6,14 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"></RelativeLayout>
+        android:layout_height="match_parent">
+        <com.ymky.dianhuotong.custom.DiaHuiTongBaseTitleBar
+            android:id="@+id/mian_titlebar"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/x64" />
+    </RelativeLayout>
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/drawer_linearlayout"
         android:layout_width="@dimen/x259"
         android:layout_height="match_parent"
@@ -16,8 +21,8 @@
         android:background="@color/colorDDEAF2"
         android:clickable="true"
         android:orientation="vertical">
-
         <RelativeLayout
+            android:id="@+id/drawer_title"
             android:layout_width="match_parent"
             android:layout_height="@dimen/x256"
             android:background="@color/color04c1ab">
@@ -42,15 +47,40 @@
                 android:textColor="@color/colorWhite"
                 android:textSize="@dimen/t14" />
         </RelativeLayout>
-
         <ListView
             android:id="@+id/drawer_listview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="@dimen/x13"
             android:background="@color/colorDDEAF2"
-            android:clickable="true"/>
-    </LinearLayout>
+            android:clickable="true"
+            android:layout_below="@id/drawer_title"
+            android:layout_marginBottom="@dimen/x28"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/x19"
+            android:orientation="horizontal"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="@dimen/x16"
+            android:background="@color/colorTransp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="@string/drawer_bottom"
+                android:textColor="@color/colorB5B6B6"
+                android:textSize="@dimen/t12"
+                android:background="@color/colorTransp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:textColor="@color/colorB5B6B6"
+                android:text="1.1.1"
+                android:textSize="@dimen/t12"
+                android:background="@color/colorTransp"/>
+        </LinearLayout>
+    </RelativeLayout>
 
 
 </android.support.v4.widget.DrawerLayout>

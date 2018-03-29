@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity implements MainIF,DrawerLayo
     @BindView(R.id.main_relativelayout_root)
     RelativeLayout relativeLayout;
     @BindView(R.id.drawer_linearlayout)
-    LinearLayout linearLayout;
+    RelativeLayout linearLayout;
     boolean isOpenDrawer = false;
     private MainActivityPrecenter mainActivityPrecenter;
     private DrawerLayoutAdapter drawerLayoutAdapter;

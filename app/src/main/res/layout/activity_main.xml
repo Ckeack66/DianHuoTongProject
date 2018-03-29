@@ -7,10 +7,7 @@
     tools:context="com.ymky.dianhuotong.activity.MainActivity"
     android:id="@+id/main_relativelayout_root">
     <include layout="@layout/drawer_layout"/>
-    <com.ymky.dianhuotong.custom.DiaHuiTongBaseTitleBar
-        android:id="@+id/mian_titlebar"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/x64"/>
+
 
 
 </RelativeLayout>
