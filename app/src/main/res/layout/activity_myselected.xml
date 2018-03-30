@@ -191,7 +191,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/myselected_tab_line"
-        android:layout_marginBottom="@dimen/x50"
+        android:layout_marginBottom="@dimen/x51"
         >
         <FrameLayout
             android:id="@+id/myselected_fragment"
@@ -201,7 +201,12 @@
             android:layout_marginLeft="@dimen/x22"
             android:layout_marginRight="@dimen/x22" />
     </FrameLayout>
-
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorBFBFBF"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="@dimen/x51"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/x50"

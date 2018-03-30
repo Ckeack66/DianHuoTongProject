@@ -16,10 +16,17 @@ import com.ymky.dianhuotong.R;
 public class MyselectFragmentAdapter extends BaseAdapter {
     private int number = 0;
     private Context mContext;
+    private int inPage;
 
     public MyselectFragmentAdapter(int number, Context mContext) {
         this.number = number;
         this.mContext = mContext;
+    }
+
+    public MyselectFragmentAdapter(int number, Context mContext, int inPage) {
+        this.number = number;
+        this.mContext = mContext;
+        this.inPage = inPage;
     }
 
     @Override
@@ -44,19 +51,28 @@ public class MyselectFragmentAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder viewHolder = null;
         if (viewHolder == null) {
-            convertView=View.inflate(mContext, R.layout.item_myselect_fragment_list,null);
-            viewHolder=new ViewHolder();
-            viewHolder.imageView=convertView.findViewById(R.id.myselelct_fragment_listview_item_imageview);
-            viewHolder.textView1=convertView.findViewById(R.id.myselelct_fragment_listview_item_layout_title);
-            viewHolder.textView2=convertView.findViewById(R.id.myselelct_fragment_listview_item_layout_title1);
-            viewHolder.textView3=convertView.findViewById(R.id.myselelct_fragment_listview_item_rltext2);
-            viewHolder.textView4=convertView.findViewById(R.id.myselelct_fragment_listview_item_rltext3);
-            viewHolder.textView5=convertView.findViewById(R.id.myselelct_fragment_listview_item_rltext11);
-            viewHolder.textView6=convertView.findViewById(R.id.myselelct_fragment_listview_item_rltext21);
-            viewHolder.textButton=convertView.findViewById(R.id.myselelct_fragment_listview_item_button);
+            convertView = View.inflate(mContext, R.layout.item_myselect_fragment_list, null);
+            viewHolder = new ViewHolder();
+            viewHolder.imageView = convertView.findViewById(R.id.myselelct_fragment_listview_item_imageview);
+            viewHolder.textView1 = convertView.findViewById(R.id.myselelct_fragment_listview_item_layout_title);
+            viewHolder.textView2 = convertView.findViewById(R.id.myselelct_fragment_listview_item_layout_title1);
+            viewHolder.textView3 = convertView.findViewById(R.id.myselelct_fragment_listview_item_rltext2);
+            viewHolder.textView4 = convertView.findViewById(R.id.myselelct_fragment_listview_item_rltext3);
+            viewHolder.textView5 = convertView.findViewById(R.id.myselelct_fragment_listview_item_rltext11);
+            viewHolder.textView6 = convertView.findViewById(R.id.myselelct_fragment_listview_item_rltext21);
+            viewHolder.textButton = convertView.findViewById(R.id.myselelct_fragment_listview_item_button);
             convertView.setTag(viewHolder);
-        }else {
+        } else {
             viewHolder = (ViewHolder) convertView.getTag();
+        }
+        if (inPage == 1) {
+
+        } else if (inPage == 2) {
+            viewHolder.textButton.setText("付款");
+        } else if (inPage == 3) {
+            viewHolder.textButton.setText("点击收货");
+        }else if (inPage ==4){
+            viewHolder.textButton.setText("评价");
         }
         return convertView;
     }

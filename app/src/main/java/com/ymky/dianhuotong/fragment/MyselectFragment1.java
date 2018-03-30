@@ -76,7 +76,7 @@ public class MyselectFragment1 extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_myselect_fragment1, container, false);
         unbinder = ButterKnife.bind(this, view);
-        myselectFragmentAdapter = new MyselectFragmentAdapter(2, getActivity());
+        myselectFragmentAdapter = new MyselectFragmentAdapter(2, getActivity(),1);
         listView.setAdapter(myselectFragmentAdapter);
         return view;
     }

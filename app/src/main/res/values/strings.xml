@@ -18,7 +18,6 @@
     <string name="forget_ok">确认</string>
     <string name="forget_input_newpwd">请输入新密码(6-20位数字字母组合)</string>
 
-
     <!--个人中心文字-->
     <string name="person_title">个人资料</string>
     <string name="person_header">头像</string>
@@ -77,8 +76,8 @@
     <string name="myselect_item_money">￥</string>
     <string name="myselect_item_money_number">999.99</string>
     <string name="myselect_item_money_danwei">0瓶</string>
-
-
+    <!--账单（BillActivity）文字-->
+    <string name="bill_title">账单</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>

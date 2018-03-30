@@ -24,4 +24,7 @@
     <color name="color767676">#767676</color>
     <color name="colorE20F12">#E20F12</color>
     <color name="colorA7A7A7">#A7A7A7</color>
+    <!--账单-->
+    <color name="color707070">#707070</color>
+    <color name="colorFF3838">#FF3838</color>
 </resources>

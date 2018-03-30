@@ -5,10 +5,9 @@
     tools:context="com.ymky.dianhuotong.fragment.MyselectFragment4">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <ListView
+        android:id="@+id/myselected_fragment4_listview"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment"
-        android:background="@color/colorDDEAF2"/>
+        android:layout_height="match_parent"/>
 
 </FrameLayout>

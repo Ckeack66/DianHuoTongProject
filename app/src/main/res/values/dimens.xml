@@ -37,8 +37,10 @@
     <dimen name="x40">40dp</dimen>
     <dimen name="x42">42dp</dimen>
     <dimen name="x43">43dp</dimen>
+    <dimen name="x48">48dp</dimen>
     <dimen name="x49">49dp</dimen>
     <dimen name="x50">50dp</dimen>
+    <dimen name="x51">51dp</dimen>
     <dimen name="x52">52dp</dimen>
     <dimen name="x55">55dp</dimen>
     <dimen name="x57">57dp</dimen>

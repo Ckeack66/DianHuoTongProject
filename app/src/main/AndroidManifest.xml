@@ -17,11 +17,9 @@
             android:name=".activity.RegisterActivity"
             android:screenOrientation="portrait" />
         <activity android:name=".activity.ForgetPasswordActivity" />
-        <activity android:name=".activity.MainActivity">
-
-        </activity>
+        <activity android:name=".activity.MainActivity"></activity>
         <activity android:name=".activity.PersonInfoActivity" />
-        <activity android:name=".activity.PersonInfoUpdateActivity"></activity>
+        <activity android:name=".activity.PersonInfoUpdateActivity" />
         <activity
             android:name=".activity.MyselectedActivity"
             android:windowSoftInputMode="stateHidden|stateAlwaysHidden">
@@ -30,6 +28,9 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity android:name=".activity.BillActivity">
+
         </activity>
     </application>
 

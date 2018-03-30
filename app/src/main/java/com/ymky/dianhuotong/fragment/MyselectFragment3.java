@@ -7,8 +7,14 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 
 import com.ymky.dianhuotong.R;
+import com.ymky.dianhuotong.dingdan.adapter.MyselectFragmentAdapter;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -26,7 +32,10 @@ public class MyselectFragment3 extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-
+    @BindView(R.id.myselected_fragment3_listview)
+    ListView listView;
+    private Unbinder unbinder;
+    private MyselectFragmentAdapter myselectFragmentAdapter;
 
     public MyselectFragment3() {
         // Required empty public constructor
@@ -62,9 +71,18 @@ public class MyselectFragment3 extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_myselect_fragment3, container, false);
+        View view = inflater.inflate(R.layout.fragment_myselect_fragment3, container, false);
+        unbinder = ButterKnife.bind(this, view);
+        myselectFragmentAdapter = new MyselectFragmentAdapter(6, getActivity(),3);
+        listView.setAdapter(myselectFragmentAdapter);
+        return view;
     }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
+    }
 
     @Override
     public void onAttach(Context context) {
