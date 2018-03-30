@@ -70,11 +70,20 @@
     <string name="myselect_bottom2">关注商家</string>
     <string name="myselect_bottom3">常购商品</string>
     <string name="myselect_bottom4">浏览历史</string>
-
+    <string name="myselect_d_all">全部</string>
+    <string name="myselect_d_nopay">未付款</string>
+    <string name="myselect_d_paied">已付款</string>
+    <string name="myselect_d_buied">待评价</string>
+    <string name="myselect_item_money">￥</string>
+    <string name="myselect_item_money_number">999.99</string>
+    <string name="myselect_item_money_danwei">0瓶</string>
 
 
     <string name="title_activity_main">MainActivity</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="action_settings">Settings</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

@@ -1,6 +1,7 @@
 <resources>
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="text_pading">2dp</dimen>
+    <dimen name="x0.5">0.5dp</dimen>
     <dimen name="x1">1dp</dimen>
     <dimen name="x2">2dp</dimen>
     <dimen name="x3">3dp</dimen>
@@ -32,6 +33,7 @@
     <dimen name="x33">33dp</dimen>
     <dimen name="x34">34dp</dimen>
     <dimen name="x37">37dp</dimen>
+    <dimen name="x38">38dp</dimen>
     <dimen name="x40">40dp</dimen>
     <dimen name="x42">42dp</dimen>
     <dimen name="x43">43dp</dimen>
@@ -41,8 +43,15 @@
     <dimen name="x55">55dp</dimen>
     <dimen name="x57">57dp</dimen>
     <dimen name="x64">64dp</dimen>
+    <dimen name="x65">65dp</dimen>
     <dimen name="x71">71dp</dimen>
+    <dimen name="x84">84dp</dimen>
     <dimen name="x94">94dp</dimen>
+    <dimen name="x106">106dp</dimen>
+    <dimen name="x111">111dp</dimen>
+    <dimen name="x112">112dp</dimen>
+    <dimen name="x113">113dp</dimen>
+    <dimen name="x123">123dp</dimen>
     <dimen name="x114">114dp</dimen>
     <dimen name="x115">115dp</dimen>
     <dimen name="x147">147dp</dimen>
@@ -56,6 +65,8 @@
 
 
     <!--字体大小-->
+    <dimen name="t8">8sp</dimen>
+    <dimen name="t9">9sp</dimen>
     <dimen name="t11">11sp</dimen>
     <dimen name="t12">12sp</dimen>
     <dimen name="t14">14sp</dimen>

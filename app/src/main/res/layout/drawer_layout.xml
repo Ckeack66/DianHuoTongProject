@@ -42,7 +42,7 @@
             android:gravity="center"
             android:numColumns="3"
             app:line_color="@color/colorEDEDED"
-            app:line_width="0.5dp"/>
+            app:line_width="@dimen/x0.5"/>
     </RelativeLayout>
 
     <RelativeLayout

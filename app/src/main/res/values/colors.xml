@@ -20,4 +20,8 @@
     <color name="colorE6E6E6">#E6E6E6</color>
     <color name="colorEDEDED">#EDEDED</color>
     <color name="color717171">#717171</color>
+    <!--我的订单-->
+    <color name="color767676">#767676</color>
+    <color name="colorE20F12">#E20F12</color>
+    <color name="colorA7A7A7">#A7A7A7</color>
 </resources>
