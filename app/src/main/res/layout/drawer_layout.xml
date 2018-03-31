@@ -6,6 +6,7 @@
     android:layout_height="match_parent">
 
     <RelativeLayout
+        android:id="@+id/drawer_bodyayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -46,7 +47,7 @@
     </RelativeLayout>
 
     <RelativeLayout
-        android:id="@+id/drawer_linearlayout"
+        android:id="@+id/drawer_leftlayout"
         android:layout_width="@dimen/x259"
         android:layout_height="match_parent"
         android:layout_gravity="start"

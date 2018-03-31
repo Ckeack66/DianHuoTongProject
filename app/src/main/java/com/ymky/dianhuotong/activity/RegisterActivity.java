@@ -1,8 +1,13 @@
 package com.ymky.dianhuotong.activity;
 
 import android.os.Bundle;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
@@ -37,8 +42,17 @@ public class RegisterActivity extends BaseActivity implements TimerMessage.OnTim
     DiaHuiTongBaseTitleBar diaHuiTongBaseTitleBar;
     @BindView(R.id.register_getmessage)
     TextView txtMessage;
+    @BindView(R.id.register_phone)
+    EditText editTextPhone;
+    @BindView(R.id.register_phone_code)
+    EditText editTextPhoneCode;
+    @BindView(R.id.register_pwd)
+    EditText editTextPwd;
+    @BindView(R.id.register_imageview)
+    ImageView imageView;
     private TimerMessage timerMessage;
     private boolean isTimerStart;
+    private boolean imageViewState;
     private ShapeLoadingDialog shapeLoadingDialog;
     private RegisterPrecenter registerPrecenter;
     private RegisterPostDataInfo registerPostDataInfo;
@@ -50,12 +64,6 @@ public class RegisterActivity extends BaseActivity implements TimerMessage.OnTim
         setContentView(R.layout.activity_register);
         ButterKnife.bind(this);
         inIt();
-
-//        int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
-//// 获取状态栏高度
-//        int statusBarHeight = getResources().getDimensionPixelSize(resourceId);
-//
-//        Log.d("测试", "onCreate: "+resourceId+"=====+"+statusBarHeight);
     }
 
     @Override
@@ -75,19 +83,19 @@ public class RegisterActivity extends BaseActivity implements TimerMessage.OnTim
     private void inIt() {
         diaHuiTongBaseTitleBar.setLeftImage(R.drawable.icon_back);
         diaHuiTongBaseTitleBar.setCenterTextView("注册");
+        diaHuiTongBaseTitleBar.setLeftOnclickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
         isTimerStart = false;
+        imageViewState = false;
         timerMessage = new TimerMessage(60000, 1000, this);
         shapeLoadingDialog = new ShapeLoadingDialog.Builder(this).loadText("正在登陆...").build();
         shapeLoadingDialog.getWindow().setDimAmount(0);
         registerPrecenter = new RegisterPrecenter(this);
         registerPostDataInfo = new RegisterPostDataInfo();
-//         StatusBarUtil.setTranslucent(this);
-//        StatusBarUtil.setColor(this, Color.parseColor("#04c1ab"));
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-//            Window window = getWindow();
-//            window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
-//            window.setStatusBarColor(Color.TRANSPARENT);
-//        }
     }
 
     @OnClick(R.id.register_getmessage)
@@ -105,6 +113,20 @@ public class RegisterActivity extends BaseActivity implements TimerMessage.OnTim
 
 
         registerPrecenter.register(JSON.toJSONString(registerPostDataInfo));
+    }
+
+    @OnClick(R.id.register_imageview)
+    void setImageView() {
+        if (!imageViewState) {
+            imageView.setImageResource(R.drawable.icon_view_pwd);
+            editTextPwd.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+            imageViewState = true;
+        } else {
+            imageView.setImageResource(R.drawable.icon_hide_pwd);
+            editTextPwd.setTransformationMethod(PasswordTransformationMethod.getInstance());
+            imageViewState = false;
+        }
+        editTextPwd.setSelection(editTextPwd.getText().length());
     }
 
     @Override
@@ -151,4 +173,19 @@ public class RegisterActivity extends BaseActivity implements TimerMessage.OnTim
     public void getSmsfailed(Response<String> response) {
         Log.d(TAG, "SMSonFailed: " + response.code() + "-----" + response.body() + "----" + response.message());
     }
+
+
+//    测试代码
+    //        int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
+//// 获取状态栏高度
+//        int statusBarHeight = getResources().getDimensionPixelSize(resourceId);
+//
+//        Log.d("测试", "onCreate: "+resourceId+"=====+"+statusBarHeight);
+    //         StatusBarUtil.setTranslucent(this);
+//        StatusBarUtil.setColor(this, Color.parseColor("#04c1ab"));
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+//            Window window = getWindow();
+//            window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+//            window.setStatusBarColor(Color.TRANSPARENT);
+//        }
 }

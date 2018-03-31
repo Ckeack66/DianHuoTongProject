@@ -46,7 +46,9 @@
     <dimen name="x51">51dp</dimen>
     <dimen name="x52">52dp</dimen>
     <dimen name="x55">55dp</dimen>
+    <dimen name="x56">56dp</dimen>
     <dimen name="x57">57dp</dimen>
+    <dimen name="x60">60dp</dimen>
     <dimen name="x64">64dp</dimen>
     <dimen name="x65">65dp</dimen>
     <dimen name="x71">71dp</dimen>
