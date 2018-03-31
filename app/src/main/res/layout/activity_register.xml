@@ -35,19 +35,21 @@
                 android:src="@drawable/icon_phone" />
 
             <EditText
-                android:layout_width="match_parent"
+                android:id="@+id/register_phone"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:layout_marginLeft="16dp"
+                android:layout_marginStart="16dp"
                 android:layout_weight="5"
                 android:background="@null"
                 android:hint="@string/register_phone"
-                android:inputType="number"
+                android:inputType="phone"
                 android:maxLength="11"
                 android:padding="@dimen/text_pading"
                 android:textColor="@color/colorBlack"
                 android:textColorHint="@color/colorBFBFBF"
-                android:textSize="11sp" />
+                android:textSize="@dimen/t11"
+                android:maxLines="1"/>
         </LinearLayout>
 
         <View
@@ -70,9 +72,10 @@
                 android:src="@drawable/icon_lock" />
 
             <EditText
+                android:id="@+id/register_phone_code"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/x16"
+                android:layout_marginStart="@dimen/x16"
                 android:layout_weight="5"
                 android:background="@null"
                 android:hint="@string/register_phone_code"
@@ -81,7 +84,8 @@
                 android:padding="@dimen/text_pading"
                 android:textColor="@color/colorBlack"
                 android:textColorHint="@color/colorBFBFBF"
-                android:textSize="11sp" />
+                android:textSize="@dimen/t11"
+                android:maxLines="1"/>
 
             <TextView
                 android:id="@+id/register_getmessage"
@@ -115,6 +119,7 @@
                 android:src="@drawable/icon_lock" />
 
             <EditText
+                android:id="@+id/register_pwd"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
@@ -130,6 +135,7 @@
                 android:textSize="11sp" />
 
             <ImageView
+                android:id="@+id/register_imageview"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/x16"
                 android:layout_gravity="center_vertical"
@@ -163,7 +169,7 @@
         android:layout_below="@id/linearLayout"
         android:layout_marginLeft="@dimen/x52">
         <CheckBox
-            android:id="@+id/checkBox"
+            android:id="@+id/register_checkBox"
             android:layout_width="@dimen/x11"
             android:layout_height="@dimen/x11"
             android:gravity="center"
@@ -179,6 +185,7 @@
             android:textColor="@color/colorBFBFBF"
             android:text="@string/register_gettext_left"/>
         <TextView
+            android:id="@+id/register_file"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"

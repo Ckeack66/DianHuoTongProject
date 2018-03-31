@@ -41,4 +41,6 @@ dependencies {
     compile 'com.lzy.net:okgo:3.0.4'
     //动画加载
     implementation project(':shapeloading')
+    //json解析
+    compile 'com.alibaba:fastjson:1.2.9'
 }
