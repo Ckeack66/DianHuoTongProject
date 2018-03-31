@@ -15,6 +15,11 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    repositories {
+        maven {
+            url "https://jitpack.io"
+        }
+    }
 }
 
 dependencies {
@@ -32,4 +37,8 @@ dependencies {
     //设置状态栏透明工具
     compile 'com.jaeger.statusbarutil:library:1.4.0'
     implementation project(':GridViewLine')
+    //网络框架
+    compile 'com.lzy.net:okgo:3.0.4'
+    //动画加载
+    implementation project(':shapeloading')
 }

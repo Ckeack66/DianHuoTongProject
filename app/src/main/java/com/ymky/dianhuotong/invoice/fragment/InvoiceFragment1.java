@@ -1,16 +1,15 @@
-package com.ymky.dianhuotong.fragment;
+package com.ymky.dianhuotong.invoice.fragment;
 
-import android.content.Context;
-import android.net.Uri;
+
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
+import android.widget.GridView;
 
 import com.ymky.dianhuotong.R;
-import com.ymky.dianhuotong.dingdan.adapter.MyselectFragmentAdapter;
+import com.ymky.dianhuotong.invoice.VoiceGridviewAdapter;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -18,12 +17,10 @@ import butterknife.Unbinder;
 
 /**
  * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * to handle interaction events.
- * Use the {@link MyselectFragment2#newInstance} factory method to
+ * Use the {@link InvoiceFragment1#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class MyselectFragment2 extends Fragment {
+public class InvoiceFragment1 extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -32,12 +29,14 @@ public class MyselectFragment2 extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-    @BindView(R.id.myselected_fragment2_listview)
-    ListView listView;
-    private Unbinder unbinder;
-    private MyselectFragmentAdapter myselectFragmentAdapter;
 
-    public MyselectFragment2() {
+    @BindView(R.id.voice_gridview)
+    GridView gridView;
+
+    private Unbinder unbinder;
+    private VoiceGridviewAdapter voiceGridviewAdapter;
+
+    public InvoiceFragment1() {
         // Required empty public constructor
     }
 
@@ -47,11 +46,11 @@ public class MyselectFragment2 extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment MyselectFragment2.
+     * @return A new instance of fragment InvoiceFragment1.
      */
     // TODO: Rename and change types and number of parameters
-    public static MyselectFragment2 newInstance(String param1, String param2) {
-        MyselectFragment2 fragment = new MyselectFragment2();
+    public static InvoiceFragment1 newInstance(String param1, String param2) {
+        InvoiceFragment1 fragment = new InvoiceFragment1();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -72,10 +71,10 @@ public class MyselectFragment2 extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_myselect_fragment2, container, false);
+        View view = inflater.inflate(R.layout.fragment_invoice_fragment1, container, false);
         unbinder = ButterKnife.bind(this, view);
-        myselectFragmentAdapter = new MyselectFragmentAdapter(10, getActivity(),2);
-        listView.setAdapter(myselectFragmentAdapter);
+        voiceGridviewAdapter = new VoiceGridviewAdapter(getActivity());
+        gridView.setAdapter(voiceGridviewAdapter);
         return view;
     }
 
@@ -85,26 +84,4 @@ public class MyselectFragment2 extends Fragment {
         unbinder.unbind();
     }
 
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-
-    }
-
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
 }

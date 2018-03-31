@@ -10,11 +10,11 @@
         android:layout_height="@dimen/x217"
         android:background="@drawable/image_login_background" />
 
-    <com.ymky.dianhuotong.custom.DiaHuiTongBaseTitleBar
+    <com.ymky.dianhuotong.custom.viewgroup.DiaHuiTongBaseTitleBar
         android:id="@+id/login_title"
         android:layout_width="match_parent"
         android:layout_height="@dimen/x64"
-        android:background="@color/colorTransp"></com.ymky.dianhuotong.custom.DiaHuiTongBaseTitleBar>
+        android:background="@color/colorTransp"></com.ymky.dianhuotong.custom.viewgroup.DiaHuiTongBaseTitleBar>
 
     <LinearLayout
         android:layout_width="match_parent"

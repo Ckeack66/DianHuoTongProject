@@ -4,7 +4,7 @@ import android.os.Bundle;
 
 import com.ymky.dianhuotong.R;
 import com.ymky.dianhuotong.base.view.BaseActivity;
-import com.ymky.dianhuotong.custom.DiaHuiTongBaseTitleBar;
+import com.ymky.dianhuotong.custom.viewgroup.DiaHuiTongBaseTitleBar;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

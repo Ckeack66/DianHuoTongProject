@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.widget.ListView;
 
 import com.ymky.dianhuotong.R;
-import com.ymky.dianhuotong.custom.DiaHuiTongBaseTitleBar;
+import com.ymky.dianhuotong.custom.viewgroup.DiaHuiTongBaseTitleBar;
 import com.ymky.dianhuotong.dingdan.adapter.BillActivityListViewAdapter;
 
 import butterknife.BindView;

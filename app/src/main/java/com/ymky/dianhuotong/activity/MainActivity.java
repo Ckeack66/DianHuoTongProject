@@ -9,14 +9,12 @@ import android.view.Display;
 import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.GridView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 
 import com.jake.library.GridViewLine;
 import com.ymky.dianhuotong.R;
-import com.ymky.dianhuotong.custom.DiaHuiTongBaseTitleBar;
+import com.ymky.dianhuotong.custom.viewgroup.DiaHuiTongBaseTitleBar;
 import com.ymky.dianhuotong.main.MainIF;
 import com.ymky.dianhuotong.main.adpter.DrawerLayoutAdapter;
 import com.ymky.dianhuotong.main.adpter.GridViewAdapter;

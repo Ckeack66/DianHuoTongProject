@@ -7,7 +7,7 @@
     android:orientation="vertical"
     tools:context="com.ymky.dianhuotong.activity.MyselectedActivity">
 
-    <com.ymky.dianhuotong.custom.DiaHuiTongBaseTitleBar
+    <com.ymky.dianhuotong.custom.viewgroup.DiaHuiTongBaseTitleBar
         android:id="@+id/myselect_title"
         android:layout_width="match_parent"
         android:layout_height="@dimen/x64" />

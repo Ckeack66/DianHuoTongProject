@@ -27,4 +27,6 @@
     <!--账单-->
     <color name="color707070">#707070</color>
     <color name="colorFF3838">#FF3838</color>
+    <!--资质颜色voiceactivity-->
+    <color name="colorB23700">#B23700</color>
 </resources>

@@ -82,6 +82,26 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="action_settings">Settings</string>
+    <!--发票信息Invoiceactivity-->
+    <string name="invoice_company_name">请输入公司名称</string>
+    <string name="invoice_company_adress">请输入公司地址</string>
+    <string name="invoice_company_corporation">请输入法人姓名</string>
+    <string name="invoice_company_phone">请输入联系方式</string>
+    <string name="invoice_tab1">资质信息</string>
+    <string name="invoice_tab2">发票信息</string>
+    <string name="invoice_title">我的资质</string>
+    <string name="invoice_save">保存</string>
+    <string name="invoice_fragment2_txt1">发票类型</string>
+    <string name="invoice_fragment2_txt2">税号</string>
+    <string name="invoice_fragment2_txt3">开户银行</string>
+    <string name="invoice_fragment2_txt4">银行账号</string>
+    <string name="invoice_fragment2_txt11">普票</string>
+    <string name="invoice_fragment2_txt12">专票</string>
+    <string name="invoice_fragment2_txt21">营业执照上的统一社会信用代码</string>
+    <string name="invoice_fragment2_txt31">xxx银行xx支行</string>
+    <string name="invoice_fragment2_txt41">开户许可证或法人的私人账号</string>
+    <!--资质录入credentialsActivity-->
+    <string name="credentials_title">资质录入</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

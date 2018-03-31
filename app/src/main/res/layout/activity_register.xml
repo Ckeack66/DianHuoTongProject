@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context="com.ymky.dianhuotong.activity.RegisterActivity">
 
-    <com.ymky.dianhuotong.custom.DiaHuiTongBaseTitleBar
+    <com.ymky.dianhuotong.custom.viewgroup.DiaHuiTongBaseTitleBar
         android:id="@+id/register_titlebar"
         android:layout_width="match_parent"
         android:layout_height="@dimen/x64" />
@@ -84,7 +84,8 @@
                 android:textSize="11sp" />
 
             <TextView
-                android:layout_width="wrap_content"
+                android:id="@+id/register_getmessage"
+                android:layout_width="@dimen/x50"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@drawable/shape_register_getcode"
@@ -145,6 +146,7 @@
             android:background="@color/colorBFBFBF" />
 
         <TextView
+            android:id="@+id/register_register_button"
             android:layout_width="match_parent"
             android:layout_height="@dimen/x33"
             android:layout_marginTop="@dimen/x71"

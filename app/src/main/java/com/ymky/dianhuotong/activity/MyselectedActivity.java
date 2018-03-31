@@ -1,27 +1,23 @@
 package com.ymky.dianhuotong.activity;
 
 import android.graphics.Color;
-import android.net.Uri;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.CompoundButton;
 import android.widget.FrameLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.Toast;
 
 import com.ymky.dianhuotong.R;
 import com.ymky.dianhuotong.base.view.BaseActivity;
-import com.ymky.dianhuotong.custom.DiaHuiTongBaseTitleBar;
-import com.ymky.dianhuotong.fragment.MyselectFragment1;
-import com.ymky.dianhuotong.fragment.MyselectFragment2;
-import com.ymky.dianhuotong.fragment.MyselectFragment3;
-import com.ymky.dianhuotong.fragment.MyselectFragment4;
+import com.ymky.dianhuotong.custom.viewgroup.DiaHuiTongBaseTitleBar;
+import com.ymky.dianhuotong.dingdan.fragment.MyselectFragment1;
+import com.ymky.dianhuotong.dingdan.fragment.MyselectFragment2;
+import com.ymky.dianhuotong.dingdan.fragment.MyselectFragment3;
+import com.ymky.dianhuotong.dingdan.fragment.MyselectFragment4;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

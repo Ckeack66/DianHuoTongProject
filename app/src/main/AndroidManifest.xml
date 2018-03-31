@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.ymky.dianhuotong">
-
+    <uses-permission android:name="android.permission.INTERNET" />
     <application
+        android:name=".base.BaseApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -15,23 +16,25 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.RegisterActivity"
-            android:screenOrientation="portrait" />
-        <activity android:name=".activity.ForgetPasswordActivity" />
-        <activity android:name=".activity.MainActivity"></activity>
-        <activity android:name=".activity.PersonInfoActivity" />
-        <activity android:name=".activity.PersonInfoUpdateActivity" />
-        <activity
-            android:name=".activity.MyselectedActivity"
-            android:windowSoftInputMode="stateHidden|stateAlwaysHidden">
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.BillActivity">
-
-        </activity>
+        <activity android:name=".activity.ForgetPasswordActivity" />
+        <activity android:name=".activity.MainActivity" />
+        <activity android:name=".activity.PersonInfoActivity" />
+        <activity android:name=".activity.PersonInfoUpdateActivity" />
+        <activity
+            android:name=".activity.MyselectedActivity"
+            android:windowSoftInputMode="stateHidden|stateAlwaysHidden" />
+        <activity android:name=".activity.BillActivity" />
+        <activity
+            android:name=".activity.InvoiceActivity"
+            android:windowSoftInputMode="stateHidden|stateAlwaysHidden"></activity>
+        <activity android:name=".activity.CredentialsActivity"></activity>
     </application>
 
 </manifest>

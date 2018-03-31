@@ -1,0 +1,193 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/x196"
+    android:background="@color/colorWhite"
+    tools:context="com.ymky.dianhuotong.invoice.fragment.InvoiceFragment2">
+
+    <!-- TODO: Update blank fragment layout -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/x196"
+        android:layout_marginLeft="@dimen/x16"
+        android:layout_marginRight="@dimen/x16"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center_vertical"
+                android:text="@string/invoice_fragment2_txt1"
+                android:textColor="@color/color333333" />
+
+            <RadioGroup
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:button="@drawable/selector_invoice_fragment2_radiobutton"
+                    android:paddingLeft="@dimen/x5"
+                    android:text="@string/invoice_fragment2_txt11"
+                    android:textColor="@color/color333333" />
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/x35"
+                    android:button="@drawable/selector_invoice_fragment2_radiobutton"
+                    android:paddingLeft="@dimen/x5"
+                    android:text="@string/invoice_fragment2_txt12"
+                    android:textColor="@color/color333333" />
+            </RadioGroup>
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/x1"
+            android:background="@color/colorCDCDCD" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/invoice_fragment2_body2_txt1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center_vertical"
+                android:text="*"
+                android:textColor="@color/colorB23700" />
+
+            <TextView
+                android:id="@+id/invoice_fragment2_body2_txt2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center_vertical"
+                android:layout_toEndOf="@id/invoice_fragment2_body2_txt1"
+                android:text="@string/invoice_fragment2_txt2"
+                android:textColor="@color/color333333" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="@dimen/x80"
+                android:background="@null"
+                android:gravity="center_vertical|end"
+                android:hint="@string/invoice_fragment2_txt21"
+                android:inputType="text"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:textColorHint="@color/colorBFBFBF"
+                android:textSize="@dimen/t11"
+                android:textColor="@color/color333333"/>
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/x1"
+            android:background="@color/colorCDCDCD" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/invoice_fragment2_body3_txt1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center_vertical"
+                android:text="*"
+                android:textColor="@color/colorB23700" />
+
+            <TextView
+                android:id="@+id/invoice_fragment2_body3_txt2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center_vertical"
+                android:layout_toEndOf="@id/invoice_fragment2_body3_txt1"
+                android:text="@string/invoice_fragment2_txt3"
+                android:textColor="@color/color333333" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="@dimen/x80"
+                android:background="@null"
+                android:gravity="center_vertical|end"
+                android:hint="@string/invoice_fragment2_txt31"
+                android:inputType="text"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:textColorHint="@color/colorBFBFBF"
+                android:textSize="@dimen/t11"
+                android:textColor="@color/color333333"/>
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/x1"
+            android:background="@color/colorCDCDCD" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/invoice_fragment2_body4_txt1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center_vertical"
+                android:text="*"
+                android:textColor="@color/colorB23700" />
+
+            <TextView
+                android:id="@+id/invoice_fragment2_body4_txt2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center_vertical"
+                android:layout_toEndOf="@id/invoice_fragment2_body4_txt1"
+                android:text="@string/invoice_fragment2_txt4"
+                android:textColor="@color/color333333" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="@dimen/x80"
+                android:background="@null"
+                android:gravity="center_vertical|end"
+                android:hint="@string/invoice_fragment2_txt41"
+                android:inputType="text"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:textColorHint="@color/colorBFBFBF"
+                android:textSize="@dimen/t11"
+                android:textColor="@color/color333333"/>
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/x1"
+            android:background="@color/colorCDCDCD" />
+    </LinearLayout>
+
+</FrameLayout>

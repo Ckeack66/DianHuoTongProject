@@ -2,18 +2,10 @@ package com.ymky.dianhuotong.activity;
 
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.constraint.ConstraintLayout;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.view.View;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.ymky.dianhuotong.R;
 import com.ymky.dianhuotong.base.view.BaseActivity;
-import com.ymky.dianhuotong.custom.DiaHuiTongBaseTitleBar;
+import com.ymky.dianhuotong.custom.viewgroup.DiaHuiTongBaseTitleBar;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
