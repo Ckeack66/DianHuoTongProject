@@ -10,7 +10,7 @@ import android.widget.RadioGroup;
 
 import com.ymky.dianhuotong.R;
 import com.ymky.dianhuotong.base.view.BaseActivity;
-import com.ymky.dianhuotong.custom.viewgroup.DiaHuiTongBaseTitleBar;
+import com.ymky.dianhuotong.custom.viewgroup.DianHuoTongBaseTitleBar;
 import com.ymky.dianhuotong.invoice.fragment.InvoiceFragment1;
 import com.ymky.dianhuotong.invoice.fragment.InvoiceFragment2;
 
@@ -32,7 +32,7 @@ public class InvoiceActivity extends BaseActivity implements RadioGroup.OnChecke
     @BindView(R.id.invoice_fragment)
     FrameLayout frameLayout;
     @BindView(R.id.invoice_title)
-    DiaHuiTongBaseTitleBar diaHuiTongBaseTitleBar;
+    DianHuoTongBaseTitleBar diaHuiTongBaseTitleBar;
     private FragmentManager fragmentManager;
     private InvoiceFragment1 invoiceFragment1;
     private InvoiceFragment2 invoiceFragment2;

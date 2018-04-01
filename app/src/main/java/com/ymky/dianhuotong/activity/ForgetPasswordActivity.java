@@ -5,14 +5,14 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.ymky.dianhuotong.R;
-import com.ymky.dianhuotong.custom.viewgroup.DiaHuiTongBaseTitleBar;
+import com.ymky.dianhuotong.custom.viewgroup.DianHuoTongBaseTitleBar;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class ForgetPasswordActivity extends AppCompatActivity {
     @BindView(R.id.forgetpwd_titlebar)
-    DiaHuiTongBaseTitleBar diaHuiTongBaseTitleBar;
+    DianHuoTongBaseTitleBar diaHuiTongBaseTitleBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <com.ymky.dianhuotong.custom.viewgroup.DiaHuiTongBaseTitleBar
+        <com.ymky.dianhuotong.custom.viewgroup.DianHuoTongBaseTitleBar
             android:id="@+id/mian_titlebar"
             android:layout_width="match_parent"
             android:layout_height="@dimen/x64" />

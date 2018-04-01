@@ -16,7 +16,7 @@ import com.ymky.dianhuotong.R;
  * Created by Administrator on 2017/7/14.
  */
 
-public class DiaHuiTongBaseTitleBar extends LinearLayout {
+public class DianHuoTongBaseTitleBar extends LinearLayout {
     private ImageView imageViewLeft;
     private TextView textView;
     private ImageView imageViewRight;
@@ -24,20 +24,20 @@ public class DiaHuiTongBaseTitleBar extends LinearLayout {
     private TextView rightTextView;
     private Context mContext;
 
-    public DiaHuiTongBaseTitleBar(Context context) {
+    public DianHuoTongBaseTitleBar(Context context) {
         super(context);
         mContext = context;
         inIt();
 
     }
 
-    public DiaHuiTongBaseTitleBar(Context context, @Nullable AttributeSet attrs) {
+    public DianHuoTongBaseTitleBar(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         mContext = context;
         inIt();
     }
 
-    public DiaHuiTongBaseTitleBar(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public DianHuoTongBaseTitleBar(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         mContext = context;
         inIt();

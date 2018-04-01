@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.widget.ListView;
 
 import com.ymky.dianhuotong.R;
-import com.ymky.dianhuotong.custom.viewgroup.DiaHuiTongBaseTitleBar;
+import com.ymky.dianhuotong.custom.viewgroup.DianHuoTongBaseTitleBar;
 import com.ymky.dianhuotong.dingdan.adapter.BillActivityListViewAdapter;
 
 import butterknife.BindView;
@@ -13,7 +13,7 @@ import butterknife.ButterKnife;
 
 public class BillActivity extends AppCompatActivity {
     @BindView(R.id.bill_titlebar)
-    DiaHuiTongBaseTitleBar diaHuiTongBaseTitleBar;
+    DianHuoTongBaseTitleBar diaHuiTongBaseTitleBar;
     @BindView(R.id.bill_listview)
     ListView listView;
     private BillActivityListViewAdapter billActivityListViewAdapter;

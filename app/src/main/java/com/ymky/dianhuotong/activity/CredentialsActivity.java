@@ -4,14 +4,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.ymky.dianhuotong.R;
-import com.ymky.dianhuotong.custom.viewgroup.DiaHuiTongBaseTitleBar;
+import com.ymky.dianhuotong.custom.viewgroup.DianHuoTongBaseTitleBar;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class CredentialsActivity extends AppCompatActivity {
     @BindView(R.id.credentials_title)
-    DiaHuiTongBaseTitleBar diaHuiTongBaseTitleBar;
+    DianHuoTongBaseTitleBar diaHuiTongBaseTitleBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

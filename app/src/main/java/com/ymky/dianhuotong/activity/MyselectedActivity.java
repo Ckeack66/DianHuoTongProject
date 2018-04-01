@@ -13,7 +13,7 @@ import android.widget.RadioGroup;
 
 import com.ymky.dianhuotong.R;
 import com.ymky.dianhuotong.base.view.BaseActivity;
-import com.ymky.dianhuotong.custom.viewgroup.DiaHuiTongBaseTitleBar;
+import com.ymky.dianhuotong.custom.viewgroup.DianHuoTongBaseTitleBar;
 import com.ymky.dianhuotong.dingdan.fragment.MyselectFragment1;
 import com.ymky.dianhuotong.dingdan.fragment.MyselectFragment2;
 import com.ymky.dianhuotong.dingdan.fragment.MyselectFragment3;
@@ -24,7 +24,7 @@ import butterknife.ButterKnife;
 
 public class MyselectedActivity extends BaseActivity implements RadioGroup.OnCheckedChangeListener {
     @BindView(R.id.myselect_title)
-    DiaHuiTongBaseTitleBar diaHuiTongBaseTitleBar;
+    DianHuoTongBaseTitleBar diaHuiTongBaseTitleBar;
     @BindView(R.id.myselected_tab)
     RadioGroup radioGroup;
     @BindView(R.id.myselected_tab_1)

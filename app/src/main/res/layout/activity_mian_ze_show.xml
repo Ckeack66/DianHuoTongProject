@@ -3,10 +3,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.ymky.dianhuotong.activity.CredentialsActivity">
+    tools:context="com.ymky.dianhuotong.activity.ShiYaoQianYanActivity">
 
     <com.ymky.dianhuotong.custom.viewgroup.DianHuoTongBaseTitleBar
-        android:id="@+id/credentials_title"
+        android:id="@+id/mianze_title"
         android:layout_width="match_parent"
         android:layout_height="@dimen/x64" />
 </LinearLayout>

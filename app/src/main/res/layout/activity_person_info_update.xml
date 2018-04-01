@@ -5,7 +5,7 @@
     android:background="@color/coloreeeeee"
     android:orientation="vertical">
 
-    <com.ymky.dianhuotong.custom.viewgroup.DiaHuiTongBaseTitleBar
+    <com.ymky.dianhuotong.custom.viewgroup.DianHuoTongBaseTitleBar
         android:id="@+id/person_info_update_title"
         android:layout_width="match_parent"
         android:layout_height="@dimen/x64" />

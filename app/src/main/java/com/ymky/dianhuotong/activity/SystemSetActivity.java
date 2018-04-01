@@ -9,21 +9,20 @@ import com.ymky.dianhuotong.custom.viewgroup.DianHuoTongBaseTitleBar;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class PersonInfoUpdateActivity extends AppCompatActivity {
-    @BindView(R.id.person_info_update_title)
-    DianHuoTongBaseTitleBar diaHuiTongBaseTitleBar;
+public class SystemSetActivity extends AppCompatActivity {
+    @BindView(R.id.system_set_title)
+    DianHuoTongBaseTitleBar dianHuoTongBaseTitleBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_person_info_update);
+        setContentView(R.layout.activity_system_set);
         ButterKnife.bind(this);
         inIt();
     }
 
     private void inIt() {
-        diaHuiTongBaseTitleBar.setLeftImage(R.drawable.icon_back);
-        diaHuiTongBaseTitleBar.setCenterTextView(getString(R.string.person_update_title));
-        diaHuiTongBaseTitleBar.setRightText(getString(R.string.person_update_save));
+        dianHuoTongBaseTitleBar.setLeftImage(R.drawable.icon_back);
+        dianHuoTongBaseTitleBar.setCenterTextView("系统设置");
     }
 }

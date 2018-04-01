@@ -44,7 +44,7 @@
     <string name="drawer_list_about">关于我们</string>
     <string name="drawer_list_set">设置</string>
     <string name="drawer_list_name">典货通</string>
-    <string name="drawer_bottom">典货通V</string>
+    <string name="drawer_bottom">佲慧康宇健康平台 V</string>
 
     <!--MainGridView文字资源-->
     <string name="main_title">佲惠康宇健康平台 </string>
@@ -103,6 +103,9 @@
     <!--资质录入credentialsActivity-->
     <string name="credentials_title">资质录入</string>
 
+
+    <!--食药前沿-->
+    <string name="shiyaoqianyan_title">食药前沿</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

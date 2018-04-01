@@ -3,6 +3,7 @@
     package="com.ymky.dianhuotong">
 
     <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:name=".base.BaseApplication"
         android:allowBackup="true"
@@ -11,10 +12,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity
-            android:name=".activity.LoginActivity"
-            android:label="@string/title_activity_login"
-            android:screenOrientation="portrait">
+        <activity android:name=".activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -22,14 +20,13 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".activity.LoginActivity"
+            android:label="@string/title_activity_login"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".activity.RegisterActivity"
-            android:screenOrientation="portrait">
-
-        </activity>
+            android:screenOrientation="portrait" />
         <activity android:name=".activity.ForgetPasswordActivity" />
-        <activity android:name=".activity.MainActivity">
-
-        </activity>
         <activity android:name=".activity.PersonInfoActivity" />
         <activity android:name=".activity.PersonInfoUpdateActivity" />
         <activity
@@ -38,8 +35,22 @@
         <activity android:name=".activity.BillActivity" />
         <activity
             android:name=".activity.InvoiceActivity"
-            android:windowSoftInputMode="stateHidden|stateAlwaysHidden"></activity>
-        <activity android:name=".activity.CredentialsActivity"></activity>
+            android:windowSoftInputMode="stateHidden|stateAlwaysHidden" />
+        <activity android:name=".activity.CredentialsActivity" />
+        <activity android:name=".activity.ShiYaoQianYanActivity" />
+        <activity android:name=".activity.DianHuoTongShopActivity" />
+        <activity android:name=".activity.YaoLinWangActivity" />
+        <activity android:name=".activity.MingHuiFuActivity" />
+        <activity android:name=".activity.JianKang121Activity" />
+        <activity android:name=".activity.GuoYaoDianActivity" />
+        <activity android:name=".activity.LaoPHomeActivity" />
+        <activity android:name=".activity.DaKaOnlineActivity" />
+        <activity android:name=".activity.ConnectOurActivity" />
+        <activity android:name=".activity.UserInfoEditActivity" />
+        <activity android:name=".activity.MyWaiterActivity" />
+        <activity android:name=".activity.AboutOurActivity" />
+        <activity android:name=".activity.SystemSetActivity" />
+        <activity android:name=".activity.MianZeShowActivity"></activity>
     </application>
 
 </manifest>

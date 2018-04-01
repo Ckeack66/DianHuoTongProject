@@ -11,35 +11,23 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
-import com.lzy.okgo.OkGo;
-import com.lzy.okgo.callback.Callback;
-import com.lzy.okgo.model.HttpHeaders;
-import com.lzy.okgo.model.HttpParams;
-import com.lzy.okgo.model.Progress;
 import com.lzy.okgo.model.Response;
-import com.lzy.okgo.request.base.Request;
 import com.mingle.widget.ShapeLoadingDialog;
 import com.ymky.dianhuotong.R;
 import com.ymky.dianhuotong.base.view.BaseActivity;
 import com.ymky.dianhuotong.bean.RegisterPostDataInfo;
 import com.ymky.dianhuotong.custom.tool.TimerMessage;
-import com.ymky.dianhuotong.custom.viewgroup.DiaHuiTongBaseTitleBar;
+import com.ymky.dianhuotong.custom.viewgroup.DianHuoTongBaseTitleBar;
 import com.ymky.dianhuotong.register.RegisterIF;
 import com.ymky.dianhuotong.register.precenter.RegisterPrecenter;
-
-import org.json.JSONObject;
-
-import java.util.HashMap;
-import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import okhttp3.RequestBody;
 
 public class RegisterActivity extends BaseActivity implements TimerMessage.OnTimerListener, RegisterIF {
     @BindView(R.id.register_titlebar)
-    DiaHuiTongBaseTitleBar diaHuiTongBaseTitleBar;
+    DianHuoTongBaseTitleBar diaHuiTongBaseTitleBar;
     @BindView(R.id.register_getmessage)
     TextView txtMessage;
     @BindView(R.id.register_phone)
@@ -92,7 +80,7 @@ public class RegisterActivity extends BaseActivity implements TimerMessage.OnTim
         isTimerStart = false;
         imageViewState = false;
         timerMessage = new TimerMessage(60000, 1000, this);
-        shapeLoadingDialog = new ShapeLoadingDialog.Builder(this).loadText("正在登陆...").build();
+        shapeLoadingDialog = new ShapeLoadingDialog.Builder(this).loadText("正在注册...").build();
         shapeLoadingDialog.getWindow().setDimAmount(0);
         registerPrecenter = new RegisterPrecenter(this);
         registerPostDataInfo = new RegisterPostDataInfo();

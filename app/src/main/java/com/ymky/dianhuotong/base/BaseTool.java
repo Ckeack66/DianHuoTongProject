@@ -2,6 +2,7 @@ package com.ymky.dianhuotong.base;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 /**
@@ -9,6 +10,7 @@ import android.os.Bundle;
  */
 
 public class BaseTool {
+
     public static void goActivityNoData(Context context, Class cls) {
         Intent intent = new Intent();
         intent.setClass(context, cls);
@@ -21,4 +23,5 @@ public class BaseTool {
         intent.putExtras(data);
         context.startActivity(intent);
     }
+
 }

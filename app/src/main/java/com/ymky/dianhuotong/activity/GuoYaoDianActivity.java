@@ -9,21 +9,20 @@ import com.ymky.dianhuotong.custom.viewgroup.DianHuoTongBaseTitleBar;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class PersonInfoUpdateActivity extends AppCompatActivity {
-    @BindView(R.id.person_info_update_title)
-    DianHuoTongBaseTitleBar diaHuiTongBaseTitleBar;
+public class GuoYaoDianActivity extends AppCompatActivity {
+    @BindView(R.id.guoyao_title)
+    DianHuoTongBaseTitleBar dianHuoTongBaseTitleBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_person_info_update);
+        setContentView(R.layout.activity_guo_yao_dian);
         ButterKnife.bind(this);
         inIt();
     }
 
     private void inIt() {
-        diaHuiTongBaseTitleBar.setLeftImage(R.drawable.icon_back);
-        diaHuiTongBaseTitleBar.setCenterTextView(getString(R.string.person_update_title));
-        diaHuiTongBaseTitleBar.setRightText(getString(R.string.person_update_save));
+        dianHuoTongBaseTitleBar.setLeftImage(R.drawable.icon_back);
+        dianHuoTongBaseTitleBar.setCenterTextView("国药店");
     }
 }
