@@ -20,6 +20,7 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/x150"
             android:layout_below="@id/mian_titlebar"
+            android:scaleType="center"
             android:src="@drawable/image_banner" />
         <!--<GridView-->
         <!--android:id="@+id/main_gridview"-->
