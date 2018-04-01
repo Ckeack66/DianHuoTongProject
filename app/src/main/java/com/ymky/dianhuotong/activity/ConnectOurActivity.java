@@ -2,6 +2,7 @@ package com.ymky.dianhuotong.activity;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 
 import com.ymky.dianhuotong.R;
 import com.ymky.dianhuotong.custom.viewgroup.DianHuoTongBaseTitleBar;
@@ -22,5 +23,11 @@ public class ConnectOurActivity extends AppCompatActivity {
     private void inIt() {
         dianHuoTongBaseTitleBar.setLeftImage(R.drawable.icon_back);
         dianHuoTongBaseTitleBar.setCenterTextView("联系我们");
+        dianHuoTongBaseTitleBar.setLeftOnclickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 }

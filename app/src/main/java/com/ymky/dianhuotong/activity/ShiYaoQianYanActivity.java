@@ -2,6 +2,7 @@ package com.ymky.dianhuotong.activity;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 
 import com.ymky.dianhuotong.R;
 import com.ymky.dianhuotong.custom.AlertDialog.DianHuoTongBaseDialog;
@@ -25,5 +26,11 @@ public class ShiYaoQianYanActivity extends AppCompatActivity {
     private void inIt() {
         dianHuoTongBaseTitleBar.setLeftImage(R.drawable.icon_back);
         dianHuoTongBaseTitleBar.setCenterTextView(getString(R.string.shiyaoqianyan_title));
+        dianHuoTongBaseTitleBar.setLeftOnclickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 }

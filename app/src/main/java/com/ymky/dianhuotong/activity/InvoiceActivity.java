@@ -32,7 +32,7 @@ public class InvoiceActivity extends BaseActivity implements RadioGroup.OnChecke
     @BindView(R.id.invoice_fragment)
     FrameLayout frameLayout;
     @BindView(R.id.invoice_title)
-    DianHuoTongBaseTitleBar diaHuiTongBaseTitleBar;
+    DianHuoTongBaseTitleBar dianHuoTongBaseTitleBar;
     private FragmentManager fragmentManager;
     private InvoiceFragment1 invoiceFragment1;
     private InvoiceFragment2 invoiceFragment2;
@@ -46,9 +46,15 @@ public class InvoiceActivity extends BaseActivity implements RadioGroup.OnChecke
     }
 
     private void inIt() {
-        diaHuiTongBaseTitleBar.setLeftImage(R.drawable.icon_back);
-        diaHuiTongBaseTitleBar.setCenterTextView(getString(R.string.invoice_title));
-        diaHuiTongBaseTitleBar.setRightText(getString(R.string.invoice_save));
+        dianHuoTongBaseTitleBar.setLeftImage(R.drawable.icon_back);
+        dianHuoTongBaseTitleBar.setCenterTextView(getString(R.string.invoice_title));
+        dianHuoTongBaseTitleBar.setRightText(getString(R.string.invoice_save));
+        dianHuoTongBaseTitleBar.setLeftOnclickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
         radioGroup.setOnCheckedChangeListener(this);
         invoiceFragment1 = InvoiceFragment1.newInstance("", "");
         invoiceFragment2 = InvoiceFragment2.newInstance("", "");

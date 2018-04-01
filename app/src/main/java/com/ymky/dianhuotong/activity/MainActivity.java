@@ -30,6 +30,7 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.OnItemClick;
 
 public class MainActivity extends BaseActivity implements MainIF, DrawerLayout.DrawerListener, AdapterView.OnItemClickListener, DianHuoTongBaseDialog.BaseDialogListener {
@@ -199,7 +200,7 @@ public class MainActivity extends BaseActivity implements MainIF, DrawerLayout.D
                         BaseTool.goActivityNoData(this, MyselectedActivity.class);
                         break;
                     case 1:
-                        BaseTool.goActivityNoData(this, UserInfoEditActivity.class);
+                        BaseTool.goActivityNoData(this, PersonInfoUpdateActivity.class);
                         break;
                     case 2:
                         BaseTool.goActivityNoData(this, MyWaiterActivity.class);
@@ -238,5 +239,10 @@ public class MainActivity extends BaseActivity implements MainIF, DrawerLayout.D
             finish();
         }
 
+    }
+
+    @OnClick(R.id.main_user_image)
+    void goPersonInfoEditActivity() {
+        BaseTool.goActivityNoData(this, PersonInfoActivity.class);
     }
 }

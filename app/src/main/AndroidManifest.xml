@@ -46,7 +46,6 @@
         <activity android:name=".activity.LaoPHomeActivity" />
         <activity android:name=".activity.DaKaOnlineActivity" />
         <activity android:name=".activity.ConnectOurActivity" />
-        <activity android:name=".activity.UserInfoEditActivity" />
         <activity android:name=".activity.MyWaiterActivity" />
         <activity android:name=".activity.AboutOurActivity" />
         <activity android:name=".activity.SystemSetActivity" />

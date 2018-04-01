@@ -70,13 +70,24 @@
                 android:layout_marginTop="@dimen/x64"
                 android:background="@color/colorTransp"
                 android:src="@drawable/icon_header_big" />
-
             <TextView
+                android:id="@+id/drawer_text_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/main_user_image"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="@dimen/x42"
+                android:layout_marginTop="@dimen/x13"
+                android:background="@color/colorTransp"
+                android:text="用户名"
+                android:textColor="@color/colorWhite"
+                android:textSize="@dimen/t14" />
+            <TextView
+                android:id="@+id/drawer_text_phone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/drawer_text_name"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="@dimen/x16"
                 android:background="@color/colorTransp"
                 android:text="15236699689"
                 android:textColor="@color/colorWhite"

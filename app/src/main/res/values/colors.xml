@@ -32,4 +32,8 @@
 
     <!--basedialog颜色-->
     <color name="colorC5C5C5">#C5C5C5</color>
+    <!--服务专员-->
+    <color name="colord9d9d9">#D9D9D9</color>
+    <!--关于我们-->
+    <color name="color676767">#676767</color>
 </resources>

@@ -1,6 +1,7 @@
 package com.ymky.dianhuotong.activity;
 
 import android.os.Bundle;
+import android.view.View;
 
 import com.ymky.dianhuotong.R;
 import com.ymky.dianhuotong.base.view.BaseActivity;
@@ -11,7 +12,7 @@ import butterknife.ButterKnife;
 
 public class PersonInfoActivity extends BaseActivity {
     @BindView(R.id.personinfo_title)
-    DianHuoTongBaseTitleBar diaHuiTongBaseTitleBar;
+    DianHuoTongBaseTitleBar dianHuoTongBaseTitleBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,7 +23,13 @@ public class PersonInfoActivity extends BaseActivity {
     }
 
     private void inIt() {
-        diaHuiTongBaseTitleBar.setLeftImage(R.drawable.icon_back);
-        diaHuiTongBaseTitleBar.setCenterTextView(getString(R.string.person_title));
+        dianHuoTongBaseTitleBar.setLeftImage(R.drawable.icon_back);
+        dianHuoTongBaseTitleBar.setCenterTextView(getString(R.string.person_title));
+        dianHuoTongBaseTitleBar.setLeftOnclickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 }
