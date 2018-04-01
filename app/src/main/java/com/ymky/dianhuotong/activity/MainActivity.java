@@ -69,7 +69,7 @@ public class MainActivity extends BaseActivity implements MainIF, DrawerLayout.D
     protected void onResume() {
         super.onResume();
         if (BaseApplication.getInstansApp().getToakens() != null) {
-            drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_OPEN);
+            drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
         }
     }
 
