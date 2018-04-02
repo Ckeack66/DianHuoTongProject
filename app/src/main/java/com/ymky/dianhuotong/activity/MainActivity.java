@@ -20,6 +20,7 @@ import com.ymky.dianhuotong.base.BaseApplication;
 import com.ymky.dianhuotong.base.BaseTool;
 import com.ymky.dianhuotong.base.view.BaseActivity;
 import com.ymky.dianhuotong.custom.AlertDialog.DianHuoTongBaseDialog;
+import com.ymky.dianhuotong.custom.ToastUtil;
 import com.ymky.dianhuotong.custom.viewgroup.DianHuoTongBaseTitleBar;
 import com.ymky.dianhuotong.main.MainIF;
 import com.ymky.dianhuotong.main.adpter.DrawerLayoutAdapter;
@@ -56,6 +57,8 @@ public class MainActivity extends BaseActivity implements MainIF, DrawerLayout.D
     private String main1 = "mian1";
     private DianHuoTongBaseDialog dianHuoTongBaseDialogBack;
     private String main2 = "main2";
+    private DianHuoTongBaseDialog dianHuoTongBaseDialogAddShop;
+    private String main3 = "mian3";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,6 +98,7 @@ public class MainActivity extends BaseActivity implements MainIF, DrawerLayout.D
         }
         dianHuoTongBaseDialog = new DianHuoTongBaseDialog(this, this, "温馨提示", "登录之后会有更多精彩哦~", "稍后再说", "马上登陆", main1);
         dianHuoTongBaseDialogBack = new DianHuoTongBaseDialog(this, this, "温馨提示", "您确定要退出系统吗", "取消", "退出", main2);
+        dianHuoTongBaseDialogAddShop = new DianHuoTongBaseDialog(this, this, "温馨提示", "加入店铺查看更多精彩内容~", "稍后再说", "立刻加入", main3);
         diaHuiTongBaseTitleBar.setLeftImage(R.drawable.icon_go_personal);
         diaHuiTongBaseTitleBar.setCenterTextView(getString(R.string.main_title));
         diaHuiTongBaseTitleBar.setLeftOnclickListener(new View.OnClickListener() {
@@ -160,7 +164,10 @@ public class MainActivity extends BaseActivity implements MainIF, DrawerLayout.D
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        Log.d(TAG, "onItemClick: -----------------" + view + "----------" + view.getId() + "------" + parent.getId());
+        if (BaseApplication.getInstansApp().getToakens() == null) {
+            dianHuoTongBaseDialog.show();
+            return;
+        }
         switch (parent.getId()) {
             case R.id.main_gridview:
                 switch (position) {
@@ -168,7 +175,11 @@ public class MainActivity extends BaseActivity implements MainIF, DrawerLayout.D
                         BaseTool.goActivityNoData(this, ShiYaoQianYanActivity.class);
                         break;
                     case 1:
-                        BaseTool.goActivityNoData(this, DianHuoTongShopActivity.class);
+                        if (BaseApplication.getInstansApp().isAddShop()) {
+                            dianHuoTongBaseDialogAddShop.show();
+                        } else {
+                            BaseTool.goActivityNoData(this, DianHuoTongShopActivity.class);
+                        }
                         break;
                     case 2:
                         BaseTool.goActivityNoData(this, YaoLinWangActivity.class);
@@ -194,7 +205,7 @@ public class MainActivity extends BaseActivity implements MainIF, DrawerLayout.D
                 }
                 break;
             case R.id.drawer_listview:
-                Toast.makeText(this, "点击了listview" + position, Toast.LENGTH_SHORT).show();
+                ToastUtil.makeText(this, "点击了listview" + position, Toast.LENGTH_SHORT).show();
                 switch (position) {
                     case 0:
                         BaseTool.goActivityNoData(this, MyselectedActivity.class);
@@ -221,11 +232,7 @@ public class MainActivity extends BaseActivity implements MainIF, DrawerLayout.D
 
     @Override
     public void onClickBaseDialogLeft(String mTag) {
-        if (main1.equals(mTag) && dianHuoTongBaseDialog.isShowing()) {
-            dianHuoTongBaseDialog.dismiss();
-        } else if (main2.equals(mTag) && dianHuoTongBaseDialogBack.isShowing()) {
-            dianHuoTongBaseDialogBack.dismiss();
-        }
+        dianHuoTongBaseDialog.dismiss();
     }
 
     @Override
@@ -237,6 +244,9 @@ public class MainActivity extends BaseActivity implements MainIF, DrawerLayout.D
         } else if (main2.equals(mTag) && dianHuoTongBaseDialogBack.isShowing()) {
             dianHuoTongBaseDialogBack.dismiss();
             finish();
+        } else if (main3.equals(mTag) && dianHuoTongBaseDialogAddShop.isShowing()) {
+            dianHuoTongBaseDialogAddShop.dismiss();
+            BaseTool.goActivityNoData(this, AddShopActivity.class);
         }
 
     }

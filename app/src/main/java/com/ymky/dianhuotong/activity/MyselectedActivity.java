@@ -1,5 +1,6 @@
 package com.ymky.dianhuotong.activity;
 
+import android.content.Context;
 import android.graphics.Color;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -12,6 +13,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 import com.ymky.dianhuotong.R;
+import com.ymky.dianhuotong.base.BaseTool;
 import com.ymky.dianhuotong.base.view.BaseActivity;
 import com.ymky.dianhuotong.custom.viewgroup.DianHuoTongBaseTitleBar;
 import com.ymky.dianhuotong.dingdan.fragment.MyselectFragment1;
@@ -60,12 +62,17 @@ public class MyselectedActivity extends BaseActivity implements RadioGroup.OnChe
     private MyselectFragment2 myselectFragment2;
     private MyselectFragment3 myselectFragment3;
     private MyselectFragment4 myselectFragment4;
+
+
+    private Context mContext;
     private static final String TAG = "MyselectedActivity";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_myselected);
         ButterKnife.bind(this);
+        mContext = this;
         inIt();
     }
 
@@ -79,17 +86,23 @@ public class MyselectedActivity extends BaseActivity implements RadioGroup.OnChe
                 finish();
             }
         });
+        dianHuoTongBaseTitleBar.setRightTextOnclickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                BaseTool.goActivityNoData(mContext, BillActivity.class);
+            }
+        });
         radioGroup.setOnCheckedChangeListener(this);
-        myselectFragment1 =MyselectFragment1.newInstance("","");
-        myselectFragment2 = MyselectFragment2.newInstance("","");
-        myselectFragment3 = MyselectFragment3.newInstance("","");
-        myselectFragment4 = MyselectFragment4.newInstance("","");
+        myselectFragment1 = MyselectFragment1.newInstance("", "");
+        myselectFragment2 = MyselectFragment2.newInstance("", "");
+        myselectFragment3 = MyselectFragment3.newInstance("", "");
+        myselectFragment4 = MyselectFragment4.newInstance("", "");
         fragmentManager = getSupportFragmentManager();
         fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.add(R.id.myselected_fragment, myselectFragment1);
-        fragmentTransaction.add(R.id.myselected_fragment,myselectFragment2);
-        fragmentTransaction.add(R.id.myselected_fragment,myselectFragment3);
-        fragmentTransaction.add(R.id.myselected_fragment,myselectFragment4);
+        fragmentTransaction.add(R.id.myselected_fragment, myselectFragment2);
+        fragmentTransaction.add(R.id.myselected_fragment, myselectFragment3);
+        fragmentTransaction.add(R.id.myselected_fragment, myselectFragment4);
         showFragment(myselectFragment1);
         fragmentTransaction.commit();
     }
@@ -139,20 +152,20 @@ public class MyselectedActivity extends BaseActivity implements RadioGroup.OnChe
         mView1.setBackgroundColor(Color.parseColor("#04c1ab"));
     }
 
-    private void showFragment(Fragment fragment){
-        if (!myselectFragment1.isHidden()){
+    private void showFragment(Fragment fragment) {
+        if (!myselectFragment1.isHidden()) {
             Log.d(TAG, "showFragment: 关闭第一个页面");
             fragmentManager.beginTransaction().hide(myselectFragment1).show(fragment).commit();
         }
-        if (!myselectFragment2.isHidden()){
+        if (!myselectFragment2.isHidden()) {
             Log.d(TAG, "showFragment: 关闭第二个页面");
             fragmentManager.beginTransaction().hide(myselectFragment2).show(fragment).commit();
         }
-        if (!myselectFragment3.isHidden()){
+        if (!myselectFragment3.isHidden()) {
             Log.d(TAG, "showFragment: 关闭第三个页面");
             fragmentManager.beginTransaction().hide(myselectFragment3).show(fragment).commit();
         }
-        if (!myselectFragment4.isHidden()){
+        if (!myselectFragment4.isHidden()) {
             Log.d(TAG, "showFragment: 关闭第四个页面");
             fragmentManager.beginTransaction().hide(myselectFragment4).show(fragment).commit();
         }

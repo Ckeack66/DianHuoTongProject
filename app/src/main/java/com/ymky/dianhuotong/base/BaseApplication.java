@@ -19,10 +19,20 @@ public class BaseApplication extends Application {
     private static SharedPreferences mSharedPreferences;
     private Context mContext;
 
+    public boolean isAddShop() {
+        return isAddShop;
+    }
+
+    public void setAddShop(boolean addShop) {
+        isAddShop = addShop;
+    }
+
+    private boolean isAddShop = true;
+
     @Override
     public void onCreate() {
         super.onCreate();
-        OkGo.getInstance().init(this);
+        OkGo.getInstance().setRetryCount(3).init(this);
         mContext = this;
         mSharedPreferences = this.getSharedPreferences(MY_SHARE_NAME, MODE_PRIVATE);
     }
@@ -39,7 +49,7 @@ public class BaseApplication extends Application {
     }
 
 
-    public  String getToakens() {
+    public String getToakens() {
         return mSharedPreferences.getString(MY_TOAKEN, null);
     }
 

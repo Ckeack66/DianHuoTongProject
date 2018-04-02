@@ -81,7 +81,9 @@ public class DianHuoTongBaseTitleBar extends LinearLayout {
     public void setRightOnclickListener(OnClickListener onclickListenerR) {
         imageViewRight.setOnClickListener(onclickListenerR);
     }
-
+    public void setRightTextOnclickListener(OnClickListener onclickListenerR) {
+        rightTextView.setOnClickListener(onclickListenerR);
+    }
     public void setRightTextViewListener(OnClickListener onClickListener) {
         rightTextView.setOnClickListener(onClickListener);
     }

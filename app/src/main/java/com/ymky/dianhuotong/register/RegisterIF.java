@@ -7,11 +7,15 @@ import com.lzy.okgo.model.Response;
  */
 
 public interface RegisterIF {
-    void registerSuccess(Response<String> response);
+    void registerSuccess(int code,String result);
 
-    void registerFailed(Response<String> response);
+    void registerFailed(int code,String result);
 
-    void getSmsSuccess(Response<String> response);
+    void getSmsSuccess(int code,String result);
 
-    void getSmsfailed(Response<String> response);
+    void getSmsfailed(int code,String result);
+
+    void checkSmsSuccess(int code,String result);
+
+    void checkSmsFailed(int code,String result);
 }

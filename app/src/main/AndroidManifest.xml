@@ -28,7 +28,9 @@
             android:screenOrientation="portrait" />
         <activity android:name=".activity.ForgetPasswordActivity" />
         <activity android:name=".activity.PersonInfoActivity" />
-        <activity android:name=".activity.PersonInfoUpdateActivity" />
+        <activity
+            android:name=".activity.PersonInfoUpdateActivity"
+            android:windowSoftInputMode="stateHidden|stateAlwaysHidden" />
         <activity
             android:name=".activity.MyselectedActivity"
             android:windowSoftInputMode="stateHidden|stateAlwaysHidden" />
@@ -49,7 +51,11 @@
         <activity android:name=".activity.MyWaiterActivity" />
         <activity android:name=".activity.AboutOurActivity" />
         <activity android:name=".activity.SystemSetActivity" />
-        <activity android:name=".activity.MianZeShowActivity"></activity>
+        <activity android:name=".activity.MianZeShowActivity" />
+        <activity android:name=".activity.AddShopActivity" />
+        <activity android:name=".activity.AddShop1Activity" />
+        <activity android:name=".activity.CreatShopActivity" />
+        <activity android:name=".activity.CredentialUploadActivity"></activity>
     </application>
 
 </manifest>

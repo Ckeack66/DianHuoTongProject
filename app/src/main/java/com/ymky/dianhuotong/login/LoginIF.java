@@ -5,4 +5,7 @@ package com.ymky.dianhuotong.login;
  */
 
 public interface LoginIF {
+    void LoginSucess(int code, String result);
+
+    void LoginFailed(int code, String result);
 }

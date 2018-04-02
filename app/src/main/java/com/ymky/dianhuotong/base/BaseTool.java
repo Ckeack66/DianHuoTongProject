@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
+import com.lzy.okgo.model.Response;
+
 /**
  * Created by Administrator on 2018/3/31.
  */
@@ -24,4 +26,16 @@ public class BaseTool {
         context.startActivity(intent);
     }
 
+    public static String changeUrlParameter(String parameter) {
+        return parameter + "/";
+    }
+
+    public static String getResponsBody(Response<String> response) {
+        String result = "@null";
+        try {
+            result = response.getRawResponse().body().string();
+        } catch (Exception e) {
+        }
+        return result;
+    }
 }

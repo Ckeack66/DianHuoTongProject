@@ -16,10 +16,10 @@ public class RegisterPostDataInfo implements Serializable {
      * username : 123456
      */
 
-    private boolean enabled;
+    private boolean enabled = true;
     private String mobile;
     private String password;
-    private String username;
+    private String username = "";
     private List<String> authorities;
 
     public boolean isEnabled() {

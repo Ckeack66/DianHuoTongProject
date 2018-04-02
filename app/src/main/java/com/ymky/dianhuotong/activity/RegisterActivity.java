@@ -9,17 +9,21 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
-import com.lzy.okgo.model.Response;
 import com.mingle.widget.ShapeLoadingDialog;
 import com.ymky.dianhuotong.R;
 import com.ymky.dianhuotong.base.view.BaseActivity;
 import com.ymky.dianhuotong.bean.RegisterPostDataInfo;
+import com.ymky.dianhuotong.custom.ToastUtil;
 import com.ymky.dianhuotong.custom.tool.TimerMessage;
 import com.ymky.dianhuotong.custom.viewgroup.DianHuoTongBaseTitleBar;
 import com.ymky.dianhuotong.register.RegisterIF;
-import com.ymky.dianhuotong.register.precenter.RegisterPrecenter;
+import com.ymky.dianhuotong.register.RegisterPrecenter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -44,6 +48,7 @@ public class RegisterActivity extends BaseActivity implements TimerMessage.OnTim
     private ShapeLoadingDialog shapeLoadingDialog;
     private RegisterPrecenter registerPrecenter;
     private RegisterPostDataInfo registerPostDataInfo;
+    private boolean isSendSMS = false;
     private static final String TAG = "RegisterActivity";
 
     @Override
@@ -68,6 +73,9 @@ public class RegisterActivity extends BaseActivity implements TimerMessage.OnTim
         return super.onKeyDown(keyCode, event);
     }
 
+    /**
+     * 页面初始化
+     */
     private void inIt() {
         diaHuiTongBaseTitleBar.setLeftImage(R.drawable.icon_back);
         diaHuiTongBaseTitleBar.setCenterTextView("注册");
@@ -86,23 +94,45 @@ public class RegisterActivity extends BaseActivity implements TimerMessage.OnTim
         registerPostDataInfo = new RegisterPostDataInfo();
     }
 
+    /**
+     * 发送信息按钮
+     */
+
     @OnClick(R.id.register_getmessage)
     void sendMessage() {
+        if (editTextPhone.getText().toString() != null && editTextPhone.getText().toString().length() < 11) {
+            ToastUtil.makeText(this, "手机号格式不正确", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        isSendSMS = true;
         timerMessage.start();
         isTimerStart = true;
         messageButtonNo();
+        registerPrecenter.getMsm(editTextPhone.getText().toString());
     }
 
+    /**
+     * 注册按钮
+     */
     @OnClick(R.id.register_register_button)
     void register() {
-        if (shapeLoadingDialog != null) {
-            shapeLoadingDialog.show();
+        if (!isSendSMS) {
+            ToastUtil.makeText(this, "请点击发送验证码", Toast.LENGTH_SHORT).show();
+            return;
         }
-
-
-        registerPrecenter.register(JSON.toJSONString(registerPostDataInfo));
+        if (!editTextPwd.getText().toString().equals("") && editTextPwd.getText().toString().length() >= 6 && !editTextPhone.getText().toString().equals("") && editTextPhone.getText().toString().length() >= 11 && !editTextPhoneCode.getText().toString().equals("")) {
+            if (shapeLoadingDialog != null) {
+                shapeLoadingDialog.show();
+            }
+            registerPrecenter.checkSMS(editTextPhone.getText().toString(), editTextPhoneCode.getText().toString());
+        } else {
+            ToastUtil.makeText(this, "信息填写错误", Toast.LENGTH_SHORT).show();
+        }
     }
 
+    /**
+     * 隐藏或显示密码事件
+     */
     @OnClick(R.id.register_imageview)
     void setImageView() {
         if (!imageViewState) {
@@ -117,49 +147,133 @@ public class RegisterActivity extends BaseActivity implements TimerMessage.OnTim
         editTextPwd.setSelection(editTextPwd.getText().length());
     }
 
+    /**
+     * 定时器每秒回调方法
+     *
+     * @param time 回调过来的时间+文字
+     */
     @Override
     public void onTick(String time) {
         txtMessage.setText(time);
-        registerPrecenter.getMsm("123456789");
     }
 
+    /**
+     * 定时器计时结束回调方法
+     *
+     * @param fi 重新发送
+     */
     @Override
     public void onFinish(String fi) {
         txtMessage.setText(fi);
         messageButtonOk();
     }
 
-
+    /**
+     * 设置发送密码可以点击
+     */
     private void messageButtonOk() {
         txtMessage.setClickable(true);
         txtMessage.setTextColor(getResources().getColor(R.color.color04c1ab));
         txtMessage.setBackground(getResources().getDrawable(R.drawable.shape_register_getcode));
     }
 
+    /**
+     * 设置发送密码不可以点击
+     */
     private void messageButtonNo() {
         txtMessage.setTextColor(getResources().getColor(R.color.colorBFBFBF));
         txtMessage.setBackground(getResources().getDrawable(R.drawable.shape_register_getcode_grey));
         txtMessage.setClickable(false);
     }
 
+    /**
+     * 注册成功回调
+     *
+     * @param code
+     * @param result
+     */
     @Override
-    public void registerSuccess(Response<String> response) {
-        Log.d(TAG, "onSuccess: " + response.code() + "-----" + response.body() + "----" + response.message());
+    public void registerSuccess(int code, String result) {
+        shapeLoadingDialog.dismiss();
+        if (code == 200) {
+            ToastUtil.makeText(this, "注册成功！", Toast.LENGTH_SHORT).show();
+            finish();
+        }
+
+        Log.d(TAG, "onSuccess: " + code + "-----" + result);
     }
 
+    /**
+     * 注册失败回调
+     *
+     * @param code
+     * @param result
+     */
     @Override
-    public void registerFailed(Response<String> response) {
-        Log.d(TAG, "onFailed: " + response.code() + "-----" + response.body() + "----" + response.message());
+    public void registerFailed(int code, String result) {
+        shapeLoadingDialog.dismiss();
+        ToastUtil.makeText(this, "注册失败！", Toast.LENGTH_SHORT).show();
+        Log.d(TAG, "onFailed: " + code + "-----" + result);
     }
 
+    /**
+     * 获取短信验证码成功回调
+     *
+     * @param code
+     * @param result
+     */
     @Override
-    public void getSmsSuccess(Response<String> response) {
-        Log.d(TAG, "SMSonSuccess: " + response.code() + "-----" + response.body() + "----" + response.message());
+    public void getSmsSuccess(int code, String result) {
+        if (code == 200) {
+            ToastUtil.makeText(this, "发送成功！", Toast.LENGTH_SHORT).show();
+        }
+        Log.d(TAG, "SMSonSuccess: " + code + "-----" + result);
     }
 
+    /**
+     * 获取短信验证码失败回调
+     *
+     * @param code
+     * @param result
+     */
     @Override
-    public void getSmsfailed(Response<String> response) {
-        Log.d(TAG, "SMSonFailed: " + response.code() + "-----" + response.body() + "----" + response.message());
+    public void getSmsfailed(int code, String result) {
+        txtMessage.setText("获取验证码");
+        messageButtonOk();
+        Log.d(TAG, "SMSonFailed: " + code + "-----" + result);
+    }
+
+    /**
+     * 检查验证码成功回调
+     *
+     * @param code
+     * @param result
+     */
+    @Override
+    public void checkSmsSuccess(int code, String result) {
+        if (code == 200) {
+            List<String> list = new ArrayList<String>();
+            list.add("1");
+            registerPostDataInfo.setAuthorities(list);
+            registerPostDataInfo.setMobile(editTextPhone.getText().toString());
+            registerPostDataInfo.setPassword(editTextPwd.getText().toString());
+            registerPrecenter.register(JSON.toJSONString(registerPostDataInfo));
+        }else {
+            shapeLoadingDialog.dismiss();
+            ToastUtil.makeText(this, "验证码校验失败"+code, Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    /**
+     * 检查验证码失败回调
+     *
+     * @param code
+     * @param result
+     */
+    @Override
+    public void checkSmsFailed(int code, String result) {
+        shapeLoadingDialog.dismiss();
+        ToastUtil.makeText(this, "验证码校验失败", Toast.LENGTH_SHORT).show();
     }
 
 

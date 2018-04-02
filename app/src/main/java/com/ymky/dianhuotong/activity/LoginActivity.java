@@ -11,6 +11,7 @@ import com.ymky.dianhuotong.R;
 import com.ymky.dianhuotong.base.BaseApplication;
 import com.ymky.dianhuotong.base.BaseTool;
 import com.ymky.dianhuotong.base.view.BaseActivity;
+import com.ymky.dianhuotong.custom.ToastUtil;
 import com.ymky.dianhuotong.custom.viewgroup.DianHuoTongBaseTitleBar;
 
 import butterknife.BindView;
@@ -49,7 +50,7 @@ public class LoginActivity extends BaseActivity {
 
     @OnClick(R.id.login_login)
     void login() {
-        Toast.makeText(this,"登陆成功..",Toast.LENGTH_SHORT).show();
+        ToastUtil.makeText(this,"登陆成功..",Toast.LENGTH_SHORT).show();
         BaseApplication.getInstansApp().setToakens("abcd1234");
         finish();
     }
