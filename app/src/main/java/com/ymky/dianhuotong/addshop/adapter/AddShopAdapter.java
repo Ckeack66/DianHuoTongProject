@@ -14,14 +14,21 @@ import com.ymky.dianhuotong.R;
 
 public class AddShopAdapter extends BaseAdapter {
     private Context context;
+    private int numberl;
 
     public AddShopAdapter(Context context) {
         this.context = context;
+        numberl = 5;
+    }
+
+    public AddShopAdapter(Context context, int numberl) {
+        this.context = context;
+        this.numberl = numberl;
     }
 
     @Override
     public int getCount() {
-        return 5;
+        return numberl;
     }
 
     @Override
@@ -38,7 +45,7 @@ public class AddShopAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder viewHolder = null;
         if (viewHolder == null) {
-            viewHolder=new ViewHolder();
+            viewHolder = new ViewHolder();
             convertView = View.inflate(context, R.layout.item_addshop_listview, null);
             viewHolder.textView = convertView.findViewById(R.id.item_addshop_txt);
             viewHolder.textView1 = convertView.findViewById(R.id.item_addshop_txt1);

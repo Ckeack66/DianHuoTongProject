@@ -53,9 +53,15 @@
         <activity android:name=".activity.SystemSetActivity" />
         <activity android:name=".activity.MianZeShowActivity" />
         <activity android:name=".activity.AddShopActivity" />
-        <activity android:name=".activity.AddShop1Activity" />
-        <activity android:name=".activity.CreatShopActivity" />
-        <activity android:name=".activity.CredentialUploadActivity"></activity>
+        <activity
+            android:name=".activity.AddShop1Activity"
+            android:windowSoftInputMode="stateHidden|stateAlwaysHidden" />
+        <activity
+            android:name=".activity.CreatShopActivity"
+            android:windowSoftInputMode="stateHidden|stateAlwaysHidden" />
+        <activity android:name=".activity.CredentialUploadActivity" />
+        <activity android:name=".activity.BindPhoneActivity" />
+        <activity android:name=".activity.AlterPasswordActivity"></activity>
     </application>
 
 </manifest>

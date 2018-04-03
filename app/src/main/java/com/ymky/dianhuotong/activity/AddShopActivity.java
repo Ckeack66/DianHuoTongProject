@@ -32,7 +32,7 @@ public class AddShopActivity extends AppCompatActivity implements AdapterView.On
 
     private void inIt() {
         dianHuoTongBaseTitleBar.setLeftImage(R.drawable.icon_back);
-        dianHuoTongBaseTitleBar.setCenterTextView("新增店铺");
+        dianHuoTongBaseTitleBar.setCenterTextView("加入店铺");
         dianHuoTongBaseTitleBar.setLeftOnclickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -47,6 +47,11 @@ public class AddShopActivity extends AppCompatActivity implements AdapterView.On
     @OnClick(R.id.addshop_to_creatshop)
     void goCreatShop() {
         BaseTool.goActivityNoData(this, CreatShopActivity.class);
+    }
+
+    @OnClick(R.id.addshop_view_more)
+    void goViewShop() {
+        BaseTool.goActivityNoData(this,AddShop1Activity.class);
     }
 
     @Override

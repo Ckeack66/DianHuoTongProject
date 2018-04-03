@@ -129,6 +129,27 @@
     <string name="mywaiter_text3">负责区域：</string>
     <string name="mywaiter_text4">直管领导：</string>
 
+    <!--个人中心资料修改-->
+    <string name="myperson_updata_pwd">修改密码</string>
+    <string name="myperson_updata_phone">更换手机</string>
+    <!--绑定手机页面-->
+    <string name="bindphone_ok">确认</string>
+    <string name="bindphone_title">绑定手机</string>
+    <!--修改密码界面-->
+    <string name="alterpwd_title">修改密码</string>
+    <string name="alterpwd_old">请输入旧密码</string>
+    <string name="alterpwd_new">请输新密码（6-20位数字字母组合）</string>
+    <string name="alterpwd_new1">请再次输入新密码（6-20位数字字母组合）</string>
+    <string name="alterpwd_button">确认修改</string>
+    <!--系统设置界面-->
+    <string name="system_setmessage_button">消息推送</string>
+    <string name="system_help">帮助</string>
+    <string name="system_logout">退出</string>
+    <string name="create_shop_txt1">选择地址</string>
+    <string name="create_shop_txt2">选择坐标</string>
+    <string name="create_shop_txt3">请输入营业执照上的公司名称</string>
+    <string name="create_shop_txt4">请输入营业执照上的详细地址</string>
+    <string name="create_shop_txt5">下一步</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

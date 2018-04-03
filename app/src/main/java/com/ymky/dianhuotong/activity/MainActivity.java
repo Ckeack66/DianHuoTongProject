@@ -232,7 +232,13 @@ public class MainActivity extends BaseActivity implements MainIF, DrawerLayout.D
 
     @Override
     public void onClickBaseDialogLeft(String mTag) {
-        dianHuoTongBaseDialog.dismiss();
+        if (main1.equals(mTag) && dianHuoTongBaseDialog.isShowing()) {
+            dianHuoTongBaseDialog.dismiss();
+        } else if (main2.equals(mTag) && dianHuoTongBaseDialogBack.isShowing()) {
+            dianHuoTongBaseDialogBack.dismiss();
+        } else if (main3.equals(mTag) && dianHuoTongBaseDialogAddShop.isShowing()) {
+            dianHuoTongBaseDialogAddShop.dismiss();
+        }
     }
 
     @Override

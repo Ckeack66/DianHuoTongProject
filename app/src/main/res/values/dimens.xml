@@ -33,6 +33,7 @@
     <dimen name="x33">33dp</dimen>
     <dimen name="x34">34dp</dimen>
     <dimen name="x35">35dp</dimen>
+    <dimen name="x36">36dp</dimen>
     <dimen name="x37">37dp</dimen>
     <dimen name="x38">38dp</dimen>
     <dimen name="x40">40dp</dimen>
@@ -61,6 +62,7 @@
     <dimen name="x88">88dp</dimen>
     <dimen name="x94">94dp</dimen>
     <dimen name="x106">106dp</dimen>
+    <dimen name="x100">100dp</dimen>
     <dimen name="x111">111dp</dimen>
     <dimen name="x112">112dp</dimen>
     <dimen name="x113">113dp</dimen>
@@ -81,7 +83,6 @@
     <dimen name="x277">277dp</dimen>
     <dimen name="x297">297dp</dimen>
     <dimen name="x463">463dp</dimen>
-
 
 
     <!--字体大小-->

@@ -23,6 +23,7 @@ import com.ymky.dianhuotong.dingdan.fragment.MyselectFragment4;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class MyselectedActivity extends BaseActivity implements RadioGroup.OnCheckedChangeListener {
     @BindView(R.id.myselect_title)
@@ -107,6 +108,10 @@ public class MyselectedActivity extends BaseActivity implements RadioGroup.OnChe
         fragmentTransaction.commit();
     }
 
+    @OnClick(R.id.myselect_zizhi)
+    void goMyZiZhi() {
+        BaseTool.goActivityNoData(this, InvoiceActivity.class);
+    }
 
     @Override
     public void onCheckedChanged(RadioGroup group, int checkedId) {

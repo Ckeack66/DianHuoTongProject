@@ -44,4 +44,8 @@ dependencies {
     //json解析
     compile 'com.alibaba:fastjson:1.2.9'
     implementation project(':viewexplosion')
+    //滑动栏
+    compile 'com.gjiazhe:wavesidebar:1.3'
+    //switchButton
+    compile 'ch.ielse:switchbutton:1.0.1'
 }

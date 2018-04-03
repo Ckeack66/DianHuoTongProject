@@ -4,10 +4,76 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorE6E6E6"
+    android:orientation="vertical"
     tools:context="com.ymky.dianhuotong.activity.AddShop1Activity">
+
     <com.ymky.dianhuotong.custom.viewgroup.DianHuoTongBaseTitleBar
         android:id="@+id/addshop1_title"
         android:layout_width="match_parent"
         android:layout_height="@dimen/x64" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/x25"
+        android:layout_marginLeft="@dimen/x15"
+        android:layout_marginRight="@dimen/x15"
+        android:layout_marginTop="@dimen/x9"
+        android:background="@drawable/shape_myselected_search"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="@dimen/x16"
+            android:scaleType="center"
+            android:src="@drawable/icon_search" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@null"
+            android:gravity="center_vertical"
+            android:hint="@string/myselect_search_text"
+            android:inputType="text"
+            android:maxLines="1"
+            android:padding="@dimen/x2"
+            android:paddingLeft="@dimen/x7"
+            android:singleLine="true"
+            android:textColor="@color/colorBFBFBF"
+            android:textColorHint="@color/colorBFBFBF"
+            android:textSize="@dimen/t11" />
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/x9"
+        android:background="@color/colorWhite"
+        android:orientation="horizontal">
+
+        <ListView
+            android:id="@+id/addshop1_listview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="@dimen/x18"
+            android:background="@color/colorTransp" />
+
+        <com.gjiazhe.wavesidebar.WaveSideBar
+            android:id="@+id/addshop1_waveslidebar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:background="@color/colorTransp"
+            android:paddingEnd="8dp"
+            app:sidebar_lazy_respond="false"
+            app:sidebar_max_offset="80dp"
+            app:sidebar_position="right"
+            app:sidebar_text_alignment="center"
+            app:sidebar_text_size="@dimen/t14" />
+
+
+    </RelativeLayout>
 
 </LinearLayout>

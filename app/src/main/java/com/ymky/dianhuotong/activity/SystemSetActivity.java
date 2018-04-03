@@ -9,10 +9,13 @@ import com.ymky.dianhuotong.custom.viewgroup.DianHuoTongBaseTitleBar;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import ch.ielse.view.SwitchView;
 
 public class SystemSetActivity extends AppCompatActivity {
     @BindView(R.id.system_set_title)
     DianHuoTongBaseTitleBar dianHuoTongBaseTitleBar;
+    @BindView(R.id.system_switch)
+    SwitchView switchView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,5 +34,6 @@ public class SystemSetActivity extends AppCompatActivity {
                 finish();
             }
         });
+        switchView.setColor(getResources().getColor(R.color.color04c1ab), getResources().getColor(R.color.colorCDCDCD));
     }
 }

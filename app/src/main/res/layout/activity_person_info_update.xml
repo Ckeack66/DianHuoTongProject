@@ -126,29 +126,50 @@
 
             <RadioGroup
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true">
+                android:layout_height="match_parent"
+                android:layout_alignParentEnd="true"
+                android:orientation="horizontal">
 
                 <RadioButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:id="@+id/person_info_update_sex_man"
+                    android:layout_width="@dimen/x56"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginEnd="@dimen/x35"
+                    android:button="@drawable/selector_personinfo_radiobutton"
+                    android:checked="true"
+                    android:paddingStart="@dimen/x3"
+                    android:text="先生"
+                    android:textColor="@color/color333333" />
+
+                <RadioButton
+                    android:id="@+id/person_info_update_sex_women"
+                    android:layout_width="@dimen/x56"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:button="@drawable/selector_personinfo_radiobutton"
+                    android:paddingStart="@dimen/x3"
+                    android:text="女士"
+                    android:textColor="@color/color333333" />
             </RadioGroup>
         </RelativeLayout>
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/x147"
+        android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/x9"
         android:orientation="vertical">
 
         <RelativeLayout
+            android:id="@+id/person_info_update_go_add_shop"
             android:layout_width="wrap_content"
             android:layout_height="@dimen/x49"
             android:layout_marginLeft="@dimen/x15"
             android:layout_marginRight="@dimen/x15">
 
             <TextView
+                android:id="@+id/person_info_update_shop"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_alignParentBottom="true"
@@ -160,12 +181,10 @@
 
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_alignParentRight="true"
-                android:gravity="center_vertical"
-                android:text="@string/person_shop_name_default"
-                android:textColor="@color/color333333"
-                android:textSize="@dimen/t14" />
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:background="@drawable/icon_go" />
         </RelativeLayout>
 
         <View
@@ -189,14 +208,34 @@
                 android:textColor="@color/color333333"
                 android:textSize="@dimen/t14" />
 
-            <TextView
+            <RadioGroup
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_alignParentRight="true"
-                android:gravity="center_vertical"
-                android:text="@string/person_work_default"
-                android:textColor="@color/color333333"
-                android:textSize="@dimen/t14" />
+                android:layout_alignParentEnd="true"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/person_info_update_sex_boss"
+                    android:layout_width="@dimen/x56"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginEnd="@dimen/x35"
+                    android:button="@drawable/selector_personinfo_radiobutton"
+                    android:checked="true"
+                    android:paddingStart="@dimen/x3"
+                    android:text="店长"
+                    android:textColor="@color/color333333" />
+
+                <RadioButton
+                    android:id="@+id/person_info_update_sex_woker"
+                    android:layout_width="@dimen/x56"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:button="@drawable/selector_personinfo_radiobutton"
+                    android:paddingStart="@dimen/x3"
+                    android:text="店员"
+                    android:textColor="@color/color333333" />
+            </RadioGroup>
         </RelativeLayout>
 
         <View
@@ -207,6 +246,7 @@
             android:background="@color/colorCDCDCD" />
 
         <RelativeLayout
+            android:id="@+id/person_info_update_go_bind_phone"
             android:layout_width="wrap_content"
             android:layout_height="@dimen/x49"
             android:layout_marginLeft="@dimen/x15"
@@ -216,18 +256,16 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:gravity="center_vertical"
-                android:text="@string/person_phone"
+                android:text="@string/myperson_updata_phone"
                 android:textColor="@color/color333333"
                 android:textSize="@dimen/t14" />
 
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_alignParentRight="true"
-                android:gravity="center_vertical"
-                android:text="@string/person_phone_default"
-                android:textColor="@color/color333333"
-                android:textSize="@dimen/t14" />
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:background="@drawable/icon_go" />
         </RelativeLayout>
 
         <View
@@ -236,6 +274,29 @@
             android:layout_marginLeft="@dimen/x15"
             android:layout_marginRight="@dimen/x15"
             android:background="@color/colorCDCDCD" />
+
+        <RelativeLayout
+            android:id="@+id/person_info_update_go_alter_pwd"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/x49"
+            android:layout_marginLeft="@dimen/x15"
+            android:layout_marginRight="@dimen/x15">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:text="@string/myperson_updata_pwd"
+                android:textColor="@color/color333333"
+                android:textSize="@dimen/t14" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:background="@drawable/icon_go" />
+        </RelativeLayout>
     </LinearLayout>
 
 </LinearLayout>

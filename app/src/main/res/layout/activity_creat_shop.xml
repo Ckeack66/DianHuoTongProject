@@ -4,10 +4,136 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context="com.ymky.dianhuotong.activity.CreatShopActivity">
 
     <com.ymky.dianhuotong.custom.viewgroup.DianHuoTongBaseTitleBar
         android:id="@+id/creatshop_title"
         android:layout_width="match_parent"
         android:layout_height="@dimen/x64" />
+
+    <RelativeLayout
+        android:id="@+id/create_shop_txt1"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/x49"
+        android:layout_marginLeft="@dimen/x15"
+        android:layout_marginRight="@dimen/x15">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:text="@string/create_shop_txt1"
+            android:textColor="@color/colorBFBFBF"
+            android:textSize="@dimen/t14" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/icon_go_grey" />
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/x1"
+        android:layout_marginLeft="@dimen/x15"
+        android:layout_marginRight="@dimen/x15"
+        android:background="@color/colorCDCDCD" />
+
+    <RelativeLayout
+        android:id="@+id/create_shop_txt2"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/x49"
+        android:layout_marginLeft="@dimen/x15"
+        android:layout_marginRight="@dimen/x15">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:text="@string/create_shop_txt2"
+            android:textColor="@color/colorBFBFBF"
+            android:textSize="@dimen/t14" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/icon_go_grey" />
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/x1"
+        android:layout_marginLeft="@dimen/x15"
+        android:layout_marginRight="@dimen/x15"
+        android:background="@color/colorCDCDCD" />
+
+    <RelativeLayout
+        android:id="@+id/create_shop_txt3"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/x49"
+        android:layout_marginLeft="@dimen/x15"
+        android:layout_marginRight="@dimen/x15">
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@null"
+            android:gravity="center_vertical"
+            android:hint="@string/create_shop_txt3"
+            android:maxLines="1"
+            android:textColor="@color/color333333"
+            android:textColorHint="@color/colorBFBFBF"
+            android:textSize="@dimen/t14" />
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/x1"
+        android:layout_marginLeft="@dimen/x15"
+        android:layout_marginRight="@dimen/x15"
+        android:background="@color/colorCDCDCD" />
+
+    <RelativeLayout
+        android:id="@+id/create_shop_txt4"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/x49"
+        android:layout_marginLeft="@dimen/x15"
+        android:layout_marginRight="@dimen/x15">
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@null"
+            android:gravity="center_vertical"
+            android:hint="@string/create_shop_txt4"
+            android:maxLines="1"
+            android:textColor="@color/color333333"
+            android:textColorHint="@color/colorBFBFBF"
+            android:textSize="@dimen/t14" />
+
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/x1"
+        android:layout_marginLeft="@dimen/x15"
+        android:layout_marginRight="@dimen/x15"
+        android:background="@color/colorCDCDCD" />
+
+    <TextView
+        android:id="@+id/creatshop_next"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/x33"
+        android:layout_marginEnd="@dimen/x50"
+        android:layout_marginStart="@dimen/x50"
+        android:layout_marginTop="@dimen/x100"
+        android:background="@drawable/shape_login_button"
+        android:gravity="center"
+        android:text="@string/create_shop_txt5"
+        android:textSize="@dimen/t12" />
 </LinearLayout>
