@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.joker.annotation.PermissionsGranted;
 import com.joker.api.Permissions4M;
 import com.joker.api.wrapper.Wrapper;
 import com.ymky.dianhuotong.R;
@@ -46,6 +47,12 @@ public class PersonInfoUpdateActivity extends TakePhotoActivity {
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        Permissions4M.onRequestPermissionsResult(this, requestCode, grantResults);
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
     @Override
@@ -85,81 +92,20 @@ public class PersonInfoUpdateActivity extends TakePhotoActivity {
     @OnClick(R.id.person_info_update_select_message)
     void goSelectPhoto() {
         //getTakePhoto().onPickFromGallery();
-
         Permissions4M.get(this)
-                .requestPermissions(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                .requestCodes(1001, 1002)
-                .requestListener(new Wrapper.PermissionRequestListener() {
-                    @Override
-                    public void permissionGranted(int code) {
-                        switch (code) {
-                            case 1001:
-                                ToastUtil.makeText(mContext, "读权限申请成功！", Toast.LENGTH_SHORT).show();
-                                break;
-                            case 1002:
-                                ToastUtil.makeText(mContext, "读权限申请成功！", Toast.LENGTH_SHORT).show();
-                                getTakePhoto().onPickFromCapture(BaseTool.createImagePathUri(mContext));
-                                break;
-                            default:
-                                break;
-                        }
-                    }
-
-                    @Override
-                    public void permissionDenied(int code) {
-                        switch (code) {
-                            case 1001:
-                                ToastUtil.makeText(mContext, "读权限申请失败！", Toast.LENGTH_SHORT).show();
-                                break;
-                            case 1002:
-                                ToastUtil.makeText(mContext, "写权限申请失败！", Toast.LENGTH_SHORT).show();
-                                break;
-                            default:
-                                break;
-                        }
-                    }
-
-                    @Override
-                    public void permissionRationale(int code) {
-                        switch (code) {
-                            case 1001:
-                                ToastUtil.makeText(mContext, "请打开读权限！", Toast.LENGTH_SHORT).show();
-                                break;
-                            case 1002:
-                                ToastUtil.makeText(mContext, "请打开写权限！", Toast.LENGTH_SHORT).show();
-                                break;
-                            default:
-                                break;
-                        }
-                    }
-                })
-                .requestCustomRationaleListener(new Wrapper.PermissionCustomRationaleListener() {
-                    @Override
-                    public void permissionCustomRationale(int code) {
-                        switch (code) {
-                            case 1001:
-                                ToastUtil.makeText(mContext, "请打开写权限！", Toast.LENGTH_SHORT).show();
-                                new AlertDialog.Builder(mContext)
-                                        .setMessage("地理位置权限权限申请：\n我们需要您开启地理位置权限(in fragment with " +
-                                                "annotation)")
-                                        .setPositiveButton("确定", new DialogInterface
-                                                .OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                Permissions4M.get((Activity) mContext)
-                                                        .requestOnRationale()
-                                                        .requestPermissions(Manifest.permission
-                                                                .ACCESS_FINE_LOCATION)
-                                                        .requestCodes(1001)
-                                                        .request();
-                                            }
-                                        })
-                                        .show();
-                                break;
-                        }
-
-                    }
-                })
+                // 是否强制弹出权限申请对话框，建议设置为 true，默认为 true
+                // .requestForce(true)
+                // 是否支持 5.0 权限申请，默认为 false
+                // .requestUnderM(false)
+                // 权限，单权限申请仅只能填入一个
+                .requestPermissions(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                // 权限码
+                .requestCodes(1001)
+                // 如果需要使用 @PermissionNonRationale 注解的话，建议添加如下一行
+                // 返回的 intent 是跳转至**系统设置页面**
+                // .requestPageType(Permissions4M.PageType.MANAGER_PAGE)
+                // 返回的 intent 是跳转至**手机管家页面**
+                // .requestPageType(Permissions4M.PageType.ANDROID_SETTING_PAGE)
                 .request();
     }
 
@@ -179,5 +125,10 @@ public class PersonInfoUpdateActivity extends TakePhotoActivity {
                 ToastUtil.makeText(mContext, "已保存", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    @PermissionsGranted(1001)
+    void granSuccess() {
+        getTakePhoto().onPickFromCapture(BaseTool.createImagePathUri(mContext));
     }
 }
