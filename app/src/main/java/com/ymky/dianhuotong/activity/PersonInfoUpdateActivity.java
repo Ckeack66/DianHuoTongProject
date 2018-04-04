@@ -12,15 +12,20 @@ import com.ymky.dianhuotong.base.BaseTool;
 import com.ymky.dianhuotong.custom.ToastUtil;
 import com.ymky.dianhuotong.custom.viewgroup.DianHuoTongBaseTitleBar;
 
+import org.devio.takephoto.app.TakePhotoActivity;
+import org.devio.takephoto.model.TResult;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class PersonInfoUpdateActivity extends AppCompatActivity {
+public class PersonInfoUpdateActivity extends TakePhotoActivity {
     @BindView(R.id.person_info_update_title)
     DianHuoTongBaseTitleBar dianHuoTongBaseTitleBar;
     @BindView(R.id.person_info_update_go_add_shop)
     RelativeLayout relativeLayoutGoAddShop;
+    @BindView(R.id.person_info_update_select_message)
+    RelativeLayout relativeLayoutSelect;
     private Context mContext;
 
     @Override
@@ -30,6 +35,30 @@ public class PersonInfoUpdateActivity extends AppCompatActivity {
         mContext = this;
         ButterKnife.bind(this);
         inIt();
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    public void takeSuccess(TResult result) {
+        super.takeSuccess(result);
+        ToastUtil.makeText(this, "选取成功" + result.getImage(), Toast.LENGTH_SHORT);
+
+    }
+
+    @Override
+    public void takeFail(TResult result, String msg) {
+        super.takeFail(result, msg);
+        ToastUtil.makeText(this, "选取失败" + msg, Toast.LENGTH_SHORT);
+    }
+
+    @Override
+    public void takeCancel() {
+        super.takeCancel();
+        ToastUtil.makeText(this, "选取取消", Toast.LENGTH_SHORT);
     }
 
     @OnClick(R.id.person_info_update_go_add_shop)
@@ -45,6 +74,11 @@ public class PersonInfoUpdateActivity extends AppCompatActivity {
     @OnClick(R.id.person_info_update_go_alter_pwd)
     void goAlterPwd() {
         BaseTool.goActivityNoData(this, AlterPasswordActivity.class);
+    }
+
+    @OnClick(R.id.person_info_update_select_message)
+    void goSelectPhoto() {
+        getTakePhoto().onPickFromGallery();
     }
 
     private void inIt() {

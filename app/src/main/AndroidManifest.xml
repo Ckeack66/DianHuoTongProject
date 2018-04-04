@@ -6,6 +6,9 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <!-- if you want to load images from a file OR from the internet -->
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+
     <application
         android:name=".base.BaseApplication"
         android:allowBackup="true"
@@ -46,7 +49,7 @@
         <activity android:name=".activity.YaoLinWangActivity" />
         <activity android:name=".activity.MingHuiFuActivity" />
         <activity android:name=".activity.JianKang121Activity" />
-        <activity android:name=".activity.GuoYaoDianActivity" />
+        <activity android:name=".activity.GuoYiGuanActivity" />
         <activity android:name=".activity.LaoPHomeActivity" />
         <activity android:name=".activity.DaKaOnlineActivity" />
         <activity android:name=".activity.ConnectOurActivity" />
@@ -64,7 +67,8 @@
         <activity android:name=".activity.CredentialUploadActivity" />
         <activity android:name=".activity.BindPhoneActivity" />
         <activity android:name=".activity.AlterPasswordActivity" />
-        <activity android:name=".activity.AddShop3Activity"></activity>
+        <activity android:name=".activity.AddShop3Activity" />
+        <activity android:name=".activity.HelpActivity"></activity>
     </application>
 
 </manifest>

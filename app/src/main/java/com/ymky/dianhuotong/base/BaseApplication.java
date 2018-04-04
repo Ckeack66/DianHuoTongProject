@@ -5,8 +5,14 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
 
+import com.facebook.drawee.backends.pipeline.Fresco;
+import com.facebook.imagepipeline.backends.okhttp3.OkHttpImagePipelineConfigFactory;
+import com.facebook.imagepipeline.core.ImagePipelineConfig;
 import com.lzy.okgo.OkGo;
+import com.squareup.picasso.OkHttpDownloader;
 import com.squareup.picasso.Picasso;
+
+import okhttp3.OkHttpClient;
 
 /**
  * Created by Administrator on 2018/3/31.
@@ -36,6 +42,7 @@ public class BaseApplication extends Application {
         OkGo.getInstance().setRetryCount(3).init(this);
         mContext = this;
         mSharedPreferences = this.getSharedPreferences(MY_SHARE_NAME, MODE_PRIVATE);
+        Fresco.initialize(this);
     }
 
     public static BaseApplication getInstansApp() {
@@ -61,4 +68,5 @@ public class BaseApplication extends Application {
     public boolean clearToaken() {
         return mSharedPreferences.edit().clear().commit();
     }
+
 }

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:layout_marginEnd="@dimen/x15">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/x16"
+        android:text="我是子控件这是一个超级长的文字内容的小编也不知道之恶是==解决吗解迷哦啊军嫂售价是啊还要上课了和海关监管"
+        android:textColor="@color/color333333" />
+</LinearLayout>

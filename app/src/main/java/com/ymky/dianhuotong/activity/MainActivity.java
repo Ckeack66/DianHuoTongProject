@@ -2,7 +2,6 @@ package com.ymky.dianhuotong.activity;
 
 import android.graphics.Color;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -37,7 +36,6 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import butterknife.OnItemClick;
 
 public class MainActivity extends BaseActivity implements MainIF, DrawerLayout.DrawerListener, AdapterView.OnItemClickListener, DianHuoTongBaseDialog.BaseDialogListener {
     @BindView(R.id.drawer_listview)
@@ -224,7 +222,7 @@ public class MainActivity extends BaseActivity implements MainIF, DrawerLayout.D
                         BaseTool.goActivityNoData(this, JianKang121Activity.class);
                         break;
                     case 5:
-                        BaseTool.goActivityNoData(this, GuoYaoDianActivity.class);
+                        BaseTool.goActivityNoData(this, GuoYiGuanActivity.class);
                         break;
                     case 6:
                         BaseTool.goActivityNoData(this, LaoPHomeActivity.class);

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/x56"
+    android:layout_marginBottom="@dimen/x16"
+    android:layout_marginEnd="@dimen/x15">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/x1"
+        android:background="@color/colorBFBFBF" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/x50"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="@dimen/x20"
+        android:layout_marginStart="@dimen/x15"
+        android:background="@color/colorTransp"
+        android:gravity="center_vertical"
+        android:text="我是父控件,这只一个很长很长很长很长很长很长很长很长的文本"
+        android:textColor="@color/color333333" />
+
+    <ImageView
+        android:layout_width="@dimen/x20"
+        android:layout_height="@dimen/x20"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:scaleType="center"
+        android:src="@drawable/icon_go_up" />
+</RelativeLayout>
