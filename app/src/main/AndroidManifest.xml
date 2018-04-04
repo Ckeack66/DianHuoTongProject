@@ -61,7 +61,8 @@
             android:windowSoftInputMode="stateHidden|stateAlwaysHidden" />
         <activity android:name=".activity.CredentialUploadActivity" />
         <activity android:name=".activity.BindPhoneActivity" />
-        <activity android:name=".activity.AlterPasswordActivity"></activity>
+        <activity android:name=".activity.AlterPasswordActivity" />
+        <activity android:name=".activity.AddShop3Activity"></activity>
     </application>
 
 </manifest>

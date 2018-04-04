@@ -22,7 +22,7 @@ public class VoiceGridviewAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return 5;
+        return 10;
     }
 
     @Override
@@ -38,15 +38,21 @@ public class VoiceGridviewAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder viewHolder = null;
+
+
         if (viewHolder == null) {
-            viewHolder=new ViewHolder();
-            convertView=View.inflate(context, R.layout.item_invoice_fragment1_gridview,null);
-            viewHolder.imageView=convertView.findViewById(R.id.voice_gridview_item_image);
-            viewHolder.textView1=convertView.findViewById(R.id.voice_gridview_item_txt1);
-            viewHolder.textView2=convertView.findViewById(R.id.voice_gridview_item_txt2);
+            viewHolder = new ViewHolder();
+            if (position == 9) {
+                convertView = View.inflate(context, R.layout.item_uploade_invoice_2, null);
+            } else {
+                convertView = View.inflate(context, R.layout.item_invoice_fragment1_gridview, null);
+                viewHolder.imageView = convertView.findViewById(R.id.voice_gridview_item_image);
+                viewHolder.textView1 = convertView.findViewById(R.id.voice_gridview_item_txt1);
+                viewHolder.textView2 = convertView.findViewById(R.id.voice_gridview_item_txt2);
+            }
             convertView.setTag(viewHolder);
-        }else {
-            viewHolder=(ViewHolder) convertView.getTag();
+        } else {
+            viewHolder = (ViewHolder) convertView.getTag();
         }
         return convertView;
     }

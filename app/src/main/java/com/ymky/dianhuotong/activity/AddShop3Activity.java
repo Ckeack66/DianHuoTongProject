@@ -6,29 +6,26 @@ import android.view.View;
 
 import com.ymky.dianhuotong.R;
 import com.ymky.dianhuotong.addshop.adapter.AddShopAdapter;
-import com.ymky.dianhuotong.base.BaseTool;
-import com.ymky.dianhuotong.base.view.BaseActivity;
 import com.ymky.dianhuotong.custom.viewgroup.DianHuoTongBaseTitleBar;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
-public class CreatShopActivity extends BaseActivity {
-    @BindView(R.id.creatshop_title)
+public class AddShop3Activity extends AppCompatActivity {
+    @BindView(R.id.addshop3_title)
     DianHuoTongBaseTitleBar dianHuoTongBaseTitleBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_creat_shop);
+        setContentView(R.layout.activity_add_shop3);
         ButterKnife.bind(this);
         inIt();
     }
 
     private void inIt() {
         dianHuoTongBaseTitleBar.setLeftImage(R.drawable.icon_back);
-        dianHuoTongBaseTitleBar.setCenterTextView("新增店铺");
+        dianHuoTongBaseTitleBar.setCenterTextView("加入店铺");
         dianHuoTongBaseTitleBar.setLeftOnclickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -36,10 +33,4 @@ public class CreatShopActivity extends BaseActivity {
             }
         });
     }
-
-    @OnClick(R.id.creatshop_next)
-    void goInvoiceUpload() {
-        BaseTool.goActivityNoData(this, CredentialsActivity.class);
-    }
 }
-

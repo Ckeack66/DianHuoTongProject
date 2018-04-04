@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/coloreeeeee"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="@dimen/x122"
+        android:layout_height="@dimen/x85"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/x20"
+        android:background="@drawable/shape_invoices_add">
+
+        <ImageView
+            android:id="@+id/voice_gridview2_item_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/x20"
+            android:background="@color/coloreeeeee"
+            android:src="@drawable/icon_add_voices" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/voice_gridview2_item_image"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/x11"
+            android:background="@color/coloreeeeee"
+            android:text="上传其他证件"
+            android:textColor="@color/color707070"
+            android:textSize="@dimen/t9" />
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/voice_gridview_item_txt1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/x12"
+        android:background="@color/colorTransp"
+        android:text="默认证件"
+        android:textColor="@color/color707070"
+        android:textSize="@dimen/t12" />
+    <!--<TextView-->
+    <!--android:id="@+id/voice_gridview_item_txt2"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:text="(复印件加盖红章)"-->
+    <!--android:textSize="@dimen/t9"-->
+    <!--android:textColor="@color/color707070"-->
+    <!--android:layout_gravity="center_horizontal"-->
+    <!--android:layout_marginTop="@dimen/x9"-->
+    <!--android:background="@color/colorTransp"/>-->
+</LinearLayout>
