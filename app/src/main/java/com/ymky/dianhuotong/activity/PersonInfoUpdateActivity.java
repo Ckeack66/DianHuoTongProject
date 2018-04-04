@@ -45,20 +45,20 @@ public class PersonInfoUpdateActivity extends TakePhotoActivity {
     @Override
     public void takeSuccess(TResult result) {
         super.takeSuccess(result);
-        ToastUtil.makeText(this, "选取成功" + result.getImage(), Toast.LENGTH_SHORT);
+        ToastUtil.makeText(this, "选取成功" + result.getImage(), Toast.LENGTH_SHORT).show();
 
     }
 
     @Override
     public void takeFail(TResult result, String msg) {
         super.takeFail(result, msg);
-        ToastUtil.makeText(this, "选取失败" + msg, Toast.LENGTH_SHORT);
+        ToastUtil.makeText(this, "选取失败" + msg, Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void takeCancel() {
         super.takeCancel();
-        ToastUtil.makeText(this, "选取取消", Toast.LENGTH_SHORT);
+        ToastUtil.makeText(this, "选取取消", Toast.LENGTH_SHORT).show();
     }
 
     @OnClick(R.id.person_info_update_go_add_shop)
@@ -78,7 +78,8 @@ public class PersonInfoUpdateActivity extends TakePhotoActivity {
 
     @OnClick(R.id.person_info_update_select_message)
     void goSelectPhoto() {
-        getTakePhoto().onPickFromGallery();
+        //getTakePhoto().onPickFromGallery();
+        getTakePhoto().onPickFromCapture(BaseTool.createImagePathUri(this));
     }
 
     private void inIt() {
