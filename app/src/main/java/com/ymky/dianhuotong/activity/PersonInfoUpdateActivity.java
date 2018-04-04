@@ -4,16 +4,19 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.net.Uri;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.joker.annotation.PermissionsGranted;
 import com.joker.api.Permissions4M;
 import com.joker.api.wrapper.Wrapper;
+import com.squareup.picasso.Picasso;
 import com.ymky.dianhuotong.R;
 import com.ymky.dianhuotong.base.BaseTool;
 import com.ymky.dianhuotong.custom.ToastUtil;
@@ -33,7 +36,10 @@ public class PersonInfoUpdateActivity extends TakePhotoActivity {
     RelativeLayout relativeLayoutGoAddShop;
     @BindView(R.id.person_info_update_select_message)
     RelativeLayout relativeLayoutSelect;
+    @BindView(R.id.person_info_update_photo)
+    ImageView imageView;
     private Context mContext;
+    private Uri uri;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +65,7 @@ public class PersonInfoUpdateActivity extends TakePhotoActivity {
     public void takeSuccess(TResult result) {
         super.takeSuccess(result);
         ToastUtil.makeText(this, "选取成功" + result.getImage(), Toast.LENGTH_SHORT).show();
+        Picasso.with(this).load(uri).into(imageView);
 
     }
 
@@ -129,6 +136,7 @@ public class PersonInfoUpdateActivity extends TakePhotoActivity {
 
     @PermissionsGranted(1001)
     void granSuccess() {
-        getTakePhoto().onPickFromCapture(BaseTool.createImagePathUri(mContext));
+        uri = BaseTool.createImagePathUri(mContext);
+        getTakePhoto().onPickFromCapture(uri);
     }
 }
