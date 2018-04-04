@@ -18,19 +18,26 @@ public class MainActivityPrecenter {
     private ArrayList<String> arrayListGrid = new ArrayList<String>();
     private int[] imageArrayGridView = new int[9];
     private Context context;
+    private ArrayList<String> arrayListImageUrl = new ArrayList<String>();
 
     public MainActivityPrecenter(MainIF mainIF, Context mContext) {
         this.mainIF = mainIF;
         this.context = mContext;
         inItListViewData();
         inItGridViewData();
+        initImageList();
     }
 
     public void getlistData() {
         mainIF.updateListview(imageArray, arrayList);
     }
-    public void getGridData(){
-        mainIF.updateGridView(imageArrayGridView,arrayListGrid);
+
+    public void getGridData() {
+        mainIF.updateGridView(imageArrayGridView, arrayListGrid);
+    }
+
+    public void getImageUrl() {
+        mainIF.getBanerList(arrayListImageUrl);
     }
 
     private void inItListViewData() {
@@ -48,7 +55,7 @@ public class MainActivityPrecenter {
         imageArray[5] = R.drawable.icon_set;
     }
 
-    private void inItGridViewData(){
+    private void inItGridViewData() {
         arrayListGrid.add(0, context.getString(R.string.main_gridview_1));
         arrayListGrid.add(1, context.getString(R.string.main_gridview_2));
         arrayListGrid.add(2, context.getString(R.string.main_gridview_3));
@@ -69,5 +76,10 @@ public class MainActivityPrecenter {
         imageArrayGridView[8] = R.drawable.icon_grid9;
     }
 
+    private void initImageList() {
+        arrayListImageUrl.add("http://static2.hypable.com/wp-content/uploads/2013/12/hannibal-season-2-release-date.jpg");
+        arrayListImageUrl.add("http://tvfiles.alphacoders.com/100/hdclearart-10.png");
+        arrayListImageUrl.add("http://cdn3.nflximg.net/images/3093/2043093.jpg");
+    }
 
 }

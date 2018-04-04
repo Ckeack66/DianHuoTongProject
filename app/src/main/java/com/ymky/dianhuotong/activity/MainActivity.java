@@ -22,12 +22,17 @@ import com.ymky.dianhuotong.base.view.BaseActivity;
 import com.ymky.dianhuotong.custom.AlertDialog.DianHuoTongBaseDialog;
 import com.ymky.dianhuotong.custom.ToastUtil;
 import com.ymky.dianhuotong.custom.viewgroup.DianHuoTongBaseTitleBar;
+import com.ymky.dianhuotong.main.GlideImageLoader;
 import com.ymky.dianhuotong.main.MainIF;
 import com.ymky.dianhuotong.main.adpter.DrawerLayoutAdapter;
 import com.ymky.dianhuotong.main.adpter.GridViewAdapter;
 import com.ymky.dianhuotong.main.presenter.MainActivityPrecenter;
+import com.youth.banner.Banner;
+import com.youth.banner.BannerConfig;
+import com.youth.banner.Transformer;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -47,6 +52,8 @@ public class MainActivity extends BaseActivity implements MainIF, DrawerLayout.D
     RelativeLayout relativeLayoutLeft;
     @BindView(R.id.drawer_bodyayout)
     RelativeLayout relativeLayoutBody;
+    @BindView(R.id.main_title_banner)
+    Banner banner;
     boolean isOpenDrawer = false;
     private MainActivityPrecenter mainActivityPrecenter;
     private DrawerLayoutAdapter drawerLayoutAdapter;
@@ -120,6 +127,7 @@ public class MainActivity extends BaseActivity implements MainIF, DrawerLayout.D
         mainActivityPrecenter = new MainActivityPrecenter(this, this);
         mainActivityPrecenter.getlistData();
         mainActivityPrecenter.getGridData();
+        mainActivityPrecenter.getImageUrl();
         display = new DisplayMetrics();
         drawerLayout.setScrimColor(Color.TRANSPARENT);
         drawerLayout.addDrawerListener(this);
@@ -127,6 +135,26 @@ public class MainActivity extends BaseActivity implements MainIF, DrawerLayout.D
         listView.setOnItemClickListener(this);
     }
 
+    //初始化轮播图
+    private void initImageBaner(List<?> list) {
+        banner.setBannerStyle(BannerConfig.CIRCLE_INDICATOR);
+        //设置图片加载器
+        banner.setImageLoader(new GlideImageLoader());
+        //设置图片集合
+        banner.setImages(list);
+        //设置banner动画效果
+        banner.setBannerAnimation(Transformer.DepthPage);
+        //设置标题集合（当banner样式有显示title时）
+        //banner.setBannerTitles(titles);
+        //设置自动轮播，默认为true
+        banner.isAutoPlay(true);
+        //设置轮播时间
+        banner.setDelayTime(1500);
+        //设置指示器位置（当banner模式中有指示器时）
+        banner.setIndicatorGravity(BannerConfig.CENTER);
+        //banner设置方法全部调用完毕时最后调用
+        banner.start();
+    }
 
     @Override
     public void updateListview(int[] array, ArrayList<String> list) {
@@ -138,6 +166,11 @@ public class MainActivity extends BaseActivity implements MainIF, DrawerLayout.D
     public void updateGridView(int[] array, ArrayList<String> list) {
         gridViewAdapter = new GridViewAdapter(this, list, array);
         gridView.setAdapter(gridViewAdapter);
+    }
+
+    @Override
+    public void getBanerList(List<?> list) {
+        initImageBaner(list);
     }
 
     @Override

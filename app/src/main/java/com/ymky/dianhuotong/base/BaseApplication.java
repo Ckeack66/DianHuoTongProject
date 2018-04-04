@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.util.Log;
 
 import com.lzy.okgo.OkGo;
+import com.squareup.picasso.Picasso;
 
 /**
  * Created by Administrator on 2018/3/31.

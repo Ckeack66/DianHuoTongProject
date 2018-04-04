@@ -15,36 +15,28 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/x64" />
 
-        <ImageView
-            android:id="@+id/main_title_image"
+        <com.youth.banner.Banner
+            android:id="@+id/main_title_banner"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/x150"
+            android:layout_height="@dimen/x196"
             android:layout_below="@id/mian_titlebar"
-            android:scaleType="center"
-            android:src="@drawable/image_banner" />
-        <!--<GridView-->
-        <!--android:id="@+id/main_gridview"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:layout_below="@id/main_title_image"-->
+            app:banner_default_image="@drawable/image_banner"
+            app:image_scale_type="fit_xy"
+            app:indicator_height="@dimen/x6"
+            app:indicator_width="@dimen/x6"
+            app:title_background="@color/colorE6E6E6" />
 
-        <!--android:columnWidth="@dimen/x114"-->
-        <!--android:numColumns="3"-->
-        <!--android:gravity="center"-->
-        <!--android:stretchMode="columnWidth"-->
-        <!--/>-->
         <com.jake.library.GridViewLine
             android:id="@+id/main_gridview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@id/main_title_image"
+            android:layout_below="@id/main_title_banner"
             android:layout_marginLeft="@dimen/x15"
             android:layout_marginRight="@dimen/x15"
-            android:layout_marginTop="@dimen/x20"
             android:gravity="center"
             android:numColumns="3"
             app:line_color="@color/colorEDEDED"
-            app:line_width="@dimen/x0.5"/>
+            app:line_width="@dimen/x0.5" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -70,6 +62,7 @@
                 android:layout_marginTop="@dimen/x64"
                 android:background="@color/colorTransp"
                 android:src="@drawable/icon_header_big" />
+
             <TextView
                 android:id="@+id/drawer_text_name"
                 android:layout_width="wrap_content"
@@ -81,6 +74,7 @@
                 android:text="用户名"
                 android:textColor="@color/colorWhite"
                 android:textSize="@dimen/t14" />
+
             <TextView
                 android:id="@+id/drawer_text_phone"
                 android:layout_width="wrap_content"
@@ -103,7 +97,7 @@
             android:layout_marginTop="@dimen/x13"
             android:background="@color/colorDDEAF2"
             android:clickable="true"
-            android:divider="@null"/>
+            android:divider="@null" />
 
         <LinearLayout
             android:layout_width="match_parent"
