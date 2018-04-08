@@ -68,11 +68,14 @@ public class PersonInfoUpdateActivity extends TakePhotoActivity implements DianH
     @Override
     public void takeSuccess(TResult result) {
         super.takeSuccess(result);
-        ToastUtil.makeText(this, "选取成功" + result.getImage(), Toast.LENGTH_SHORT).show();
+        dianHuoTongBottomMenuDialog.dismiss();
+        ToastUtil.makeText(this, "选取成功" , Toast.LENGTH_SHORT).show();
         Log.d(TAG, "takeSuccess: " + result.getImage().getCompressPath());
         Log.d(TAG, "takeSuccess: " + result.getImages().size());
+        Log.d(TAG, "takeSuccess: " + result.getImages().get(0).getCompressPath());
+        Log.d(TAG, "takeSuccess: " + result.getImages().get(0).getOriginalPath());
         if (uri == null) {
-            Picasso.with(this).load(result.getImage().getOriginalPath()).into(imageView);
+            Picasso.with(this).load(result.getImages().get(0).getOriginalPath()).into(imageView);
         } else {
             Picasso.with(this).load(uri).into(imageView);
         }

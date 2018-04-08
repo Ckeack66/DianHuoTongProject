@@ -7,8 +7,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.administrator.viewexplosion.ExplosionField;
-import com.example.administrator.viewexplosion.factory.FallingParticleFactory;
 import com.ymky.dianhuotong.R;
 
 /**
