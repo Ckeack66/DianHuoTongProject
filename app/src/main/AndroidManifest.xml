@@ -68,7 +68,8 @@
         <activity android:name=".activity.BindPhoneActivity" />
         <activity android:name=".activity.AlterPasswordActivity" />
         <activity android:name=".activity.AddShop3Activity" />
-        <activity android:name=".activity.HelpActivity"></activity>
+        <activity android:name=".activity.HelpActivity" />
+        <activity android:name=".activity.BanKuaiCreatingActivity"></activity>
     </application>
 
 </manifest>

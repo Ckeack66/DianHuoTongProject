@@ -26,7 +26,7 @@
             app:indicator_width="@dimen/x6"
             app:title_background="@color/colorE6E6E6" />
 
-        <com.jake.library.GridViewLine
+        <GridView
             android:id="@+id/main_gridview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -34,9 +34,19 @@
             android:layout_marginLeft="@dimen/x15"
             android:layout_marginRight="@dimen/x15"
             android:gravity="center"
-            android:numColumns="3"
-            app:line_color="@color/colorEDEDED"
-            app:line_width="@dimen/x0.5" />
+            android:numColumns="3"/>
+
+        <!--<com.jake.library.GridViewLine-->
+            <!--android:id="@+id/main_gridview"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_below="@id/main_title_banner"-->
+            <!--android:layout_marginLeft="@dimen/x15"-->
+            <!--android:layout_marginRight="@dimen/x15"-->
+            <!--android:gravity="center"-->
+            <!--android:numColumns="3"-->
+            <!--app:line_color="@color/colorEDEDED"-->
+            <!--app:line_width="@dimen/x0.5" />-->
     </RelativeLayout>
 
     <RelativeLayout

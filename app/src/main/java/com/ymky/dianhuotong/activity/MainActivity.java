@@ -10,6 +10,7 @@ import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.GridView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
@@ -45,8 +46,10 @@ public class MainActivity extends BaseActivity implements MainIF, DrawerLayout.D
     DianHuoTongBaseTitleBar diaHuiTongBaseTitleBar;
     @BindView(R.id.mian_drawer)
     DrawerLayout drawerLayout;
+    //    @BindView(R.id.main_gridview)
+//    GridViewLine gridView;
     @BindView(R.id.main_gridview)
-    GridViewLine gridView;
+    GridView gridView;
     @BindView(R.id.drawer_leftlayout)
     RelativeLayout relativeLayoutLeft;
     @BindView(R.id.drawer_bodyayout)
@@ -216,9 +219,9 @@ public class MainActivity extends BaseActivity implements MainIF, DrawerLayout.D
         switch (parent.getId()) {
             case R.id.main_gridview:
                 switch (position) {
-                    case 0:
-                        BaseTool.goActivityNoData(this, ShiYaoQianYanActivity.class);
-                        break;
+//                    case 0:
+//                        BaseTool.goActivityNoData(this, ShiYaoQianYanActivity.class);
+//                        break;
                     case 1:
                         if (BaseApplication.getInstansApp().isAddShop()) {
                             dianHuoTongBaseDialogAddShop.show();
@@ -226,26 +229,29 @@ public class MainActivity extends BaseActivity implements MainIF, DrawerLayout.D
                             BaseTool.goActivityNoData(this, DianHuoTongShopActivity.class);
                         }
                         break;
-                    case 2:
-                        BaseTool.goActivityNoData(this, YaoLinWangActivity.class);
-                        break;
-                    case 3:
-                        BaseTool.goActivityNoData(this, MingHuiFuActivity.class);
-                        break;
-                    case 4:
-                        BaseTool.goActivityNoData(this, JianKang121Activity.class);
-                        break;
-                    case 5:
-                        BaseTool.goActivityNoData(this, GuoYiGuanActivity.class);
-                        break;
-                    case 6:
-                        BaseTool.goActivityNoData(this, LaoPHomeActivity.class);
-                        break;
-                    case 7:
-                        BaseTool.goActivityNoData(this, DaKaOnlineActivity.class);
-                        break;
-                    case 8:
-                        BaseTool.goActivityNoData(this, ConnectOurActivity.class);
+//                    case 2:
+//                        BaseTool.goActivityNoData(this, YaoLinWangActivity.class);
+//                        break;
+//                    case 3:
+//                        BaseTool.goActivityNoData(this, MingHuiFuActivity.class);
+//                        break;
+//                    case 4:
+//                        BaseTool.goActivityNoData(this, JianKang121Activity.class);
+//                        break;
+//                    case 5:
+//                        BaseTool.goActivityNoData(this, GuoYiGuanActivity.class);
+//                        break;
+//                    case 6:
+//                        BaseTool.goActivityNoData(this, LaoPHomeActivity.class);
+//                        break;
+//                    case 7:
+//                        BaseTool.goActivityNoData(this, DaKaOnlineActivity.class);
+//                        break;
+//                    case 8:
+//                        BaseTool.goActivityNoData(this, ConnectOurActivity.class);
+//                        break;
+                    default:
+                        BaseTool.goActivityNoData(this, BanKuaiCreatingActivity.class);
                         break;
                 }
                 break;
