@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/x64"
+    android:background="@color/color04c1ab">
+
+    <ImageView
+        android:id="@+id/shop_title_left_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="center_vertical"
+        android:layout_marginBottom="@dimen/x11"
+        android:layout_marginStart="@dimen/x16"
+        android:src="@drawable/icon_back"
+        android:background="@color/colorTransp"/>
+
+    <RelativeLayout
+        android:layout_width="@dimen/x210"
+        android:layout_height="@dimen/x30"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="@dimen/x7"
+        android:layout_marginStart="@dimen/x30"
+        android:layout_toRightOf="@id/shop_title_left_image"
+        android:background="@drawable/shape_shop_title">
+
+        <ImageView
+            android:id="@+id/shop_scan_code"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="@dimen/x15"
+            android:src="@drawable/icon_scan_code"
+            android:background="@color/colorTransp"/>
+
+        <EditText
+            android:id="@+id/shop_input"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="@dimen/x15"
+            android:layout_marginStart="@dimen/x12"
+            android:layout_toEndOf="@id/shop_scan_code"
+            android:background="@null"
+            android:gravity="center_vertical"
+            android:hint="商品、商家、厂家"
+            android:textColorHint="@color/colorBFBFBF"
+            android:textSize="@dimen/t12" />
+    </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/shop_order"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="@dimen/x12"
+        android:layout_marginEnd="@dimen/x12"
+        android:src="@drawable/icon_order"
+        android:background="@color/colorTransp"/>
+
+    <ImageView
+        android:id="@+id/shop_car"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="@dimen/x12"
+        android:layout_marginEnd="@dimen/x12"
+        android:layout_toStartOf="@id/shop_order"
+        android:src="@drawable/icon_shop_car"
+        android:background="@color/colorTransp"/>
+</RelativeLayout>

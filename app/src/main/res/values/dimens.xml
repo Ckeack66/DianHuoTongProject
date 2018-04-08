@@ -30,6 +30,7 @@
     <dimen name="x27">27dp</dimen>
     <dimen name="x28">28dp</dimen>
     <dimen name="x30">30dp</dimen>
+    <dimen name="x31">31dp</dimen>
     <dimen name="x33">33dp</dimen>
     <dimen name="x34">34dp</dimen>
     <dimen name="x35">35dp</dimen>
@@ -78,7 +79,9 @@
     <dimen name="x196">196dp</dimen>
     <dimen name="x200">200dp</dimen>
     <dimen name="x203">203dp</dimen>
+    <dimen name="x210">210dp</dimen>
     <dimen name="x217">217dp</dimen>
+    <dimen name="x218">218dp</dimen>
     <dimen name="x225">225dp</dimen>
     <dimen name="x256">256dp</dimen>
     <dimen name="x259">259dp</dimen>

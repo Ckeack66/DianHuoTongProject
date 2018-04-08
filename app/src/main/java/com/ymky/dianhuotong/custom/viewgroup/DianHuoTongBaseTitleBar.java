@@ -45,11 +45,11 @@ public class DianHuoTongBaseTitleBar extends LinearLayout {
 
     private void inIt() {
         LayoutInflater.from(mContext).inflate(R.layout.group_widget_title, this);
-        imageViewLeft = (ImageView) findViewById(R.id.imageView_left);
-        textView = (TextView) findViewById(R.id.textView_center);
-        imageViewRight = (ImageView) findViewById(R.id.imageView_right);
-        rightTextView = (TextView) findViewById(R.id.textView_right);
-        relativeLayout = (RelativeLayout) findViewById(R.id.titleBarRelativeLayoutRoot);
+        imageViewLeft = findViewById(R.id.imageView_left);
+        textView = findViewById(R.id.textView_center);
+        imageViewRight = findViewById(R.id.imageView_right);
+        rightTextView = findViewById(R.id.textView_right);
+        relativeLayout = findViewById(R.id.titleBarRelativeLayoutRoot);
     }
 
     public void setLeftImage(int leftImageId) {
@@ -81,9 +81,11 @@ public class DianHuoTongBaseTitleBar extends LinearLayout {
     public void setRightOnclickListener(OnClickListener onclickListenerR) {
         imageViewRight.setOnClickListener(onclickListenerR);
     }
+
     public void setRightTextOnclickListener(OnClickListener onclickListenerR) {
         rightTextView.setOnClickListener(onclickListenerR);
     }
+
     public void setRightTextViewListener(OnClickListener onClickListener) {
         rightTextView.setOnClickListener(onClickListener);
     }

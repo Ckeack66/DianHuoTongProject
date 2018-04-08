@@ -4,8 +4,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.ymky.dianhuotong.activity.DianHuoTongShopActivity">
-<com.ymky.dianhuotong.custom.viewgroup.DianHuoTongBaseTitleBar
-    android:id="@+id/dianhuotongshop_title"
-    android:layout_width="match_parent"
-    android:layout_height="@dimen/x64"/>
+
+    <com.ymky.dianhuotong.shop.custom.ShopTitleBar
+        android:id="@+id/shop_title_bar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/x64" />
 </RelativeLayout>
