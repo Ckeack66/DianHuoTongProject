@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -42,6 +43,7 @@ public class PersonInfoUpdateActivity extends TakePhotoActivity implements DianH
     private Context mContext;
     private Uri uri;
     private DianHuoTongBottomMenuDialog dianHuoTongBottomMenuDialog;
+    private static final String TAG = "PersonInfoUpdateActivit";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +69,8 @@ public class PersonInfoUpdateActivity extends TakePhotoActivity implements DianH
     public void takeSuccess(TResult result) {
         super.takeSuccess(result);
         ToastUtil.makeText(this, "选取成功" + result.getImage(), Toast.LENGTH_SHORT).show();
+        Log.d(TAG, "takeSuccess: " + result.getImage().getCompressPath());
+        Log.d(TAG, "takeSuccess: " + result.getImages().size());
         if (uri == null) {
             Picasso.with(this).load(result.getImage().getOriginalPath()).into(imageView);
         } else {
