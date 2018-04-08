@@ -73,6 +73,8 @@
     <dimen name="x122">122dp</dimen>
     <dimen name="x147">147dp</dimen>
     <dimen name="x150">150dp</dimen>
+    <dimen name="x156">156dp</dimen>
+    <dimen name="x180">180dp</dimen>
     <dimen name="x196">196dp</dimen>
     <dimen name="x200">200dp</dimen>
     <dimen name="x203">203dp</dimen>
@@ -82,6 +84,7 @@
     <dimen name="x259">259dp</dimen>
     <dimen name="x277">277dp</dimen>
     <dimen name="x297">297dp</dimen>
+    <dimen name="x300">300dp</dimen>
     <dimen name="x463">463dp</dimen>
 
 

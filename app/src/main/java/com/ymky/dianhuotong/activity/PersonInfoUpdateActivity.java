@@ -19,6 +19,7 @@ import com.joker.api.wrapper.Wrapper;
 import com.squareup.picasso.Picasso;
 import com.ymky.dianhuotong.R;
 import com.ymky.dianhuotong.base.BaseTool;
+import com.ymky.dianhuotong.custom.AlertDialog.DianHuoTongBottomMenuDialog;
 import com.ymky.dianhuotong.custom.ToastUtil;
 import com.ymky.dianhuotong.custom.viewgroup.DianHuoTongBaseTitleBar;
 
@@ -29,7 +30,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class PersonInfoUpdateActivity extends TakePhotoActivity {
+public class PersonInfoUpdateActivity extends TakePhotoActivity implements DianHuoTongBottomMenuDialog.DianHuoTongBottomMenuDialogListener {
     @BindView(R.id.person_info_update_title)
     DianHuoTongBaseTitleBar dianHuoTongBaseTitleBar;
     @BindView(R.id.person_info_update_go_add_shop)
@@ -40,6 +41,7 @@ public class PersonInfoUpdateActivity extends TakePhotoActivity {
     ImageView imageView;
     private Context mContext;
     private Uri uri;
+    private DianHuoTongBottomMenuDialog dianHuoTongBottomMenuDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,7 +67,11 @@ public class PersonInfoUpdateActivity extends TakePhotoActivity {
     public void takeSuccess(TResult result) {
         super.takeSuccess(result);
         ToastUtil.makeText(this, "选取成功" + result.getImage(), Toast.LENGTH_SHORT).show();
-        Picasso.with(this).load(uri).into(imageView);
+        if (uri == null) {
+            Picasso.with(this).load(result.getImage().getOriginalPath()).into(imageView);
+        } else {
+            Picasso.with(this).load(uri).into(imageView);
+        }
 
     }
 
@@ -132,11 +138,22 @@ public class PersonInfoUpdateActivity extends TakePhotoActivity {
                 ToastUtil.makeText(mContext, "已保存", Toast.LENGTH_SHORT).show();
             }
         });
+        dianHuoTongBottomMenuDialog = new DianHuoTongBottomMenuDialog(this, this);
     }
 
     @PermissionsGranted(1001)
     void granSuccess() {
+        dianHuoTongBottomMenuDialog.show();
+    }
+
+    @Override
+    public void getCamera() {
         uri = BaseTool.createImagePathUri(mContext);
         getTakePhoto().onPickFromCapture(uri);
+    }
+
+    @Override
+    public void getPhotos() {
+        getTakePhoto().onPickFromGallery();
     }
 }

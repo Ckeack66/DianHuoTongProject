@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorTransp"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/bottom_menu_dialog_camera"
+        android:layout_width="@dimen/x300"
+        android:layout_height="@dimen/x38"
+        android:background="@drawable/shape_dialog_bottom_menu"
+        android:gravity="center"
+        android:text="拍照"
+        android:textColor="@color/color707070"
+        android:textSize="@dimen/x12" />
+
+    <View
+        android:layout_width="@dimen/x300"
+        android:layout_height="@dimen/x1"
+        android:background="@color/colorBFBFBF" />
+
+    <TextView
+        android:id="@+id/bottom_menu_dialog_photos"
+        android:layout_width="@dimen/x300"
+        android:layout_height="@dimen/x38"
+        android:gravity="center"
+        android:text="从手机选择"
+        android:textColor="@color/color707070"
+        android:textSize="@dimen/x12" />
+
+    <View
+        android:layout_width="@dimen/x300"
+        android:layout_height="@dimen/x7"
+        android:background="@color/colorTransp" />
+
+    <TextView
+        android:id="@+id/bottom_menu_dialog_cancel"
+        android:layout_width="@dimen/x300"
+        android:layout_height="@dimen/x38"
+        android:gravity="center"
+        android:text="取消"
+        android:textColor="@color/color707070"
+        android:textSize="@dimen/x12" />
+
+</LinearLayout>

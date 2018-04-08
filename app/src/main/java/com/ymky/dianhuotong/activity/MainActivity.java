@@ -1,5 +1,6 @@
 package com.ymky.dianhuotong.activity;
 
+import android.content.Context;
 import android.graphics.Color;
 import android.support.v4.widget.DrawerLayout;
 import android.os.Bundle;
@@ -65,11 +66,14 @@ public class MainActivity extends BaseActivity implements MainIF, DrawerLayout.D
     private DianHuoTongBaseDialog dianHuoTongBaseDialogAddShop;
     private String main3 = "mian3";
 
+    private Context mContext;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+        mContext = this;
         BaseApplication.getInstansApp().clearToaken();
         inIt();
     }
@@ -106,6 +110,7 @@ public class MainActivity extends BaseActivity implements MainIF, DrawerLayout.D
         dianHuoTongBaseDialogAddShop = new DianHuoTongBaseDialog(this, this, "温馨提示", "加入店铺查看更多精彩内容~", "稍后再说", "立刻加入", main3);
         diaHuiTongBaseTitleBar.setLeftImage(R.drawable.icon_go_personal);
         diaHuiTongBaseTitleBar.setCenterTextView(getString(R.string.main_title));
+        diaHuiTongBaseTitleBar.setRightImage(R.drawable.icon_main_message);
         diaHuiTongBaseTitleBar.setLeftOnclickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -120,6 +125,13 @@ public class MainActivity extends BaseActivity implements MainIF, DrawerLayout.D
                 }
 
 
+            }
+        });
+
+        diaHuiTongBaseTitleBar.setRightOnclickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ToastUtil.makeText(mContext, "进入消息中心", Toast.LENGTH_SHORT).show();
             }
         });
         mainActivityPrecenter = new MainActivityPrecenter(this, this);
@@ -181,11 +193,13 @@ public class MainActivity extends BaseActivity implements MainIF, DrawerLayout.D
     @Override
     public void onDrawerOpened(View drawerView) {
         isOpenDrawer = true;
+        banner.stopAutoPlay();
     }
 
     @Override
     public void onDrawerClosed(View drawerView) {
         isOpenDrawer = false;
+        banner.startAutoPlay();
     }
 
     @Override

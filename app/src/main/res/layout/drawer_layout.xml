@@ -18,7 +18,7 @@
         <com.youth.banner.Banner
             android:id="@+id/main_title_banner"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/x196"
+            android:layout_height="@dimen/x180"
             android:layout_below="@id/mian_titlebar"
             app:banner_default_image="@drawable/image_banner"
             app:image_scale_type="fit_xy"
