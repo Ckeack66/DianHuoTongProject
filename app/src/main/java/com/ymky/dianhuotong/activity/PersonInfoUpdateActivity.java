@@ -41,7 +41,7 @@ public class PersonInfoUpdateActivity extends TakePhotoActivity implements DianH
     @BindView(R.id.person_info_update_photo)
     ImageView imageView;
     private Context mContext;
-    private Uri uri;
+    private Uri uri=null;
     private DianHuoTongBottomMenuDialog dianHuoTongBottomMenuDialog;
     private static final String TAG = "PersonInfoUpdateActivit";
 
@@ -75,7 +75,7 @@ public class PersonInfoUpdateActivity extends TakePhotoActivity implements DianH
         Log.d(TAG, "takeSuccess: " + result.getImages().get(0).getCompressPath());
         Log.d(TAG, "takeSuccess: " + result.getImages().get(0).getOriginalPath());
         if (uri == null) {
-            Picasso.with(this).load(result.getImages().get(0).getOriginalPath()).into(imageView);
+            Picasso.with(this).load("file://"+result.getImages().get(0).getOriginalPath()).into(imageView);
         } else {
             Picasso.with(this).load(uri).into(imageView);
         }
