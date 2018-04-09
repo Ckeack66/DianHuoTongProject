@@ -50,7 +50,8 @@
                     android:drawableTop="@drawable/icon_shop_1"
                     android:gravity="center"
                     android:text="所有产品"
-                    android:textColor="@color/color333333" />
+                    android:textColor="@color/color333333"
+                    android:textSize="@dimen/t12"/>
 
                 <TextView
                     android:layout_width="0dp"
@@ -62,6 +63,7 @@
                     android:drawableTop="@drawable/icon_shop_2"
                     android:gravity="center"
                     android:text="品牌专区"
+                    android:textSize="@dimen/t12"
                     android:textColor="@color/color333333" />
 
                 <TextView
@@ -74,6 +76,7 @@
                     android:drawableTop="@drawable/icon_shop_3"
                     android:gravity="center"
                     android:text="合作商家"
+                    android:textSize="@dimen/t12"
                     android:textColor="@color/color333333" />
 
                 <TextView
@@ -86,13 +89,13 @@
                     android:drawableTop="@drawable/icon_shop_4"
                     android:gravity="center"
                     android:text="爆款专区"
+                    android:textSize="@dimen/t12"
                     android:textColor="@color/color333333" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/x30"
-                android:layout_marginBottom="@dimen/x18"
                 android:layout_marginTop="@dimen/x20"
                 android:background="@color/colorWhite"
                 android:orientation="horizontal">
@@ -202,8 +205,9 @@
             </LinearLayout>
 
             <android.support.v7.widget.RecyclerView
+                android:id="@+id/shop_recycleview"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/x138"
+                android:layout_height="@dimen/x120"
                 android:background="@color/color04c1ab"
                 android:orientation="horizontal" />
 
@@ -217,6 +221,53 @@
                 android:layout_height="wrap_content"
                 android:scaleType="fitXY"
                 android:src="@drawable/shop_test1" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/x20"
+                android:layout_marginStart="@dimen/x14">
+
+                <ImageView
+                    android:id="@+id/shop_image_best"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/icon_shop_best" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="@dimen/x6"
+                    android:layout_toEndOf="@id/shop_image_best"
+                    android:text="为您推荐"
+                    android:textColor="@color/color04c1ab"
+                    android:textSize="@dimen/t12" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="@dimen/x16"
+                    android:text="更多》"
+                    android:textColor="@color/color04c1ab"
+                    android:textSize="@dimen/t12" />
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/x14"
+                android:layout_marginStart="@dimen/x14"
+                android:orientation="vertical">
+
+                <ListView
+                    android:id="@+id/shop_listview"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:divider="@null"/>
+            </LinearLayout>
 
         </LinearLayout>
     </ScrollView>

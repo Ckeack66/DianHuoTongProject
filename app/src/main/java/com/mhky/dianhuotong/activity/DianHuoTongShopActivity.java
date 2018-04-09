@@ -4,10 +4,16 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.Toast;
 
+import com.mhky.dianhuotong.shop.adapter.ShopListviewAdapter;
+import com.mhky.dianhuotong.shop.adapter.ShopMiaoShaAdapter;
 import com.squareup.picasso.Picasso;
 import com.mhky.dianhuotong.R;
 import com.mhky.dianhuotong.base.BaseTool;
@@ -19,6 +25,7 @@ import com.youth.banner.listener.OnBannerListener;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -28,9 +35,15 @@ import cn.bingoogolapple.bgabanner.BGABanner;
 public class DianHuoTongShopActivity extends BaseActivity implements ShopBannerIF, OnBannerListener {
     @BindView(R.id.banner_main_accordion)
     BGABanner bgaBanner;
-
+    @BindView(R.id.shop_listview)
+    ListView listView;
+    @BindView(R.id.shop_recycleview)
+    RecyclerView recyclerView;
     private ShopBannerPresenter shopBannerPresenter;
     private Context mContext;
+    private ShopListviewAdapter shopListviewAdapter;
+    private ShopMiaoShaAdapter shopMiaoShaAdapter;
+    private static final String TAG = "DianHuoTongShopActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +57,18 @@ public class DianHuoTongShopActivity extends BaseActivity implements ShopBannerI
     private void inIt() {
         shopBannerPresenter = new ShopBannerPresenter(this);
         shopBannerPresenter.getdata();
+        int a = new Random().nextInt(10);
+        Log.d(TAG, "inIt:--------- " + a);
+        shopListviewAdapter = new ShopListviewAdapter(mContext, a);
+        listView.setAdapter(shopListviewAdapter);
+        BaseTool.setListViewHeightBasedOnChildren(listView);
+        shopMiaoShaAdapter = new ShopMiaoShaAdapter(a, mContext);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mContext);
+        linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+        recyclerView.setLayoutManager(linearLayoutManager);
+        recyclerView.setAdapter(shopMiaoShaAdapter);
+
+
     }
 
     @OnClick(R.id.shop_title_left_image)

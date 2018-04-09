@@ -8,22 +8,22 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/x111">
         <ImageView
-            android:id="@+id/myselelct_fragment_listview_item_imageview"
+            android:id="@+id/shop_good1_imageview"
             android:layout_width="@dimen/x84"
             android:layout_height="@dimen/x84"
             android:layout_marginTop="@dimen/x14"
             android:src="@drawable/image_test" />
 
         <LinearLayout
-            android:id="@+id/myselelct_fragment_listview_item_layout"
+            android:id="@+id/shop_good1_layout"
             android:layout_width="0dp"
             android:layout_height="@dimen/x106"
-            android:layout_marginStart="@dimen/x19"
+            android:layout_marginStart="@dimen/x34"
             android:orientation="vertical"
             android:layout_weight="2">
 
             <TextView
-                android:id="@+id/myselelct_fragment_listview_item_layout_title"
+                android:id="@+id/shop_good1_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@color/colorWhite"
@@ -33,7 +33,7 @@
                 android:textSize="@dimen/x11" />
 
             <TextView
-                android:id="@+id/myselelct_fragment_listview_item_layout_title1"
+                android:id="@+id/shop_good1_title1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/x9"
@@ -48,32 +48,13 @@
                 android:layout_marginTop="@dimen/x9">
 
                 <TextView
-                    android:id="@+id/myselelct_fragment_listview_item_rltext1"
+                    android:id="@+id/shop_good1_money"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
-                    android:text="@string/myselect_item_money"
+                    android:text="￥18.9-￥38.9"
                     android:textColor="@color/colorE20F12"
                     android:textSize="@dimen/t9" />
-
-                <TextView
-                    android:id="@+id/myselelct_fragment_listview_item_rltext2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:layout_toEndOf="@id/myselelct_fragment_listview_item_rltext1"
-                    android:text="@string/myselect_item_money_number"
-                    android:textColor="@color/colorE20F12"
-                    android:textSize="@dimen/t12" />
-                <TextView
-                    android:id="@+id/myselelct_fragment_listview_item_rltext3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:layout_alignParentRight="true"
-                    android:text="@string/myselect_item_money_danwei"
-                    android:textColor="@color/colorA7A7A7"
-                    android:textSize="@dimen/x12" />
 
 
             </RelativeLayout>
@@ -82,7 +63,7 @@
                 android:layout_height="@dimen/x10"
                 android:layout_marginTop="@dimen/x9">
                 <TextView
-                    android:id="@+id/myselelct_fragment_listview_item_rltext11"
+                    android:id="@+id/shop_good1_shangjia"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="0个商家在售"
@@ -91,7 +72,7 @@
                     android:textSize="@dimen/t8" />
 
                 <TextView
-                    android:id="@+id/myselelct_fragment_listview_item_rltext21"
+                    android:id="@+id/shop_good1_number"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
@@ -103,21 +84,6 @@
 
             </RelativeLayout>
         </LinearLayout>
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent">
-            <TextView
-                android:id="@+id/myselelct_fragment_listview_item_button"
-                android:layout_width="@dimen/x65"
-                android:layout_height="@dimen/x22"
-                android:background="@drawable/shape_login_button"
-                android:gravity="center"
-                android:text="未设置"
-                android:textSize="@dimen/t11"
-                android:layout_alignParentBottom="true"
-                android:layout_marginBottom="@dimen/x12"
-                />
-        </RelativeLayout>
 
     </LinearLayout>
 
