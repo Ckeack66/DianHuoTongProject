@@ -26,7 +26,7 @@ public class ShopMiaoShaAdapter extends RecyclerView.Adapter<ShopMiaoShaAdapter.
 
     @Override
     public int getItemCount() {
-        return 0;
+        return 10;
     }
 
     static class MyHolder extends RecyclerView.ViewHolder {

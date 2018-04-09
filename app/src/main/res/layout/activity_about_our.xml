@@ -3,7 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.mhky.dianhuotong.activity.ShiYaoQianYanActivity">
+    tools:context="com.mhky.dianhuotong.activity.ShiYaoQianYanActivity"
+    android:background="@color/colorWhite">
 
     <com.mhky.dianhuotong.custom.viewgroup.DianHuoTongBaseTitleBar
         android:id="@+id/about_our_title"

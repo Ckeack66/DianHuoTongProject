@@ -37,7 +37,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/x106"
-                android:background="@color/colorE6E6E6"
+                android:background="@color/colorF7F7F7"
                 android:orientation="horizontal">
 
                 <TextView
@@ -92,8 +92,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/x30"
-                android:layout_marginTop="@dimen/x20"
                 android:layout_marginBottom="@dimen/x18"
+                android:layout_marginTop="@dimen/x20"
                 android:background="@color/colorWhite"
                 android:orientation="horizontal">
 
@@ -108,11 +108,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
+                    android:layout_marginStart="@dimen/x4"
                     android:text="全场"
                     android:textColor="@color/color333333"
                     android:textSize="@dimen/t12"
-                    android:textStyle="italic"
-                    android:layout_marginStart="@dimen/x4"/>
+                    android:textStyle="italic" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -200,15 +200,24 @@
                     android:textColor="@color/color333333"
                     android:textSize="@dimen/t12" />
             </LinearLayout>
+
             <android.support.v7.widget.RecyclerView
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/x138"
-                android:orientation="horizontal"
-                android:background="@color/color04c1ab"/>
+                android:background="@color/color04c1ab"
+                android:orientation="horizontal" />
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/x4"
-                android:background="@color/coloreeeeee"/>
+                android:background="@color/coloreeeeee" />
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scaleType="fitXY"
+                android:src="@drawable/shop_test1" />
+
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

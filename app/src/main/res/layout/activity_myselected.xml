@@ -75,7 +75,8 @@
         android:layout_height="@dimen/x38"
         android:layout_below="@id/myselect_zizhi"
         android:layout_marginTop="@dimen/x5"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:background="@color/colorWhite">
         <RadioButton
             android:id="@+id/myselected_tab_1"
             android:layout_width="wrap_content"
@@ -192,7 +193,7 @@
         android:layout_height="match_parent"
         android:layout_below="@id/myselected_tab_line"
         android:layout_marginBottom="@dimen/x51"
-        >
+        android:background="@color/colorWhite">
         <FrameLayout
             android:id="@+id/myselected_fragment"
             android:layout_width="match_parent"
