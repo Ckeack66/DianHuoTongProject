@@ -8,9 +8,10 @@
     <RelativeLayout
         android:id="@+id/drawer_bodyayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/colorWhite">
 
-        <com.ymky.dianhuotong.custom.viewgroup.DianHuoTongBaseTitleBar
+        <com.mhky.dianhuotong.custom.viewgroup.DianHuoTongBaseTitleBar
             android:id="@+id/mian_titlebar"
             android:layout_width="match_parent"
             android:layout_height="@dimen/x64" />

@@ -12,8 +12,8 @@
         android:layout_gravity="center_vertical"
         android:layout_marginBottom="@dimen/x11"
         android:layout_marginStart="@dimen/x16"
-        android:src="@drawable/icon_back"
-        android:background="@color/colorTransp"/>
+        android:background="@color/colorTransp"
+        android:src="@drawable/icon_back" />
 
     <RelativeLayout
         android:layout_width="@dimen/x210"
@@ -30,20 +30,20 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginStart="@dimen/x15"
-            android:src="@drawable/icon_scan_code"
-            android:background="@color/colorTransp"/>
+            android:background="@color/colorTransp"
+            android:src="@drawable/icon_scan_code" />
 
-        <EditText
+        <TextView
             android:id="@+id/shop_input"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginEnd="@dimen/x15"
             android:layout_marginStart="@dimen/x12"
             android:layout_toEndOf="@id/shop_scan_code"
-            android:background="@null"
+            android:background="@color/colorTransp"
             android:gravity="center_vertical"
-            android:hint="商品、商家、厂家"
-            android:textColorHint="@color/colorBFBFBF"
+            android:text="商品、商家、厂家"
+            android:textColor="@color/colorBFBFBF"
             android:textSize="@dimen/t12" />
     </RelativeLayout>
 
@@ -55,8 +55,8 @@
         android:layout_alignParentRight="true"
         android:layout_marginBottom="@dimen/x12"
         android:layout_marginEnd="@dimen/x12"
-        android:src="@drawable/icon_order"
-        android:background="@color/colorTransp"/>
+        android:background="@color/colorTransp"
+        android:src="@drawable/icon_order" />
 
     <ImageView
         android:id="@+id/shop_car"
@@ -66,6 +66,6 @@
         android:layout_marginBottom="@dimen/x12"
         android:layout_marginEnd="@dimen/x12"
         android:layout_toStartOf="@id/shop_order"
-        android:src="@drawable/icon_shop_car"
-        android:background="@color/colorTransp"/>
+        android:background="@color/colorTransp"
+        android:src="@drawable/icon_shop_car" />
 </RelativeLayout>

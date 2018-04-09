@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.ymky.dianhuotong">
+    package="com.mhky.dianhuotong">
 
     <!-- if you want to load images from the internet -->
     <uses-permission android:name="android.permission.INTERNET" />
@@ -10,14 +10,15 @@
     <uses-permission android:name="android.permission.CAMERA" />
 
     <application
-        android:name=".base.BaseApplication"
+        android:name="com.mhky.dianhuotong.base.BaseApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity.MainActivity">
+        <activity
+            android:name="com.mhky.dianhuotong.activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -25,51 +26,52 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activity.LoginActivity"
+            android:name="com.mhky.dianhuotong.activity.LoginActivity"
             android:label="@string/title_activity_login"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.RegisterActivity"
+            android:name="com.mhky.dianhuotong.activity.RegisterActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".activity.ForgetPasswordActivity" />
-        <activity android:name=".activity.PersonInfoActivity" />
+        <activity android:name="com.mhky.dianhuotong.activity.ForgetPasswordActivity" />
+        <activity android:name="com.mhky.dianhuotong.activity.PersonInfoActivity" />
         <activity
-            android:name=".activity.PersonInfoUpdateActivity"
+            android:name="com.mhky.dianhuotong.activity.PersonInfoUpdateActivity"
             android:windowSoftInputMode="stateHidden|stateAlwaysHidden" />
         <activity
-            android:name=".activity.MyselectedActivity"
+            android:name="com.mhky.dianhuotong.activity.MyselectedActivity"
             android:windowSoftInputMode="stateHidden|stateAlwaysHidden" />
-        <activity android:name=".activity.BillActivity" />
+        <activity android:name="com.mhky.dianhuotong.activity.BillActivity" />
         <activity
-            android:name=".activity.InvoiceActivity"
+            android:name="com.mhky.dianhuotong.activity.InvoiceActivity"
             android:windowSoftInputMode="stateHidden|stateAlwaysHidden" />
-        <activity android:name=".activity.CredentialsActivity" />
-        <activity android:name=".activity.ShiYaoQianYanActivity" />
-        <activity android:name=".activity.DianHuoTongShopActivity" />
-        <activity android:name=".activity.YaoLinWangActivity" />
-        <activity android:name=".activity.MingHuiFuActivity" />
-        <activity android:name=".activity.JianKang121Activity" />
-        <activity android:name=".activity.GuoYiGuanActivity" />
-        <activity android:name=".activity.LaoPHomeActivity" />
-        <activity android:name=".activity.DaKaOnlineActivity" />
-        <activity android:name=".activity.ConnectOurActivity" />
-        <activity android:name=".activity.MyWaiterActivity" />
-        <activity android:name=".activity.AboutOurActivity" />
-        <activity android:name=".activity.SystemSetActivity" />
-        <activity android:name=".activity.MianZeShowActivity" />
-        <activity android:name=".activity.AddShopActivity" />
+        <activity android:name="com.mhky.dianhuotong.activity.CredentialsActivity" />
+        <activity android:name="com.mhky.dianhuotong.activity.ShiYaoQianYanActivity" />
         <activity
-            android:name=".activity.AddShop1Activity"
+            android:name="com.mhky.dianhuotong.activity.DianHuoTongShopActivity" />
+        <activity android:name="com.mhky.dianhuotong.activity.YaoLinWangActivity" />
+        <activity android:name="com.mhky.dianhuotong.activity.MingHuiFuActivity" />
+        <activity android:name="com.mhky.dianhuotong.activity.JianKang121Activity" />
+        <activity android:name="com.mhky.dianhuotong.activity.GuoYiGuanActivity" />
+        <activity android:name="com.mhky.dianhuotong.activity.LaoPHomeActivity" />
+        <activity android:name="com.mhky.dianhuotong.activity.DaKaOnlineActivity" />
+        <activity android:name="com.mhky.dianhuotong.activity.ConnectOurActivity" />
+        <activity android:name="com.mhky.dianhuotong.activity.MyWaiterActivity" />
+        <activity android:name="com.mhky.dianhuotong.activity.AboutOurActivity" />
+        <activity android:name="com.mhky.dianhuotong.activity.SystemSetActivity" />
+        <activity android:name="com.mhky.dianhuotong.activity.MianZeShowActivity" />
+        <activity android:name="com.mhky.dianhuotong.activity.AddShopActivity" />
+        <activity
+            android:name="com.mhky.dianhuotong.activity.AddShop1Activity"
             android:windowSoftInputMode="stateHidden|stateAlwaysHidden" />
         <activity
-            android:name=".activity.CreatShopActivity"
+            android:name="com.mhky.dianhuotong.activity.CreatShopActivity"
             android:windowSoftInputMode="stateHidden|stateAlwaysHidden" />
-        <activity android:name=".activity.CredentialUploadActivity" />
-        <activity android:name=".activity.BindPhoneActivity" />
-        <activity android:name=".activity.AlterPasswordActivity" />
-        <activity android:name=".activity.AddShop3Activity" />
-        <activity android:name=".activity.HelpActivity" />
-        <activity android:name=".activity.BanKuaiCreatingActivity"></activity>
+        <activity android:name="com.mhky.dianhuotong.activity.CredentialUploadActivity" />
+        <activity android:name="com.mhky.dianhuotong.activity.BindPhoneActivity" />
+        <activity android:name="com.mhky.dianhuotong.activity.AlterPasswordActivity" />
+        <activity android:name="com.mhky.dianhuotong.activity.AddShop3Activity" />
+        <activity android:name="com.mhky.dianhuotong.activity.HelpActivity" />
+        <activity android:name="com.mhky.dianhuotong.activity.BanKuaiCreatingActivity"></activity>
     </application>
 
 </manifest>

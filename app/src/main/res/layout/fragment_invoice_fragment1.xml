@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.ymky.dianhuotong.invoice.fragment.InvoiceFragment1"
+    tools:context="com.mhky.dianhuotong.invoice.fragment.InvoiceFragment1"
     android:background="@color/coloreeeeee">
 
     <!-- TODO: Update blank fragment layout -->

@@ -5,9 +5,9 @@
     android:layout_height="match_parent"
     android:background="@color/coloreeeeee"
     android:orientation="vertical"
-    tools:context="com.ymky.dianhuotong.activity.AddShop3Activity">
+    tools:context="com.mhky.dianhuotong.activity.AddShop3Activity">
 
-    <com.ymky.dianhuotong.custom.viewgroup.DianHuoTongBaseTitleBar
+    <com.mhky.dianhuotong.custom.viewgroup.DianHuoTongBaseTitleBar
         android:id="@+id/addshop3_title"
         android:layout_width="match_parent"
         android:layout_height="@dimen/x64" />

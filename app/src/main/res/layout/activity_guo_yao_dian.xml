@@ -4,9 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.ymky.dianhuotong.activity.GuoYiGuanActivity">
+    tools:context="com.mhky.dianhuotong.activity.GuoYiGuanActivity">
 
-    <com.ymky.dianhuotong.custom.viewgroup.DianHuoTongBaseTitleBar
+    <com.mhky.dianhuotong.custom.viewgroup.DianHuoTongBaseTitleBar
         android:id="@+id/guoyao_title"
         android:layout_width="match_parent"
         android:layout_height="@dimen/x64" />

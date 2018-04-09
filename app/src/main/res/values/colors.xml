@@ -36,4 +36,6 @@
     <color name="colord9d9d9">#D9D9D9</color>
     <!--关于我们-->
     <color name="color676767">#676767</color>
+    <!--商城-->
+    <color name="colorFF0909"> #FF0909</color>
 </resources>

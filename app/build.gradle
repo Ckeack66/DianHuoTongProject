@@ -61,6 +61,8 @@ dependencies {
     //权限相关
     compile 'com.github.jokermonn:permissions4m:2.1.2-lib'
     annotationProcessor 'com.github.jokermonn:permissions4m:2.1.2-processor'
-    //工具ku
+    //banner
+    implementation 'com.android.support:support-v4:26.1.0'
+    implementation 'cn.bingoogolapple:bga-banner:2.2.4@aar'
 
 }

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="@dimen/x110"
+    android:layout_height="@dimen/x120"
+    android:background="@color/colorWhite"
+    android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/shop_miaosha_item_image"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/x54"
+        android:layout_centerHorizontal="true"
+        android:layout_marginEnd="@dimen/x6"
+        android:layout_marginStart="@dimen/x6"
+        android:layout_marginTop="@dimen/x14"
+        android:src="@drawable/shop_test" />
+
+    <TextView
+        android:id="@+id/shop_miaosha_item_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/shop_miaosha_item_image"
+        android:layout_centerHorizontal="true"
+        android:text="铝碳酸镁咀嚼片"
+        android:textColor="@color/color333333"
+        android:textSize="@dimen/t9" />
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/shop_miaosha_item_title"
+        android:layout_below="@id/shop_miaosha_item_title"
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/shop_miaosha_item_money1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/x9"
+            android:text="￥00.00"
+            android:textColor="@color/colorE20F12"
+            android:textSize="@dimen/t12"
+            android:layout_centerVertical="true"/>
+        <TextView
+            android:id="@+id/shop_miaosha_item_money2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/x9"
+            android:text="￥28.9"
+            android:layout_toEndOf="@id/shop_miaosha_item_money1"
+            android:textColor="@color/color767676"
+            android:textSize="@dimen/t9"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="@dimen/x4"/>
+
+    </RelativeLayout>
+
+</RelativeLayout>
