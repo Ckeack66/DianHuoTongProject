@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorWhite"
     android:orientation="vertical"
     tools:context="com.mhky.dianhuotong.activity.GuoYiGuanActivity">
 
@@ -38,10 +39,10 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:autoLink="phone"
                 android:background="@color/colorTransp"
                 android:text="15212345678"
                 android:textColor="@color/color333333"
-                android:autoLink="phone"
                 android:textColorLink="@color/color04c1ab"
                 android:textSize="@dimen/t12" />
         </LinearLayout>
@@ -139,10 +140,10 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:autoLink="email"
                 android:background="@color/colorTransp"
                 android:text="ymky@ymky.com"
                 android:textColor="@color/color333333"
-                android:autoLink="email"
                 android:textColorLink="@color/color04c1ab"
                 android:textSize="@dimen/t12" />
         </LinearLayout>
