@@ -10,11 +10,16 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/colorWhite">
-
+        <View
+            android:id="@+id/main_title"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/x26"
+            android:background="@color/color04c1ab"/>
         <com.mhky.dianhuotong.custom.viewgroup.DianHuoTongBaseTitleBar
             android:id="@+id/mian_titlebar"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/x64" />
+            android:layout_below="@id/main_title"
+            android:layout_height="@dimen/x40" />
 
         <com.youth.banner.Banner
             android:id="@+id/main_title_banner"

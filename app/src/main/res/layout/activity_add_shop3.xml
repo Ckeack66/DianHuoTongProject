@@ -7,10 +7,12 @@
     android:orientation="vertical"
     tools:context="com.mhky.dianhuotong.activity.AddShop3Activity">
 
+    <include layout="@layout/inclued_zhuangtai" />
+
     <com.mhky.dianhuotong.custom.viewgroup.DianHuoTongBaseTitleBar
         android:id="@+id/addshop3_title"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/x64" />
+        android:layout_height="@dimen/x40" />
 
     <LinearLayout
         android:layout_width="match_parent"

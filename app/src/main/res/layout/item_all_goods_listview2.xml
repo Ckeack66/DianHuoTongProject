@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorWhite"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/coloreeeeee">
+
+        <TextView
+            android:id="@+id/all_goods_listview2_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/x6"
+            android:layout_marginTop="@dimen/t12"
+            android:text="感冒用药"
+            android:textColor="@color/color333333"
+            android:textSize="@dimen/t12" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_marginBottom="@dimen/x6"
+            android:layout_marginTop="@dimen/t12"
+            android:text="更多>>"
+            android:textColor="@color/color707070"
+            android:textSize="@dimen/t12" />
+
+    </RelativeLayout>
+
+    <GridView
+        android:id="@+id/all_goods_listview2_gridview"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/x90"
+        android:columnWidth="@dimen/x90"
+        android:numColumns="3" />
+</LinearLayout>

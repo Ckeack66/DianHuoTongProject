@@ -4,13 +4,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorWhite"
     android:orientation="vertical"
     tools:context="com.mhky.dianhuotong.activity.HelpActivity">
+
+    <include layout="@layout/inclued_zhuangtai" />
 
     <com.mhky.dianhuotong.custom.viewgroup.DianHuoTongBaseTitleBar
         android:id="@+id/help_title"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/x64" />
+        android:layout_height="@dimen/x40" />
 
     <ExpandableListView
         android:id="@+id/help_expandable_listview"

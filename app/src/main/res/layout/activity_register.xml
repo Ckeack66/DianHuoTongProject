@@ -4,12 +4,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.mhky.dianhuotong.activity.RegisterActivity">
-
+    tools:context="com.mhky.dianhuotong.activity.RegisterActivity"
+    android:background="@color/colorWhite">
+    <include
+        android:id="@+id/mian_title"
+        layout="@layout/inclued_zhuangtai" />
     <com.mhky.dianhuotong.custom.viewgroup.DianHuoTongBaseTitleBar
         android:id="@+id/register_titlebar"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/x64" />
+        android:layout_height="@dimen/x40"
+        android:layout_below="@id/mian_title"/>
 
     <LinearLayout
         android:id="@+id/linearLayout"

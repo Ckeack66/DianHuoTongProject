@@ -5,11 +5,16 @@
     android:layout_height="match_parent"
     tools:context="com.mhky.dianhuotong.activity.ShiYaoQianYanActivity"
     android:background="@color/colorWhite">
-
+    <View
+        android:id="@+id/main_title"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/x26"
+        android:background="@color/color04c1ab"/>
     <com.mhky.dianhuotong.custom.viewgroup.DianHuoTongBaseTitleBar
         android:id="@+id/about_our_title"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/x64" />
+        android:layout_height="@dimen/x40"
+        android:layout_below="@id/main_title"/>
     <ImageView
         android:id="@+id/about_our_logo"
         android:layout_width="wrap_content"

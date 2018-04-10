@@ -6,17 +6,18 @@
     android:background="@color/coloreeeeee"
     android:orientation="vertical"
     tools:context="com.mhky.dianhuotong.activity.InvoiceActivity">
-
+    <include layout="@layout/inclued_zhuangtai" />
     <com.mhky.dianhuotong.custom.viewgroup.DianHuoTongBaseTitleBar
         android:id="@+id/invoice_title"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/x64" />
+        android:layout_height="@dimen/x40" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/x126"
         android:layout_marginTop="@dimen/x7"
-        android:orientation="vertical">
+        android:orientation="vertical"
+       android:background="@color/colorWhite">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -94,7 +95,8 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/x45"
         android:orientation="vertical"
-        android:layout_marginTop="@dimen/x7">
+        android:layout_marginTop="@dimen/x7"
+        android:background="@color/colorWhite">
 
         <RadioGroup
             android:id="@+id/invoice_tab"

@@ -4,10 +4,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorWhite"
     tools:context="com.mhky.dianhuotong.activity.GuoYiGuanActivity">
+
+    <include
+        android:id="@+id/mian_title"
+        layout="@layout/inclued_zhuangtai" />
 
     <com.mhky.dianhuotong.custom.viewgroup.DianHuoTongBaseTitleBar
         android:id="@+id/daka_title"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/x64" />
+        android:layout_height="@dimen/x64"
+        android:layout_below="@id/mian_title" />
 </RelativeLayout>

@@ -10,18 +10,23 @@
         android:layout_height="@dimen/x217"
         android:background="@drawable/image_login_background" />
 
+    <include
+        android:id="@+id/mian_title"
+        layout="@layout/inclued_zhuangtai" />
+
     <com.mhky.dianhuotong.custom.viewgroup.DianHuoTongBaseTitleBar
         android:id="@+id/login_title"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/x64"
-        android:background="@color/colorTransp"/>
+        android:layout_height="@dimen/x40"
+        android:layout_below="@id/mian_title"
+        android:background="@color/colorTransp" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/login_background"
-        android:layout_marginStart="@dimen/x50"
         android:layout_marginEnd="@dimen/x49"
+        android:layout_marginStart="@dimen/x50"
         android:layout_marginTop="@dimen/x56"
         android:background="@color/colorWhite"
         android:orientation="vertical">

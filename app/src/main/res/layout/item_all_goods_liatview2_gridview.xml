@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="@dimen/x90"
+    android:layout_height="@dimen/x90"
+    android:orientation="vertical"
+    android:background="@color/colorWhite">
+    <ImageView
+        android:id="@+id/all_goods_listview2_gridview_image"
+        android:layout_width="@dimen/x60"
+        android:layout_height="@dimen/x44"
+        android:layout_gravity="center_horizontal"
+        android:src="@drawable/shop_test"
+        android:layout_marginTop="@dimen/x18"/>
+    <TextView
+        android:id="@+id/all_goods_listview2_gridview_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="感冒用药"
+        android:textColor="@color/color707070"
+        android:textSize="@dimen/t9"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/x6"/>
+</LinearLayout>

@@ -8,10 +8,12 @@
     android:orientation="vertical"
     tools:context="com.mhky.dianhuotong.activity.AddShopActivity">
 
+    <include layout="@layout/inclued_zhuangtai" />
+
     <com.mhky.dianhuotong.custom.viewgroup.DianHuoTongBaseTitleBar
         android:id="@+id/addshop_title"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/x64" />
+        android:layout_height="@dimen/x40" />
 
     <TextView
         android:layout_width="match_parent"
