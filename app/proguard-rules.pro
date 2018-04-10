@@ -19,3 +19,10 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+-keep class com.baidu.** {*;}
+-keep class vi.com.** {*;}
+-dontwarn com.baidu.**
+-dontwarn com.joker.api.**
+-keep class com.joker.api.** {*;}
+-keep interface com.joker.api.** { *; }
+-keep class **$$PermissionsProxy { *; }

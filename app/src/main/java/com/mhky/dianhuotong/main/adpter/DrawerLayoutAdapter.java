@@ -47,7 +47,7 @@ public class DrawerLayoutAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder viewHolder = null;
-        if (viewHolder == null) {
+        if (convertView == null) {
             convertView = View.inflate(context, R.layout.item_drawerlayout_list, null);
             viewHolder = new ViewHolder();
             viewHolder.leftImage = (ImageView) convertView.findViewById(R.id.drawer_item_image);

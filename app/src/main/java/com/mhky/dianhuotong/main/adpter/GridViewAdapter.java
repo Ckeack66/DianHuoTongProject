@@ -47,7 +47,7 @@ public class GridViewAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder viewHolder = null;
-        if (viewHolder == null) {
+        if (convertView == null) {
             convertView = View.inflate(mContext, R.layout.item_main_gridview, null);
             viewHolder = new ViewHolder();
             viewHolder.imageView = convertView.findViewById(R.id.item_image);

@@ -27,7 +27,8 @@
         android:gravity="center"
         android:text="从手机选择"
         android:textColor="@color/color707070"
-        android:textSize="@dimen/x12" />
+        android:textSize="@dimen/x12"
+        android:background="@color/colorWhite"/>
 
     <View
         android:layout_width="@dimen/x300"
@@ -41,6 +42,7 @@
         android:gravity="center"
         android:text="取消"
         android:textColor="@color/color707070"
-        android:textSize="@dimen/x12" />
+        android:textSize="@dimen/x12"
+        android:background="@color/colorWhite"/>
 
 </LinearLayout>

@@ -20,6 +20,7 @@ android {
             url "https://jitpack.io"
         }
     }
+    buildToolsVersion '27.0.3'
 }
 
 dependencies {
@@ -64,6 +65,8 @@ dependencies {
     //banner
     implementation 'com.android.support:support-v4:26.1.0'
     implementation 'cn.bingoogolapple:bga-banner:2.2.4@aar'
-
-
+    implementation files('libs/BaiduLBS_Android.jar')
+    //二维码扫描
+    implementation 'cn.bingoogolapple:bga-qrcode-zxing:1.2.1'
+    implementation 'cn.bingoogolapple:bga-qrcode-zbar:1.2.1'
 }

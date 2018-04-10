@@ -10,10 +10,13 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.mhky.dianhuotong.shop.activity.AllGoodsActivity;
 import com.mhky.dianhuotong.shop.adapter.ShopListviewAdapter;
 import com.mhky.dianhuotong.shop.adapter.ShopMiaoShaAdapter;
+import com.mhky.dianhuotong.shop.tool.TimerMiaoSha;
 import com.squareup.picasso.Picasso;
 import com.mhky.dianhuotong.R;
 import com.mhky.dianhuotong.base.BaseTool;
@@ -32,18 +35,25 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.bingoogolapple.bgabanner.BGABanner;
 
-public class DianHuoTongShopActivity extends BaseActivity implements ShopBannerIF, OnBannerListener {
+public class DianHuoTongShopActivity extends BaseActivity implements ShopBannerIF, OnBannerListener, TimerMiaoSha.TimerMiaoShaListener {
     @BindView(R.id.banner_main_accordion)
     BGABanner bgaBanner;
     @BindView(R.id.shop_listview)
     ListView listView;
     @BindView(R.id.shop_recycleview)
     RecyclerView recyclerView;
+    @BindView(R.id.shop_hh)
+    TextView textViewHH;
+    @BindView(R.id.shop_mm)
+    TextView textViewMM;
+    @BindView(R.id.shop_ss)
+    TextView textViewSS;
     private ShopBannerPresenter shopBannerPresenter;
     private Context mContext;
     private ShopListviewAdapter shopListviewAdapter;
     private ShopMiaoShaAdapter shopMiaoShaAdapter;
     private static final String TAG = "DianHuoTongShopActivity";
+    private TimerMiaoSha timerMiaoSha;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +62,37 @@ public class DianHuoTongShopActivity extends BaseActivity implements ShopBannerI
         ButterKnife.bind(this);
         mContext = this;
         inIt();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        timerMiaoSha.cancel();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
     }
 
     private void inIt() {
@@ -67,7 +108,8 @@ public class DianHuoTongShopActivity extends BaseActivity implements ShopBannerI
         linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(shopMiaoShaAdapter);
-
+        timerMiaoSha = new TimerMiaoSha(3600000, 1000, this);
+        timerMiaoSha.start();
 
     }
 
@@ -78,7 +120,8 @@ public class DianHuoTongShopActivity extends BaseActivity implements ShopBannerI
 
     @OnClick(R.id.shop_scan_code)
     void goScanCodeActivity() {
-        ToastUtil.makeText(this, "进入扫码界面", Toast.LENGTH_SHORT).show();
+        //ToastUtil.makeText(this, "进入扫码界面", Toast.LENGTH_SHORT).show();
+        BaseTool.goActivityNoData(this, ScanCodeActivity.class);
     }
 
     @OnClick(R.id.shop_input)
@@ -96,6 +139,10 @@ public class DianHuoTongShopActivity extends BaseActivity implements ShopBannerI
         ToastUtil.makeText(this, "进入购物车界面", Toast.LENGTH_SHORT).show();
     }
 
+    @OnClick(R.id.shop_area_allgoods)
+    void goAllGoodsActivity() {
+        BaseTool.goActivityNoData(this, AllGoodsActivity.class);
+    }
 
     @Override
     public void getDataIF(List<?> stringData) {
@@ -119,5 +166,22 @@ public class DianHuoTongShopActivity extends BaseActivity implements ShopBannerI
     @Override
     public void OnBannerClick(int position) {
 
+    }
+
+    @Override
+    public void onCountdowning(String hh, String mm, String ss) {
+
+        setMiashaTime(hh, mm, ss);
+    }
+
+    @Override
+    public void onCountDownfinish(String hh, String mm, String ss) {
+        setMiashaTime(hh, mm, ss);
+    }
+
+    private void setMiashaTime(String h, String m, String s) {
+        textViewHH.setText(h);
+        textViewMM.setText(m);
+        textViewSS.setText(s);
     }
 }

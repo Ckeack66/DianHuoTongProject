@@ -84,6 +84,7 @@ public class BaseTool {
         // 设置参数
         listView.setLayoutParams(params);
     }
+
     /**
      * 计算listview高度
      */
@@ -112,6 +113,7 @@ public class BaseTool {
         // 设置参数
         listView.setLayoutParams(params);
     }
+
     /**
      * 创建一条图片地址uri,用于保存拍照后的照片
      *
@@ -139,6 +141,18 @@ public class BaseTool {
         }
         Log.d(TAG, "生成的照片输出路径：" + imageFilePath.toString());
         return imageFilePath;
+    }
+
+
+    /**
+     * 时间转换
+     */
+    public static String[] simpledateFommet(long times) {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("hh:mm:ss");
+        String time = simpleDateFormat.format(times);
+        Log.d(TAG, "simpledateFommet: ---" + time);
+        String time1[] = time.split(":");
+        return time1;
     }
 
 }

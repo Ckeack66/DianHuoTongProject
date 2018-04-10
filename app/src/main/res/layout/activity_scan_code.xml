@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.mhky.dianhuotong.activity.ScanCodeActivity">
+
+    <cn.bingoogolapple.qrcode.zxing.ZXingView
+        android:id="@+id/scan_code_body"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:qrcv_animTime="1000"
+        app:qrcv_barCodeTipText="将条码放入框内，即可自动扫描"
+        app:qrcv_barcodeRectHeight="120dp"
+        app:qrcv_borderColor="@android:color/white"
+        app:qrcv_borderSize="1dp"
+        app:qrcv_cornerColor="@color/color04c1ab"
+        app:qrcv_cornerLength="20dp"
+        app:qrcv_cornerSize="3dp"
+        app:qrcv_customScanLineDrawable="@drawable/icon_scan_line"
+        app:qrcv_isBarcode="false"
+        app:qrcv_isCenterVertical="false"
+        app:qrcv_isOnlyDecodeScanBoxArea="false"
+        app:qrcv_isScanLineReverse="true"
+        app:qrcv_isShowDefaultGridScanLineDrawable="false"
+        app:qrcv_isShowDefaultScanLineDrawable="true"
+        app:qrcv_isShowTipBackground="true"
+        app:qrcv_isShowTipTextAsSingleLine="false"
+        app:qrcv_isTipTextBelowRect="false"
+        app:qrcv_maskColor="#33FFFFFF"
+        app:qrcv_qrCodeTipText=""
+        app:qrcv_rectWidth="200dp"
+        app:qrcv_scanLineColor="@color/color04c1ab"
+        app:qrcv_scanLineMargin="0dp"
+        app:qrcv_scanLineSize="0.5dp"
+        app:qrcv_tipTextColor="@android:color/white"
+        app:qrcv_tipTextSize="@dimen/t12"
+        app:qrcv_toolbarHeight="@dimen/x64"
+        app:qrcv_topOffset="@dimen/x110" />
+
+    <com.mhky.dianhuotong.custom.viewgroup.DianHuoTongBaseTitleBar
+        android:id="@+id/scan_code_title"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/x64" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="@dimen/x218"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/icon_scan_ic" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/x6"
+            android:text="请将条形码放置扫描区内" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/scan_code_flush"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="@dimen/x90"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/icon_scan_shine" />
+
+        <TextView
+            android:id="@+id/scan_code_flush_statetext"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/x6"
+            android:text="点击开启闪光灯" />
+    </LinearLayout>
+</RelativeLayout>

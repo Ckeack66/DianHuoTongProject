@@ -41,7 +41,7 @@
         <!-- 自动轮播的时间间隔 -->
         <item name="banner_pointAutoPlayInterval">3000</item>
         <!-- 指示点容器背景 -->
-        <item name="banner_pointContainerBackground">#44aaaaaa</item>
+        <item name="banner_pointContainerBackground">@color/colorTransp</item>
         <!-- 指示点背景 -->
         <!--<item name="banner_pointDrawable">@drawable/bga_banner_selector_point_hollow</item>-->
         <!-- 指示点容器左右内间距 -->

@@ -42,7 +42,7 @@ public class BillActivityListViewAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder viewHolder = null;
-        if (viewHolder == null) {
+        if (convertView == null) {
             convertView = View.inflate(mContext, R.layout.item_bill_listvew, null);
             viewHolder = new ViewHolder();
             viewHolder.dateTxt = convertView.findViewById(R.id.bill_listview_item_date);

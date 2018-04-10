@@ -44,7 +44,7 @@ public class AddShopAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder viewHolder = null;
-        if (viewHolder == null) {
+        if (convertView == null) {
             viewHolder = new ViewHolder();
             convertView = View.inflate(context, R.layout.item_addshop_listview, null);
             viewHolder.textView = convertView.findViewById(R.id.item_addshop_txt);
