@@ -8,13 +8,14 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.mhky.dianhuotong.R;
+import com.mhky.dianhuotong.base.view.BaseActivity;
 import com.mhky.dianhuotong.custom.viewgroup.DianHuoTongBaseTitleBar;
 import com.mhky.dianhuotong.dingdan.adapter.BillActivityListViewAdapter;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class BillActivity extends AppCompatActivity {
+public class BillActivity extends BaseActivity {
     @BindView(R.id.bill_titlebar)
     DianHuoTongBaseTitleBar diaHuiTongBaseTitleBar;
     @BindView(R.id.bill_listview)

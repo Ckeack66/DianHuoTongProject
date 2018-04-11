@@ -6,13 +6,14 @@ import android.view.View;
 import android.widget.ExpandableListView;
 
 import com.mhky.dianhuotong.R;
+import com.mhky.dianhuotong.base.view.BaseActivity;
 import com.mhky.dianhuotong.custom.viewgroup.DianHuoTongBaseTitleBar;
 import com.mhky.dianhuotong.help.adapter.HelpExpandableListViewAdapter;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class HelpActivity extends AppCompatActivity {
+public class HelpActivity extends BaseActivity {
     @BindView(R.id.help_expandable_listview)
     ExpandableListView expandableListView;
     @BindView(R.id.help_title)

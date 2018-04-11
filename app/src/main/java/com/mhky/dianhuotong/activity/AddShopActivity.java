@@ -9,13 +9,14 @@ import android.widget.ListView;
 import com.mhky.dianhuotong.R;
 import com.mhky.dianhuotong.addshop.adapter.AddShopAdapter;
 import com.mhky.dianhuotong.base.BaseTool;
+import com.mhky.dianhuotong.base.view.BaseActivity;
 import com.mhky.dianhuotong.custom.viewgroup.DianHuoTongBaseTitleBar;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class AddShopActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
+public class AddShopActivity extends BaseActivity implements AdapterView.OnItemClickListener {
     @BindView(R.id.addshop_title)
     DianHuoTongBaseTitleBar dianHuoTongBaseTitleBar;
     @BindView(R.id.addshop_listview)

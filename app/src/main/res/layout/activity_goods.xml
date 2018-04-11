@@ -4,13 +4,5 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorWhite"
-    tools:context="com.mhky.dianhuotong.activity.GuoYiGuanActivity">
-
-
-    <com.mhky.dianhuotong.custom.viewgroup.DianHuoTongBaseTitleBar
-        android:id="@+id/daka_title"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/x64"
-        />
+    tools:context="com.mhky.dianhuotong.shop.activity.GoodsActivity">
 </RelativeLayout>

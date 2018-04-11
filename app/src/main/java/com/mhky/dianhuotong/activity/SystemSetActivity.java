@@ -7,6 +7,7 @@ import android.widget.RelativeLayout;
 
 import com.mhky.dianhuotong.R;
 import com.mhky.dianhuotong.base.BaseTool;
+import com.mhky.dianhuotong.base.view.BaseActivity;
 import com.mhky.dianhuotong.custom.viewgroup.DianHuoTongBaseTitleBar;
 
 import butterknife.BindView;
@@ -14,7 +15,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import ch.ielse.view.SwitchView;
 
-public class SystemSetActivity extends AppCompatActivity {
+public class SystemSetActivity extends BaseActivity {
     @BindView(R.id.system_set_title)
     DianHuoTongBaseTitleBar dianHuoTongBaseTitleBar;
     @BindView(R.id.system_switch)

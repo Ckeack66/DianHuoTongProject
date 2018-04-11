@@ -10,10 +10,6 @@
         android:layout_height="@dimen/x217"
         android:background="@drawable/image_login_background" />
 
-    <include
-        android:id="@+id/mian_title"
-        layout="@layout/inclued_zhuangtai" />
-
     <com.mhky.dianhuotong.custom.viewgroup.DianHuoTongBaseTitleBar
         android:id="@+id/login_title"
         android:layout_width="match_parent"

@@ -4,9 +4,6 @@
     android:layout_height="match_parent"
     android:background="@color/coloreeeeee"
     android:orientation="vertical">
-    <include
-        android:id="@+id/mian_title"
-        layout="@layout/inclued_zhuangtai" />
     <com.mhky.dianhuotong.custom.viewgroup.DianHuoTongBaseTitleBar
         android:id="@+id/person_info_update_title"
         android:layout_width="match_parent"

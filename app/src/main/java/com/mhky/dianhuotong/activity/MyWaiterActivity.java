@@ -5,12 +5,13 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.mhky.dianhuotong.R;
+import com.mhky.dianhuotong.base.view.BaseActivity;
 import com.mhky.dianhuotong.custom.viewgroup.DianHuoTongBaseTitleBar;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MyWaiterActivity extends AppCompatActivity {
+public class MyWaiterActivity extends BaseActivity {
     @BindView(R.id.mywaiter_title)
     DianHuoTongBaseTitleBar dianHuoTongBaseTitleBar;
 

@@ -6,9 +6,6 @@
     android:orientation="vertical"
     tools:context="com.mhky.dianhuotong.activity.ShiYaoQianYanActivity"
     android:background="@color/colorWhite">
-    <include
-        android:id="@+id/mian_title"
-        layout="@layout/inclued_zhuangtai" />
     <com.mhky.dianhuotong.custom.viewgroup.DianHuoTongBaseTitleBar
         android:id="@+id/mywaiter_title"
         android:layout_width="match_parent"

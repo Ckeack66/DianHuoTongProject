@@ -6,13 +6,10 @@
     tools:context="com.mhky.dianhuotong.activity.JianKang121Activity"
     android:background="@color/colorWhite">
 
-    <include
-        android:id="@+id/mian_title"
-        layout="@layout/inclued_zhuangtai" />
 
     <com.mhky.dianhuotong.custom.viewgroup.DianHuoTongBaseTitleBar
         android:id="@+id/jiangkang121_title"
         android:layout_width="match_parent"
         android:layout_height="@dimen/x64"
-        android:layout_below="@id/mian_title" />
+        />
 </RelativeLayout>

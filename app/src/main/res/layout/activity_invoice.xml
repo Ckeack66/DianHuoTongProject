@@ -6,7 +6,6 @@
     android:background="@color/coloreeeeee"
     android:orientation="vertical"
     tools:context="com.mhky.dianhuotong.activity.InvoiceActivity">
-    <include layout="@layout/inclued_zhuangtai" />
     <com.mhky.dianhuotong.custom.viewgroup.DianHuoTongBaseTitleBar
         android:id="@+id/invoice_title"
         android:layout_width="match_parent"

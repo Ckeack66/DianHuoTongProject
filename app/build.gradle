@@ -37,6 +37,7 @@ dependencies {
     compile 'com.jakewharton:butterknife:8.8.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
     //设置状态栏透明工具
+    implementation 'com.yanzhenjie:sofia:1.0.5'
     compile 'com.jaeger.statusbarutil:library:1.4.0'
     implementation project(':GridViewLine')
     //网络框架

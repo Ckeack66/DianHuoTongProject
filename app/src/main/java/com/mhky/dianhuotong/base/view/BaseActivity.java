@@ -7,6 +7,8 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
 import android.view.KeyEvent;
 
+import com.yanzhenjie.sofia.Sofia;
+
 /**
  * Created by Administrator on 2018/3/26.
  */
@@ -15,6 +17,8 @@ public class BaseActivity extends FragmentActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+//        Sofia.with(this).statusBarBackgroundAlpha(100);
+//        Sofia.with(this).statusBarBackgroundAlpha(100);
     }
 
     @Override

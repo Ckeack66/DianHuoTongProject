@@ -5,12 +5,13 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.mhky.dianhuotong.R;
+import com.mhky.dianhuotong.base.view.BaseActivity;
 import com.mhky.dianhuotong.custom.viewgroup.DianHuoTongBaseTitleBar;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class ConnectOurActivity extends AppCompatActivity {
+public class ConnectOurActivity extends BaseActivity {
     @BindView(R.id.connectour_title)
     DianHuoTongBaseTitleBar dianHuoTongBaseTitleBar;
     @Override

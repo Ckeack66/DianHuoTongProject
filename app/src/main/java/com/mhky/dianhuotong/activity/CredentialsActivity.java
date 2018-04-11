@@ -7,6 +7,7 @@ import android.widget.GridView;
 
 import com.mhky.dianhuotong.R;
 import com.mhky.dianhuotong.base.BaseTool;
+import com.mhky.dianhuotong.base.view.BaseActivity;
 import com.mhky.dianhuotong.custom.viewgroup.DianHuoTongBaseTitleBar;
 import com.mhky.dianhuotong.invoice.VoiceGridviewAdapter;
 
@@ -14,7 +15,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class CredentialsActivity extends AppCompatActivity {
+public class CredentialsActivity extends BaseActivity {
     @BindView(R.id.credentials_title)
     DianHuoTongBaseTitleBar diaHuiTongBaseTitleBar;
 

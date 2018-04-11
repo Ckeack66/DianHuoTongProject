@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     tools:context="com.mhky.dianhuotong.activity.BillActivity"
     android:orientation="vertical">
-    <include layout="@layout/inclued_zhuangtai" />
     <com.mhky.dianhuotong.custom.viewgroup.DianHuoTongBaseTitleBar
         android:id="@+id/bill_titlebar"
         android:layout_width="match_parent"

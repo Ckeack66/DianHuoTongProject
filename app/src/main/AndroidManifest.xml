@@ -72,7 +72,8 @@
         <activity android:name=".activity.HelpActivity" />
         <activity android:name=".activity.BanKuaiCreatingActivity" />
         <activity android:name=".activity.ScanCodeActivity" />
-        <activity android:name=".shop.activity.AllGoodsActivity"></activity>
+        <activity android:name=".shop.activity.AllGoodsActivity" />
+        <activity android:name=".shop.activity.GoodsActivity"></activity>
     </application>
 
 </manifest>
