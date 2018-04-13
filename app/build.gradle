@@ -1,13 +1,22 @@
 apply plugin: 'com.android.application'
 android {
+    signingConfigs {
+        config {
+            keyAlias 'minghuikangyu'
+            keyPassword 'minghuikangyu123456'
+            storeFile file('E:/minghuikangyu/minghuikangyu.jks')
+            storePassword 'minghuikangyu123456'
+        }
+    }
     compileSdkVersion 26
     defaultConfig {
-        applicationId "com.ymky.dianhuotong"
+        applicationId "com.mhky.dianhuotong"
         minSdkVersion 18
         targetSdkVersion 26
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        signingConfig signingConfigs.config
     }
     buildTypes {
         release {
@@ -21,6 +30,8 @@ android {
         }
     }
     buildToolsVersion '27.0.3'
+    productFlavors {
+    }
 }
 
 dependencies {
@@ -70,4 +81,8 @@ dependencies {
     //二维码扫描
     implementation 'cn.bingoogolapple:bga-qrcode-zxing:1.2.1'
     implementation 'cn.bingoogolapple:bga-qrcode-zbar:1.2.1'
+    //圆形图片
+    implementation 'de.hdodenhof:circleimageview:2.2.0'
+    //图片放大
+    compile 'com.lzy.widget:ninegridview:0.2.0'
 }

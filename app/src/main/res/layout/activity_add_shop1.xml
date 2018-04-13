@@ -35,7 +35,7 @@
             android:layout_height="match_parent"
             android:background="@null"
             android:gravity="center_vertical"
-            android:hint="@string/myselect_search_text"
+            android:hint="@string/add_shop_search"
             android:inputType="text"
             android:maxLines="1"
             android:padding="@dimen/x2"

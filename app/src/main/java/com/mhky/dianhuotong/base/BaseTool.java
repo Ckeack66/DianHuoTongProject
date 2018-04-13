@@ -18,9 +18,14 @@ import com.mhky.dianhuotong.invoice.VoiceGridviewAdapter;
 import com.mhky.dianhuotong.shop.adapter.AllGoodsListViewGridviewAdpter;
 import com.mhky.dianhuotong.shop.adapter.ShopListviewAdapter;
 
+import java.net.URL;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 /**
  * Created by Administrator on 2018/3/31.
@@ -85,10 +90,11 @@ public class BaseTool {
         // 设置参数
         listView.setLayoutParams(params);
     }
+
     /**
      * 计算gridview高度
      */
-    public static void setListViewHeightBasedOnChildren(GridView listView,int number) {
+    public static void setListViewHeightBasedOnChildren(GridView listView, int number) {
         // 获取listview的adapter
         AllGoodsListViewGridviewAdpter listAdapter = (AllGoodsListViewGridviewAdpter) listView.getAdapter();
         if (listAdapter == null) {
@@ -184,6 +190,47 @@ public class BaseTool {
         Log.d(TAG, "simpledateFommet: ---" + time);
         String time1[] = time.split(":");
         return time1;
+    }
+
+    /**
+     * haseMap转换成parameters
+     *
+     */
+
+    /**
+     * 将map转换成url
+     *
+     * @param map
+     * @return
+     */
+    public static String getUrlParamsByMap(Map map, boolean isSort) {
+        if (map == null) {
+            return "";
+        }
+        StringBuffer sb = new StringBuffer();
+        List keys = new ArrayList(map.keySet());
+        if (isSort) {
+            Collections.sort(keys);
+        }
+        for (int i = 0; i < keys.size(); i++) {
+            String key = (String) keys.get(i);
+            String value = map.get(key).toString();
+            String value1 = Uri.encode(value);
+            sb.append(key + "=" + value1);
+            sb.append("&");
+        }
+        String s = sb.toString();
+        if (s.endsWith("&")) {
+            s = s.substring(0, s.lastIndexOf("&"));
+        }
+/*
+* for (Map.Entry entry : map.entrySet()) {
+* sb.append(entry.getKey() +"="+ entry.getValue()); sb.append("&;"); }
+* String s = sb.toString(); if (s.endsWith("&;")) { //s =
+* StringUtils.substringBeforeLast(s,"&;"); s = s.substring(0,
+* s.lastIndexOf("&;")); }
+*/
+        return s;
     }
 
 }

@@ -1,6 +1,7 @@
 package com.mhky.dianhuotong.activity;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
@@ -97,8 +98,11 @@ public class RegisterActivity extends BaseActivity implements TimerMessage.OnTim
 
     @OnClick(R.id.register_getmessage)
     void sendMessage() {
-        if (editTextPhone.getText().toString() != null && editTextPhone.getText().toString().length() < 11) {
-            ToastUtil.makeText(this, "手机号格式不正确", Toast.LENGTH_SHORT).show();
+        if (TextUtils.isEmpty(editTextPhone.getText())) {
+            ToastUtil.makeText(this, "请输入手机号码", Toast.LENGTH_SHORT).show();
+            return;
+        } else if (editTextPhone.getText().toString().length() < 11) {
+            ToastUtil.makeText(this, "手机号码位数不正确", Toast.LENGTH_SHORT).show();
             return;
         }
         registerPrecenter.getMsm(editTextPhone.getText().toString());
@@ -109,18 +113,32 @@ public class RegisterActivity extends BaseActivity implements TimerMessage.OnTim
      */
     @OnClick(R.id.register_register_button)
     void register() {
-        if (!isSendSMS) {
-            ToastUtil.makeText(this, "请点击发送验证码", Toast.LENGTH_SHORT).show();
+        if (TextUtils.isEmpty(editTextPhone.getText())) {
+            ToastUtil.makeText(this, "请输入手机号码", Toast.LENGTH_SHORT).show();
+            return;
+        } else if (editTextPhone.getText().toString().length() < 11) {
+            ToastUtil.makeText(this, "手机号码位数不正确", Toast.LENGTH_SHORT).show();
+            return;
+        } else if (!isSendSMS) {
+            ToastUtil.makeText(this, "请点击获取验证码", Toast.LENGTH_SHORT).show();
+            return;
+        } else if (TextUtils.isEmpty(editTextPhoneCode.getText())) {
+            ToastUtil.makeText(this, "请输入验证码", Toast.LENGTH_SHORT).show();
+            return;
+        } else if (editTextPhoneCode.getText().length() != 4) {
+            ToastUtil.makeText(this, "验证码不正确", Toast.LENGTH_SHORT).show();
+            return;
+        } else if (TextUtils.isEmpty(editTextPwd.getText())) {
+            ToastUtil.makeText(this, "请输入密码", Toast.LENGTH_SHORT).show();
+            return;
+        } else if (editTextPwd.getText().toString().length() < 6) {
+            ToastUtil.makeText(this, "密码格式不正确", Toast.LENGTH_SHORT).show();
             return;
         }
-        if (!editTextPwd.getText().toString().equals("") && editTextPwd.getText().toString().length() >= 6 && !editTextPhone.getText().toString().equals("") && editTextPhone.getText().toString().length() >= 11 && !editTextPhoneCode.getText().toString().equals("")) {
-            if (shapeLoadingDialog != null) {
-                shapeLoadingDialog.show();
-            }
-            registerPrecenter.checkSMS(editTextPhone.getText().toString(), editTextPhoneCode.getText().toString());
-        } else {
-            ToastUtil.makeText(this, "信息填写错误", Toast.LENGTH_SHORT).show();
+        if (shapeLoadingDialog != null) {
+            shapeLoadingDialog.show();
         }
+        registerPrecenter.checkSMS(editTextPhone.getText().toString().trim(), editTextPhoneCode.getText().toString().trim());
     }
 
     /**
@@ -191,8 +209,9 @@ public class RegisterActivity extends BaseActivity implements TimerMessage.OnTim
         if (code == 200) {
             ToastUtil.makeText(this, "注册成功！", Toast.LENGTH_SHORT).show();
             finish();
+        } else {
+            ToastUtil.makeText(this, "发生未知错误-" + code, Toast.LENGTH_SHORT).show();
         }
-
         Log.d(TAG, "onSuccess: " + code + "-----" + result);
     }
 
@@ -223,6 +242,8 @@ public class RegisterActivity extends BaseActivity implements TimerMessage.OnTim
             isTimerStart = true;
             messageButtonNo();
             ToastUtil.makeText(this, "发送成功！", Toast.LENGTH_SHORT).show();
+        } else if (code == 202) {
+            ToastUtil.makeText(this, "手机号码已注册！", Toast.LENGTH_SHORT).show();
         } else {
             ToastUtil.makeText(this, "无法发送验证码！", Toast.LENGTH_SHORT).show();
         }

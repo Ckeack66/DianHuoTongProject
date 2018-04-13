@@ -10,6 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/colorWhite">
+
         <com.mhky.dianhuotong.custom.viewgroup.DianHuoTongBaseTitleBar
             android:id="@+id/mian_titlebar"
             android:layout_width="match_parent"
@@ -34,19 +35,19 @@
             android:layout_marginLeft="@dimen/x15"
             android:layout_marginRight="@dimen/x15"
             android:gravity="center"
-            android:numColumns="3"/>
+            android:numColumns="3" />
 
         <!--<com.jake.library.GridViewLine-->
-            <!--android:id="@+id/main_gridview"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="match_parent"-->
-            <!--android:layout_below="@id/main_title_banner"-->
-            <!--android:layout_marginLeft="@dimen/x15"-->
-            <!--android:layout_marginRight="@dimen/x15"-->
-            <!--android:gravity="center"-->
-            <!--android:numColumns="3"-->
-            <!--app:line_color="@color/colorEDEDED"-->
-            <!--app:line_width="@dimen/x0.5" />-->
+        <!--android:id="@+id/main_gridview"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:layout_below="@id/main_title_banner"-->
+        <!--android:layout_marginLeft="@dimen/x15"-->
+        <!--android:layout_marginRight="@dimen/x15"-->
+        <!--android:gravity="center"-->
+        <!--android:numColumns="3"-->
+        <!--app:line_color="@color/colorEDEDED"-->
+        <!--app:line_width="@dimen/x0.5" />-->
     </RelativeLayout>
 
     <RelativeLayout
@@ -64,14 +65,16 @@
             android:layout_height="@dimen/x256"
             android:background="@color/color04c1ab">
 
-            <ImageView
+            <de.hdodenhof.circleimageview.CircleImageView
+                xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:id="@+id/main_user_image"
                 android:layout_width="@dimen/x94"
                 android:layout_height="@dimen/x94"
+                android:src="@drawable/icon_header_big"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="@dimen/x64"
-                android:background="@color/colorTransp"
-                android:src="@drawable/icon_header_big" />
+                app:civ_border_width="2dp"
+                app:civ_border_color="#FFffffff"/>
 
             <TextView
                 android:id="@+id/drawer_text_name"
@@ -81,7 +84,7 @@
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="@dimen/x13"
                 android:background="@color/colorTransp"
-                android:text="用户名"
+                android:text="未设置"
                 android:textColor="@color/colorWhite"
                 android:textSize="@dimen/t14" />
 
@@ -93,7 +96,7 @@
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="@dimen/x16"
                 android:background="@color/colorTransp"
-                android:text="15236699689"
+                android:text=""
                 android:textColor="@color/colorWhite"
                 android:textSize="@dimen/t14" />
         </RelativeLayout>

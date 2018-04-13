@@ -4,14 +4,27 @@ import android.Manifest;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RadioButton;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.alibaba.fastjson.JSON;
 import com.joker.annotation.PermissionsGranted;
 import com.joker.api.Permissions4M;
+import com.lzy.okgo.model.HttpParams;
+import com.mhky.dianhuotong.base.BaseApplication;
+import com.mhky.dianhuotong.person.bean.PersonInfo;
+import com.mhky.dianhuotong.person.bean.UserInfo;
+import com.mhky.dianhuotong.person.personif.PersonIF;
+import com.mhky.dianhuotong.person.personif.UpdataPersonIF;
+import com.mhky.dianhuotong.person.pesenter.PersonInfoPrecenter;
+import com.mhky.dianhuotong.person.pesenter.UpdataPersonInfoPersenter;
 import com.squareup.picasso.Picasso;
 import com.mhky.dianhuotong.R;
 import com.mhky.dianhuotong.base.BaseTool;
@@ -22,11 +35,16 @@ import com.mhky.dianhuotong.custom.viewgroup.DianHuoTongBaseTitleBar;
 import org.devio.takephoto.app.TakePhotoActivity;
 import org.devio.takephoto.model.TResult;
 
+import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import de.hdodenhof.circleimageview.CircleImageView;
 
-public class PersonInfoUpdateActivity extends TakePhotoActivity implements DianHuoTongBottomMenuDialog.DianHuoTongBottomMenuDialogListener {
+public class PersonInfoUpdateActivity extends TakePhotoActivity implements DianHuoTongBottomMenuDialog.DianHuoTongBottomMenuDialogListener, UpdataPersonIF, PersonIF, View.OnTouchListener {
     @BindView(R.id.person_info_update_title)
     DianHuoTongBaseTitleBar dianHuoTongBaseTitleBar;
     @BindView(R.id.person_info_update_go_add_shop)
@@ -34,11 +52,21 @@ public class PersonInfoUpdateActivity extends TakePhotoActivity implements DianH
     @BindView(R.id.person_info_update_select_message)
     RelativeLayout relativeLayoutSelect;
     @BindView(R.id.person_info_update_photo)
-    ImageView imageView;
+    CircleImageView imageView;
+    @BindView(R.id.person_info_updata_realname)
+    EditText editTextRealName;
+    @BindView(R.id.person_info_updata_username)
+    EditText editTextUserName;
+    @BindView(R.id.person_info_update_boss)
+    RadioButton radioButtonBoss;
+    @BindView(R.id.person_info_update_woker)
+    RadioButton radioButtonWorker;
     private Context mContext;
-    private Uri uri=null;
+    private Uri uri = null;
     private DianHuoTongBottomMenuDialog dianHuoTongBottomMenuDialog;
+    private UpdataPersonInfoPersenter updataPersonInfoPersenter;
     private static final String TAG = "PersonInfoUpdateActivit";
+    private PersonInfoPrecenter personInfoPrecenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,16 +92,21 @@ public class PersonInfoUpdateActivity extends TakePhotoActivity implements DianH
     public void takeSuccess(TResult result) {
         super.takeSuccess(result);
         dianHuoTongBottomMenuDialog.dismiss();
-        ToastUtil.makeText(this, "选取成功" , Toast.LENGTH_SHORT).show();
-        Log.d(TAG, "takeSuccess: " + result.getImage().getCompressPath());
+        //ToastUtil.makeText(this, "选取成功", Toast.LENGTH_SHORT).show();
         Log.d(TAG, "takeSuccess: " + result.getImages().size());
-        Log.d(TAG, "takeSuccess: " + result.getImages().get(0).getCompressPath());
         Log.d(TAG, "takeSuccess: " + result.getImages().get(0).getOriginalPath());
-        if (uri == null) {
-            Picasso.with(this).load("file://"+result.getImages().get(0).getOriginalPath()).into(imageView);
-        } else {
-            Picasso.with(this).load(uri).into(imageView);
-        }
+        HttpParams httpParams = new HttpParams();
+        httpParams.put("userName", BaseApplication.getInstansApp().getLoginRequestInfo().getUsername());
+        httpParams.put("userId", BaseApplication.getInstansApp().getLoginRequestInfo().getId());
+        httpParams.put("type", "USER");
+        httpParams.put("file", new File(result.getImages().get(0).getOriginalPath()));
+        updataPersonInfoPersenter.uploadeImage(httpParams);
+        //Picasso.with(this).load("file://" + result.getImages().get(0).getOriginalPath()).into(imageView);
+//        if (uri != null) {
+//            Picasso.with(this).load("file://" + result.getImages().get(0).getOriginalPath()).into(imageView);
+//        } else {
+//            Picasso.with(this).load(uri).into(imageView);
+//        }
 
     }
 
@@ -137,10 +170,25 @@ public class PersonInfoUpdateActivity extends TakePhotoActivity implements DianH
         dianHuoTongBaseTitleBar.setRightTextOnclickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ToastUtil.makeText(mContext, "已保存", Toast.LENGTH_SHORT).show();
+                Map map = new HashMap();
+                if (!TextUtils.isEmpty(editTextRealName.getText().toString().trim())) {
+                    map.put("trueName", editTextRealName.getText().toString().trim());
+                }
+                if (!TextUtils.isEmpty(editTextUserName.getText())) {
+                    map.put("userName", editTextUserName.getText().toString().trim());
+                }
+                if (TextUtils.isEmpty(editTextRealName.getText().toString().trim()) && TextUtils.isEmpty(editTextUserName.getText())) {
+                    ToastUtil.makeText(mContext, "更新成功", Toast.LENGTH_SHORT).show();
+                } else {
+                    updataPersonInfoPersenter.updatePersonInfo(map, BaseApplication.getInstansApp().getLoginRequestInfo().getId(), null);
+                }
+
             }
         });
         dianHuoTongBottomMenuDialog = new DianHuoTongBottomMenuDialog(this, this);
+        updataPersonInfoPersenter = new UpdataPersonInfoPersenter(this);
+        personInfoPrecenter = new PersonInfoPrecenter(this);
+        personInfoPrecenter.getPersonInfo(BaseApplication.getInstansApp().getLoginRequestInfo().getId());
     }
 
     @PermissionsGranted(1001)
@@ -157,5 +205,65 @@ public class PersonInfoUpdateActivity extends TakePhotoActivity implements DianH
     @Override
     public void getPhotos() {
         getTakePhoto().onPickFromGallery();
+    }
+
+    @Override
+    public void updataUserImageSucess(int code, String result) {
+        if (code == 201) {
+            //ToastUtil.makeText(this, "上传成功" + code, Toast.LENGTH_SHORT).show();
+            Map map = new HashMap();
+            map.put("image", result);
+//            HttpParams httpParams = new HttpParams();
+//            httpParams.put("image", result);
+//            httpParams.put("id", BaseApplication.getInstansApp().getLoginRequestInfo().getId());
+            updataPersonInfoPersenter.updatePersonInfo(map, BaseApplication.getInstansApp().getLoginRequestInfo().getId(), result);
+        }
+
+    }
+
+    @Override
+    public void updataUserImageFailed(int code, String result) {
+        ToastUtil.makeText(this, "上传失败" + code, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void updataUserInfoSucess(int code, String result, String result1) {
+        personInfoPrecenter.getPersonInfo(BaseApplication.getInstansApp().getLoginRequestInfo().getId());
+        BaseApplication.getInstansApp().setUpdata(true);
+        ToastUtil.makeText(this, "更新成功", Toast.LENGTH_SHORT).show();
+
+    }
+
+    @Override
+    public void updataUserinfoFailed(int code, String result) {
+        ToastUtil.makeText(this, "更新失败" + code, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void getUserInfoSucess(PersonInfo personInfo) {
+        if (personInfo!=null){
+            editTextRealName.setText(personInfo.getTruename().toString());
+            editTextUserName.setText(personInfo.getUsername().toString());
+            if (personInfo.getType() != null) {
+
+            } else {
+                radioButtonBoss.setClickable(false);
+                radioButtonWorker.setClickable(false);
+                radioButtonBoss.setOnTouchListener(this);
+                radioButtonWorker.setOnTouchListener(this);
+            }
+            Picasso.with(this).load(personInfo.getImage().toString()).into(imageView);
+        }
+    }
+
+    @Override
+    public void getUserinfoFailed(int code, String result) {
+
+    }
+
+    @Override
+    public boolean onTouch(View v, MotionEvent event) {
+        ToastUtil.makeText(this, "您还没有加入店铺呦~", Toast.LENGTH_SHORT).show();
+        return false;
     }
 }

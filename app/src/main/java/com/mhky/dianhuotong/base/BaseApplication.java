@@ -4,8 +4,11 @@ import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.baidu.mapapi.SDKInitializer;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.lzy.okgo.OkGo;
+import com.mhky.dianhuotong.login.LoginRequestInfo;
+import com.mhky.dianhuotong.person.bean.PersonInfo;
 
 /**
  * Created by Administrator on 2018/3/31.
@@ -19,6 +22,26 @@ public class BaseApplication extends Application {
     private static SharedPreferences mSharedPreferences;
     private Context mContext;
 
+    public PersonInfo getPersonInfo() {
+        return personInfo;
+    }
+
+    public void setPersonInfo(PersonInfo personInfo) {
+        this.personInfo = personInfo;
+    }
+
+    private PersonInfo personInfo;
+
+    public boolean isUpdata() {
+        return isUpdata;
+    }
+
+    public void setUpdata(boolean updata) {
+        isUpdata = updata;
+    }
+
+    private boolean isUpdata = true;
+
     public boolean isAddShop() {
         return isAddShop;
     }
@@ -29,6 +52,16 @@ public class BaseApplication extends Application {
 
     private boolean isAddShop = true;
 
+    public LoginRequestInfo getLoginRequestInfo() {
+        return loginRequestInfo;
+    }
+
+    public void setLoginRequestInfo(LoginRequestInfo loginRequestInfo) {
+        this.loginRequestInfo = loginRequestInfo;
+    }
+
+    private LoginRequestInfo loginRequestInfo;
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -36,6 +69,7 @@ public class BaseApplication extends Application {
         mContext = this;
         mSharedPreferences = this.getSharedPreferences(MY_SHARE_NAME, MODE_PRIVATE);
         Fresco.initialize(this);
+        SDKInitializer.initialize(getApplicationContext());
     }
 
     public static BaseApplication getInstansApp() {

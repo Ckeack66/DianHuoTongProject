@@ -11,8 +11,10 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.mhky.dianhuotong.R;
@@ -27,6 +29,7 @@ import com.mhky.dianhuotong.main.MainIF;
 import com.mhky.dianhuotong.main.adpter.DrawerLayoutAdapter;
 import com.mhky.dianhuotong.main.adpter.GridViewAdapter;
 import com.mhky.dianhuotong.main.presenter.MainActivityPrecenter;
+import com.squareup.picasso.Picasso;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
 import com.youth.banner.Transformer;
@@ -37,6 +40,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class MainActivity extends BaseActivity implements MainIF, DrawerLayout.DrawerListener, AdapterView.OnItemClickListener, DianHuoTongBaseDialog.BaseDialogListener {
     @BindView(R.id.drawer_listview)
@@ -55,6 +59,12 @@ public class MainActivity extends BaseActivity implements MainIF, DrawerLayout.D
     RelativeLayout relativeLayoutBody;
     @BindView(R.id.main_title_banner)
     Banner banner;
+    @BindView(R.id.main_user_image)
+    CircleImageView imageViewUser;
+    @BindView(R.id.drawer_text_name)
+    TextView textViewUserName;
+    @BindView(R.id.drawer_text_phone)
+    TextView textViewPhone;
     boolean isOpenDrawer = false;
     private MainActivityPrecenter mainActivityPrecenter;
     private DrawerLayoutAdapter drawerLayoutAdapter;
@@ -67,7 +77,6 @@ public class MainActivity extends BaseActivity implements MainIF, DrawerLayout.D
     private String main2 = "main2";
     private DianHuoTongBaseDialog dianHuoTongBaseDialogAddShop;
     private String main3 = "mian3";
-
     private Context mContext;
 
     @Override
@@ -81,10 +90,33 @@ public class MainActivity extends BaseActivity implements MainIF, DrawerLayout.D
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+
+
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+
+
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+    }
+
+    @Override
     protected void onResume() {
         super.onResume();
         if (BaseApplication.getInstansApp().getToakens() != null) {
             drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+        }
+        if (BaseApplication.getInstansApp().isUpdata()) {
+            updateDrawer();
         }
     }
 
@@ -147,7 +179,10 @@ public class MainActivity extends BaseActivity implements MainIF, DrawerLayout.D
         listView.setOnItemClickListener(this);
     }
 
-    //初始化轮播图
+    /**
+     * 初始化轮播图
+     */
+
     private void initImageBaner(List<?> list) {
         banner.setBannerStyle(BannerConfig.CIRCLE_INDICATOR);
         //设置图片加载器
@@ -168,23 +203,46 @@ public class MainActivity extends BaseActivity implements MainIF, DrawerLayout.D
         banner.start();
     }
 
+    /**
+     * 获取抽屉列表数据回调
+     *
+     * @param array
+     * @param list
+     */
     @Override
     public void updateListview(int[] array, ArrayList<String> list) {
         drawerLayoutAdapter = new DrawerLayoutAdapter(list, array, this);
         listView.setAdapter(drawerLayoutAdapter);
     }
 
+    /**
+     * 获取首页九宫格数据回调
+     *
+     * @param array
+     * @param list
+     */
     @Override
     public void updateGridView(int[] array, ArrayList<String> list) {
         gridViewAdapter = new GridViewAdapter(this, list, array);
         gridView.setAdapter(gridViewAdapter);
     }
 
+    /**
+     * 获取banner数据
+     *
+     * @param list
+     */
     @Override
     public void getBanerList(List<?> list) {
         initImageBaner(list);
     }
 
+    /**
+     * 抽屉滑动距离
+     *
+     * @param drawerView
+     * @param slideOffset
+     */
     @Override
     public void onDrawerSlide(View drawerView, float slideOffset) {
         Log.d(TAG, "onDrawerSlide: " + slideOffset);
@@ -192,12 +250,22 @@ public class MainActivity extends BaseActivity implements MainIF, DrawerLayout.D
         relativeLayoutBody.layout(relativeLayoutLeft.getRight(), 0, relativeLayoutLeft.getRight() + display.widthPixels, display.heightPixels);
     }
 
+    /**
+     * 抽屉打开监听
+     *
+     * @param drawerView
+     */
     @Override
     public void onDrawerOpened(View drawerView) {
         isOpenDrawer = true;
         banner.stopAutoPlay();
     }
 
+    /**
+     * 抽屉关闭监听
+     *
+     * @param drawerView
+     */
     @Override
     public void onDrawerClosed(View drawerView) {
         isOpenDrawer = false;
@@ -209,6 +277,14 @@ public class MainActivity extends BaseActivity implements MainIF, DrawerLayout.D
 
     }
 
+    /**
+     * 首页和抽屉listview和gridview点击监听
+     *
+     * @param parent
+     * @param view
+     * @param position
+     * @param id
+     */
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         if (BaseApplication.getInstansApp().getToakens() == null) {
@@ -255,7 +331,6 @@ public class MainActivity extends BaseActivity implements MainIF, DrawerLayout.D
                 }
                 break;
             case R.id.drawer_listview:
-                ToastUtil.makeText(this, "点击了listview" + position, Toast.LENGTH_SHORT).show();
                 switch (position) {
                     case 0:
                         BaseTool.goActivityNoData(this, MyselectedActivity.class);
@@ -280,6 +355,11 @@ public class MainActivity extends BaseActivity implements MainIF, DrawerLayout.D
         }
     }
 
+    /**
+     * 弹窗点击左键监听
+     *
+     * @param mTag 同一页面多个弹窗区分
+     */
     @Override
     public void onClickBaseDialogLeft(String mTag) {
         if (main1.equals(mTag) && dianHuoTongBaseDialog.isShowing()) {
@@ -291,6 +371,11 @@ public class MainActivity extends BaseActivity implements MainIF, DrawerLayout.D
         }
     }
 
+    /**
+     * 弹窗点击右键监听
+     *
+     * @param mTag 同一页面多个弹窗区分
+     */
     @Override
     public void onClickBaseDialogRight(String mTag) {
 
@@ -307,8 +392,46 @@ public class MainActivity extends BaseActivity implements MainIF, DrawerLayout.D
 
     }
 
+    /**
+     * 点击头像进入个人中心界面
+     */
     @OnClick(R.id.main_user_image)
     void goPersonInfoEditActivity() {
         BaseTool.goActivityNoData(this, PersonInfoActivity.class);
     }
+
+    /**
+     * 更新抽屉界面信息
+     */
+    private void updateDrawer() {
+        if (BaseApplication.getInstansApp().getPersonInfo()!=null){
+            if (BaseApplication.getInstansApp().getPersonInfo().getImage() != null) {
+                Log.d(TAG, "updateDrawer: --------" + BaseApplication.getInstansApp().getLoginRequestInfo().getImage().toString());
+                Picasso.with(this).load(BaseApplication.getInstansApp().getPersonInfo().getImage().toString()).into(imageViewUser);
+            }
+            if (BaseApplication.getInstansApp().getPersonInfo().getUsername() != null) {
+                textViewUserName.setText(BaseApplication.getInstansApp().getPersonInfo().getUsername());
+            }
+            if (BaseApplication.getInstansApp().getPersonInfo().getMobile() != null) {
+                textViewPhone.setText(BaseApplication.getInstansApp().getPersonInfo().getMobile());
+            }
+            BaseApplication.getInstansApp().setUpdata(false);
+            return;
+        }
+        if (BaseApplication.getInstansApp().getLoginRequestInfo() != null) {
+            if (BaseApplication.getInstansApp().getLoginRequestInfo().getImage() != null) {
+                Log.d(TAG, "updateDrawer: --------" + BaseApplication.getInstansApp().getLoginRequestInfo().getImage().toString());
+                Picasso.with(this).load(BaseApplication.getInstansApp().getLoginRequestInfo().getImage().toString()).into(imageViewUser);
+            }
+            if (BaseApplication.getInstansApp().getLoginRequestInfo().getUsername() != null) {
+                textViewUserName.setText(BaseApplication.getInstansApp().getLoginRequestInfo().getUsername());
+            }
+            if (BaseApplication.getInstansApp().getLoginRequestInfo().getMobile() != null) {
+                textViewPhone.setText(BaseApplication.getInstansApp().getLoginRequestInfo().getMobile());
+            }
+            BaseApplication.getInstansApp().setUpdata(false);
+        }
+    }
+
+
 }

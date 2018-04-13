@@ -22,8 +22,8 @@ public class LoginPrecenter {
         this.loginIF = loginIF;
     }
 
-    private void Login(String phone, String pwd) {
-        OkGo.<String>post(BaseUrlTool.REGISTER).upJson("").execute(new Callback<String>() {
+    public void Login(String phone, String pwd) {
+        OkGo.<String>get(BaseUrlTool.LOGIN).params("value", phone).params("password", pwd).execute(new Callback<String>() {
             @Override
             public void onStart(Request<String, ? extends Request> request) {
 
