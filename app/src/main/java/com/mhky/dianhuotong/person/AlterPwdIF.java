@@ -1,4 +1,4 @@
-package com.mhky.dianhuotong.alterpwd;
+package com.mhky.dianhuotong.person;
 
 /**
  * Created by Administrator on 2018/4/13.

@@ -2,10 +2,13 @@ package com.mhky.dianhuotong.baidumap.activity;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -19,6 +22,7 @@ import com.baidu.mapapi.cloud.BaseSearchInfo;
 import com.baidu.mapapi.map.BaiduMap;
 import com.baidu.mapapi.map.BitmapDescriptor;
 import com.baidu.mapapi.map.BitmapDescriptorFactory;
+import com.baidu.mapapi.map.LogoPosition;
 import com.baidu.mapapi.map.MapPoi;
 import com.baidu.mapapi.map.MapStatusUpdate;
 import com.baidu.mapapi.map.MapStatusUpdateFactory;
@@ -28,6 +32,7 @@ import com.baidu.mapapi.map.MyLocationData;
 import com.baidu.mapapi.map.OverlayOptions;
 import com.baidu.mapapi.map.TextureMapView;
 import com.baidu.mapapi.model.LatLng;
+import com.baidu.mapapi.model.inner.Point;
 import com.baidu.mapapi.search.geocode.GeoCodeOption;
 import com.baidu.mapapi.search.geocode.GeoCodeResult;
 import com.baidu.mapapi.search.geocode.GeoCoder;
@@ -45,6 +50,7 @@ import com.joker.annotation.PermissionsGranted;
 import com.joker.annotation.PermissionsRequestSync;
 import com.joker.api.Permissions4M;
 import com.mhky.dianhuotong.R;
+import com.mhky.dianhuotong.activity.CreatShopActivity;
 import com.mhky.dianhuotong.baidumap.mapif.GetLocattionListener;
 import com.mhky.dianhuotong.baidumap.mapif.MyLocationListener;
 import com.mhky.dianhuotong.base.view.BaseActivity;
@@ -76,11 +82,22 @@ public class BaiDuMapActivity extends BaseActivity implements BaiduMap.OnMapClic
     private boolean a = false;
     private boolean b = false;
     private PoiSearch poiSearch;
+    private String mCity;
+    private Context mContext;
+    private String getCity;
+    private String getArea;
+    private String chooseCity;
+    private String chosseArea;
+    private String chooseZuobiao;
+    private String zBX;
+    private String zBY;
+    private Bundle bundle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bai_du_map);
+        mContext = this;
         ButterKnife.bind(this);
         init();
     }
@@ -105,106 +122,69 @@ public class BaiDuMapActivity extends BaseActivity implements BaiduMap.OnMapClic
     }
 
     @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            returnData();
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         Permissions4M.onRequestPermissionsResult(this, requestCode, grantResults);
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
     private void init() {
+        bundle = new Bundle();
+        Bundle bundles = getIntent().getExtras();
+        if (bundles != null) {
+            getCity = bundles.getString("city");
+            getArea = bundles.getString("area");
+        }
+        chooseCity = getCity;
+        chosseArea = getArea;
+//        textureMapView.showZoomControls(false);
+        textureMapView.setZoomControlsPosition(new android.graphics.Point(0, 0));
+        textureMapView.setLogoPosition(LogoPosition.logoPostionRightTop);
         baiduMap = textureMapView.getMap();
         baiduMap.setOnMapClickListener(this);
         bitmapDescriptor = BitmapDescriptorFactory.fromResource(R.drawable.icon_location);
         poiSearch = PoiSearch.newInstance();
-        poiSearch.setOnGetPoiSearchResultListener(new OnGetPoiSearchResultListener() {
-            @Override
-            public void onGetPoiResult(PoiResult poiResult) {
-                Log.d(TAG, "onGetPoiResult: ----检索返回" + poiResult.getAllAddr());
-                Log.d(TAG, "onGetPoiResult: ----检索返回" + poiResult.getAllPoi());
-                Log.d(TAG, "onGetPoiResult: ----检索返回" + poiResult.getSuggestCityList());
-
-                if (poiResult.getAllPoi() != null && poiResult.getAllPoi().size() > 0) {
-                    for (int a = 0; a < poiResult.getAllPoi().size(); a++) {
-                        Log.d(TAG, "onGetPoiResult: ---" + poiResult.getAllPoi().get(a).address);
-                        Log.d(TAG, "onGetPoiResult: ---" + poiResult.getAllPoi().get(a).name);
-                        if (a == 0) {
-                            LatLng newcenpt = new LatLng(poiResult.getAllPoi().get(a).location.latitude, poiResult.getAllPoi().get(a).location.longitude);
-                            MapStatusUpdate u = MapStatusUpdateFactory.newLatLngZoom(newcenpt, 16.0f);
-                            baiduMap.animateMapStatus(u);
-                            OverlayOptions overlayOptions = new MarkerOptions().position(newcenpt).icon(bitmapDescriptor).perspective(true);
-                            baiduMap.addOverlay(overlayOptions);
-                        }
-                    }
-                }
-                if (poiResult.getAllAddr() != null && poiResult.getAllAddr().size() > 0) {
-                    for (int a = 0; a < poiResult.getAllAddr().size(); a++) {
-                        Log.d(TAG, "onGetPoiResult: ---" + poiResult.getAllAddr().get(0).address);
-                    }
-                }
-            }
-
-            @Override
-            public void onGetPoiDetailResult(PoiDetailResult poiDetailResult) {
-//                MyLocationData myLocationData = new MyLocationData.Builder().accuracy(10).direction(100).latitude(poiDetailResult.getLocation().latitude, poiDetailResult.getLocation().longitude).build();
-//                baiduMap.setMyLocationData(myLocationData);
-                Log.d(TAG, "onGetPoiDetailResult: --检索返回");
-                LatLng newcenpt = new LatLng(poiDetailResult.getLocation().latitude, poiDetailResult.getLocation().longitude);
-                MapStatusUpdate u = MapStatusUpdateFactory.newLatLngZoom(newcenpt, 16.0f);
-                baiduMap.animateMapStatus(u);
-                Log.d(TAG, "onGetPoiDetailResult: -----" + poiDetailResult.getLocation().longitude + "----" + poiDetailResult.getLocation().latitude);
-            }
-
-            @Override
-            public void onGetPoiIndoorResult(PoiIndoorResult poiIndoorResult) {
-                Log.d(TAG, "onGetPoiIndoorResult: --检索返回");
-                if (poiIndoorResult.getmArrayPoiInfo() != null && poiIndoorResult.getmArrayPoiInfo().size() > 0) {
-                    Log.d(TAG, "onGetPoiIndoorResult: " + poiIndoorResult.getmArrayPoiInfo().get(0).address);
-                }
-
-            }
-        });
         dianHuoTongBaseTitleBar.setCenterTextView("坐标选择");
         dianHuoTongBaseTitleBar.setLeftImage(R.drawable.icon_back);
         dianHuoTongBaseTitleBar.setRightText("搜索");
         dianHuoTongBaseTitleBar.setLeftOnclickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                returnData();
                 finish();
             }
         });
         dianHuoTongBaseTitleBar.setRightTextOnclickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Log.d(TAG, "onClick: -----进行搜索");
-//                poiSearch.searchInCity((new PoiCitySearchOption())
-//                        .city("济南")
-//                        .keyword(editTextMap.getText().toString())
-//                        .isReturnAddr(true)
-//                        .pageNum(1));
-
-                GeoCoder geoCoder = GeoCoder.newInstance();
-                geoCoder.setOnGetGeoCodeResultListener(new OnGetGeoCoderResultListener() {
-                    @Override
-                    public void onGetGeoCodeResult(GeoCodeResult geoCodeResult) {
-                        Log.d(TAG, "onGetGeoCodeResult: " + geoCodeResult.getAddress());
-                        LatLng newcenpt = geoCodeResult.getLocation();
-                        MapStatusUpdate u = MapStatusUpdateFactory.newLatLngZoom(newcenpt, 16.0f);
-                        baiduMap.animateMapStatus(u);
-                        OverlayOptions overlayOptions = new MarkerOptions().position(newcenpt).icon(bitmapDescriptor).perspective(true);
-                        baiduMap.addOverlay(overlayOptions);
-                    }
-
-                    @Override
-                    public void onGetReverseGeoCodeResult(ReverseGeoCodeResult reverseGeoCodeResult) {
-
-                    }
-                });
-                geoCoder.geocode(new GeoCodeOption().city("济南").address(editTextMap.getText().toString()));
+                getStringAdress("济南", editTextMap.getText().toString().trim());
             }
         });
         myLocationListener = new MyLocationListener(this);
 
         Permissions4M.get(this).requestSync();
 
+    }
+
+    /**
+     * 页面返回前做数据处理
+     */
+    private void returnData() {
+        chooseZuobiao = zBX + "-" + zBY;
+        bundle.putString("choosecity", chooseCity);
+        bundle.putString("choosearea", chosseArea);
+        bundle.putString("choosezuobiao", chooseZuobiao);
+        Log.d(TAG, "onClick: ---" + chooseCity + chosseArea + chooseZuobiao);
+        Intent intent = new Intent();
+        intent.putExtras(bundle);
+        setResult(CreatShopActivity.GET_DATA_RESULT_CODE, intent);
     }
 
     private void initLocation() {
@@ -251,8 +231,6 @@ public class BaiDuMapActivity extends BaseActivity implements BaiduMap.OnMapClic
         Log.d(TAG, "onMapClick: 纬度" + latLng.latitude);
         Log.d(TAG, "onMapClick: 经度" + latLng.longitude);
         getLocateinfo(latLng);
-        textViewJingDu.setText(latLng.longitude + "");
-        textViewWeiDu.setText(latLng.latitude + "");
         OverlayOptions overlayOptions = new MarkerOptions().position(latLng).icon(bitmapDescriptor).perspective(true);
         baiduMap.addOverlay(overlayOptions);
     }
@@ -263,8 +241,6 @@ public class BaiDuMapActivity extends BaseActivity implements BaiduMap.OnMapClic
         getLocateinfo(mapPoi.getPosition());
         Log.d(TAG, "onMapClick: 纬度" + mapPoi.getPosition().latitude);
         Log.d(TAG, "onMapClick: 经度" + mapPoi.getPosition().longitude);
-        textViewJingDu.setText(mapPoi.getPosition().longitude + "");
-        textViewWeiDu.setText(mapPoi.getPosition().longitude + "");
         OverlayOptions overlayOptions = new MarkerOptions().position(mapPoi.getPosition()).icon(bitmapDescriptor).perspective(true);
         baiduMap.addOverlay(overlayOptions);
         return false;
@@ -310,20 +286,46 @@ public class BaiDuMapActivity extends BaseActivity implements BaiduMap.OnMapClic
      */
     @Override
     public void getResultLocation(BDLocation location, String locate) {
-        Log.d(TAG, "getResultLocation: ---" + location.getRadius());
-        baiduMap.setMyLocationEnabled(true);
-        MyLocationData myLocationData = new MyLocationData.Builder().accuracy(location.getRadius()).direction(100).latitude(location.getLatitude()).longitude(location.getLongitude()).build();
-        baiduMap.setMyLocationData(myLocationData);
-
-        LatLng newcenpt = new LatLng(location.getLatitude(), location.getLongitude());
-        MapStatusUpdate u = MapStatusUpdateFactory.newLatLngZoom(newcenpt, 16.0f);
-        baiduMap.animateMapStatus(u);
-        textViewName.setText("地点：" + locate);
-        textViewJingDu.setText(location.getLatitude() + "");
-        textViewWeiDu.setText(location.getLongitude() + "");
+        Log.d(TAG, "getResultLocation: 定位结果---" + location.getLocType());
+        switch (location.getLocType()) {
+            case 62:
+                ToastUtil.makeText(this, "定位失败", Toast.LENGTH_SHORT).show();
+                break;
+            case 63:
+                ToastUtil.makeText(this, "网络异常", Toast.LENGTH_SHORT).show();
+                break;
+        }
+        if (location.getLocType() == 61 || location.getLocType() == 66 || location.getLocType() == 161) {
+            Log.d(TAG, "getResultLocation: ---" + location.getRadius());
+            Log.d(TAG, "getResultLocation: ---街道信息" + location.getStreet() + location.getStreetNumber());
+            baiduMap.setMyLocationEnabled(true);
+            MyLocationData myLocationData = new MyLocationData.Builder().accuracy(location.getRadius()).direction(100).latitude(location.getLatitude()).longitude(location.getLongitude()).build();
+            baiduMap.setMyLocationData(myLocationData);
+            LatLng newcenpt = new LatLng(location.getLatitude(), location.getLongitude());
+            MapStatusUpdate u = MapStatusUpdateFactory.newLatLngZoom(newcenpt, 16.0f);
+            baiduMap.animateMapStatus(u);
+            textViewName.setText("地点：" + locate);
+            textViewJingDu.setText(location.getLongitude() + "");
+            textViewWeiDu.setText(location.getLatitude() + "");
+            zBX = "X:" + location.getLongitude();
+            zBY = "Y:" + location.getLatitude();
+            chooseCity = location.getCity();
+            chosseArea = location.getDistrict();
+        } else {
+            getStringAdress(getCity, getArea);
+        }
     }
 
+    /**
+     * 根据位置坐标获取位置名称
+     *
+     * @param latLng
+     */
     private void getLocateinfo(LatLng latLng) {
+        zBX = "X:" + latLng.longitude;
+        zBY = "Y:" + latLng.latitude;
+        textViewJingDu.setText(latLng.longitude + "");
+        textViewWeiDu.setText(latLng.latitude + "");
         GeoCoder geoCoder = GeoCoder.newInstance();
         Log.d(TAG, "getLocateinfo: --------------");
         geoCoder.setOnGetGeoCodeResultListener(new OnGetGeoCoderResultListener() {
@@ -343,6 +345,99 @@ public class BaiDuMapActivity extends BaseActivity implements BaiduMap.OnMapClic
             }
         });
         geoCoder.reverseGeoCode(new ReverseGeoCodeOption().location(latLng));
+    }
+
+    /**
+     * 根据城市加位置名称定位到该点
+     *
+     * @param mCity
+     * @param name
+     */
+    private void getStringAdress(final String mCity, final String name) {
+        GeoCoder geoCoder = GeoCoder.newInstance();
+        geoCoder.setOnGetGeoCodeResultListener(new OnGetGeoCoderResultListener() {
+            @Override
+            public void onGetGeoCodeResult(GeoCodeResult geoCodeResult) {
+                if (geoCodeResult != null && geoCodeResult.getLocation() != null) {
+                    Log.d(TAG, "onGetGeoCodeResult: " + geoCodeResult.getAddress());
+                    LatLng newcenpt = geoCodeResult.getLocation();
+                    MapStatusUpdate u = MapStatusUpdateFactory.newLatLngZoom(newcenpt, 16.0f);
+                    baiduMap.animateMapStatus(u);
+                    baiduMap.clear();
+                    OverlayOptions overlayOptions = new MarkerOptions().position(newcenpt).icon(bitmapDescriptor).perspective(true);
+                    baiduMap.addOverlay(overlayOptions);
+                    getLocateinfo(newcenpt);
+                } else {
+                    ToastUtil.makeText(mContext, "未找到" + name + "已定位到相似地点", Toast.LENGTH_SHORT).show();
+                    getPOIStress(mCity, name);
+                }
+            }
+
+            @Override
+            public void onGetReverseGeoCodeResult(ReverseGeoCodeResult reverseGeoCodeResult) {
+
+            }
+        });
+        if (name != null && !name.equals("")) {
+            geoCoder.geocode(new GeoCodeOption().city(mCity).address(name));
+        }
+    }
+
+    /**
+     * POI搜索
+     */
+    private void getPOIStress(String mCity, final String name) {
+        poiSearch.setOnGetPoiSearchResultListener(new OnGetPoiSearchResultListener() {
+            @Override
+            public void onGetPoiResult(PoiResult poiResult) {
+                Log.d(TAG, "onGetPoiResult: ----检索返回" + poiResult.getAllAddr());
+                Log.d(TAG, "onGetPoiResult: ----检索返回" + poiResult.getAllPoi());
+                Log.d(TAG, "onGetPoiResult: ----检索返回" + poiResult.getSuggestCityList());
+
+                if (poiResult.getAllPoi() != null && poiResult.getAllPoi().size() > 0) {
+                    for (int a = 0; a < poiResult.getAllPoi().size(); a++) {
+                        Log.d(TAG, "onGetPoiResult: ---" + poiResult.getAllPoi().get(a).address);
+                        Log.d(TAG, "onGetPoiResult: ---" + poiResult.getAllPoi().get(a).name);
+                        if (a == 0) {
+                            LatLng newcenpt = new LatLng(poiResult.getAllPoi().get(a).location.latitude, poiResult.getAllPoi().get(a).location.longitude);
+                            MapStatusUpdate u = MapStatusUpdateFactory.newLatLngZoom(newcenpt, 16.0f);
+                            baiduMap.animateMapStatus(u);
+                            baiduMap.clear();
+                            OverlayOptions overlayOptions = new MarkerOptions().position(newcenpt).icon(bitmapDescriptor).perspective(true);
+                            baiduMap.addOverlay(overlayOptions);
+                            getLocateinfo(newcenpt);
+                        }
+                    }
+                }
+                if (poiResult.getAllAddr() != null && poiResult.getAllAddr().size() > 0) {
+                    for (int a = 0; a < poiResult.getAllAddr().size(); a++) {
+                        Log.d(TAG, "onGetPoiResult: ---" + poiResult.getAllAddr().get(0).address);
+                    }
+                }
+            }
+
+            @Override
+            public void onGetPoiDetailResult(PoiDetailResult poiDetailResult) {
+//                MyLocationData myLocationData = new MyLocationData.Builder().accuracy(10).direction(100).latitude(poiDetailResult.getLocation().latitude, poiDetailResult.getLocation().longitude).build();
+//                baiduMap.setMyLocationData(myLocationData);
+                Log.d(TAG, "onGetPoiDetailResult: --检索返回");
+                LatLng newcenpt = new LatLng(poiDetailResult.getLocation().latitude, poiDetailResult.getLocation().longitude);
+                MapStatusUpdate u = MapStatusUpdateFactory.newLatLngZoom(newcenpt, 16.0f);
+                baiduMap.animateMapStatus(u);
+                Log.d(TAG, "onGetPoiDetailResult: -----" + poiDetailResult.getLocation().longitude + "----" + poiDetailResult.getLocation().latitude);
+            }
+
+            @Override
+            public void onGetPoiIndoorResult(PoiIndoorResult poiIndoorResult) {
+                Log.d(TAG, "onGetPoiIndoorResult: --检索返回");
+                if (poiIndoorResult.getmArrayPoiInfo() != null && poiIndoorResult.getmArrayPoiInfo().size() > 0) {
+                    Log.d(TAG, "onGetPoiIndoorResult: " + poiIndoorResult.getmArrayPoiInfo().get(0).address);
+                }
+
+            }
+        });
+
+        poiSearch.searchInCity(new PoiCitySearchOption().city(mCity).isReturnAddr(true).keyword(name).pageNum(10));
     }
 
 }

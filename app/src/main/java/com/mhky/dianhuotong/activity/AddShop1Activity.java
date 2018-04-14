@@ -21,8 +21,6 @@ public class AddShop1Activity extends BaseActivity implements WaveSideBar.OnSele
     DianHuoTongBaseTitleBar dianHuoTongBaseTitleBar;
     @BindView(R.id.addshop1_listview)
     ListView listView;
-    @BindView(R.id.addshop1_waveslidebar)
-    WaveSideBar waveSideBar;
     private AddShopAdapter addShopAdapter;
 
     @Override
@@ -42,7 +40,7 @@ public class AddShop1Activity extends BaseActivity implements WaveSideBar.OnSele
                 finish();
             }
         });
-        waveSideBar.setTextColor(getResources().getColor(R.color.color333333));
+        //waveSideBar.setTextColor(getResources().getColor(R.color.color333333));
         addShopAdapter = new AddShopAdapter(this, 20);
         listView.setAdapter(addShopAdapter);
         listView.setOnItemClickListener(this);

@@ -51,7 +51,7 @@
         android:layout_height="match_parent"
         android:layout_marginTop="@dimen/x9"
         android:background="@color/colorWhite"
-        android:orientation="horizontal">
+        >
 
         <ListView
             android:id="@+id/addshop1_listview"
@@ -60,18 +60,18 @@
             android:layout_marginStart="@dimen/x18"
             android:background="@color/colorTransp" />
 
-        <com.gjiazhe.wavesidebar.WaveSideBar
-            android:id="@+id/addshop1_waveslidebar"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_alignParentRight="true"
-            android:background="@color/colorTransp"
-            android:paddingEnd="8dp"
-            app:sidebar_lazy_respond="false"
-            app:sidebar_max_offset="80dp"
-            app:sidebar_position="right"
-            app:sidebar_text_alignment="center"
-            app:sidebar_text_size="@dimen/t14" />
+        <!--<com.gjiazhe.wavesidebar.WaveSideBar-->
+            <!--android:id="@+id/addshop1_waveslidebar"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_alignParentRight="true"-->
+            <!--android:background="@color/colorTransp"-->
+            <!--android:paddingEnd="8dp"-->
+            <!--app:sidebar_lazy_respond="false"-->
+            <!--app:sidebar_max_offset="80dp"-->
+            <!--app:sidebar_position="right"-->
+            <!--app:sidebar_text_alignment="center"-->
+            <!--app:sidebar_text_size="@dimen/t14" />-->
 
 
     </RelativeLayout>

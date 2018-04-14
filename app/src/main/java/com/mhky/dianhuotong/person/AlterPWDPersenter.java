@@ -1,11 +1,13 @@
-package com.mhky.dianhuotong.alterpwd;
+package com.mhky.dianhuotong.person;
 
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.Callback;
 import com.lzy.okgo.model.Progress;
 import com.lzy.okgo.model.Response;
 import com.lzy.okgo.request.base.Request;
+import com.mhky.dianhuotong.base.BaseApplication;
 import com.mhky.dianhuotong.base.BaseTool;
+import com.mhky.dianhuotong.base.BaseUrlTool;
 
 /**
  * Created by Administrator on 2018/4/13.
@@ -20,7 +22,7 @@ public class AlterPWDPersenter {
     }
 
     public void alterPwd(String pwdJson) {
-        OkGo.<String>put("dddd").upJson(pwdJson).execute(new Callback<String>() {
+        OkGo.<String>put(BaseUrlTool.getAlterPwdURL(BaseApplication.getInstansApp().getLoginRequestInfo().getId())).upJson(pwdJson).execute(new Callback<String>() {
             @Override
             public void onStart(Request<String, ? extends Request> request) {
 

@@ -6,9 +6,12 @@ import android.content.SharedPreferences;
 
 import com.baidu.mapapi.SDKInitializer;
 import com.facebook.drawee.backends.pipeline.Fresco;
+import com.litesuits.common.utils.MD5Util;
 import com.lzy.okgo.OkGo;
 import com.mhky.dianhuotong.login.LoginRequestInfo;
 import com.mhky.dianhuotong.person.bean.PersonInfo;
+
+import java.security.NoSuchAlgorithmException;
 
 /**
  * Created by Administrator on 2018/3/31.
@@ -21,6 +24,16 @@ public class BaseApplication extends Application {
     private static final String MY_TOAKEN = "mytoaken";
     private static SharedPreferences mSharedPreferences;
     private Context mContext;
+
+    public String getMypswsds() {
+        return mypswsds;
+    }
+
+    public void setMypswsds(String mypswsds) {
+        this.mypswsds = mypswsds;
+    }
+
+    private String mypswsds;
 
     public PersonInfo getPersonInfo() {
         return personInfo;

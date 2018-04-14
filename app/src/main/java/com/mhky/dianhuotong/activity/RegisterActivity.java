@@ -13,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
+import com.liqi.utils.encoding.MD5Util;
 import com.mingle.widget.ShapeLoadingDialog;
 import com.mhky.dianhuotong.R;
 import com.mhky.dianhuotong.base.view.BaseActivity;
@@ -272,8 +273,10 @@ public class RegisterActivity extends BaseActivity implements TimerMessage.OnTim
     @Override
     public void checkSmsSuccess(int code, String result) {
         if (code == 200) {
+
             registerPostDataInfo.setMobile(editTextPhone.getText().toString());
-            registerPostDataInfo.setPassword(editTextPwd.getText().toString());
+            registerPostDataInfo.setPassword(String.valueOf(MD5Util.md5(editTextPwd.getText().toString().trim())));
+            Log.d(TAG, "checkSmsSuccess: ----" + String.valueOf(MD5Util.md5(editTextPwd.getText().toString().trim())));
             registerPrecenter.register(JSON.toJSONString(registerPostDataInfo));
         } else {
             shapeLoadingDialog.dismiss();

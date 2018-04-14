@@ -10,6 +10,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
+import com.liqi.utils.encoding.MD5Util;
 import com.mhky.dianhuotong.R;
 import com.mhky.dianhuotong.base.BaseApplication;
 import com.mhky.dianhuotong.base.BaseTool;
@@ -72,7 +73,7 @@ public class LoginActivity extends BaseActivity implements LoginIF {
             ToastUtil.makeText(this, "密码格式不正确", Toast.LENGTH_SHORT).show();
             return;
         }
-        loginPrecenter.Login(editTextPhone.getText().toString(), editTextPwd.getText().toString());
+        loginPrecenter.Login(editTextPhone.getText().toString(), String.valueOf(MD5Util.md5(editTextPwd.getText().toString().trim())));
     }
 
     @OnClick(R.id.login_go_register)
@@ -90,6 +91,7 @@ public class LoginActivity extends BaseActivity implements LoginIF {
         if (code == 200) {
             ToastUtil.makeText(this, "登陆成功..", Toast.LENGTH_SHORT).show();
             BaseApplication.getInstansApp().setToakens("abcd1234");
+            BaseApplication.getInstansApp().setMypswsds(editTextPwd.getText().toString());
             BaseApplication.getInstansApp().setLoginRequestInfo(JSON.parseObject(result, LoginRequestInfo.class));
             finish();
         } else {

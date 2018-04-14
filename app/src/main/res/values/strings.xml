@@ -145,8 +145,8 @@
     <string name="system_setmessage_button">消息推送</string>
     <string name="system_help">帮助</string>
     <string name="system_logout">退出</string>
-    <string name="create_shop_txt1">选择地址</string>
-    <string name="create_shop_txt2">选择坐标</string>
+    <string name="create_shop_txt1">选择地址:</string>
+    <string name="create_shop_txt2">选择坐标:</string>
     <string name="create_shop_txt3">请输入营业执照上的公司名称</string>
     <string name="create_shop_txt4">请输入营业执照上的详细地址</string>
     <string name="create_shop_txt5">下一步</string>

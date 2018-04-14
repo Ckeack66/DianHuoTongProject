@@ -4,9 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorWhite"
     android:orientation="vertical"
-    tools:context="com.mhky.dianhuotong.activity.CreatShopActivity"
-    android:background="@color/colorWhite">
+    tools:context="com.mhky.dianhuotong.activity.CreatShopActivity">
+
     <com.mhky.dianhuotong.custom.viewgroup.DianHuoTongBaseTitleBar
         android:id="@+id/creatshop_title"
         android:layout_width="match_parent"
@@ -20,11 +21,23 @@
         android:layout_marginRight="@dimen/x15">
 
         <TextView
+            android:id="@+id/create_shop_txt1_1"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="center_vertical"
             android:text="@string/create_shop_txt1"
             android:textColor="@color/colorBFBFBF"
+            android:textSize="@dimen/t14" />
+
+        <TextView
+            android:id="@+id/create_shop_txt1_2"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginStart="@dimen/x6"
+            android:layout_toEndOf="@id/create_shop_txt1_1"
+            android:gravity="center_vertical"
+            android:text="济南市槐荫区五里沟街道"
+            android:textColor="@color/color333333"
             android:textSize="@dimen/t14" />
 
         <TextView
@@ -50,12 +63,24 @@
         android:layout_marginRight="@dimen/x15">
 
         <TextView
+            android:id="@+id/create_shop_txt2_1"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="center_vertical"
             android:text="@string/create_shop_txt2"
             android:textColor="@color/colorBFBFBF"
             android:textSize="@dimen/t14" />
+
+        <TextView
+            android:id="@+id/create_shop_txt2_2"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginStart="@dimen/x6"
+            android:layout_toEndOf="@id/create_shop_txt2_1"
+            android:gravity="center_vertical"
+            android:text="x:1122222222222222222222-y:222222222222222222222222222"
+            android:textColor="@color/color333333"
+            android:textSize="@dimen/t9" />
 
         <TextView
             android:layout_width="wrap_content"

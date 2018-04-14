@@ -1,10 +1,12 @@
-package com.mhky.dianhuotong.alterpwd;
+package com.mhky.dianhuotong.person;
+
+import java.io.Serializable;
 
 /**
  * Created by Administrator on 2018/4/13.
  */
 
-public class alterPwdInfo {
+public class AlterPwdInfo implements Serializable{
     /**
      * password :
      */
