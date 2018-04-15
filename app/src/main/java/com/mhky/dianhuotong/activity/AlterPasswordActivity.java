@@ -85,6 +85,11 @@ public class AlterPasswordActivity extends BaseActivity implements AlterPwdIF {
     public void alterPwdSucess(int code, String result) {
         Log.d(TAG, "alterPwdSucess: ---" + code);
         Log.d(TAG, "alterPwdSucess: ---" + result);
+        if (code == 200) {
+            BaseApplication.getInstansApp().setMypswsds(MD5Util.md5(editTextNewPwd1.getText().toString().trim()));
+            ToastUtil.makeText(this, "修改成功", Toast.LENGTH_SHORT).show();
+            finish();
+        }
     }
 
     @Override

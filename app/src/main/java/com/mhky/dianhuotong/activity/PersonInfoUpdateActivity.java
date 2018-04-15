@@ -18,6 +18,7 @@ import com.alibaba.fastjson.JSON;
 import com.joker.annotation.PermissionsGranted;
 import com.joker.api.Permissions4M;
 import com.lzy.okgo.model.HttpParams;
+import com.mhky.dianhuotong.base.BaseActivityManager;
 import com.mhky.dianhuotong.base.BaseApplication;
 import com.mhky.dianhuotong.person.bean.PersonInfo;
 import com.mhky.dianhuotong.person.bean.UserInfo;
@@ -80,6 +81,12 @@ public class PersonInfoUpdateActivity extends TakePhotoActivity implements DianH
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        BaseActivityManager.getInstance().clearAllActivity();
     }
 
     @Override
@@ -228,9 +235,11 @@ public class PersonInfoUpdateActivity extends TakePhotoActivity implements DianH
 
     @Override
     public void updataUserInfoSucess(int code, String result, String result1) {
-        personInfoPrecenter.getPersonInfo(BaseApplication.getInstansApp().getLoginRequestInfo().getId());
-        BaseApplication.getInstansApp().setUpdata(true);
-        ToastUtil.makeText(this, "更新成功", Toast.LENGTH_SHORT).show();
+        if (code == 200) {
+            personInfoPrecenter.getPersonInfo(BaseApplication.getInstansApp().getLoginRequestInfo().getId());
+            BaseApplication.getInstansApp().setUpdata(true);
+            ToastUtil.makeText(this, "更新成功", Toast.LENGTH_SHORT).show();
+        }
 
     }
 
@@ -241,24 +250,34 @@ public class PersonInfoUpdateActivity extends TakePhotoActivity implements DianH
 
     @Override
     public void getUserInfoSucess(PersonInfo personInfo) {
-        if (personInfo!=null){
-            editTextRealName.setText(personInfo.getTruename().toString());
-            editTextUserName.setText(personInfo.getUsername().toString());
+        if (personInfo != null) {
+            if (personInfo.getTruename() != null) {
+                editTextRealName.setText(personInfo.getTruename().toString());
+            }
+            if (personInfo.getUsername() != null) {
+                editTextUserName.setText(personInfo.getUsername().toString());
+            }
             if (personInfo.getType() != null) {
-
+                if (personInfo.getType().toString().equals("1")) {
+                    radioButtonBoss.setChecked(true);
+                } else if (personInfo.getType().toString().equals("0")) {
+                    radioButtonWorker.setChecked(true);
+                }
             } else {
                 radioButtonBoss.setClickable(false);
                 radioButtonWorker.setClickable(false);
                 radioButtonBoss.setOnTouchListener(this);
                 radioButtonWorker.setOnTouchListener(this);
             }
-            Picasso.with(this).load(personInfo.getImage().toString()).into(imageView);
+            if (personInfo.getImage() != null) {
+                Picasso.with(this).load(personInfo.getImage().toString()).into(imageView);
+            }
         }
     }
 
     @Override
     public void getUserinfoFailed(int code, String result) {
-
+        ToastUtil.makeText(this, "没有获取到信息" + code, Toast.LENGTH_SHORT).show();
     }
 
     @Override

@@ -10,6 +10,7 @@ import android.widget.Toast;
 import com.baidu.mapapi.map.BaiduMap;
 import com.mhky.dianhuotong.R;
 import com.mhky.dianhuotong.baidumap.activity.BaiDuMapActivity;
+import com.mhky.dianhuotong.base.BaseActivityManager;
 import com.mhky.dianhuotong.base.BaseTool;
 import com.mhky.dianhuotong.base.view.BaseActivity;
 import com.mhky.dianhuotong.custom.ToastUtil;
@@ -69,6 +70,7 @@ public class CreatShopActivity extends BaseActivity {
         city = "济南市";
         name = "五里沟街道";
         area = "槐荫区";
+        BaseActivityManager.getInstance().addActivity(this);
     }
 
     @OnClick(R.id.creatshop_next)

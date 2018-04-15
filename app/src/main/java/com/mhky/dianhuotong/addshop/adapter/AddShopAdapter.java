@@ -7,6 +7,9 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.mhky.dianhuotong.R;
+import com.mhky.dianhuotong.addshop.bean.ShopBaseInfo;
+
+import java.util.List;
 
 /**
  * Created by Administrator on 2018/4/2.
@@ -14,21 +17,20 @@ import com.mhky.dianhuotong.R;
 
 public class AddShopAdapter extends BaseAdapter {
     private Context context;
-    private int numberl;
+    private List<ShopBaseInfo> shopBaseInfoList;
 
-    public AddShopAdapter(Context context) {
+    public AddShopAdapter(Context context, List<ShopBaseInfo> shopBaseInfoList) {
         this.context = context;
-        numberl = 5;
+        this.shopBaseInfoList = shopBaseInfoList;
     }
 
-    public AddShopAdapter(Context context, int numberl) {
-        this.context = context;
-        this.numberl = numberl;
-    }
 
     @Override
     public int getCount() {
-        return numberl;
+        if (shopBaseInfoList != null) {
+            return shopBaseInfoList.size();
+        }
+        return 0;
     }
 
     @Override
@@ -53,6 +55,8 @@ public class AddShopAdapter extends BaseAdapter {
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
+        viewHolder.textView.setText(shopBaseInfoList.get(position).getShopname());
+        viewHolder.textView1.setText(shopBaseInfoList.get(position).getAddress().getProvince() + shopBaseInfoList.get(position).getAddress().getCity() + shopBaseInfoList.get(position).getAddress().getDistrict() + shopBaseInfoList.get(position).getAddress().getTown() + shopBaseInfoList.get(position).getAddress().getRoad());
         return convertView;
     }
 

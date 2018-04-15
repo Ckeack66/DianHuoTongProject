@@ -79,7 +79,7 @@
         android:background="@color/colorCDCDCD" />
 
     <TextView
-        android:id="@+id/login_login"
+        android:id="@+id/system_logout"
         android:layout_width="match_parent"
         android:layout_height="@dimen/x33"
         android:layout_marginEnd="@dimen/x50"

@@ -9,6 +9,8 @@ import android.widget.Toast;
 import com.gjiazhe.wavesidebar.WaveSideBar;
 import com.mhky.dianhuotong.R;
 import com.mhky.dianhuotong.addshop.adapter.AddShopAdapter;
+import com.mhky.dianhuotong.addshop.addshopif.AddShopIF;
+import com.mhky.dianhuotong.base.BaseActivityManager;
 import com.mhky.dianhuotong.base.view.BaseActivity;
 import com.mhky.dianhuotong.custom.ToastUtil;
 import com.mhky.dianhuotong.custom.viewgroup.DianHuoTongBaseTitleBar;
@@ -16,7 +18,7 @@ import com.mhky.dianhuotong.custom.viewgroup.DianHuoTongBaseTitleBar;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class AddShop1Activity extends BaseActivity implements WaveSideBar.OnSelectIndexItemListener, AdapterView.OnItemClickListener {
+public class AddShop1Activity extends BaseActivity implements WaveSideBar.OnSelectIndexItemListener, AdapterView.OnItemClickListener ,AddShopIF{
     @BindView(R.id.addshop1_title)
     DianHuoTongBaseTitleBar dianHuoTongBaseTitleBar;
     @BindView(R.id.addshop1_listview)
@@ -41,9 +43,10 @@ public class AddShop1Activity extends BaseActivity implements WaveSideBar.OnSele
             }
         });
         //waveSideBar.setTextColor(getResources().getColor(R.color.color333333));
-        addShopAdapter = new AddShopAdapter(this, 20);
+        //addShopAdapter = new AddShopAdapter(this);
         listView.setAdapter(addShopAdapter);
         listView.setOnItemClickListener(this);
+        BaseActivityManager.getInstance().addActivity(this);
     }
 
     @Override
@@ -54,5 +57,15 @@ public class AddShop1Activity extends BaseActivity implements WaveSideBar.OnSele
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         ToastUtil.makeText(this, "点击了item" + position, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void getShopInfoSuccess(int code, String result) {
+
+    }
+
+    @Override
+    public void getShopInfoFailed(int code, String result) {
+
     }
 }

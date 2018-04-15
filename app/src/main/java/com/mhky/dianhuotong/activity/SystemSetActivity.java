@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.RelativeLayout;
 
 import com.mhky.dianhuotong.R;
+import com.mhky.dianhuotong.base.BaseApplication;
 import com.mhky.dianhuotong.base.BaseTool;
 import com.mhky.dianhuotong.base.view.BaseActivity;
 import com.mhky.dianhuotong.custom.viewgroup.DianHuoTongBaseTitleBar;
@@ -46,5 +47,12 @@ public class SystemSetActivity extends BaseActivity {
     @OnClick(R.id.system_set_help)
     void goHelpActivity() {
         BaseTool.goActivityNoData(this, HelpActivity.class);
+    }
+
+    @OnClick(R.id.system_logout)
+    void logoutUser() {
+        BaseApplication.getInstansApp().clearToaken();
+        BaseTool.goActivityNoData(this, LoginActivity.class);
+        finish();
     }
 }

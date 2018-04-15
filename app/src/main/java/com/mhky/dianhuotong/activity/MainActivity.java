@@ -114,6 +114,10 @@ public class MainActivity extends BaseActivity implements MainIF, DrawerLayout.D
         super.onResume();
         if (BaseApplication.getInstansApp().getToakens() != null) {
             drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+        } else {
+            if (isOpenDrawer) {
+                drawerLayout.closeDrawers();
+            }
         }
         if (BaseApplication.getInstansApp().isUpdata()) {
             updateDrawer();
@@ -384,7 +388,7 @@ public class MainActivity extends BaseActivity implements MainIF, DrawerLayout.D
             dianHuoTongBaseDialog.dismiss();
         } else if (main2.equals(mTag) && dianHuoTongBaseDialogBack.isShowing()) {
             dianHuoTongBaseDialogBack.dismiss();
-            finish();
+            System.exit(0);
         } else if (main3.equals(mTag) && dianHuoTongBaseDialogAddShop.isShowing()) {
             dianHuoTongBaseDialogAddShop.dismiss();
             BaseTool.goActivityNoData(this, AddShopActivity.class);
@@ -404,9 +408,9 @@ public class MainActivity extends BaseActivity implements MainIF, DrawerLayout.D
      * 更新抽屉界面信息
      */
     private void updateDrawer() {
-        if (BaseApplication.getInstansApp().getPersonInfo()!=null){
+        if (BaseApplication.getInstansApp().getPersonInfo() != null) {
             if (BaseApplication.getInstansApp().getPersonInfo().getImage() != null) {
-                Log.d(TAG, "updateDrawer: --------" + BaseApplication.getInstansApp().getLoginRequestInfo().getImage().toString());
+                //Log.d(TAG, "updateDrawer: --------" + BaseApplication.getInstansApp().getLoginRequestInfo().getImage().toString());
                 Picasso.with(this).load(BaseApplication.getInstansApp().getPersonInfo().getImage().toString()).into(imageViewUser);
             }
             if (BaseApplication.getInstansApp().getPersonInfo().getUsername() != null) {

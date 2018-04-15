@@ -24,6 +24,7 @@ public class AlterPWDPersenter {
     public void alterPwd(String pwdJson) {
         OkGo.<String>put(BaseUrlTool.getAlterPwdURL(BaseApplication.getInstansApp().getLoginRequestInfo().getId())).upJson(pwdJson).execute(new Callback<String>() {
             @Override
+
             public void onStart(Request<String, ? extends Request> request) {
 
             }

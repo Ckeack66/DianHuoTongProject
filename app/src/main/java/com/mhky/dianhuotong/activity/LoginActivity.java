@@ -91,8 +91,9 @@ public class LoginActivity extends BaseActivity implements LoginIF {
         if (code == 200) {
             ToastUtil.makeText(this, "登陆成功..", Toast.LENGTH_SHORT).show();
             BaseApplication.getInstansApp().setToakens("abcd1234");
-            BaseApplication.getInstansApp().setMypswsds(editTextPwd.getText().toString());
+            BaseApplication.getInstansApp().setMypswsds(MD5Util.md5(editTextPwd.getText().toString().trim()));
             BaseApplication.getInstansApp().setLoginRequestInfo(JSON.parseObject(result, LoginRequestInfo.class));
+            BaseApplication.getInstansApp().setUpdata(true);
             finish();
         } else {
             ToastUtil.makeText(this, "登陆失败..", Toast.LENGTH_SHORT).show();

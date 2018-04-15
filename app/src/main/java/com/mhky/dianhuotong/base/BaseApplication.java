@@ -6,7 +6,6 @@ import android.content.SharedPreferences;
 
 import com.baidu.mapapi.SDKInitializer;
 import com.facebook.drawee.backends.pipeline.Fresco;
-import com.litesuits.common.utils.MD5Util;
 import com.lzy.okgo.OkGo;
 import com.mhky.dianhuotong.login.LoginRequestInfo;
 import com.mhky.dianhuotong.person.bean.PersonInfo;
@@ -83,6 +82,7 @@ public class BaseApplication extends Application {
         mSharedPreferences = this.getSharedPreferences(MY_SHARE_NAME, MODE_PRIVATE);
         Fresco.initialize(this);
         SDKInitializer.initialize(getApplicationContext());
+        BaseActivityManager.getInstance();
     }
 
     public static BaseApplication getInstansApp() {
@@ -106,6 +106,8 @@ public class BaseApplication extends Application {
     }
 
     public boolean clearToaken() {
+        BaseApplication.getInstansApp().setLoginRequestInfo(null);
+        BaseApplication.getInstansApp().setPersonInfo(null);
         return mSharedPreferences.edit().clear().commit();
     }
 

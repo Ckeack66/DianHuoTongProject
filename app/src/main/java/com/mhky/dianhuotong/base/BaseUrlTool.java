@@ -9,6 +9,7 @@ public class BaseUrlTool {
      * 主机
      */
     private final static String HOST_URL = "http://192.168.2.158:9088";
+    //    private final static String HOST_URL = "http://192.168.2.235:9088";
     private final static String HOST_IMAGE_URL = "http://192.168.2.158:9040";
     /**
      * 获取短信验证码
@@ -51,9 +52,14 @@ public class BaseUrlTool {
     /**
      * 修改用户密码
      */
-    private static final String ALTER_USER_PWD = "/password";
+    private static final String ALTER_USER_PWD = "/password/";
 
     public static String getAlterPwdURL(String ID) {
         return HOST_URL + "/user/" + ID + ALTER_USER_PWD;
     }
+
+    /**
+     * 店铺添加用户
+     */
+    public static final String ADD_USER_TO_SHOP = HOST_URL + "/user/buyer";
 }
