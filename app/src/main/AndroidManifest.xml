@@ -22,23 +22,23 @@
     //鉴权所需该权限获取进程列表
     <uses-permission android:name="android.permission.CAMERA" />
     //使用步行AR导航，配置Camera权限
-    <!-- 这个权限用于进行网络定位-->
+    <!-- 这个权限用于进行网络定位 -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <!-- 这个权限用于访问GPS定位-->
+    <!-- 这个权限用于访问GPS定位 -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <!-- 用于访问wifi网络信息，wifi信息会用于进行网络定位-->
+    <!-- 用于访问wifi网络信息，wifi信息会用于进行网络定位 -->
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <!-- 获取运营商信息，用于支持提供运营商信息相关的接口-->
+    <!-- 获取运营商信息，用于支持提供运营商信息相关的接口 -->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <!-- 这个权限用于获取wifi的获取权限，wifi信息会用来进行网络定位-->
+    <!-- 这个权限用于获取wifi的获取权限，wifi信息会用来进行网络定位 -->
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
-    <!-- 用于读取手机当前的状态-->
+    <!-- 用于读取手机当前的状态 -->
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <!-- 写入扩展存储，向扩展卡写入数据，用于写入离线定位数据-->
+    <!-- 写入扩展存储，向扩展卡写入数据，用于写入离线定位数据 -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <!-- 访问网络，网络定位需要上网-->
+    <!-- 访问网络，网络定位需要上网 -->
     <uses-permission android:name="android.permission.INTERNET" />
-    <!-- SD卡读取权限，用户写入离线定位数据-->
+    <!-- SD卡读取权限，用户写入离线定位数据 -->
     <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
 
     <application
@@ -52,14 +52,9 @@
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
             android:value="guEle2R0kMZVXMg3Zu5h4RkuW1ueKS8f" />
-        <activity android:name=".base.view.BaseActivity"/>
-        <activity android:name=".activity.MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+        <activity android:name=".base.view.BaseActivity" />
+        <activity android:name=".activity.MainActivity"></activity>
         <activity
             android:name=".activity.LoginActivity"
             android:label="@string/title_activity_login"
@@ -81,7 +76,13 @@
             android:windowSoftInputMode="stateHidden|stateAlwaysHidden" />
         <activity android:name=".activity.CredentialsActivity" />
         <activity android:name=".activity.ShiYaoQianYanActivity" />
-        <activity android:name=".activity.DianHuoTongShopActivity" />
+        <activity android:name=".activity.DianHuoTongShopActivity" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity android:name=".activity.YaoLinWangActivity" />
         <activity android:name=".activity.MingHuiFuActivity" />
         <activity android:name=".activity.JianKang121Activity" />
@@ -99,26 +100,31 @@
             android:windowSoftInputMode="stateHidden|stateAlwaysHidden" />
         <activity
             android:name=".activity.CreatShopActivity"
-            android:windowSoftInputMode="stateHidden|stateAlwaysHidden" >
-
-        </activity>
+            android:windowSoftInputMode="stateHidden|stateAlwaysHidden" />
         <activity android:name=".activity.CredentialUploadActivity" />
-        <activity android:name=".activity.BindPhoneActivity" />
+        <activity android:name=".activity.ChangePhoneActivity" />
         <activity android:name=".activity.AlterPasswordActivity" />
         <activity android:name=".activity.AddShop3Activity" />
         <activity android:name=".activity.HelpActivity" />
         <activity android:name=".activity.BanKuaiCreatingActivity" />
         <activity android:name=".activity.ScanCodeActivity" />
         <activity android:name=".shop.activity.AllGoodsActivity" />
-        <activity android:name=".shop.activity.GoodsActivity" />
-        <activity android:name=".baidumap.activity.BaiDuMapActivity">
+        <activity android:name=".shop.activity.GoodsActivity">
 
         </activity>
+        <activity android:name=".baidumap.activity.BaiDuMapActivity" />
 
         <service
             android:name="com.baidu.location.f"
             android:enabled="true"
             android:process=":remote" />
+
+        <activity android:name=".activity.Adress1Activity" />
+        <activity android:name=".activity.Adress2Activity" />
+        <activity android:name=".activity.Adress3Activity" />
+        <activity android:name=".activity.WelcomActivity">
+
+        </activity>
     </application>
 
 </manifest>

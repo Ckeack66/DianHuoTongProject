@@ -132,9 +132,9 @@
     <!--个人中心资料修改-->
     <string name="myperson_updata_pwd">修改密码</string>
     <string name="myperson_updata_phone">更换手机</string>
-    <!--绑定手机页面-->
+    <!--更换手机号页面-->
     <string name="bindphone_ok">确认</string>
-    <string name="bindphone_title">绑定手机</string>
+    <string name="bindphone_title">更换手机号</string>
     <!--修改密码界面-->
     <string name="alterpwd_title">修改密码</string>
     <string name="alterpwd_old">请输入旧密码</string>

@@ -19,6 +19,7 @@ import com.joker.annotation.PermissionsRequestSync;
 import com.joker.api.Permissions4M;
 import com.lzy.okgo.model.HttpParams;
 import com.mhky.dianhuotong.R;
+import com.mhky.dianhuotong.addshop.bean.QualicationInfo;
 import com.mhky.dianhuotong.addshop.bean.ShopBaseInfo;
 import com.mhky.dianhuotong.addshop.adapter.AddShopAdapter;
 import com.mhky.dianhuotong.addshop.addshopif.AddShopIF;
@@ -26,6 +27,7 @@ import com.mhky.dianhuotong.addshop.precenter.AddShopPrecenter;
 import com.mhky.dianhuotong.baidumap.mapif.GetLocattionListener;
 import com.mhky.dianhuotong.baidumap.mapif.MyLocationListener;
 import com.mhky.dianhuotong.base.BaseActivityManager;
+import com.mhky.dianhuotong.base.BaseApplication;
 import com.mhky.dianhuotong.base.BaseTool;
 import com.mhky.dianhuotong.base.view.BaseActivity;
 import com.mhky.dianhuotong.custom.ToastUtil;
@@ -49,9 +51,13 @@ public class AddShopActivity extends BaseActivity implements AdapterView.OnItemC
     private boolean b = false;
     public LocationClient locationClient = null;
     private MyLocationListener myLocationListener;
-
     private List<ShopBaseInfo> shopBaseInfoList;
     private static final String TAG = "AddShopActivity";
+    private String cityArea;
+    private Bundle showMoreBundle;
+    private Bundle creatShopBundle;
+    private QualicationInfo qualicationInfo;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,7 +89,18 @@ public class AddShopActivity extends BaseActivity implements AdapterView.OnItemC
         listView.setOnItemClickListener(this);
         myLocationListener = new MyLocationListener(this);
         addShopPrecenter = new AddShopPrecenter(this);
+        qualicationInfo = new QualicationInfo();
+        QualicationInfo.BuyerDTOBean buyerDTOBean = new QualicationInfo.BuyerDTOBean();
+        buyerDTOBean.setId(BaseApplication.getInstansApp().getLoginRequestInfo().getId());
+        QualicationInfo.ShopDataDTOBean shopDataDTOBean = new QualicationInfo.ShopDataDTOBean();
+        QualicationInfo.ShopDataDTOBean.AddressBean addressBean = new QualicationInfo.ShopDataDTOBean.AddressBean();
+        shopDataDTOBean.setAddress(addressBean);
+        qualicationInfo.setBuyerDTO(buyerDTOBean);
+        qualicationInfo.setShopDataDTO(shopDataDTOBean);
         BaseActivityManager.getInstance().addActivity(this);
+        showMoreBundle = new Bundle();
+        creatShopBundle = new Bundle();
+        creatShopBundle.putSerializable("createInfo", qualicationInfo);
         Permissions4M.get(this).requestSync();
 
     }
@@ -96,12 +113,12 @@ public class AddShopActivity extends BaseActivity implements AdapterView.OnItemC
 
     @OnClick(R.id.addshop_to_creatshop)
     void goCreatShop() {
-        BaseTool.goActivityNoData(this, CreatShopActivity.class);
+        BaseTool.goActivityWithData(this, CreatShopActivity.class, creatShopBundle);
     }
 
     @OnClick(R.id.addshop_view_more)
     void goViewShop() {
-        BaseTool.goActivityNoData(this, AddShop1Activity.class);
+        BaseTool.goActivityWithData(this, AddShop1Activity.class, showMoreBundle);
     }
 
     @Override
@@ -119,6 +136,7 @@ public class AddShopActivity extends BaseActivity implements AdapterView.OnItemC
                 Log.d(TAG, "getShopInfoSuccess: --list" + shopBaseInfoList.size());
                 addShopAdapter = new AddShopAdapter(this, shopBaseInfoList);
                 listView.setAdapter(addShopAdapter);
+                BaseTool.setListViewHeightBasedOnChildrenCustom(listView);
             }
 //            String results = "{\"shopinfo\":" + result + "}";
 //            Log.d(TAG, "getShopInfoSuccess: ");
@@ -219,6 +237,7 @@ public class AddShopActivity extends BaseActivity implements AdapterView.OnItemC
         if (location.getLocType() == 61 || location.getLocType() == 66 || location.getLocType() == 161) {
             HttpParams httpParams = new HttpParams();
             httpParams.put("region", location.getDistrict());
+            showMoreBundle.putString("area", location.getDistrict());
             addShopPrecenter.getShopInfo(httpParams);
         } else {
             ToastUtil.makeText(this, "未定位到当前区域", Toast.LENGTH_SHORT).show();

@@ -73,13 +73,9 @@ public class QualicationInfo implements Serializable {
 
         private AddressBean address;
         private String createTime;
-        private String id;
-        private boolean ifShopOwner;
-        private String licenseImg;
         private String mapPoint;
         private String shopType;
         private String shopname;
-        private String status;
 
         public AddressBean getAddress() {
             return address;
@@ -95,30 +91,6 @@ public class QualicationInfo implements Serializable {
 
         public void setCreateTime(String createTime) {
             this.createTime = createTime;
-        }
-
-        public String getId() {
-            return id;
-        }
-
-        public void setId(String id) {
-            this.id = id;
-        }
-
-        public boolean isIfShopOwner() {
-            return ifShopOwner;
-        }
-
-        public void setIfShopOwner(boolean ifShopOwner) {
-            this.ifShopOwner = ifShopOwner;
-        }
-
-        public String getLicenseImg() {
-            return licenseImg;
-        }
-
-        public void setLicenseImg(String licenseImg) {
-            this.licenseImg = licenseImg;
         }
 
         public String getMapPoint() {
@@ -144,16 +116,7 @@ public class QualicationInfo implements Serializable {
         public void setShopname(String shopname) {
             this.shopname = shopname;
         }
-
-        public String getStatus() {
-            return status;
-        }
-
-        public void setStatus(String status) {
-            this.status = status;
-        }
-
-        public static class AddressBean {
+        public static class AddressBean implements Serializable {
             /**
              * city : string
              * district : string
@@ -165,7 +128,7 @@ public class QualicationInfo implements Serializable {
             private String city;
             private String district;
             private String province;
-            private String road;
+            private String road = "";
             private String town;
 
             public String getCity() {
@@ -224,13 +187,13 @@ public class QualicationInfo implements Serializable {
          * url : string
          */
 
-        private String compositeid;
+        private String compositeid = "";
         private String corporation;
         private String endTime;
-        private String id;
-        private String name;
+        private String id = "1";
+        private String name = "药品经营质量管理规范认证证书（GSP）";
         private String number;
-        private String qualificationFrom;
+        private String qualificationFrom = "SHOP";
         private String scope;
         private String startTime;
         private String url;

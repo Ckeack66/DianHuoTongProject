@@ -9,7 +9,9 @@ import android.widget.TextView;
 
 import com.mhky.dianhuotong.R;
 import com.mhky.dianhuotong.base.BaseTool;
+import com.mhky.dianhuotong.shop.bean.AllGoodsBaseInfo;
 
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -17,19 +19,26 @@ import java.util.Random;
  */
 
 public class AllGoodsListview2Adapter extends BaseAdapter {
-    private int number1;
-    private int number2;
+    private List<AllGoodsBaseInfo.ChildrenBeanX> allGoodsBaseInfos;
     private Context context;
 
-    public AllGoodsListview2Adapter(int number1, int number2, Context context) {
-        this.number1 = number1;
-        this.number2 = number2;
+    public AllGoodsListview2Adapter(List<AllGoodsBaseInfo.ChildrenBeanX> allGoodsBaseInfos, Context context) {
+        this.allGoodsBaseInfos = allGoodsBaseInfos;
         this.context = context;
     }
 
+
     @Override
     public int getCount() {
-        return number1;
+        if (allGoodsBaseInfos != null) {
+            return allGoodsBaseInfos.size();
+        }
+        return 0;
+    }
+
+    public void updateData(List<AllGoodsBaseInfo.ChildrenBeanX> allGoodsBaseInfos1) {
+        allGoodsBaseInfos = allGoodsBaseInfos1;
+        notifyDataSetChanged();
     }
 
     @Override
@@ -44,29 +53,16 @@ public class AllGoodsListview2Adapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder viewHolder = null;
-        if (convertView == null) {
-            viewHolder = new ViewHolder();
-            convertView = View.inflate(context, R.layout.item_all_goods_listview2, null);
-            viewHolder.textView = convertView.findViewById(R.id.all_goods_listview2_text);
-            viewHolder.gridView = convertView.findViewById(R.id.all_goods_listview2_gridview);
-            viewHolder.number=new Random().nextInt(10);
-            viewHolder.allGoodsListViewGridviewAdpter = new AllGoodsListViewGridviewAdpter(viewHolder.number, context);
-            convertView.setTag(viewHolder);
-        } else {
-            viewHolder = (ViewHolder) convertView.getTag();
-        }
-        viewHolder.gridView.setAdapter(viewHolder.allGoodsListViewGridviewAdpter);
-        if (viewHolder.number!=0){
-            BaseTool.setListViewHeightBasedOnChildren(viewHolder.gridView,3);
+        convertView = View.inflate(context, R.layout.item_all_goods_listview2, null);
+        TextView textView = convertView.findViewById(R.id.all_goods_listview2_text);
+        GridView gridView = convertView.findViewById(R.id.all_goods_listview2_gridview);
+        AllGoodsListViewGridviewAdpter allGoodsListViewGridviewAdpter = new AllGoodsListViewGridviewAdpter(context, allGoodsBaseInfos.get(position).getChildren());
+
+        gridView.setAdapter(allGoodsListViewGridviewAdpter);
+        textView.setText(allGoodsBaseInfos.get(position).getName());
+        if (allGoodsBaseInfos.get(position).getChildren().size() != 0) {
+            BaseTool.setListViewHeightBasedOnChildren(gridView, 3);
         }
         return convertView;
-    }
-
-    private static class ViewHolder {
-        TextView textView;
-        GridView gridView;
-        AllGoodsListViewGridviewAdpter allGoodsListViewGridviewAdpter;
-        int number;
     }
 }

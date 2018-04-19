@@ -14,64 +14,76 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/x40" />
 
-    <TextView
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/x16"
-        android:layout_marginTop="@dimen/x11"
-        android:background="@color/colorTransp"
-        android:text="我是药店/诊所人员，选择我的店铺："
-        android:textColor="@color/color333333"
-        android:textSize="@dimen/t12" />
+        android:layout_height="match_parent">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/x10"
-        android:background="@color/colorWhite">
-
-        <ListView
-            android:id="@+id/addshop_listview"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/x19"
-            android:layout_marginStart="@dimen/x16"
-            android:background="@color/colorWhite" />
-    </LinearLayout>
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/x11"
-        android:background="@color/colorTransp"
-        android:orientation="horizontal">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/x16"
+                android:layout_marginTop="@dimen/x11"
+                android:background="@color/colorTransp"
+                android:text="我是药店/诊所人员，选择我的店铺："
+                android:textColor="@color/color333333"
+                android:textSize="@dimen/t12" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/x16"
-            android:background="@color/colorTransp"
-            android:text="以上没有我的店铺。点击"
-            android:textColor="@color/color333333"
-            android:textSize="@dimen/t12" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/x10"
+                android:background="@color/colorWhite">
 
-        <TextView
-            android:id="@+id/addshop_view_more"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@color/colorTransp"
-            android:text="查看更多"
-            android:textColor="@color/color04c1ab"
-            android:textSize="@dimen/t12" />
-    </LinearLayout>
+                <ListView
+                    android:id="@+id/addshop_listview"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/x19"
+                    android:layout_marginStart="@dimen/x16"
+                    android:background="@color/colorWhite" />
+            </LinearLayout>
 
-    <TextView
-        android:id="@+id/addshop_to_creatshop"
-        android:layout_width="@dimen/x297"
-        android:layout_height="@dimen/x33"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="@dimen/x88"
-        android:background="@drawable/shape_login_button"
-        android:gravity="center"
-        android:text="添加店铺" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/x11"
+                android:background="@color/colorTransp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/x16"
+                    android:background="@color/colorTransp"
+                    android:text="以上没有我的店铺。点击"
+                    android:textColor="@color/color333333"
+                    android:textSize="@dimen/t12" />
+
+                <TextView
+                    android:id="@+id/addshop_view_more"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorTransp"
+                    android:text="查看更多"
+                    android:textColor="@color/color04c1ab"
+                    android:textSize="@dimen/t12" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/addshop_to_creatshop"
+                android:layout_width="@dimen/x297"
+                android:layout_height="@dimen/x33"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/x88"
+                android:background="@drawable/shape_login_button"
+                android:gravity="center"
+                android:text="添加店铺" />
+        </LinearLayout>
+    </ScrollView>
+
 </LinearLayout>

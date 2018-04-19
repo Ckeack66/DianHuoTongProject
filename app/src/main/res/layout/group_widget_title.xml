@@ -18,20 +18,18 @@
 
     <ImageView
         android:id="@+id/imageView_left"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="@dimen/x50"
+        android:layout_height="match_parent"
         android:layout_centerVertical="true"
-        android:layout_marginStart="@dimen/x16"
         android:background="@color/colorTransp"
         android:scaleType="center" />
 
     <ImageView
         android:id="@+id/imageView_right"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="@dimen/x50"
+        android:layout_height="match_parent"
         android:layout_alignParentEnd="true"
         android:layout_centerVertical="true"
-        android:layout_marginEnd="@dimen/x16"
         android:background="@color/colorTransp"
         android:scaleType="center" />
 

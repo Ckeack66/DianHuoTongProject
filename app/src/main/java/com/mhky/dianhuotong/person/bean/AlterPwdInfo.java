@@ -1,4 +1,4 @@
-package com.mhky.dianhuotong.person;
+package com.mhky.dianhuotong.person.bean;
 
 import java.io.Serializable;
 

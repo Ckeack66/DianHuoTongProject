@@ -10,14 +10,22 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.mhky.dianhuotong.R;
+import com.mhky.dianhuotong.shop.bean.AllGoodsBaseInfo;
+
+import java.util.List;
 
 /**
  * Created by Administrator on 2018/4/10.
  */
 
 public class AllGoodsListview1Adapter extends BaseAdapter {
-    private int number;
+    private List<AllGoodsBaseInfo> allGoodsBaseInfos;
     private Context mContext;
+
+    public AllGoodsListview1Adapter(List<AllGoodsBaseInfo> allGoodsBaseInfos, Context mContext) {
+        this.allGoodsBaseInfos = allGoodsBaseInfos;
+        this.mContext = mContext;
+    }
 
     public int getIndexColor() {
         return indexColor;
@@ -30,14 +38,13 @@ public class AllGoodsListview1Adapter extends BaseAdapter {
 
     private int indexColor = 0;
 
-    public AllGoodsListview1Adapter(int number, Context mContext) {
-        this.number = number;
-        this.mContext = mContext;
-    }
 
     @Override
     public int getCount() {
-        return number;
+        if (allGoodsBaseInfos != null) {
+            return allGoodsBaseInfos.size();
+        }
+        return 0;
     }
 
     @Override
@@ -58,12 +65,12 @@ public class AllGoodsListview1Adapter extends BaseAdapter {
             convertView = View.inflate(mContext, R.layout.item_allgoods_listview1, null);
             viewHolder.textView = convertView.findViewById(R.id.item_all_goods_listview11_txt);
             viewHolder.linearLayout = convertView.findViewById(R.id.item_all_goods_listview11_background);
-            viewHolder.view=convertView.findViewById(R.id.item_all_goods_listview11_line);
+            viewHolder.view = convertView.findViewById(R.id.item_all_goods_listview11_line);
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
-
+        viewHolder.textView.setText(allGoodsBaseInfos.get(position).getName());
         if (position == indexColor) {
             viewHolder.textView.setTextColor(Color.parseColor("#04c1ab"));
             viewHolder.linearLayout.setBackgroundColor(Color.parseColor("#eeeeee"));

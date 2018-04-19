@@ -1,37 +1,35 @@
-package com.mhky.dianhuotong.person;
+package com.mhky.dianhuotong.credential.precenter;
 
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.Callback;
 import com.lzy.okgo.model.Progress;
 import com.lzy.okgo.model.Response;
 import com.lzy.okgo.request.base.Request;
-import com.mhky.dianhuotong.base.BaseApplication;
 import com.mhky.dianhuotong.base.BaseTool;
 import com.mhky.dianhuotong.base.BaseUrlTool;
+import com.mhky.dianhuotong.credential.credentialif.CredentialIF;
 
 /**
- * Created by Administrator on 2018/4/13.
+ * Created by Administrator on 2018/4/17.
  */
 
-public class AlterPWDPersenter {
+public class CredentialPrecenter {
+    private CredentialIF credentialIF;
 
-    private AlterPwdIF alterPwdIF;
-
-    public AlterPWDPersenter(AlterPwdIF alterPwdIF) {
-        this.alterPwdIF = alterPwdIF;
+    public CredentialPrecenter(CredentialIF credentialIF) {
+        this.credentialIF = credentialIF;
     }
 
-    public void alterPwd(String pwdJson) {
-        OkGo.<String>put(BaseUrlTool.getAlterPwdURL(BaseApplication.getInstansApp().getLoginRequestInfo().getId())).upJson(pwdJson).execute(new Callback<String>() {
+    public void createShop(String json) {
+        OkGo.<String>post(BaseUrlTool.CREAT_SHOP).upJson(json).execute(new Callback<String>() {
             @Override
-
             public void onStart(Request<String, ? extends Request> request) {
 
             }
 
             @Override
             public void onSuccess(Response<String> response) {
-                alterPwdIF.alterPwdSucess(response.code(), BaseTool.getResponsBody(response));
+                credentialIF.createShopSucess(response.code(), BaseTool.getResponsBody(response));
             }
 
             @Override
@@ -41,7 +39,7 @@ public class AlterPWDPersenter {
 
             @Override
             public void onError(Response<String> response) {
-                alterPwdIF.alterPwdFailed(response.code(), BaseTool.getResponsBody(response));
+                credentialIF.createShopFailed(response.code(), BaseTool.getResponsBody(response));
             }
 
             @Override

@@ -86,9 +86,11 @@ public class BaiDuMapActivity extends BaseActivity implements BaiduMap.OnMapClic
     private Context mContext;
     private String getCity;
     private String getArea;
-    private String chooseCity;
-    private String chosseArea;
-    private String chooseZuobiao;
+    private String chooseProvance = "未知";
+    private String chooseCity = "";
+    private String chosseArea = "";
+    private String chooseRoad = "";
+    private String chooseZuobiao = "";
     private String zBX;
     private String zBY;
     private Bundle bundle;
@@ -177,10 +179,12 @@ public class BaiDuMapActivity extends BaseActivity implements BaiduMap.OnMapClic
      * 页面返回前做数据处理
      */
     private void returnData() {
-        chooseZuobiao = zBX + "-" + zBY;
+        chooseZuobiao = zBX + "," + zBY;
         bundle.putString("choosecity", chooseCity);
         bundle.putString("choosearea", chosseArea);
         bundle.putString("choosezuobiao", chooseZuobiao);
+        bundle.putString("chooseprovance", chooseProvance);
+        bundle.putString("chooseroad", chooseRoad);
         Log.d(TAG, "onClick: ---" + chooseCity + chosseArea + chooseZuobiao);
         Intent intent = new Intent();
         intent.putExtras(bundle);
@@ -307,10 +311,12 @@ public class BaiDuMapActivity extends BaseActivity implements BaiduMap.OnMapClic
             textViewName.setText("地点：" + locate);
             textViewJingDu.setText(location.getLongitude() + "");
             textViewWeiDu.setText(location.getLatitude() + "");
-            zBX = "X:" + location.getLongitude();
-            zBY = "Y:" + location.getLatitude();
+            zBX = location.getLongitude() + "";
+            zBY = location.getLatitude() + "";
             chooseCity = location.getCity();
             chosseArea = location.getDistrict();
+            chooseProvance = location.getProvince();
+            chooseRoad = location.getStreet();
         } else {
             getStringAdress(getCity, getArea);
         }
@@ -322,8 +328,8 @@ public class BaiDuMapActivity extends BaseActivity implements BaiduMap.OnMapClic
      * @param latLng
      */
     private void getLocateinfo(LatLng latLng) {
-        zBX = "X:" + latLng.longitude;
-        zBY = "Y:" + latLng.latitude;
+        zBX = "" + latLng.longitude;
+        zBY = "" + latLng.latitude;
         textViewJingDu.setText(latLng.longitude + "");
         textViewWeiDu.setText(latLng.latitude + "");
         GeoCoder geoCoder = GeoCoder.newInstance();

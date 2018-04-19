@@ -3,6 +3,7 @@ package com.mhky.dianhuotong.base;
 import android.app.Activity;
 import android.util.Log;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -14,9 +15,8 @@ import java.util.Set;
  * Created by Administrator on 2018/4/15.
  */
 
-public class BaseActivityManager {
+public class BaseActivityManager implements Serializable {
     private List<Activity> activityList = new ArrayList<Activity>();
-    ;
     private volatile static BaseActivityManager baseActivityManager = null;
     private static final String TAG = "BaseActivityManager";
 
@@ -46,6 +46,16 @@ public class BaseActivityManager {
             for (int a = 0; a < activityList.size(); a++) {
                 if (!activityList.get(a).isFinishing()) {
                     activityList.get(a).finish();
+                }
+            }
+        }
+    }
+
+    public void finnishArrayActivity(ArrayList<Activity> activityLists) {
+        if (activityLists != null) {
+            for (int a = 0; a < activityLists.size(); a++) {
+                if (!activityLists.get(a).isFinishing()) {
+                    activityLists.get(a).finish();
                 }
             }
         }

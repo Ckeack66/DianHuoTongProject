@@ -26,21 +26,22 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="3"
+            android:background="@color/coloreeeeee"
             android:orientation="vertical"
             android:paddingEnd="@dimen/x14"
-            android:paddingStart="@dimen/x8"
-            android:background="@color/coloreeeeee">
+            android:paddingStart="@dimen/x8">
 
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/x90"
                 android:layout_marginTop="@dimen/x14"
-                android:src="@drawable/all_goods_test"/>
+                android:src="@drawable/all_goods_test" />
 
             <ListView
                 android:id="@+id/all_goods_listview2"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:clickable="true"
                 android:divider="@null" />
         </LinearLayout>
 

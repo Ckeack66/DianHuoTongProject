@@ -23,7 +23,7 @@
         <View
             android:id="@+id/item_all_goods_listview11_line"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/x1"
+            android:layout_height="@dimen/x0.5"
             android:background="@color/colorBFBFBF" />
     </LinearLayout>
 

@@ -8,23 +8,30 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.mhky.dianhuotong.R;
+import com.mhky.dianhuotong.shop.bean.AllGoodsBaseInfo;
+import com.squareup.picasso.Picasso;
+
+import java.util.List;
 
 /**
  * Created by Administrator on 2018/4/10.
  */
 
 public class AllGoodsListViewGridviewAdpter extends BaseAdapter {
-    private int number;
     private Context context;
+    private List<AllGoodsBaseInfo.ChildrenBeanX.ChildrenBean> childrenBean;
 
-    public AllGoodsListViewGridviewAdpter(int number, Context context) {
-        this.number = number;
+    public AllGoodsListViewGridviewAdpter(Context context, List<AllGoodsBaseInfo.ChildrenBeanX.ChildrenBean> childrenBean) {
         this.context = context;
+        this.childrenBean = childrenBean;
     }
 
     @Override
     public int getCount() {
-        return number;
+        if (childrenBean != null) {
+            return childrenBean.size();
+        }
+        return 0;
     }
 
     @Override
@@ -39,21 +46,15 @@ public class AllGoodsListViewGridviewAdpter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder viewHolder = null;
-        if (convertView == null) {
-            viewHolder = new ViewHolder();
-            convertView = View.inflate(context, R.layout.item_all_goods_liatview2_gridview, null);
-            viewHolder.imageView = convertView.findViewById(R.id.all_goods_listview2_gridview_image);
-            viewHolder.textView = convertView.findViewById(R.id.all_goods_listview2_gridview_text);
-            convertView.setTag(viewHolder);
-        } else {
-            viewHolder = (ViewHolder) convertView.getTag();
+        convertView = View.inflate(context, R.layout.item_all_goods_liatview2_gridview, null);
+        ImageView imageView = convertView.findViewById(R.id.all_goods_listview2_gridview_image);
+        TextView textView = convertView.findViewById(R.id.all_goods_listview2_gridview_text);
+        textView.setText(childrenBean.get(position).getName());
+        if (childrenBean.get(position).getPicture() != null) {
+            Picasso.with(context).load(childrenBean.get(position).getPicture().toString()).into(imageView);
         }
         return convertView;
     }
 
-    private static class ViewHolder {
-        ImageView imageView;
-        TextView textView;
-    }
+
 }

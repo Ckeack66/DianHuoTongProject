@@ -2,6 +2,8 @@ package com.mhky.dianhuotong.custom.tool;
 
 import android.os.CountDownTimer;
 
+import com.mhky.dianhuotong.activity.ChangePhoneActivity;
+
 /**
  * Created by Administrator on 2018/3/31.
  */
@@ -20,6 +22,7 @@ public class TimerMessage extends CountDownTimer {
         super(millisInFuture, countDownInterval);
         this.onTimerListener = onTimerListener1;
     }
+
 
     @Override
     public void onTick(long millisUntilFinished) {

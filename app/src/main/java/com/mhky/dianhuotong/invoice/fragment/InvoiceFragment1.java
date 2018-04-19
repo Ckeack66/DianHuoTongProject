@@ -73,7 +73,7 @@ public class InvoiceFragment1 extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_invoice_fragment1, container, false);
         unbinder = ButterKnife.bind(this, view);
-        voiceGridviewAdapter = new VoiceGridviewAdapter(getActivity());
+        voiceGridviewAdapter = new VoiceGridviewAdapter(getActivity(), null);
         gridView.setAdapter(voiceGridviewAdapter);
         return view;
     }

@@ -29,6 +29,7 @@
     <color name="colorFF3838">#FF3838</color>
     <!--资质颜色voiceactivity-->
     <color name="colorB23700">#B23700</color>
+    <color name="colorFF4F00">#FF4F00</color>
 
     <!--basedialog颜色-->
     <color name="colorC5C5C5">#C5C5C5</color>
@@ -37,6 +38,8 @@
     <!--关于我们-->
     <color name="color676767">#676767</color>
     <!--商城-->
-    <color name="colorFF0909"> #FF0909</color>
-    <color name="colorF7F7F7"> #F7F7F7</color>
+    <color name="colorFF0909">#FF0909</color>
+    <color name="colorF7F7F7">#F7F7F7</color>
+    <color name="colorE3E3E3">#E3E3E3</color>
+
 </resources>

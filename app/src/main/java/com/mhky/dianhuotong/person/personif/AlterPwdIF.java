@@ -1,4 +1,4 @@
-package com.mhky.dianhuotong.person;
+package com.mhky.dianhuotong.person.personif;
 
 /**
  * Created by Administrator on 2018/4/13.

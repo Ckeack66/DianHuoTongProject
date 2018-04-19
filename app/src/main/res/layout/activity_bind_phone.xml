@@ -4,20 +4,21 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorWhite"
     android:orientation="vertical"
-    tools:context="com.mhky.dianhuotong.activity.BindPhoneActivity"
-    android:background="@color/colorWhite">
+    tools:context="com.mhky.dianhuotong.activity.ChangePhoneActivity">
+
     <com.mhky.dianhuotong.custom.viewgroup.DianHuoTongBaseTitleBar
-        android:id="@+id/bind_phone_title"
+        android:id="@+id/change_phone_title"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/x40"/>
+        android:layout_height="@dimen/x40" />
 
     <LinearLayout
         android:id="@+id/bind_phone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/x52"
         android:layout_marginEnd="@dimen/x49"
+        android:layout_marginStart="@dimen/x52"
         android:layout_marginTop="@dimen/x57"
         android:background="@color/colorWhite"
         android:orientation="vertical">
@@ -35,7 +36,7 @@
                 android:src="@drawable/icon_phone" />
 
             <EditText
-                android:id="@+id/register_phone"
+                android:id="@+id/change_phone_text"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
@@ -72,7 +73,7 @@
                 android:src="@drawable/icon_lock" />
 
             <EditText
-                android:id="@+id/register_phone_code"
+                android:id="@+id/change_phone_code"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/x16"
@@ -88,7 +89,7 @@
                 android:textSize="@dimen/t11" />
 
             <TextView
-                android:id="@+id/register_getmessage"
+                android:id="@+id/change_phone_sendSMS"
                 android:layout_width="@dimen/x50"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -106,7 +107,7 @@
             android:background="@color/colorBFBFBF" />
 
         <TextView
-            android:id="@+id/bind_phone_button"
+            android:id="@+id/change_phone_button"
             android:layout_width="match_parent"
             android:layout_height="@dimen/x33"
             android:layout_marginTop="@dimen/x71"

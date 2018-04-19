@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.mhky.dianhuotong.activity.WelcomActivity">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:src="@drawable/icon_app_background" />
+
+    <com.stone.countdownprogress.CountDownProgress
+        android:id="@+id/welcom_countdown"
+        android:layout_width="@dimen/x100"
+        android:layout_height="@dimen/x100"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="@dimen/x16"
+        android:layout_marginTop="@dimen/x16"
+        app:cdp_circle_solid_color="@color/colorWhite"
+        app:cdp_circle_stroke_color="@color/colorWhite"
+        app:cdp_progress_color="@color/color04c1ab"
+        app:cdp_text_color="@color/color04c1ab"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.2"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.3" />
+</RelativeLayout>

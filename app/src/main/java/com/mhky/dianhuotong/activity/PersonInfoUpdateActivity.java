@@ -9,19 +9,16 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
-import com.alibaba.fastjson.JSON;
 import com.joker.annotation.PermissionsGranted;
 import com.joker.api.Permissions4M;
 import com.lzy.okgo.model.HttpParams;
 import com.mhky.dianhuotong.base.BaseActivityManager;
 import com.mhky.dianhuotong.base.BaseApplication;
 import com.mhky.dianhuotong.person.bean.PersonInfo;
-import com.mhky.dianhuotong.person.bean.UserInfo;
 import com.mhky.dianhuotong.person.personif.PersonIF;
 import com.mhky.dianhuotong.person.personif.UpdataPersonIF;
 import com.mhky.dianhuotong.person.pesenter.PersonInfoPrecenter;
@@ -136,7 +133,7 @@ public class PersonInfoUpdateActivity extends TakePhotoActivity implements DianH
 
     @OnClick(R.id.person_info_update_go_bind_phone)
     void goBindPhone() {
-        BaseTool.goActivityNoData(this, BindPhoneActivity.class);
+        BaseTool.goActivityNoData(this, ChangePhoneActivity.class);
     }
 
     @OnClick(R.id.person_info_update_go_alter_pwd)
