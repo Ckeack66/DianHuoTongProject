@@ -54,7 +54,7 @@
             android:value="guEle2R0kMZVXMg3Zu5h4RkuW1ueKS8f" />
 
         <activity android:name=".base.view.BaseActivity" />
-        <activity android:name=".activity.MainActivity"></activity>
+        <activity android:name=".activity.MainActivity" />
         <activity
             android:name=".activity.LoginActivity"
             android:label="@string/title_activity_login"
@@ -76,12 +76,8 @@
             android:windowSoftInputMode="stateHidden|stateAlwaysHidden" />
         <activity android:name=".activity.CredentialsActivity" />
         <activity android:name=".activity.ShiYaoQianYanActivity" />
-        <activity android:name=".activity.DianHuoTongShopActivity" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+        <activity android:name=".activity.DianHuoTongShopActivity">
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity android:name=".activity.YaoLinWangActivity" />
         <activity android:name=".activity.MingHuiFuActivity" />
@@ -109,9 +105,7 @@
         <activity android:name=".activity.BanKuaiCreatingActivity" />
         <activity android:name=".activity.ScanCodeActivity" />
         <activity android:name=".shop.activity.AllGoodsActivity" />
-        <activity android:name=".shop.activity.GoodsActivity">
-
-        </activity>
+        <activity android:name=".shop.activity.GoodsActivity"></activity>
         <activity android:name=".baidumap.activity.BaiDuMapActivity" />
 
         <service
@@ -124,6 +118,13 @@
         <activity android:name=".activity.Adress3Activity" />
         <activity android:name=".activity.WelcomActivity">
 
+        </activity>
+        <activity android:name=".shop.activity.SearchGoodsActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
     </application>
 

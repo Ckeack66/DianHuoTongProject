@@ -110,4 +110,8 @@ public class BaseUrlTool {
      * 获取全部商品类别
      */
     public static String GET_ALL_GOODS_TYPE = HOST_GOODS_URL + "/category";
+    /**
+     * 搜索商品返回
+     */
+    public static String SEARCH_GOODS=HOST_GOODS_URL+"/goods";
 }

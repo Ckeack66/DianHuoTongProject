@@ -3,9 +3,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorWhite"
+    android:descendantFocusability="blocksDescendants"
     android:orientation="vertical">
 
     <RelativeLayout
+        android:id="@+id/all_goods_listview2_more"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/coloreeeeee">
@@ -37,5 +39,6 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/x90"
         android:columnWidth="@dimen/x90"
+        android:focusable="false"
         android:numColumns="3" />
 </LinearLayout>

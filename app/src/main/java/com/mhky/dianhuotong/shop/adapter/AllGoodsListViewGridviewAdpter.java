@@ -8,7 +8,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.mhky.dianhuotong.R;
-import com.mhky.dianhuotong.shop.bean.AllGoodsBaseInfo;
+import com.mhky.dianhuotong.shop.bean.GoodsBaseInfo;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -19,11 +19,17 @@ import java.util.List;
 
 public class AllGoodsListViewGridviewAdpter extends BaseAdapter {
     private Context context;
-    private List<AllGoodsBaseInfo.ChildrenBeanX.ChildrenBean> childrenBean;
+    private List<GoodsBaseInfo.ChildrenBeanX.ChildrenBean> childrenBean;
+    private int a;
 
-    public AllGoodsListViewGridviewAdpter(Context context, List<AllGoodsBaseInfo.ChildrenBeanX.ChildrenBean> childrenBean) {
+    public AllGoodsListViewGridviewAdpter(Context context, List<GoodsBaseInfo.ChildrenBeanX.ChildrenBean> childrenBean, int aa) {
         this.context = context;
         this.childrenBean = childrenBean;
+        a = aa;
+    }
+
+    public int getA() {
+        return a;
     }
 
     @Override

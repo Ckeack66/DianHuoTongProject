@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/colorWhite"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/x120"
+        android:layout_marginEnd="@dimen/x14"
+        android:layout_marginStart="@dimen/x14">
+
+        <ImageView
+            android:id="@+id/goods_base_imageview"
+            android:layout_width="@dimen/x84"
+            android:layout_height="@dimen/x84"
+            android:layout_marginTop="@dimen/x14"
+            android:src="@drawable/image_test" />
+
+        <RelativeLayout
+            android:id="@+id/shop_good1_layout"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/x106"
+            android:layout_marginStart="@dimen/x12"
+            android:layout_marginTop="@dimen/x14"
+            android:layout_toEndOf="@id/goods_base_imageview"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/goods_base_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/x14"
+                android:background="@color/colorWhite"
+                android:maxLines="2"
+                android:text="安宫黄体酮安宫黄体酮安宫黄体酮安宫黄体酮安宫黄体酮安宫黄体酮"
+                android:ellipsize="marquee"
+                android:textColor="@color/color333333"
+                android:textSize="@dimen/t11" />
+
+            <RelativeLayout
+                android:id="@+id/goods_base_shop_rel"
+                android:layout_width="@dimen/x123"
+                android:layout_height="@dimen/x10"
+                android:layout_marginBottom="@dimen/x8"
+               android:layout_alignParentBottom="true">
+
+                <TextView
+                    android:id="@+id/goods_base_shop_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:text="XX大药房"
+                    android:textColor="@color/color767676"
+                    android:textSize="@dimen/t8" />
+
+                <TextView
+                    android:id="@+id/shop_good1_number"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentEnd="true"
+                    android:text="已售20万盒"
+                    android:textColor="@color/color767676"
+                    android:textSize="@dimen/t8"
+                    android:visibility="gone" />
+
+
+            </RelativeLayout>
+            <RelativeLayout
+                android:id="@+id/goods_base_money_rel"
+                android:layout_width="@dimen/x106"
+                android:layout_height="@dimen/x16"
+                android:layout_above="@id/goods_base_shop_rel"
+                android:layout_marginBottom="@dimen/x10">
+
+                <TextView
+                    android:id="@+id/shop_good1_money_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:text="参考价"
+                    android:textColor="@color/color333333"
+                    android:textSize="@dimen/t9" />
+
+                <TextView
+                    android:id="@+id/goods_base_money"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_toRightOf="@id/shop_good1_money_text"
+                    android:text="￥18.9"
+                    android:textColor="@color/colorE20F12"
+                    android:textSize="@dimen/t14" />
+
+
+            </RelativeLayout>
+            <TextView
+                android:id="@+id/goods_base__companay"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/x10"
+                android:layout_above="@id/goods_base_money_rel"
+                android:background="@color/colorWhite"
+                android:text="华润三九医药股份有限公司"
+                android:textColor="@color/color767676"
+                android:textSize="@dimen/t9" />
+
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/goods_base_addcart_button"
+            android:layout_width="@dimen/x50"
+            android:layout_height="@dimen/x16"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginBottom="@dimen/x10"
+            android:background="@drawable/shape_login_button"
+            android:gravity="center"
+            android:text="加入购物车"
+            android:textSize="@dimen/t8" />
+
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/x0.5"
+        android:background="@color/colorBFBFBF" />
+</LinearLayout>

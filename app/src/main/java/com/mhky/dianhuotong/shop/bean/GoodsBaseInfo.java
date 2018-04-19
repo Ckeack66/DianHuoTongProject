@@ -7,7 +7,7 @@ import java.util.List;
  * Created by Administrator on 2018/4/19.
  */
 
-public class AllGoodsBaseInfo implements Serializable {
+public class GoodsBaseInfo implements Serializable {
     /**
      * id : 1
      * name : 中西医药

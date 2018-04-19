@@ -1,6 +1,5 @@
 package com.mhky.dianhuotong.shop.adapter;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
 import android.view.View;
@@ -10,7 +9,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.mhky.dianhuotong.R;
-import com.mhky.dianhuotong.shop.bean.AllGoodsBaseInfo;
+import com.mhky.dianhuotong.shop.bean.GoodsBaseInfo;
 
 import java.util.List;
 
@@ -19,10 +18,10 @@ import java.util.List;
  */
 
 public class AllGoodsListview1Adapter extends BaseAdapter {
-    private List<AllGoodsBaseInfo> allGoodsBaseInfos;
+    private List<GoodsBaseInfo> allGoodsBaseInfos;
     private Context mContext;
 
-    public AllGoodsListview1Adapter(List<AllGoodsBaseInfo> allGoodsBaseInfos, Context mContext) {
+    public AllGoodsListview1Adapter(List<GoodsBaseInfo> allGoodsBaseInfos, Context mContext) {
         this.allGoodsBaseInfos = allGoodsBaseInfos;
         this.mContext = mContext;
     }

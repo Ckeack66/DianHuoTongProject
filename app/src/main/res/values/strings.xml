@@ -125,9 +125,10 @@
 
     <!--服务专员页面-->
     <string name="mywaiter_text1">姓名：</string>
-    <string name="mywaiter_text2">联系方式：</string>
+    <string name="mywaiter_text2">专员联系方式：</string>
     <string name="mywaiter_text3">负责区域：</string>
     <string name="mywaiter_text4">直管领导：</string>
+    <string name="mywaiter_text5">领导联系方式：</string>
 
     <!--个人中心资料修改-->
     <string name="myperson_updata_pwd">修改密码</string>

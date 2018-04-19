@@ -32,6 +32,14 @@ android {
     buildToolsVersion '27.0.3'
     productFlavors {
     }
+    allprojects {
+        repositories {
+            maven { url "https://jitpack.io" }
+        }
+    }
+    dexOptions {
+        javaMaxHeapSize "4g"
+    }
 }
 
 dependencies {
@@ -119,5 +127,7 @@ dependencies {
     //微信支付
     compile 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:+'
     //BaseRecycleViewAdpter
-    compile 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.30'
+    compile 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.38'
+    //recycleview
+    compile 'com.android.support:recyclerview-v7:26.0.0'
 }
