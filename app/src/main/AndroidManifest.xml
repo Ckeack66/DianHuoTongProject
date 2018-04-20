@@ -77,7 +77,11 @@
         <activity android:name=".activity.CredentialsActivity" />
         <activity android:name=".activity.ShiYaoQianYanActivity" />
         <activity android:name=".activity.DianHuoTongShopActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity android:name=".activity.YaoLinWangActivity" />
         <activity android:name=".activity.MingHuiFuActivity" />
@@ -120,11 +124,7 @@
 
         </activity>
         <activity android:name=".shop.activity.SearchGoodsActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
     </application>
 

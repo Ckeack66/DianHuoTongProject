@@ -5,7 +5,7 @@ package com.mhky.dianhuotong.shop.shopif;
  */
 
 public interface SearchGoodsIF {
-    void searchGoodsInfoSuccess(int code,String result);
+    void searchGoodsInfoSuccess(int code,String result,boolean isfirst,int refreshOrLoadmore);
 
-    void searchGoodsInfoFailed(int code,String result);
+    void searchGoodsInfoFailed(int code,String result,boolean isfirst,int refreshOrLoadmore);
 }

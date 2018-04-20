@@ -9,6 +9,7 @@ import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 import com.mhky.dianhuotong.R;
+import com.mhky.dianhuotong.base.BaseTool;
 import com.mhky.dianhuotong.base.view.BaseActivity;
 import com.mhky.dianhuotong.custom.ToastUtil;
 import com.mhky.dianhuotong.shop.adapter.AllGoodsListview1Adapter;
@@ -31,6 +32,11 @@ public class AllGoodsActivity extends BaseActivity implements AdapterView.OnItem
     private AllGoodsListview2Adapter all_goods_listview2;
     private List<GoodsBaseInfo> allGoodsBaseInfos;
     private AllGoosPrecenter allGoosPrecenter;
+    private int Itype = 0;
+    private int IItype = 0;
+    private int IIItype = 0;
+    private String II_TYPE = "102";
+    private String III_TYPE = "103";
     private static final String TAG = "AllGoodsActivity";
 
     @Override
@@ -48,11 +54,11 @@ public class AllGoodsActivity extends BaseActivity implements AdapterView.OnItem
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        Log.d(TAG, "点击了onItemClick: -------" + position);
+        //Log.d(TAG, "点击了onItemClick: -------" + position);
         switch (parent.getId()) {
-
             case R.id.all_goods_listview1:
-                ToastUtil.makeText(this, "点击了" + position, Toast.LENGTH_SHORT).show();
+                //ToastUtil.makeText(this, "点击了" + position, Toast.LENGTH_SHORT).show();
+                Itype = position;
                 all_goods_listview1.setIndexColor(position);
                 if (allGoodsBaseInfos.get(position) != null) {
                     all_goods_listview2.updateData(allGoodsBaseInfos.get(position).getChildren());
@@ -62,7 +68,12 @@ public class AllGoodsActivity extends BaseActivity implements AdapterView.OnItem
                 listView2.setSelection(0);
                 break;
             case R.id.all_goods_listview2:
-                ToastUtil.makeText(this, "点击了第二个listview" + position, Toast.LENGTH_SHORT).show();
+                //ToastUtil.makeText(this, "点击了第二个listview" + position, Toast.LENGTH_SHORT).show();
+                IItype = position;
+                Bundle bundle = new Bundle();
+                bundle.putString("type", II_TYPE);
+                bundle.putSerializable("data", allGoodsBaseInfos.get(Itype).getChildren().get(IItype));
+                BaseTool.goActivityWithData(this, SearchGoodsActivity.class, bundle);
                 break;
             default:
                 Log.d(TAG, "onItemClick: " + parent);
@@ -94,5 +105,11 @@ public class AllGoodsActivity extends BaseActivity implements AdapterView.OnItem
     @Override
     public void onclickItem(int positionParent, int positionChild) {
         Log.d(TAG, "onclickItem: ----" + positionParent + "------" + positionChild);
+        IItype = positionParent;
+        IIItype = positionChild;
+        Bundle bundle = new Bundle();
+        bundle.putString("type", III_TYPE);
+        bundle.putString("data", allGoodsBaseInfos.get(Itype).getChildren().get(IItype).getChildren().get(IIItype).getId() + "");
+        BaseTool.goActivityWithData(this, SearchGoodsActivity.class, bundle);
     }
 }

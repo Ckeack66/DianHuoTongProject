@@ -130,4 +130,8 @@ dependencies {
     compile 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.38'
     //recycleview
     compile 'com.android.support:recyclerview-v7:26.0.0'
+    //下拉刷新
+    compile 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.0-alpha-5'
+    //筛选
+    compile 'com.github.dongjunkun:DropDownMenu:1.0.4'
 }

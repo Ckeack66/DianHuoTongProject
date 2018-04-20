@@ -62,7 +62,7 @@ public class GoodsBaseInfo implements Serializable {
         this.children = children;
     }
 
-    public static class ChildrenBeanX {
+    public static class ChildrenBeanX implements Serializable{
         /**
          * id : 9
          * name : 儿科用药
@@ -127,7 +127,7 @@ public class GoodsBaseInfo implements Serializable {
             this.children = children;
         }
 
-        public static class ChildrenBean {
+        public static class ChildrenBean implements Serializable{
             /**
              * id : 24
              * name : 儿童生长发育
