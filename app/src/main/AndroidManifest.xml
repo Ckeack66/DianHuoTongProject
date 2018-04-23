@@ -120,12 +120,23 @@
         <activity android:name=".activity.Adress1Activity" />
         <activity android:name=".activity.Adress2Activity" />
         <activity android:name=".activity.Adress3Activity" />
-        <activity android:name=".activity.WelcomActivity">
+        <activity android:name=".activity.WelcomActivity"></activity>
+        <activity android:name=".shop.activity.SearchGoodsActivity"></activity>
 
-        </activity>
-        <activity android:name=".shop.activity.SearchGoodsActivity">
-
-        </activity>
+        <!-- 支付宝 -->
+        <activity
+            android:name="com.alipay.sdk.app.H5PayActivity"
+            android:configChanges="orientation|keyboardHidden|navigation|screenSize"
+            android:exported="false"
+            android:screenOrientation="behind"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
+        <activity
+            android:name="com.alipay.sdk.app.H5AuthActivity"
+            android:configChanges="orientation|keyboardHidden|navigation"
+            android:exported="false"
+            android:screenOrientation="behind"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
+        <activity android:name=".shop.activity.GoodsInfoActivity"></activity>
     </application>
 
 </manifest>

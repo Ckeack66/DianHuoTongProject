@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/colorWhite"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/popupwindow_goods1_title"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/x50"
+        android:layout_marginEnd="@dimen/x14"
+        android:layout_marginStart="@dimen/x14">
+
+        <TextView
+            android:id="@+id/popupwindow_goods_type_parent_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="全部种类"
+            android:textColor="@color/color333333"
+            android:textSize="@dimen/t12" />
+
+        <ImageView
+            android:id="@+id/popupwindow_goods_type_parent_img"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/icon_jt_right" />
+
+        <TextView
+            android:id="@+id/popupwindow_goods_type_parent_number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="@dimen/x6"
+            android:layout_toStartOf="@id/popupwindow_goods_type_parent_img"
+            android:text="1000000种"
+            android:textColor="@color/color707070"
+            android:textSize="@dimen/t11" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/x1"
+            android:layout_alignParentBottom="true"
+            android:background="@color/colorF7F7F7" />
+    </RelativeLayout>
+
+</FrameLayout>

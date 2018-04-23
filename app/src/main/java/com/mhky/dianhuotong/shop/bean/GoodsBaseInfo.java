@@ -1,5 +1,10 @@
 package com.mhky.dianhuotong.shop.bean;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import com.chad.library.adapter.base.entity.SectionEntity;
+
 import java.io.Serializable;
 import java.util.List;
 
@@ -61,6 +66,7 @@ public class GoodsBaseInfo implements Serializable {
     public void setChildren(List<ChildrenBeanX> children) {
         this.children = children;
     }
+
 
     public static class ChildrenBeanX implements Serializable{
         /**

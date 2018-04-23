@@ -30,7 +30,7 @@ public class AllGoodsActivity extends BaseActivity implements AdapterView.OnItem
     ListView listView2;
     private AllGoodsListview1Adapter all_goods_listview1;
     private AllGoodsListview2Adapter all_goods_listview2;
-    private List<GoodsBaseInfo> allGoodsBaseInfos;
+    public static List<GoodsBaseInfo> allGoodsBaseInfos;
     private AllGoosPrecenter allGoosPrecenter;
     private int Itype = 0;
     private int IItype = 0;

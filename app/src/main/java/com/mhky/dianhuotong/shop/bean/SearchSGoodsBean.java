@@ -142,7 +142,7 @@ public class SearchSGoodsBean implements Serializable {
         this.content = content;
     }
 
-    public static class ContentBean implements Serializable{
+    public static class ContentBean implements Serializable {
         /**
          * id : 16
          * title : 海正 伊索佳 硫酸氨基葡萄糖胶囊 0.314g*24粒
@@ -160,32 +160,32 @@ public class SearchSGoodsBean implements Serializable {
          * picture : https://p1.maiyaole.com/img/201607/19/20160719114729672.jpg
          * price : 4500
          * description : <p>
-         asdasjkl
-         </p>
-         <p>
-         asdasdasdas&nbsp;
-         </p>
-         <p>
-         asdasdasd
-         </p>
-         <p>
-         adasdas
-         </p>
-         <p>
-         <br />
-         </p>
+         * asdasjkl
+         * </p>
+         * <p>
+         * asdasdasdas&nbsp;
+         * </p>
+         * <p>
+         * asdasdasd
+         * </p>
+         * <p>
+         * adasdas
+         * </p>
+         * <p>
+         * <br />
+         * </p>
          * instruction : <p>
-         aasdg阿森公司的公司的
-         </p>
-         <p>
-         啊苏打岁的萨的
-         </p>
-         <p>
-         啊苏打萨斯
-         </p>
-         <p>
-         <br />
-         </p>
+         * aasdg阿森公司的公司的
+         * </p>
+         * <p>
+         * 啊苏打岁的萨的
+         * </p>
+         * <p>
+         * 啊苏打萨斯
+         * </p>
+         * <p>
+         * <br />
+         * </p>
          * saleProperties : ["规格"]
          * shopInfo : null
          * skuIds : [2]
@@ -219,6 +219,16 @@ public class SearchSGoodsBean implements Serializable {
         private String createTime;
         private String lastModifyTime;
         private List<Integer> skuIds;
+
+        public String getExpiryDate() {
+            return expiryDate;
+        }
+
+        public void setExpiryDate(String expiryDate) {
+            this.expiryDate = expiryDate;
+        }
+
+        private String expiryDate;
 
         public int getId() {
             return id;
@@ -412,7 +422,7 @@ public class SearchSGoodsBean implements Serializable {
             this.skuIds = skuIds;
         }
 
-        public static class AduitGoodsInfoBean implements Serializable{
+        public static class AduitGoodsInfoBean implements Serializable {
             /**
              * goodsId : 16
              * offShelves : true

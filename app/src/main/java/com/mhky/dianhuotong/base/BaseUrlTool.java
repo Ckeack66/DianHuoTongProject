@@ -113,5 +113,48 @@ public class BaseUrlTool {
     /**
      * 搜索商品返回
      */
-    public static String SEARCH_GOODS=HOST_GOODS_URL+"/goods";
+    public static String SEARCH_GOODS = HOST_GOODS_URL + "/goods";
+    /**
+     * 查询所有公司
+     */
+    public static String GET_ALL_COMPANY = HOST_URL + "/user/seller/company/list";
+    /**
+     * 添加到购物车
+     */
+    private static String ADD_CART = HOST_URL + "/cart?buyerId=";
+
+    public static String getAddCartUrl(String Id) {
+        return ADD_CART + Id;
+    }
+
+    /**
+     * 删除购物车商品
+     */
+    private static String DELETE_CART = HOST_URL + "/cart?buyerId=";
+
+    public static String getDeleteCartUrl(String buyerID, String SkuID) {
+        return DELETE_CART + buyerID + "&skuId=" + SkuID;
+    }
+
+    /**
+     * 查询购物车
+     */
+    private static String GET_CART = HOST_URL + "/cart?buyerId=";
+
+    public static String getCartInfo(String ID) {
+        return GET_CART + ID;
+    }
+
+    /**
+     * 更改购物车商品
+     */
+    public static String ALTER_CART = HOST_URL + "/cart?";
+    /**
+     * 获取商品属性信息
+     */
+    private static String SKU_INFO = HOST_URL + "/goods/";
+
+    public static String getSkuInfo(String goodsId) {
+        return SKU_INFO + goodsId + "/skus";
+    }
 }
