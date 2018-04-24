@@ -19,6 +19,7 @@ import com.yanzhenjie.sofia.Sofia;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class GoodsActivity extends BaseActivity {
     @BindView(R.id.goods_title)
@@ -66,5 +67,10 @@ public class GoodsActivity extends BaseActivity {
                 ToastUtil.makeText(mContext, "数据解析错误", Toast.LENGTH_SHORT).show();
             }
         }
+    }
+
+    @OnClick(R.id.goods_base_back)
+    void back() {
+        finish();
     }
 }

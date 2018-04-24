@@ -8,10 +8,9 @@
         android:id="@+id/shop_title_left_image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_gravity="center_vertical"
-        android:layout_marginBottom="@dimen/x11"
+        android:layout_centerVertical="true"
         android:layout_marginStart="@dimen/x16"
+        android:scaleType="fitCenter"
         android:background="@color/colorTransp"
         android:src="@drawable/icon_back" />
 
@@ -21,6 +20,7 @@
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="@dimen/x6"
         android:layout_marginStart="@dimen/x30"
+        android:layout_centerVertical="true"
         android:layout_toRightOf="@id/shop_title_left_image"
         android:background="@drawable/shape_shop_title">
 

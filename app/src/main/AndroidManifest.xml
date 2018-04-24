@@ -54,7 +54,9 @@
             android:value="guEle2R0kMZVXMg3Zu5h4RkuW1ueKS8f" />
 
         <activity android:name=".base.view.BaseActivity" />
-        <activity android:name=".activity.MainActivity" />
+        <activity android:name=".activity.MainActivity">
+
+        </activity>
         <activity
             android:name=".activity.LoginActivity"
             android:label="@string/title_activity_login"
@@ -94,7 +96,9 @@
         <activity android:name=".activity.AboutOurActivity" />
         <activity android:name=".activity.SystemSetActivity" />
         <activity android:name=".activity.MianZeShowActivity" />
-        <activity android:name=".activity.AddShopActivity" />
+        <activity android:name=".activity.AddShopActivity">
+
+        </activity>
         <activity
             android:name=".activity.AddShop1Activity"
             android:windowSoftInputMode="stateHidden|stateAlwaysHidden" />
@@ -109,7 +113,7 @@
         <activity android:name=".activity.BanKuaiCreatingActivity" />
         <activity android:name=".activity.ScanCodeActivity" />
         <activity android:name=".shop.activity.AllGoodsActivity" />
-        <activity android:name=".shop.activity.GoodsActivity"></activity>
+        <activity android:name=".shop.activity.GoodsActivity" />
         <activity android:name=".baidumap.activity.BaiDuMapActivity" />
 
         <service
@@ -120,8 +124,8 @@
         <activity android:name=".activity.Adress1Activity" />
         <activity android:name=".activity.Adress2Activity" />
         <activity android:name=".activity.Adress3Activity" />
-        <activity android:name=".activity.WelcomActivity"></activity>
-        <activity android:name=".shop.activity.SearchGoodsActivity"></activity>
+        <activity android:name=".activity.WelcomActivity" />
+        <activity android:name=".shop.activity.SearchGoodsActivity" />
 
         <!-- 支付宝 -->
         <activity
@@ -136,7 +140,14 @@
             android:exported="false"
             android:screenOrientation="behind"
             android:windowSoftInputMode="adjustResize|stateHidden" />
-        <activity android:name=".shop.activity.GoodsInfoActivity"></activity>
+        <activity android:name=".shop.activity.GoodsInfoActivity" />
+        <activity android:name=".shop.activity.ShopActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

@@ -31,6 +31,7 @@ import com.mhky.dianhuotong.shop.bean.GoodsBaseInfo;
 import com.mhky.dianhuotong.shop.bean.Popuwindow1Info;
 import com.mhky.dianhuotong.shop.bean.SearchSGoodsBean;
 import com.mhky.dianhuotong.shop.custom.CompanyPopupwindow;
+import com.mhky.dianhuotong.shop.custom.DianHuoTongShopTitleBar;
 import com.mhky.dianhuotong.shop.custom.GoodsTypePopupwindow;
 import com.mhky.dianhuotong.shop.custom.SortPopupwindow;
 import com.mhky.dianhuotong.shop.precenter.GetAllCompanyPresenter;
@@ -78,6 +79,8 @@ public class SearchGoodsActivity extends BaseActivity implements SearchGoodsIF, 
     ImageView imageViewChoose4;
     @BindView(R.id.goods_base_choose_tab1)
     RelativeLayout tabI;
+    @BindView(R.id.search_title)
+    DianHuoTongShopTitleBar dianHuoTongShopTitleBar;
     private SearchGoodsAdpter searchGoodsAdpter;
     private SearchGoodsPresenter searchGoodsPresenter;
     private String type;
@@ -114,6 +117,7 @@ public class SearchGoodsActivity extends BaseActivity implements SearchGoodsIF, 
     }
 
     private void inIt() {
+        dianHuoTongShopTitleBar.setActivity(this);
         allGoodsBaseInfos = AllGoodsActivity.allGoodsBaseInfos;
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);

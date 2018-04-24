@@ -101,6 +101,7 @@
     <!--字体大小-->
     <dimen name="t8">8sp</dimen>
     <dimen name="t9">9sp</dimen>
+    <dimen name="t10">10sp</dimen>
     <dimen name="t11">11sp</dimen>
     <dimen name="t12">12sp</dimen>
     <dimen name="t14">14sp</dimen>

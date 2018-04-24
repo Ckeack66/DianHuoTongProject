@@ -15,6 +15,7 @@ import com.mhky.dianhuotong.custom.ToastUtil;
 import com.mhky.dianhuotong.shop.adapter.AllGoodsListview1Adapter;
 import com.mhky.dianhuotong.shop.adapter.AllGoodsListview2Adapter;
 import com.mhky.dianhuotong.shop.bean.GoodsBaseInfo;
+import com.mhky.dianhuotong.shop.custom.DianHuoTongShopTitleBar;
 import com.mhky.dianhuotong.shop.precenter.AllGoosPrecenter;
 import com.mhky.dianhuotong.shop.shopif.AllGoodsIF;
 
@@ -28,6 +29,8 @@ public class AllGoodsActivity extends BaseActivity implements AdapterView.OnItem
     ListView listView1;
     @BindView(R.id.all_goods_listview2)
     ListView listView2;
+    @BindView(R.id.all_goods_title)
+    DianHuoTongShopTitleBar dianHuoTongShopTitleBar;
     private AllGoodsListview1Adapter all_goods_listview1;
     private AllGoodsListview2Adapter all_goods_listview2;
     public static List<GoodsBaseInfo> allGoodsBaseInfos;
@@ -48,6 +51,7 @@ public class AllGoodsActivity extends BaseActivity implements AdapterView.OnItem
     }
 
     private void init() {
+        dianHuoTongShopTitleBar.setActivity(this);
         allGoosPrecenter = new AllGoosPrecenter(this);
         allGoosPrecenter.getAllGoodsType();
     }

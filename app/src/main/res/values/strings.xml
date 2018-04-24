@@ -148,8 +148,8 @@
     <string name="system_logout">退出账号</string>
     <string name="create_shop_txt1">选择地址:</string>
     <string name="create_shop_txt2">选择坐标:</string>
-    <string name="create_shop_txt3">请输入营业执照上的公司名称</string>
-    <string name="create_shop_txt4">请输入营业执照上的详细地址</string>
+    <string name="create_shop_txt3">请输入店铺名称</string>
+    <string name="create_shop_txt4">请输入店铺的详细地址XX路XX号</string>
     <string name="create_shop_txt5">下一步</string>
 
     <string name="add_shop_finish_name">姓名：</string>
@@ -159,4 +159,6 @@
     <string name="add_shop_search">店铺、药店</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="shop_bra">本合作期内，活动宣传资料的设计、制作和提供由双方协商确定各自分工情况。所有宣传资料的所有权和知识产权（包括但不限于著作权）归属提供方，另一方仅有使用权。未经提供方书面同意，另一方（使用方）不得将其该宣传资料用本协议以外的其他事项。双方保证其所提供的宣传资料内容合法，不得侵犯第三方的知识产权及其他合法权益。因宣传资料侵犯第三方合法权利造成使用方的任何损失，由提供方承担全部赔偿责任。</string>
 </resources>

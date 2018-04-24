@@ -1,0 +1,207 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.mhky.dianhuotong.shop.fragment.ShopTransferFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/x40"
+            android:layout_marginTop="@dimen/x6"
+            android:background="@color/colorWhite"
+            android:orientation="horizontal">
+
+            <View
+                android:id="@+id/shop_ttransfer_info_title"
+                android:layout_width="@dimen/x4"
+                android:layout_height="@dimen/x16"
+                android:layout_centerVertical="true"
+                android:background="@color/colorB23700" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="@dimen/x14"
+                android:layout_toEndOf="@id/shop_ttransfer_info_title"
+                android:text="商家介绍"
+                android:textColor="@color/colorB23700" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="@dimen/x12"
+                android:src="@drawable/icon_go" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/x40"
+            android:layout_marginTop="@dimen/x6"
+            android:background="@color/colorWhite"
+            android:orientation="horizontal">
+
+            <View
+                android:id="@+id/shop_ttransfer_info_title1"
+                android:layout_width="@dimen/x4"
+                android:layout_height="@dimen/x16"
+                android:layout_centerVertical="true"
+                android:background="@color/colorB23700" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="@dimen/x14"
+                android:layout_toEndOf="@id/shop_ttransfer_info_title1"
+                android:text="配送方式"
+                android:textColor="@color/colorB23700" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="@dimen/x12"
+                android:src="@drawable/icon_go" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/x40"
+            android:layout_marginTop="@dimen/x6"
+            android:background="@color/colorWhite"
+            android:orientation="horizontal">
+
+            <View
+                android:id="@+id/shop_ttransfer_info_title2"
+                android:layout_width="@dimen/x4"
+                android:layout_height="@dimen/x16"
+                android:layout_centerVertical="true"
+                android:background="@color/colorB23700" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="@dimen/x14"
+                android:layout_toEndOf="@id/shop_ttransfer_info_title2"
+                android:text="开户流程"
+                android:textColor="@color/colorB23700" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="@dimen/x12"
+                android:src="@drawable/icon_go" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/x40"
+            android:layout_marginTop="@dimen/x6"
+            android:background="@color/colorWhite"
+            android:orientation="horizontal">
+
+            <View
+                android:id="@+id/shop_ttransfer_info_title3"
+                android:layout_width="@dimen/x4"
+                android:layout_height="@dimen/x16"
+                android:layout_centerVertical="true"
+                android:background="@color/colorB23700" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="@dimen/x14"
+                android:layout_toEndOf="@id/shop_ttransfer_info_title3"
+                android:text="售后相关"
+                android:textColor="@color/colorB23700" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="@dimen/x12"
+                android:src="@drawable/icon_go" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/x40"
+            android:layout_marginTop="@dimen/x6"
+            android:background="@color/colorWhite"
+            android:orientation="horizontal">
+
+            <View
+                android:id="@+id/shop_ttransfer_info_title4"
+                android:layout_width="@dimen/x4"
+                android:layout_height="@dimen/x16"
+                android:layout_centerVertical="true"
+                android:background="@color/colorB23700" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="@dimen/x14"
+                android:layout_toEndOf="@id/shop_ttransfer_info_title4"
+                android:text="商家公告"
+                android:textColor="@color/colorB23700" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="@dimen/x12"
+                android:src="@drawable/icon_go" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/x40"
+            android:layout_marginTop="@dimen/x6"
+            android:background="@color/colorWhite"
+            android:orientation="horizontal">
+
+            <View
+                android:id="@+id/shop_ttransfer_info_title5"
+                android:layout_width="@dimen/x4"
+                android:layout_height="@dimen/x16"
+                android:layout_centerVertical="true"
+                android:background="@color/colorB23700" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="@dimen/x14"
+                android:layout_toEndOf="@id/shop_ttransfer_info_title5"
+                android:text="商家公告"
+                android:textColor="@color/colorB23700" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="@dimen/x12"
+                android:src="@drawable/icon_go" />
+        </RelativeLayout>
+    </LinearLayout>
+
+
+</ScrollView>

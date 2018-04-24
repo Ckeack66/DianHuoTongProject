@@ -7,7 +7,10 @@
     android:orientation="vertical"
     tools:context="com.mhky.dianhuotong.shop.activity.SearchGoodsActivity">
 
-    <include layout="@layout/group_widget_title_shop" />
+    <com.mhky.dianhuotong.shop.custom.DianHuoTongShopTitleBar
+        android:id="@+id/search_title"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/x40" />
 
     <RelativeLayout
         android:layout_width="match_parent"

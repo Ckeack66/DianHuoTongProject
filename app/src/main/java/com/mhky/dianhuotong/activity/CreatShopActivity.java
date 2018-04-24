@@ -158,7 +158,8 @@ public class CreatShopActivity extends BaseActivity {
             qualicationInfo.getShopDataDTO().getAddress().setCity(city1);
             qualicationInfo.getShopDataDTO().getAddress().setProvince(provance1);
             qualicationInfo.getShopDataDTO().getAddress().setDistrict(area1);
-            qualicationInfo.getShopDataDTO().getAddress().setTown(road1);
+            qualicationInfo.getShopDataDTO().getAddress().setTown(returnAdress);
+            qualicationInfo.getShopDataDTO().getAddress().setRoad(editTextCompenayAdress.getText().toString());
             qualicationInfo.getShopDataDTO().setMapPoint(textViewZuoBiao.getText().toString());
             qualicationInfo.getShopDataDTO().setShopType(shopType);
             qualicationInfo.getShopDataDTO().setShopname(editTextCompenay.getText().toString());

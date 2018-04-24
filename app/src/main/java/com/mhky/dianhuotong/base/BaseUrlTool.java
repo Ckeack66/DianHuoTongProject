@@ -157,4 +157,13 @@ public class BaseUrlTool {
     public static String getSkuInfo(String goodsId) {
         return SKU_INFO + goodsId + "/skus";
     }
+
+    /**
+     * 获取单个商品详细信息
+     */
+    private static String GET_GOODS_INFO = HOST_URL + "/goods/";
+
+    public static String getGoodsInfo(String Id) {
+        return GET_GOODS_INFO + Id;
+    }
 }

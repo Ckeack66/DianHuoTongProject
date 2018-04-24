@@ -5,4 +5,7 @@ package com.mhky.dianhuotong.shop.shopif;
  */
 
 public interface GoodsIF {
+    void getGoodsInfoSuccess(int code, String result);
+
+    void getGoodsInfoFailed(int code, String result);
 }
