@@ -99,7 +99,8 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/x40"
             android:background="@color/colorWhite"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:layout_marginTop="@dimen/x6">
 
             <RelativeLayout
                 android:id="@+id/shop_main_child_tab1"

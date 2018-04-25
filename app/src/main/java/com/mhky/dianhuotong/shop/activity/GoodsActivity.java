@@ -9,6 +9,7 @@ import android.widget.Toast;
 
 import com.gyf.barlibrary.ImmersionBar;
 import com.mhky.dianhuotong.R;
+import com.mhky.dianhuotong.base.BaseTool;
 import com.mhky.dianhuotong.base.view.BaseActivity;
 import com.mhky.dianhuotong.custom.ToastUtil;
 import com.mhky.dianhuotong.shop.bean.GoodsBaseInfo;
@@ -72,5 +73,15 @@ public class GoodsActivity extends BaseActivity {
     @OnClick(R.id.goods_base_back)
     void back() {
         finish();
+    }
+
+    @OnClick(R.id.goods_base_go_more)
+    void goGoodsMore() {
+        BaseTool.goActivityNoData(this, GoodsInfoActivity.class);
+    }
+
+    @OnClick(R.id.goods_base_go_shop)
+    void goGoodsShop() {
+        BaseTool.goActivityNoData(this, ShopActivity.class);
     }
 }

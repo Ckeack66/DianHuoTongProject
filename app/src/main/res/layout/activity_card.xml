@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorWhite"
+    tools:context="com.mhky.dianhuotong.shop.activity.CardActivity">
+
+    <com.mhky.dianhuotong.custom.viewgroup.DianHuoTongBaseTitleBar
+        android:id="@+id/shop_code_title"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/x40" />
+
+    <ImageView
+        android:id="@+id/shop_code_img"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/x100"
+        android:src="@drawable/icon_code_big" />
+
+    <TextView
+        android:id="@+id/shop_code_title_txt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/shop_code_img"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/x60"
+        android:text="二维码分享到"
+        android:textColor="@color/color333333" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/shop_code_title_txt"
+        android:layout_marginTop="@dimen/x40"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:drawablePadding="@dimen/x6"
+            android:drawableTop="@drawable/icon_qq"
+            android:gravity="center"
+            android:text="QQ"
+            android:textColor="@color/color333333" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:drawablePadding="@dimen/x6"
+            android:drawableTop="@drawable/icon_qz"
+            android:gravity="center"
+            android:text="QQ空间"
+            android:textColor="@color/color333333" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:drawablePadding="@dimen/x6"
+            android:drawableTop="@drawable/icon_wx"
+            android:gravity="center"
+            android:text="微信"
+            android:textColor="@color/color333333" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:drawablePadding="@dimen/x6"
+            android:drawableTop="@drawable/icon_wz"
+            android:gravity="center"
+            android:text="朋友圈"
+            android:textColor="@color/color333333" />
+    </LinearLayout>
+
+</RelativeLayout>

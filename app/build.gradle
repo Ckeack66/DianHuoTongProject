@@ -124,14 +124,21 @@ dependencies {
     //倒计时
     compile 'com.sqq.xiaqu:countdownprogress:1.0.0'
     implementation files('libs/alipaySdk-20180403.jar')
+
     //微信支付
     compile 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:+'
+
     //BaseRecycleViewAdpter
     compile 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.38'
+
     //recycleview
     compile 'com.android.support:recyclerview-v7:26.0.0'
+
     //下拉刷新
     compile 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.0-alpha-5'
+
     //筛选
     compile 'com.github.dongjunkun:DropDownMenu:1.0.4'
+    implementation files('libs/jcore-android-1.2.0.jar')
+    implementation files('libs/jpush-android-3.1.2.jar')
 }

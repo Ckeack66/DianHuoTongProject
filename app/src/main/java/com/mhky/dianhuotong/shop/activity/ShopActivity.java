@@ -66,9 +66,9 @@ public class ShopActivity extends AppCompatActivity {
         shopTransferFragment = ShopTransferFragment.newInstance("", "");
         fragmentManager = getSupportFragmentManager();
         fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.add(R.id.shop_fragment, shopMainFragment);
-        fragmentTransaction.add(R.id.shop_fragment, shopAllGoodsFragment);
         fragmentTransaction.add(R.id.shop_fragment, shopTransferFragment);
+        fragmentTransaction.add(R.id.shop_fragment, shopAllGoodsFragment);
+        fragmentTransaction.add(R.id.shop_fragment, shopMainFragment);
         fragmentTransaction.show(shopMainFragment);
         fragmentTransaction.commit();
 
