@@ -10,9 +10,11 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -30,6 +32,7 @@ import com.mhky.dianhuotong.shop.bean.AllCompanyInfo;
 import com.mhky.dianhuotong.shop.bean.GoodsBaseInfo;
 import com.mhky.dianhuotong.shop.bean.Popuwindow1Info;
 import com.mhky.dianhuotong.shop.bean.SearchSGoodsBean;
+import com.mhky.dianhuotong.shop.custom.CartPopupwindow;
 import com.mhky.dianhuotong.shop.custom.CompanyPopupwindow;
 import com.mhky.dianhuotong.shop.custom.DianHuoTongShopTitleBar;
 import com.mhky.dianhuotong.shop.custom.GoodsTypePopupwindow;
@@ -46,6 +49,9 @@ import com.scwang.smartrefresh.layout.header.BezierRadarHeader;
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.yyydjk.library.DropDownMenu;
+import com.zhy.view.flowlayout.FlowLayout;
+import com.zhy.view.flowlayout.TagAdapter;
+import com.zhy.view.flowlayout.TagFlowLayout;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -99,6 +105,8 @@ public class SearchGoodsActivity extends BaseActivity implements SearchGoodsIF, 
     private AllCompanyInfo allCompanyInfo;
     private SearchSGoodsBean searchSGoodsBean;
     private Context mContext;
+    private CartPopupwindow cartPopupwindow;
+
     private static final String TAG = "SearchGoodsActivity";
 
     @Override
@@ -117,6 +125,8 @@ public class SearchGoodsActivity extends BaseActivity implements SearchGoodsIF, 
     }
 
     private void inIt() {
+
+        cartPopupwindow = new CartPopupwindow(this);
         dianHuoTongShopTitleBar.setActivity(this);
         allGoodsBaseInfos = AllGoodsActivity.allGoodsBaseInfos;
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
@@ -124,6 +134,34 @@ public class SearchGoodsActivity extends BaseActivity implements SearchGoodsIF, 
         recyclerView.setLayoutManager(linearLayoutManager);
         smartRefreshLayout.setRefreshHeader(new BezierRadarHeader(this).setEnableHorizontalDrag(true).setPrimaryColor(getResources().getColor(R.color.color04c1ab)).setAccentColor(getResources().getColor(R.color.colorWhite)));
         smartRefreshLayout.setRefreshFooter(new BallPulseFooter(this).setSpinnerStyle(SpinnerStyle.Scale).setAnimatingColor(getResources().getColor(R.color.color04c1ab)).setNormalColor(getResources().getColor(R.color.color04c1ab)));
+        setRefresh();
+        searchGoodsPresenter = new SearchGoodsPresenter(this);
+        bundle = getIntent().getExtras();
+        type = bundle.getString("type");
+        if (type != null && type.equals("102")) {
+            childrenBeanX = (GoodsBaseInfo.ChildrenBeanX) bundle.getSerializable("data");
+            if (childrenBeanX != null) {
+                getData(getChildId(childrenBeanX.getChildren()), true, 0);
+            }
+        } else if (type != null && type.equals("103")) {
+            type3 = bundle.getString("data");
+            if (type3 != null && !type3.equals("")) {
+                getData(type3, true, 0);
+            }
+        }
+        popuwindow1InfoList = searchGoodsPresenter.getPopupwindowData(allGoodsBaseInfos);
+        goodsTypePopupwindow = new GoodsTypePopupwindow(this, popuwindow1InfoList);
+        goodsTypePopupwindow.setOutsideTouchable(false);
+        goodsTypePopupwindow.setOnClickPopupwindowItemListener(this);
+        sortPopupwindow = new SortPopupwindow(this, -1);
+        sortPopupwindow.setOutsideTouchable(false);
+        sortPopupwindow.setOnClickPopupwindowItemListener(this);
+        getAllCompanyPresenter = new GetAllCompanyPresenter(this);
+        getAllCompanyPresenter.getAllCompany(new HttpParams(), false);
+
+    }
+
+    private void setRefresh() {
         smartRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {
@@ -155,30 +193,6 @@ public class SearchGoodsActivity extends BaseActivity implements SearchGoodsIF, 
 
             }
         });
-        searchGoodsPresenter = new SearchGoodsPresenter(this);
-        bundle = getIntent().getExtras();
-        type = bundle.getString("type");
-        if (type != null && type.equals("102")) {
-            childrenBeanX = (GoodsBaseInfo.ChildrenBeanX) bundle.getSerializable("data");
-            if (childrenBeanX != null) {
-                getData(getChildId(childrenBeanX.getChildren()), true, 0);
-            }
-        } else if (type != null && type.equals("103")) {
-            type3 = bundle.getString("data");
-            if (type3 != null && !type3.equals("")) {
-                getData(type3, true, 0);
-            }
-        }
-        popuwindow1InfoList = searchGoodsPresenter.getPopupwindowData(allGoodsBaseInfos);
-        goodsTypePopupwindow = new GoodsTypePopupwindow(this, popuwindow1InfoList);
-        goodsTypePopupwindow.setOutsideTouchable(false);
-        goodsTypePopupwindow.setOnClickPopupwindowItemListener(this);
-        sortPopupwindow = new SortPopupwindow(this, -1);
-        sortPopupwindow.setOutsideTouchable(false);
-        sortPopupwindow.setOnClickPopupwindowItemListener(this);
-        getAllCompanyPresenter = new GetAllCompanyPresenter(this);
-        getAllCompanyPresenter.getAllCompany(new HttpParams(), false);
-
     }
 
     private void getData(String childID, boolean isFirst, int refreshOrLoadmore) {
@@ -328,6 +342,7 @@ public class SearchGoodsActivity extends BaseActivity implements SearchGoodsIF, 
                     searchGoodsAdpter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
                         @Override
                         public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                            cartPopupwindow.showAtLocation(dianHuoTongShopTitleBar, Gravity.BOTTOM, 0, 0);
                             ToastUtil.makeText(mContext, searchSGoodsBean.getContent().get(position).getName(), Toast.LENGTH_SHORT).show();
                         }
                     });
@@ -433,4 +448,6 @@ public class SearchGoodsActivity extends BaseActivity implements SearchGoodsIF, 
         ToastUtil.makeText(this, contentBean.getName(), Toast.LENGTH_SHORT).show();
         setTabStateFalse(3);
     }
+
+
 }

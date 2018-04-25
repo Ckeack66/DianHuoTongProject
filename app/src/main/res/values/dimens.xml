@@ -95,6 +95,8 @@
     <dimen name="x290">290dp</dimen>
     <dimen name="x297">297dp</dimen>
     <dimen name="x300">300dp</dimen>
+    <dimen name="x310">310dp</dimen>
+    <dimen name="x320">320dp</dimen>
     <dimen name="x400">400dp</dimen>
     <dimen name="x463">463dp</dimen>
 
