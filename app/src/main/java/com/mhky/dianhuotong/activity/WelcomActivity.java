@@ -10,11 +10,10 @@ import com.mhky.dianhuotong.R;
 import com.mhky.dianhuotong.base.BaseTool;
 import com.mhky.dianhuotong.base.view.BaseActivity;
 import com.stone.countdownprogress.CountDownProgress;
-import com.yanzhenjie.sofia.Sofia;
+
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-
 public class WelcomActivity extends BaseActivity {
     @BindView(R.id.welcom_countdown)
     CountDownProgress countDownProgress;

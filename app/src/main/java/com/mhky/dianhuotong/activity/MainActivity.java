@@ -1,7 +1,10 @@
 package com.mhky.dianhuotong.activity;
 
+import android.Manifest;
 import android.content.Context;
 import android.graphics.Color;
+import android.support.annotation.NonNull;
+import android.support.v4.content.PermissionChecker;
 import android.support.v4.widget.DrawerLayout;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
@@ -17,6 +20,10 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.joker.annotation.PermissionsDenied;
+import com.joker.annotation.PermissionsGranted;
+import com.joker.annotation.PermissionsRequestSync;
+import com.joker.api.Permissions4M;
 import com.mhky.dianhuotong.R;
 import com.mhky.dianhuotong.base.BaseApplication;
 import com.mhky.dianhuotong.base.BaseTool;
@@ -42,6 +49,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
 
+@PermissionsRequestSync(permission = {Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE}, value = {101, 102, 103, 104})
 public class MainActivity extends BaseActivity implements MainIF, DrawerLayout.DrawerListener, AdapterView.OnItemClickListener, DianHuoTongBaseDialog.BaseDialogListener {
     @BindView(R.id.drawer_listview)
     ListView listView;
@@ -139,6 +147,41 @@ public class MainActivity extends BaseActivity implements MainIF, DrawerLayout.D
         return super.onKeyDown(keyCode, event);
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        Permissions4M.onRequestPermissionsResult(this, requestCode, grantResults);
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+
+    @PermissionsGranted({101, 102, 103, 104})
+    void getLocationGrantsucess(int code) {
+        switch (code) {
+            case 101:
+                break;
+            case 102:
+                break;
+            case 103:
+                break;
+            case 104:
+                break;
+        }
+    }
+
+    @PermissionsDenied({101, 102, 103, 104})
+    void getLocationGrantFaile(int code) {
+        switch (code) {
+            case 101:
+                ToastUtil.makeText(this, "请打开定位权限", Toast.LENGTH_SHORT).show();
+                break;
+            case 102:
+                break;
+            case 103:
+                break;
+            case 104:
+                break;
+        }
+    }
+
     private void inIt() {
         if (BaseApplication.getInstansApp().getToakens() == null) {
             drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
@@ -181,6 +224,8 @@ public class MainActivity extends BaseActivity implements MainIF, DrawerLayout.D
         drawerLayout.addDrawerListener(this);
         gridView.setOnItemClickListener(this);
         listView.setOnItemClickListener(this);
+        //Permissions4M.get(this).requestSync();
+//        PermissionChecker.checkSelfPermission(this,"");//检查权限
     }
 
     /**
@@ -305,7 +350,7 @@ public class MainActivity extends BaseActivity implements MainIF, DrawerLayout.D
 //                        if (BaseApplication.getInstansApp().isAddShop()) {
 //                            dianHuoTongBaseDialogAddShop.show();
 //                        } else {
-                        BaseTool.goActivityNoData(this, DianHuoTongShopActivity.class);
+                            BaseTool.goActivityNoData(this, DianHuoTongShopActivity.class);
 //                        }
                         break;
 //                    case 2:
@@ -436,6 +481,5 @@ public class MainActivity extends BaseActivity implements MainIF, DrawerLayout.D
             BaseApplication.getInstansApp().setUpdata(false);
         }
     }
-
 
 }

@@ -26,16 +26,32 @@
             android:orientation="horizontal">
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="详情" />
+                android:id="@+id/goods_info_left"
+                android:layout_width="@dimen/x64"
+                android:layout_height="@dimen/x30"
+                android:background="@drawable/selelctor_goods_info_left"
+                android:enabled="false"
+                android:gravity="center"
+                android:text="详情"
+                android:textColor="@drawable/selelctor_goods_info_textcolor" />
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="说明书" />
+                android:id="@+id/goods_info_right"
+                android:layout_width="@dimen/x64"
+                android:layout_height="@dimen/x30"
+                android:background="@drawable/selelctor_goods_info_right"
+                android:enabled="true"
+                android:gravity="center"
+                android:text="说明书"
+                android:textColor="@drawable/selelctor_goods_info_textcolor" />
         </LinearLayout>
 
     </RelativeLayout>
+
+    <FrameLayout
+        android:id="@+id/goods_info_fragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorWhite" />
 
 </LinearLayout>

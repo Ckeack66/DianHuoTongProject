@@ -2,11 +2,16 @@ package com.mhky.dianhuotong.shop.activity;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.net.Uri;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.alibaba.fastjson.JSON;
 import com.gyf.barlibrary.ImmersionBar;
 import com.mhky.dianhuotong.R;
 import com.mhky.dianhuotong.base.BaseTool;
@@ -15,14 +20,20 @@ import com.mhky.dianhuotong.custom.ToastUtil;
 import com.mhky.dianhuotong.shop.bean.GoodsBaseInfo;
 import com.mhky.dianhuotong.shop.bean.GoodsInfo;
 import com.mhky.dianhuotong.shop.bean.SearchSGoodsBean;
-import com.yanzhenjie.sofia.Bar;
-import com.yanzhenjie.sofia.Sofia;
+import com.mhky.dianhuotong.shop.precenter.GoodsPrecenter;
+import com.mhky.dianhuotong.shop.shopif.GoodsIF;
+import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import cn.bingoogolapple.bgabanner.BGABanner;
 
-public class GoodsActivity extends BaseActivity {
+public class GoodsActivity extends BaseActivity implements GoodsIF {
     @BindView(R.id.goods_title)
     TextView textViewTitle;
     @BindView(R.id.goods_price)
@@ -37,9 +48,15 @@ public class GoodsActivity extends BaseActivity {
     TextView textViewUseTime;
     @BindView(R.id.goods_info_pzwh)
     TextView textViewPzwh;
+    @BindView(R.id.banner_main_accordion)
+    BGABanner bgaBanner;
     private SearchSGoodsBean.ContentBean goodsInfoBase;
+    private GoodsInfo goodsInfo;
     private Bundle bundle;
     private Context mContext;
+    private GoodsPrecenter goodsPrecenter;
+    private String goodsDes;
+    private String goodsIns;
     private static final String TAG = "GoodsActivity";
 
     @Override
@@ -53,10 +70,12 @@ public class GoodsActivity extends BaseActivity {
 
     private void inIt() {
         ImmersionBar.with(this).fitsSystemWindows(true).statusBarColor("#ffffff").statusBarDarkFont(true).init();
+        goodsPrecenter = new GoodsPrecenter(this);
         if (getIntent().getExtras() != null) {
             bundle = getIntent().getExtras();
             goodsInfoBase = (SearchSGoodsBean.ContentBean) bundle.getSerializable("getgoodsinfo");
             if (goodsInfoBase != null) {
+                goodsPrecenter.getGoodsInfo(goodsInfoBase.getId() + "");
                 textViewTitle.setText(goodsInfoBase.getTitle());
                 textViewGoodsPrice.setText(String.valueOf(goodsInfoBase.getPrice() / 100));
                 textViewGoodsName.setText(goodsInfoBase.getName());
@@ -77,11 +96,56 @@ public class GoodsActivity extends BaseActivity {
 
     @OnClick(R.id.goods_base_go_more)
     void goGoodsMore() {
-        BaseTool.goActivityNoData(this, GoodsInfoActivity.class);
+        if (goodsDes != null || goodsInfo != null) {
+            Bundle bundle = new Bundle();
+            bundle.putString("des", goodsDes);
+            bundle.putString("ins", goodsIns);
+            BaseTool.goActivityWithData(this, GoodsInfoActivity.class, bundle);
+        }
+
     }
 
     @OnClick(R.id.goods_base_go_shop)
     void goGoodsShop() {
         BaseTool.goActivityNoData(this, ShopActivity.class);
+    }
+
+    @Override
+    public void getGoodsInfoSuccess(int code, String result) {
+        if (code == 200) {
+            if (result != null && !result.equals("")) {
+                goodsInfo = JSON.parseObject(result, GoodsInfo.class);
+                goodsDes = goodsInfo.getAppDescription();
+                goodsIns = goodsInfo.getInstruction();
+                textViewTitle.setText(goodsInfo.getTitle());
+                textViewGoodsPrice.setText(String.valueOf(goodsInfo.getPrice() / 100));
+                textViewGoodsName.setText(goodsInfo.getName());
+                textViewGoodsCompany.setText(goodsInfo.getManufacturer());
+                textViewGoodsGuige.setText(goodsInfo.getModel());
+                textViewPzwh.setText(goodsInfo.getApprovalNumber());
+                String[] imageDate = goodsInfo.getPicture().split(",");
+                initImageBaner(Arrays.asList(imageDate));
+            }
+            //textViewUseTime.setText(goodsInfo.getExpiryDate());
+        }
+    }
+
+    @Override
+    public void getGoodsInfoFailed(int code, String result) {
+
+    }
+
+    //初始化轮播图
+    private void initImageBaner(List<?> list) {
+        bgaBanner.setAdapter(new BGABanner.Adapter() {
+            @Override
+            public void fillBannerItem(BGABanner banner, View itemView, @Nullable Object model, int position) {
+                Uri uri = Uri.parse((String) model);
+                Picasso.with(mContext).load(uri).fit().into((ImageView) itemView);
+            }
+        });
+
+        bgaBanner.setAutoPlayAble(true);
+        bgaBanner.setData(list, new ArrayList<String>());
     }
 }

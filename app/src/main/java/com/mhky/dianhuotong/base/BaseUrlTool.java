@@ -121,7 +121,7 @@ public class BaseUrlTool {
     /**
      * 添加到购物车
      */
-    private static String ADD_CART = HOST_URL + "/cart?buyerId=";
+    private static String ADD_CART = HOST_GOODS_URL + "/cart?buyerId=";
 
     public static String getAddCartUrl(String Id) {
         return ADD_CART + Id;
@@ -130,7 +130,7 @@ public class BaseUrlTool {
     /**
      * 删除购物车商品
      */
-    private static String DELETE_CART = HOST_URL + "/cart?buyerId=";
+    private static String DELETE_CART = HOST_GOODS_URL + "/cart?buyerId=";
 
     public static String getDeleteCartUrl(String buyerID, String SkuID) {
         return DELETE_CART + buyerID + "&skuId=" + SkuID;
@@ -139,7 +139,7 @@ public class BaseUrlTool {
     /**
      * 查询购物车
      */
-    private static String GET_CART = HOST_URL + "/cart?buyerId=";
+    private static String GET_CART = HOST_GOODS_URL + "/cart?buyerId=";
 
     public static String getCartInfo(String ID) {
         return GET_CART + ID;
@@ -148,11 +148,11 @@ public class BaseUrlTool {
     /**
      * 更改购物车商品
      */
-    public static String ALTER_CART = HOST_URL + "/cart?";
+    public static String ALTER_CART = HOST_GOODS_URL + "/cart?";
     /**
      * 获取商品属性信息
      */
-    private static String SKU_INFO = HOST_URL + "/goods/";
+    private static String SKU_INFO = HOST_GOODS_URL + "/goods/";
 
     public static String getSkuInfo(String goodsId) {
         return SKU_INFO + goodsId + "/skus";
@@ -161,7 +161,7 @@ public class BaseUrlTool {
     /**
      * 获取单个商品详细信息
      */
-    private static String GET_GOODS_INFO = HOST_URL + "/goods/";
+    private static String GET_GOODS_INFO = HOST_GOODS_URL + "/goods/";
 
     public static String getGoodsInfo(String Id) {
         return GET_GOODS_INFO + Id;

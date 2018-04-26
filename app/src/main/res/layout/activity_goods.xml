@@ -399,6 +399,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/x10"
                 android:background="@color/colorWhite"
                 android:paddingBottom="@dimen/x10"
                 android:paddingStart="@dimen/x14"

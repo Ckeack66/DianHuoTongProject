@@ -5,6 +5,8 @@ import com.lzy.okgo.callback.Callback;
 import com.lzy.okgo.model.Progress;
 import com.lzy.okgo.model.Response;
 import com.lzy.okgo.request.base.Request;
+import com.mhky.dianhuotong.base.BaseTool;
+import com.mhky.dianhuotong.base.BaseUrlTool;
 import com.mhky.dianhuotong.shop.shopif.GoodsIF;
 
 /**
@@ -19,7 +21,7 @@ public class GoodsPrecenter {
     }
 
     public void getGoodsInfo(String Id) {
-        OkGo.<String >get("").execute(new Callback<String>() {
+        OkGo.<String>get(BaseUrlTool.getGoodsInfo(Id)).execute(new Callback<String>() {
             @Override
             public void onStart(Request<String, ? extends Request> request) {
 
@@ -27,7 +29,7 @@ public class GoodsPrecenter {
 
             @Override
             public void onSuccess(Response<String> response) {
-
+                goodsIF.getGoodsInfoSuccess(response.code(), BaseTool.getResponsBody(response));
             }
 
             @Override
@@ -37,7 +39,7 @@ public class GoodsPrecenter {
 
             @Override
             public void onError(Response<String> response) {
-
+                goodsIF.getGoodsInfoFailed(response.code(), BaseTool.getResponsBody(response));
             }
 
             @Override

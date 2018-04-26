@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,6 +31,7 @@ import com.mhky.dianhuotong.custom.ToastUtil;
 import com.mhky.dianhuotong.shop.adapter.SearchGoodsAdpter;
 import com.mhky.dianhuotong.shop.bean.AllCompanyInfo;
 import com.mhky.dianhuotong.shop.bean.GoodsBaseInfo;
+import com.mhky.dianhuotong.shop.bean.GoodsInfo;
 import com.mhky.dianhuotong.shop.bean.Popuwindow1Info;
 import com.mhky.dianhuotong.shop.bean.SearchSGoodsBean;
 import com.mhky.dianhuotong.shop.custom.CartPopupwindow;
@@ -38,8 +40,10 @@ import com.mhky.dianhuotong.shop.custom.DianHuoTongShopTitleBar;
 import com.mhky.dianhuotong.shop.custom.GoodsTypePopupwindow;
 import com.mhky.dianhuotong.shop.custom.SortPopupwindow;
 import com.mhky.dianhuotong.shop.precenter.GetAllCompanyPresenter;
+import com.mhky.dianhuotong.shop.precenter.GoodsPrecenter;
 import com.mhky.dianhuotong.shop.precenter.SearchGoodsPresenter;
 import com.mhky.dianhuotong.shop.shopif.GetAllCompanyIF;
+import com.mhky.dianhuotong.shop.shopif.GoodsIF;
 import com.mhky.dianhuotong.shop.shopif.SearchGoodsIF;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
@@ -54,13 +58,14 @@ import com.zhy.view.flowlayout.TagAdapter;
 import com.zhy.view.flowlayout.TagFlowLayout;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class SearchGoodsActivity extends BaseActivity implements SearchGoodsIF, GetAllCompanyIF, GoodsTypePopupwindow.OnClickPopupwindow1ItemListener, SortPopupwindow.OnClickPopupwindow2ItemListener, CompanyPopupwindow.OnClickPopupwindow3ItemListener {
+public class SearchGoodsActivity extends BaseActivity implements SearchGoodsIF, GetAllCompanyIF, GoodsTypePopupwindow.OnClickPopupwindow1ItemListener, SortPopupwindow.OnClickPopupwindow2ItemListener, CompanyPopupwindow.OnClickPopupwindow3ItemListener, GoodsIF {
     @BindView(R.id.search_recyclelistview)
     RecyclerView recyclerView;
     @BindView(R.id.goods_base_refresh)
@@ -106,6 +111,8 @@ public class SearchGoodsActivity extends BaseActivity implements SearchGoodsIF, 
     private SearchSGoodsBean searchSGoodsBean;
     private Context mContext;
     private CartPopupwindow cartPopupwindow;
+    private GoodsPrecenter goodsPrecenter;
+    private GoodsInfo goodsInfo;
 
     private static final String TAG = "SearchGoodsActivity";
 
@@ -124,9 +131,19 @@ public class SearchGoodsActivity extends BaseActivity implements SearchGoodsIF, 
         hideWindow();
     }
 
-    private void inIt() {
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            if (cartPopupwindow.isShowing()) {
+                cartPopupwindow.dismiss();
+                return false;
+            }
+        }
+        return super.onKeyDown(keyCode, event);
+    }
 
-        cartPopupwindow = new CartPopupwindow(this);
+    private void inIt() {
+        goodsPrecenter = new GoodsPrecenter(this);
         dianHuoTongShopTitleBar.setActivity(this);
         allGoodsBaseInfos = AllGoodsActivity.allGoodsBaseInfos;
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
@@ -342,8 +359,9 @@ public class SearchGoodsActivity extends BaseActivity implements SearchGoodsIF, 
                     searchGoodsAdpter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
                         @Override
                         public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-                            cartPopupwindow.showAtLocation(dianHuoTongShopTitleBar, Gravity.BOTTOM, 0, 0);
-                            ToastUtil.makeText(mContext, searchSGoodsBean.getContent().get(position).getName(), Toast.LENGTH_SHORT).show();
+                            Log.d(TAG, "onItemChildClick: ---" + position);
+                            goodsPrecenter.getGoodsInfo(String.valueOf(searchSGoodsBean.getContent().get(position).getId()));
+
                         }
                     });
                     recyclerView.setAdapter(searchGoodsAdpter);
@@ -450,4 +468,21 @@ public class SearchGoodsActivity extends BaseActivity implements SearchGoodsIF, 
     }
 
 
+    @Override
+    public void getGoodsInfoSuccess(int code, String result) {
+        if (code == 200) {
+            if (result != null && !result.equals("")) {
+                goodsInfo = JSON.parseObject(result, GoodsInfo.class);
+                cartPopupwindow = new CartPopupwindow(this, goodsInfo);
+                cartPopupwindow.showAtLocation(dianHuoTongShopTitleBar, Gravity.BOTTOM, 0, 0);
+                //ToastUtil.makeText(mContext, searchSGoodsBean.getContent().get(position).getName(), Toast.LENGTH_SHORT).show();
+            }
+            //textViewUseTime.setText(goodsInfo.getExpiryDate());
+        }
+    }
+
+    @Override
+    public void getGoodsInfoFailed(int code, String result) {
+
+    }
 }

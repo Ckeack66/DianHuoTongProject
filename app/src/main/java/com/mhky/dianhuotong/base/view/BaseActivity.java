@@ -7,8 +7,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
 import android.view.KeyEvent;
 
-import com.mhky.dianhuotong.R;
-import com.yanzhenjie.sofia.Sofia;
 
 /**
  * Created by Administrator on 2018/3/26.

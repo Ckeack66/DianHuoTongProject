@@ -3,12 +3,15 @@ package com.mhky.dianhuotong.base;
 import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.support.multidex.MultiDex;
+import android.util.Log;
 
 import com.baidu.mapapi.SDKInitializer;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.lzy.okgo.OkGo;
 import com.mhky.dianhuotong.login.LoginRequestInfo;
 import com.mhky.dianhuotong.person.bean.PersonInfo;
+import com.tencent.smtt.sdk.QbSdk;
 
 import java.security.NoSuchAlgorithmException;
 
@@ -83,6 +86,17 @@ public class BaseApplication extends Application {
         Fresco.initialize(this);
         SDKInitializer.initialize(getApplicationContext());
         BaseActivityManager.getInstance();
+        QbSdk.initX5Environment(this, new QbSdk.PreInitCallback() {
+            @Override
+            public void onCoreInitFinished() {
+                Log.d(TAG, "onCoreInitFinished: -----腾讯x5内核初始化完成");
+            }
+
+            @Override
+            public void onViewInitFinished(boolean b) {
+                Log.d(TAG, "onCoreInitFinished: -----腾讯x5内核初始化" + b);
+            }
+        });
     }
 
     public static BaseApplication getInstansApp() {
@@ -111,4 +125,9 @@ public class BaseApplication extends Application {
         return mSharedPreferences.edit().clear().commit();
     }
 
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
+        MultiDex.install(this);
+    }
 }

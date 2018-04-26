@@ -65,7 +65,7 @@
 
     <style name="BannerDefaultStyle1">
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">@dimen/x200</item>
+        <item name="android:layout_height">@dimen/x300</item>
         <item name="android:background">@color/colorTransp</item>
         <!--<item name="android:layout_marginTop">10dp</item>-->
         <!-- 自定义属性在styles.xml中不需要命名空间,直接用属性名就可以了 -->
