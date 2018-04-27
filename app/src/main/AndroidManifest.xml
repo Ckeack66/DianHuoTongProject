@@ -97,7 +97,13 @@
             android:windowSoftInputMode="stateHidden|stateAlwaysHidden" />
         <activity android:name=".activity.CredentialsActivity" />
         <activity android:name=".activity.ShiYaoQianYanActivity" />
-        <activity android:name=".activity.DianHuoTongShopActivity" />
+        <activity android:name=".activity.DianHuoTongShopActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity android:name=".activity.YaoLinWangActivity" />
         <activity android:name=".activity.MingHuiFuActivity" />
         <activity android:name=".activity.JianKang121Activity" />
@@ -135,12 +141,7 @@
         <activity android:name=".activity.Adress1Activity" />
         <activity android:name=".activity.Adress2Activity" />
         <activity android:name=".activity.Adress3Activity" />
-        <activity android:name=".activity.WelcomActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+        <activity android:name=".activity.WelcomActivity"></activity>
         <activity android:name=".shop.activity.SearchGoodsActivity" />
 
         <!-- 支付宝 -->
@@ -157,14 +158,14 @@
             android:screenOrientation="behind"
             android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity android:name=".shop.activity.GoodsInfoActivity" />
-        <activity android:name=".shop.activity.ShopActivity"></activity>
+        <activity android:name=".shop.activity.ShopActivity" />
         <activity android:name=".shop.activity.CardActivity" />
         <!-- 极光推送分享 -->
         <!-- Rich push 核心功能 since 2.0.6 -->
         <activity
             android:name="cn.jpush.android.ui.PopWinActivity"
             android:exported="false"
-            android:theme="@style/MyDialogStyle"></activity>
+            android:theme="@style/MyDialogStyle" />
 
         <!-- Required SDK核心功能 -->
         <activity
@@ -273,9 +274,10 @@
         <meta-data
             android:name="JPUSH_APPKEY"
             android:value="您应用的Appkey" /> <!-- </>值来自开发者平台取得的AppKey -->
-        <activity android:name=".activity.TestActivity">
-
-        </activity>
+        <activity android:name=".activity.TestActivity" />
+        <activity android:name=".shop.activity.BalanceActivity"></activity>
+        <activity android:name=".shop.activity.VipShopActivity" />
+        <activity android:name=".shop.activity.CartActivity"></activity>
     </application>
 
 </manifest>

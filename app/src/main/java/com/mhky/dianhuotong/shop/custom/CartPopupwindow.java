@@ -157,7 +157,7 @@ public class CartPopupwindow extends PopupWindow implements View.OnClickListener
                     textViewGoodsNumber.setText("库存：" + goodsNumberMax);
                     textViewPrice.setText("￥" + goodsSkuInfoList.get(position).getRetailPrice() / 100);
                 }
-                ToastUtil.makeText(mContext, "选择了" + position + "-----" + selectNUmber, Toast.LENGTH_SHORT).show();
+                //ToastUtil.makeText(mContext, "选择了" + position + "-----" + selectNUmber, Toast.LENGTH_SHORT).show();
                 return true;
             }
         });

@@ -476,12 +476,14 @@
             android:id="@+id/goods_base_back"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:alpha="0.6"
             android:src="@drawable/icon_shop_good_back" />
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_alignParentEnd="true"
+            android:alpha="0.6"
             android:src="@drawable/icon_shop_good_more" />
     </RelativeLayout>
 
@@ -520,6 +522,7 @@
         </RelativeLayout>
 
         <TextView
+            android:id="@+id/goods_base_addcart"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"

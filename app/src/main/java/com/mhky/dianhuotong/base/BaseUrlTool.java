@@ -166,4 +166,13 @@ public class BaseUrlTool {
     public static String getGoodsInfo(String Id) {
         return GET_GOODS_INFO + Id;
     }
+
+    /**
+     * 查询上游B商铺信息
+     */
+    private static String GET_UP_SHOP_INFO = HOST_URL + "/user/seller/company/";
+
+    public String getGetUpShopInfoUrl(String id) {
+        return GET_UP_SHOP_INFO + id;
+    }
 }

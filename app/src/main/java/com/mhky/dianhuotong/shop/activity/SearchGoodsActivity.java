@@ -134,9 +134,8 @@ public class SearchGoodsActivity extends BaseActivity implements SearchGoodsIF, 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
-            if (cartPopupwindow.isShowing()) {
-                cartPopupwindow.dismiss();
-                return false;
+            if (!hideWindow()) {
+                return hideWindow();
             }
         }
         return super.onKeyDown(keyCode, event);
@@ -257,20 +256,30 @@ public class SearchGoodsActivity extends BaseActivity implements SearchGoodsIF, 
     }
 
 
-    private void hideWindow() {
+    private boolean hideWindow() {
+        setTabStateFalse(chooseOldNumber);
         if (goodsTypePopupwindow != null && goodsTypePopupwindow.isShowing()) {
             goodsTypePopupwindow.dismiss();
+            return false;
         } else if (sortPopupwindow != null && sortPopupwindow.isShowing()) {
             sortPopupwindow.dismiss();
+            return false;
         } else if (companyPopupwindow != null && companyPopupwindow.isShowing()) {
             companyPopupwindow.dismiss();
+            return false;
+        } else if (cartPopupwindow != null && cartPopupwindow.isShowing()) {
+            cartPopupwindow.dismiss();
+            return false;
+        } else {
+            return true;
         }
+
     }
 
     private void setTabStateTrue(int newNumber) {
 
         if (newNumber == chooseOldNumber && tabIsOpen) {
-            setTabStateFalse(newNumber);
+            //setTabStateFalse(newNumber);
             hideWindow();
             return;
         } else if (newNumber == chooseOldNumber && !tabIsOpen) {
@@ -281,7 +290,7 @@ public class SearchGoodsActivity extends BaseActivity implements SearchGoodsIF, 
             chooseOldNumber = newNumber;
         } else if (newNumber != chooseOldNumber && tabIsOpen) {
             hideWindow();
-            setTabStateFalse(chooseOldNumber);
+            //setTabStateFalse(chooseOldNumber);
             setTabOpen(newNumber);
             chooseOldNumber = newNumber;
         }

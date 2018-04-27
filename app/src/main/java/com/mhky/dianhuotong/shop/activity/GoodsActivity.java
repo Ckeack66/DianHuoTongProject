@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -20,6 +21,7 @@ import com.mhky.dianhuotong.custom.ToastUtil;
 import com.mhky.dianhuotong.shop.bean.GoodsBaseInfo;
 import com.mhky.dianhuotong.shop.bean.GoodsInfo;
 import com.mhky.dianhuotong.shop.bean.SearchSGoodsBean;
+import com.mhky.dianhuotong.shop.custom.CartPopupwindow;
 import com.mhky.dianhuotong.shop.precenter.GoodsPrecenter;
 import com.mhky.dianhuotong.shop.shopif.GoodsIF;
 import com.squareup.picasso.Picasso;
@@ -50,6 +52,10 @@ public class GoodsActivity extends BaseActivity implements GoodsIF {
     TextView textViewPzwh;
     @BindView(R.id.banner_main_accordion)
     BGABanner bgaBanner;
+    @BindView(R.id.goods_shop_name)
+    TextView textViewShopName;
+    @BindView(R.id.goods_base_addcart)
+    TextView textViewAddCart;
     private SearchSGoodsBean.ContentBean goodsInfoBase;
     private GoodsInfo goodsInfo;
     private Bundle bundle;
@@ -57,6 +63,8 @@ public class GoodsActivity extends BaseActivity implements GoodsIF {
     private GoodsPrecenter goodsPrecenter;
     private String goodsDes;
     private String goodsIns;
+    private CartPopupwindow cartPopupwindow;
+    private boolean isFirst = true;
     private static final String TAG = "GoodsActivity";
 
     @Override
@@ -83,6 +91,7 @@ public class GoodsActivity extends BaseActivity implements GoodsIF {
                 textViewGoodsGuige.setText(goodsInfoBase.getModel());
                 textViewPzwh.setText(goodsInfoBase.getApprovalNumber());
                 textViewUseTime.setText(goodsInfoBase.getExpiryDate());
+                textViewShopName.setText("");
             } else {
                 ToastUtil.makeText(mContext, "数据解析错误", Toast.LENGTH_SHORT).show();
             }
@@ -110,23 +119,63 @@ public class GoodsActivity extends BaseActivity implements GoodsIF {
         BaseTool.goActivityNoData(this, ShopActivity.class);
     }
 
+    @OnClick(R.id.goods_base_addcart)
+    void addCart() {
+        if (goodsInfoBase != null) {
+            goodsPrecenter.getGoodsInfo(goodsInfoBase.getId() + "");
+        } else {
+            ToastUtil.makeText(mContext, "数据解析错误", Toast.LENGTH_SHORT).show();
+        }
+    }
+
     @Override
     public void getGoodsInfoSuccess(int code, String result) {
-        if (code == 200) {
-            if (result != null && !result.equals("")) {
-                goodsInfo = JSON.parseObject(result, GoodsInfo.class);
-                goodsDes = goodsInfo.getAppDescription();
-                goodsIns = goodsInfo.getInstruction();
-                textViewTitle.setText(goodsInfo.getTitle());
-                textViewGoodsPrice.setText(String.valueOf(goodsInfo.getPrice() / 100));
-                textViewGoodsName.setText(goodsInfo.getName());
-                textViewGoodsCompany.setText(goodsInfo.getManufacturer());
-                textViewGoodsGuige.setText(goodsInfo.getModel());
-                textViewPzwh.setText(goodsInfo.getApprovalNumber());
-                String[] imageDate = goodsInfo.getPicture().split(",");
-                initImageBaner(Arrays.asList(imageDate));
+        try {
+            if (code == 200) {
+                if (result != null && !result.equals("")) {
+                    goodsInfo = JSON.parseObject(result, GoodsInfo.class);
+                    if (goodsInfo.getAppDescription() != null) {
+                        goodsDes = goodsInfo.getAppDescription();
+                    }
+                    if (goodsInfo.getInstruction() != null) {
+                        goodsIns = goodsInfo.getInstruction();
+                    }
+                    if (goodsInfo.getTitle() != null) {
+                        textViewTitle.setText(goodsInfo.getTitle());
+                    }
+                    textViewGoodsPrice.setText(String.valueOf(goodsInfo.getPrice() / 100));
+                    if (goodsInfo.getName() != null) {
+                        textViewGoodsName.setText(goodsInfo.getName());
+                    }
+                    if (goodsInfo.getManufacturer() != null) {
+                        textViewGoodsCompany.setText(goodsInfo.getManufacturer());
+                    }
+                    if (goodsInfo.getModel() != null) {
+                        textViewGoodsGuige.setText(goodsInfo.getModel());
+                    }
+                    if (goodsInfo.getApprovalNumber() != null) {
+                        textViewPzwh.setText(goodsInfo.getApprovalNumber());
+                    }
+                    if (goodsInfo.getShopInfo() != null && goodsInfo.getShopInfo().getShopName() != null) {
+                        textViewShopName.setText(goodsInfo.getShopInfo().getShopName());
+                    }
+                    if (goodsInfo.getPicture() != null) {
+                        String[] imageDate = goodsInfo.getPicture().split(",");
+                        initImageBaner(Arrays.asList(imageDate));
+                    }
+                    if (!isFirst) {
+                        cartPopupwindow = new CartPopupwindow(this, goodsInfo);
+                        cartPopupwindow.showAtLocation(textViewAddCart, Gravity.BOTTOM, 0, 0);
+                    }
+                    {
+                        isFirst = false;
+                    }
+
+                }
+                //textViewUseTime.setText(goodsInfo.getExpiryDate());
             }
-            //textViewUseTime.setText(goodsInfo.getExpiryDate());
+        } catch (Exception e) {
+            ToastUtil.makeText(this, "数据解析错误", Toast.LENGTH_SHORT).show();
         }
     }
 

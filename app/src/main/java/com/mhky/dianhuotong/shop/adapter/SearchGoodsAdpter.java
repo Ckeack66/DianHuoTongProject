@@ -11,6 +11,7 @@ import com.mhky.dianhuotong.R;
 import com.mhky.dianhuotong.shop.bean.SearchSGoodsBean;
 import com.squareup.picasso.Picasso;
 
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -28,7 +29,8 @@ public class SearchGoodsAdpter extends BaseQuickAdapter<SearchSGoodsBean.Content
     @Override
     protected void convert(BaseViewHolder helper, SearchSGoodsBean.ContentBean item) {
         if (item.getPicture() != null) {
-            Picasso.with(context).load(item.getPicture()).into((ImageView) helper.getView(R.id.goods_base_imageview));
+            String[] imageDate = item.getPicture().split(",");
+            Picasso.with(context).load(imageDate[0]).into((ImageView) helper.getView(R.id.goods_base_imageview));
         }
         helper.setText(R.id.goods_base_title, item.getTitle())
                 .setText(R.id.goods_base__companay, item.getManufacturer())

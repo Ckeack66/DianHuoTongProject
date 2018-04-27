@@ -65,7 +65,7 @@
 
     <style name="BannerDefaultStyle1">
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">@dimen/x300</item>
+        <item name="android:layout_height">@dimen/x350</item>
         <item name="android:background">@color/colorTransp</item>
         <!--<item name="android:layout_marginTop">10dp</item>-->
         <!-- 自定义属性在styles.xml中不需要命名空间,直接用属性名就可以了 -->
@@ -92,7 +92,7 @@
         <!-- 提示文案的文字颜色 -->
         <item name="banner_tipTextColor">@android:color/white</item>
         <!-- 加载网络数据时覆盖在BGABanner最上层的占位图 -->
-        <item name="banner_placeholderDrawable">@drawable/image_banner</item>
+        <!--<item name="banner_placeholderDrawable">@drawable/image_banner</item>-->
 
     </style>
 
