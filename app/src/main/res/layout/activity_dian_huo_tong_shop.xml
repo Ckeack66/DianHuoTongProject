@@ -8,7 +8,10 @@
     android:orientation="vertical"
     tools:context="com.mhky.dianhuotong.activity.DianHuoTongShopActivity">
 
-    <include layout="@layout/group_widget_title_shop" />
+    <com.mhky.dianhuotong.shop.custom.DianHuoTongShopTitleBar
+        android:id="@+id/dht_main"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/x40" />
 
     <ScrollView
         android:layout_width="match_parent"

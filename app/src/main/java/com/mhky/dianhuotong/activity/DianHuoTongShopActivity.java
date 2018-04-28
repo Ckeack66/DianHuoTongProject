@@ -16,6 +16,7 @@ import android.widget.Toast;
 import com.mhky.dianhuotong.shop.activity.AllGoodsActivity;
 import com.mhky.dianhuotong.shop.adapter.ShopListviewAdapter;
 import com.mhky.dianhuotong.shop.adapter.ShopMiaoShaAdapter;
+import com.mhky.dianhuotong.shop.custom.DianHuoTongShopTitleBar;
 import com.mhky.dianhuotong.shop.tool.TimerMiaoSha;
 import com.squareup.picasso.Picasso;
 import com.mhky.dianhuotong.R;
@@ -36,6 +37,8 @@ import butterknife.OnClick;
 import cn.bingoogolapple.bgabanner.BGABanner;
 
 public class DianHuoTongShopActivity extends BaseActivity implements ShopBannerIF, OnBannerListener, TimerMiaoSha.TimerMiaoShaListener {
+    @BindView(R.id.dht_main)
+    DianHuoTongShopTitleBar dianHuoTongShopTitleBar;
     @BindView(R.id.banner_main_accordion)
     BGABanner bgaBanner;
     @BindView(R.id.shop_listview)
@@ -96,6 +99,7 @@ public class DianHuoTongShopActivity extends BaseActivity implements ShopBannerI
     }
 
     private void inIt() {
+        dianHuoTongShopTitleBar.setActivity(this);
         shopBannerPresenter = new ShopBannerPresenter(this);
         shopBannerPresenter.getdata();
         int a = new Random().nextInt(10);
@@ -113,31 +117,6 @@ public class DianHuoTongShopActivity extends BaseActivity implements ShopBannerI
 
     }
 
-    @OnClick(R.id.shop_title_left_image)
-    void goBack() {
-        finish();
-    }
-
-    @OnClick(R.id.shop_scan_code)
-    void goScanCodeActivity() {
-        //ToastUtil.makeText(this, "进入扫码界面", Toast.LENGTH_SHORT).show();
-        BaseTool.goActivityNoData(this, ScanCodeActivity.class);
-    }
-
-    @OnClick(R.id.shop_input)
-    void goSearchActivity() {
-        ToastUtil.makeText(this, "进入搜索界面", Toast.LENGTH_SHORT).show();
-    }
-
-    @OnClick(R.id.shop_order)
-    void goOrderActivity() {
-        BaseTool.goActivityNoData(this, MyselectedActivity.class);
-    }
-
-    @OnClick(R.id.shop_car)
-    void goShopActivity() {
-        ToastUtil.makeText(this, "进入购物车界面", Toast.LENGTH_SHORT).show();
-    }
 
     @OnClick(R.id.shop_area_allgoods)
     void goAllGoodsActivity() {

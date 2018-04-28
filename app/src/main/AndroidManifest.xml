@@ -52,7 +52,6 @@
     <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-
     <!-- Optional for location -->
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" /> <!-- 用于开启 debug 版本的应用在6.0 系统上 层叠窗口权限 -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
@@ -73,6 +72,14 @@
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
             android:value="guEle2R0kMZVXMg3Zu5h4RkuW1ueKS8f" />
+
+        <activity android:name=".activity.WelcomActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
 
         <activity android:name=".base.view.BaseActivity" />
         <activity android:name=".activity.MainActivity" />
@@ -98,11 +105,7 @@
         <activity android:name=".activity.CredentialsActivity" />
         <activity android:name=".activity.ShiYaoQianYanActivity" />
         <activity android:name=".activity.DianHuoTongShopActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity android:name=".activity.YaoLinWangActivity" />
         <activity android:name=".activity.MingHuiFuActivity" />
@@ -141,7 +144,7 @@
         <activity android:name=".activity.Adress1Activity" />
         <activity android:name=".activity.Adress2Activity" />
         <activity android:name=".activity.Adress3Activity" />
-        <activity android:name=".activity.WelcomActivity"></activity>
+
         <activity android:name=".shop.activity.SearchGoodsActivity" />
 
         <!-- 支付宝 -->
@@ -277,7 +280,9 @@
         <activity android:name=".activity.TestActivity" />
         <activity android:name=".shop.activity.BalanceActivity"></activity>
         <activity android:name=".shop.activity.VipShopActivity" />
-        <activity android:name=".shop.activity.CartActivity"></activity>
+        <activity android:name=".shop.activity.CartActivity">
+
+        </activity>
     </application>
 
 </manifest>

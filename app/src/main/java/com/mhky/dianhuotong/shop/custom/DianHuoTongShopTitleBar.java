@@ -15,6 +15,7 @@ import com.mhky.dianhuotong.activity.MyselectedActivity;
 import com.mhky.dianhuotong.activity.ScanCodeActivity;
 import com.mhky.dianhuotong.base.BaseTool;
 import com.mhky.dianhuotong.custom.ToastUtil;
+import com.mhky.dianhuotong.shop.activity.CartActivity;
 
 /**
  * Created by Administrator on 2018/4/24.
@@ -79,6 +80,7 @@ public class DianHuoTongShopTitleBar extends RelativeLayout implements View.OnCl
                 break;
             case R.id.shop_car:
                 ToastUtil.makeText(mContext, "跳转到购物车界面", Toast.LENGTH_SHORT).show();
+                BaseTool.goActivityNoData(mContext, CartActivity.class);
                 break;
             case R.id.shop_order:
                 BaseTool.goActivityNoData(mContext, MyselectedActivity.class);

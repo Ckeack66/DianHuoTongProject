@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:background="@color/colorWhite"
     android:orientation="vertical">
 
@@ -9,21 +9,37 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/x120"
         android:layout_marginEnd="@dimen/x14"
-        android:layout_marginStart="@dimen/x14"
         android:background="@color/colorWhite">
+
+        <FrameLayout
+            android:id="@+id/cart_body_check"
+            android:layout_width="@dimen/x34"
+            android:layout_height="match_parent"
+            android:layout_marginStart="@dimen/x16">
+
+            <CheckBox
+                android:id="@+id/cart_body_check1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center"
+                android:button="@drawable/selector_balance_pay_choose"
+                android:clickable="false" />
+        </FrameLayout>
 
         <ImageView
             android:id="@+id/goods_base_imageview"
             android:layout_width="@dimen/x84"
             android:layout_height="@dimen/x84"
             android:layout_marginTop="@dimen/x14"
+            android:layout_toEndOf="@id/cart_body_check"
             android:src="@drawable/image_test" />
 
         <RelativeLayout
             android:id="@+id/shop_good1_layout"
             android:layout_width="match_parent"
             android:layout_height="@dimen/x106"
-            android:layout_marginStart="@dimen/x12"
+            android:layout_marginStart="@dimen/x16"
             android:layout_marginTop="@dimen/x14"
             android:layout_toEndOf="@id/goods_base_imageview"
             android:orientation="vertical">

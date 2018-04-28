@@ -83,8 +83,8 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="action_settings">Settings</string>
     <!--发票信息Invoiceactivity-->
-    <string name="invoice_company_name">请输入公司名称</string>
-    <string name="invoice_company_adress">请输入公司地址</string>
+    <string name="invoice_company_name">暂无公司名称</string>
+    <string name="invoice_company_adress">暂无公司地址</string>
     <string name="invoice_company_corporation">请输入法人姓名</string>
     <string name="invoice_company_phone">请输入联系方式</string>
     <string name="invoice_tab1">资质信息</string>
