@@ -154,4 +154,10 @@ dependencies {
     //64k
     compile 'com.android.support:multidex:1.0.1'
     implementation project(':SlidingMenu')
+
+    //时间选择器
+    compile 'com.contrarywind:Android-PickerView:4.1.3'
+
+    //scollview
+    implementation project(':stickscrollview')
 }

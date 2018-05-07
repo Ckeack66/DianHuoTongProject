@@ -18,7 +18,9 @@ import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.lzy.okgo.model.HttpParams;
 import com.mhky.dianhuotong.R;
+import com.mhky.dianhuotong.base.BaseApplication;
 import com.mhky.dianhuotong.custom.ToastUtil;
 import com.mhky.dianhuotong.shop.adapter.Popupwindow3Adapter;
 import com.mhky.dianhuotong.shop.bean.AllCompanyInfo;
@@ -177,6 +179,15 @@ public class CartPopupwindow extends PopupWindow implements View.OnClickListener
                 }
                 break;
             case R.id.cart_popup_ok:
+                if (BaseApplication.getInstansApp().getLoginRequestInfo()!=null){
+                    HttpParams httpParams=new HttpParams();
+                    httpParams.put("buyerId", BaseApplication.getInstansApp().getLoginRequestInfo().getId());
+                    httpParams.put("goodsId",goodsInfo.getId());
+                    httpParams.put("skuId","");
+                    httpParams.put("amount",10);
+                    httpParams.put("checked",true);
+                    cartOpratePresenter.addCart(httpParams);
+                }
                 ToastUtil.makeText(mContext, "进入结算系统", Toast.LENGTH_SHORT).show();
                 break;
         }

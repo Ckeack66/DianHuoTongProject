@@ -116,7 +116,11 @@ public class GoodsActivity extends BaseActivity implements GoodsIF {
 
     @OnClick(R.id.goods_base_go_shop)
     void goGoodsShop() {
-        BaseTool.goActivityNoData(this, ShopActivity.class);
+        if (goodsInfo != null && goodsInfo.getShopInfo().getId() != null) {
+            Bundle bundle = new Bundle();
+            bundle.putString("shopid", goodsInfo.getShopInfo().getId());
+            BaseTool.goActivityWithData(this, ShopActivity.class, bundle);
+        }
     }
 
     @OnClick(R.id.goods_base_addcart)

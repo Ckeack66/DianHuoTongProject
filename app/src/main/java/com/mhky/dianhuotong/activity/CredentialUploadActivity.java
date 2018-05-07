@@ -1,12 +1,14 @@
 package com.mhky.dianhuotong.activity;
 
 import android.Manifest;
+import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -14,6 +16,12 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.alibaba.fastjson.JSON;
+import com.bigkoo.pickerview.builder.TimePickerBuilder;
+import com.bigkoo.pickerview.listener.CustomListener;
+import com.bigkoo.pickerview.listener.OnTimeSelectListener;
+import com.bigkoo.pickerview.view.OptionsPickerView;
+import com.bigkoo.pickerview.view.TimePickerView;
 import com.joker.annotation.PermissionsGranted;
 import com.joker.api.Permissions4M;
 import com.lzy.okgo.model.HttpParams;
@@ -28,18 +36,28 @@ import com.mhky.dianhuotong.credential.precenter.UploadCredentialPrecenter;
 import com.mhky.dianhuotong.custom.AlertDialog.DianHuoTongBottomMenuDialog;
 import com.mhky.dianhuotong.custom.ToastUtil;
 import com.mhky.dianhuotong.custom.viewgroup.DianHuoTongBaseTitleBar;
+import com.mhky.dianhuotong.shop.bean.CredentialUpdateInfo;
+import com.mhky.dianhuotong.shop.bean.ShopCredentialBaseInfo;
+import com.mhky.dianhuotong.shop.precenter.ShopCredentialPresenter;
+import com.mhky.dianhuotong.shop.shopif.ShopCredentialIF;
+import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.Picasso;
 
+import org.devio.takephoto.app.TakePhoto;
 import org.devio.takephoto.app.TakePhotoActivity;
+import org.devio.takephoto.compress.CompressConfig;
 import org.devio.takephoto.model.TResult;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class CredentialUploadActivity extends TakePhotoActivity implements DianHuoTongBottomMenuDialog.DianHuoTongBottomMenuDialogListener, UploadCredentialIF {
+public class CredentialUploadActivity extends TakePhotoActivity implements DianHuoTongBottomMenuDialog.DianHuoTongBottomMenuDialogListener, UploadCredentialIF, ShopCredentialIF {
     @BindView(R.id.credential_title)
     DianHuoTongBaseTitleBar dianHuoTongBaseTitleBar;
     @BindView(R.id.credential_image_group)
@@ -47,9 +65,9 @@ public class CredentialUploadActivity extends TakePhotoActivity implements DianH
     @BindView(R.id.credential_image)
     ImageView imageViewCredentail;
     @BindView(R.id.upload_credrntial_data1)
-    EditText editTextData1;
+    TextView textViewData1;
     @BindView(R.id.upload_credrntial_data2)
-    EditText editTextData2;
+    TextView textViewData2;
     @BindView(R.id.upload_credrntial_card_number)
     EditText editTextCardNumber;
     @BindView(R.id.upload_credrntial_body)
@@ -67,6 +85,13 @@ public class CredentialUploadActivity extends TakePhotoActivity implements DianH
     private QualicationInfo.QualificationListBean qulationBaseInfo;
     private String imageUrl;
     private CredentialBaseTypeInfo credentialBaseTypeInfo;
+    private TimePickerView pvCustomTime1;
+    private TimePickerView pvCustomTime2;
+    private ShopCredentialBaseInfo shopCredentialBaseInfo;
+    private String state = "";
+    private ShopCredentialPresenter shopCredentialPresenter;
+    private int withResult;
+    private int heightResult;
     private static final String TAG = "CredentialUploadActivit";
 
     @Override
@@ -79,6 +104,8 @@ public class CredentialUploadActivity extends TakePhotoActivity implements DianH
     }
 
     private void inIt() {
+        initW2H();
+        shopCredentialPresenter = new ShopCredentialPresenter(this);
         dianHuoTongBaseTitleBar.setLeftImage(R.drawable.icon_back);
         dianHuoTongBaseTitleBar.setCenterTextView("资质上传");
         dianHuoTongBaseTitleBar.setLeftOnclickListener(new View.OnClickListener() {
@@ -89,17 +116,42 @@ public class CredentialUploadActivity extends TakePhotoActivity implements DianH
         });
         qulationBaseInfo = new QualicationInfo.QualificationListBean();
         credentialBaseTypeInfo = (CredentialBaseTypeInfo) getIntent().getExtras().getSerializable("credentialtype");
-        if (credentialBaseTypeInfo != null) {
-            textViewFile.setText("*请上传" + credentialBaseTypeInfo.getName());
+        state = getIntent().getExtras().getString("state");
+        if (state != null && !state.equals("") && state.equals("0")) {
+            shopCredentialBaseInfo = (ShopCredentialBaseInfo) getIntent().getExtras().getSerializable("credentialinfo");
+            textViewFile.setText("*请上传更改的" + shopCredentialBaseInfo.getName());
+            textViewData1.setText(shopCredentialBaseInfo.getStartTime());
+            textViewData2.setText(shopCredentialBaseInfo.getEndTime());
+            if (shopCredentialBaseInfo.getUrl() != null) {
+                Log.d(TAG, "inIt: ------------" + shopCredentialBaseInfo.getUrl());
+                Picasso.with(this).load(shopCredentialBaseInfo.getUrl()).memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE).resize(withResult, heightResult).into(imageViewCredentail);
+                imageUrl = shopCredentialBaseInfo.getUrl();
+            }
+            editTextBody.setText(shopCredentialBaseInfo.getScope());
+            editTextCardNumber.setText(shopCredentialBaseInfo.getNumber());
+            editTextNume.setText(shopCredentialBaseInfo.getCorporation());
+        } else {
+            if (credentialBaseTypeInfo != null) {
+                textViewFile.setText("*请上传" + credentialBaseTypeInfo.getName());
+            }
         }
         dianHuoTongBottomMenuDialog = new DianHuoTongBottomMenuDialog(this, this);
         uploadCredentialPrecenter = new UploadCredentialPrecenter(this);
+        initCustomTimePicker1(textViewData1);
+        initCustomTimePicker2(textViewData2);
     }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         Permissions4M.onRequestPermissionsResult(this, requestCode, grantResults);
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+
+    private void initW2H() {
+        float width = getResources().getDimension(R.dimen.x210);
+        withResult = BaseTool.dip2px(this, width);
+        float height = getResources().getDimension(R.dimen.x150);
+        heightResult = BaseTool.dip2px(this, height);
     }
 
     @OnClick(R.id.credential_image_group)
@@ -131,14 +183,15 @@ public class CredentialUploadActivity extends TakePhotoActivity implements DianH
     public void takeSuccess(TResult result) {
         super.takeSuccess(result);
         dianHuoTongBottomMenuDialog.dismiss();
-        ToastUtil.makeText(this, "选取成功", Toast.LENGTH_SHORT).show();
+        //ToastUtil.makeText(this, "选取成功", Toast.LENGTH_SHORT).show();
         Log.d(TAG, "takeSuccess: " + result.getImages().size());
         Log.d(TAG, "takeSuccess: " + result.getImages().get(0).getOriginalPath());
+        Log.d(TAG, "takeSuccess: " + result.getImages().get(0).getCompressPath());
         HttpParams httpParams = new HttpParams();
         httpParams.put("userName", BaseApplication.getInstansApp().getLoginRequestInfo().getUsername());
         httpParams.put("userId", BaseApplication.getInstansApp().getLoginRequestInfo().getId());
         httpParams.put("type", "USER");
-        httpParams.put("file", new File(result.getImages().get(0).getOriginalPath()));
+        httpParams.put("file", new File(result.getImages().get(0).getCompressPath()));
         uploadCredentialPrecenter.getImageUplaodUrl(httpParams);
         //Picasso.with(this).load("file://" + result.getImages().get(0).getOriginalPath()).into(imageView);
 //        if (uri != null) {
@@ -164,20 +217,28 @@ public class CredentialUploadActivity extends TakePhotoActivity implements DianH
     @Override
     public void getCamera() {
         uri = BaseTool.createImagePathUri(mContext);
-        getTakePhoto().onPickFromCapture(uri);
+        TakePhoto takePhoto = getTakePhoto();
+        CompressConfig compressConfig = CompressConfig.ofDefaultConfig();
+        compressConfig.setMaxSize(500 * 100);
+        takePhoto.onEnableCompress(compressConfig, true);
+        takePhoto.onPickFromCapture(uri);
     }
 
     @Override
     public void getPhotos() {
-        getTakePhoto().onPickFromGallery();
+        TakePhoto takePhoto = getTakePhoto();
+        CompressConfig compressConfig = CompressConfig.ofDefaultConfig();
+        compressConfig.setMaxSize(500 * 100);
+        takePhoto.onEnableCompress(compressConfig, true);
+        takePhoto.onPickFromGallery();
     }
 
     @Override
     public void updataCredentialImageSucess(int code, String result) {
         if (code == 201) {
-            ToastUtil.makeText(this, "上传成功" + code, Toast.LENGTH_SHORT).show();
+            ToastUtil.makeText(this, "上传成功", Toast.LENGTH_SHORT).show();
             imageUrl = result;
-            Picasso.with(mContext).load(imageUrl).into(imageViewCredentail);
+            Picasso.with(mContext).load(imageUrl).memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE).resize(withResult, heightResult).into(imageViewCredentail);
             Log.d(TAG, "updataCredentialImageSucess: ------" + result);
         }
     }
@@ -192,10 +253,10 @@ public class CredentialUploadActivity extends TakePhotoActivity implements DianH
         if (imageUrl == null) {
             ToastUtil.makeText(this, "请上传证件", Toast.LENGTH_SHORT).show();
             return;
-        } else if (TextUtils.isEmpty(editTextData1.getText())) {
+        } else if (TextUtils.isEmpty(textViewData1.getText())) {
             ToastUtil.makeText(this, "请填写营业期限开始时间", Toast.LENGTH_SHORT).show();
             return;
-        } else if (TextUtils.isEmpty(editTextData2.getText())) {
+        } else if (TextUtils.isEmpty(textViewData2.getText())) {
             ToastUtil.makeText(this, "请填写营业期限结束时间", Toast.LENGTH_SHORT).show();
             return;
         } else if (TextUtils.isEmpty(editTextCardNumber.getText())) {
@@ -209,18 +270,255 @@ public class CredentialUploadActivity extends TakePhotoActivity implements DianH
             return;
         }
         qulationBaseInfo.setUrl(imageUrl);
-        qulationBaseInfo.setStartTime(editTextData1.getText().toString());
-        qulationBaseInfo.setEndTime(editTextData2.getText().toString());
+        qulationBaseInfo.setStartTime(textViewData1.getText().toString());
+        qulationBaseInfo.setEndTime(textViewData2.getText().toString());
         qulationBaseInfo.setNumber(editTextCardNumber.getText().toString());
         qulationBaseInfo.setScope(editTextBody.getText().toString());
         qulationBaseInfo.setCorporation(editTextNume.getText().toString());
-        qulationBaseInfo.setId(credentialBaseTypeInfo.getId());
-        qulationBaseInfo.setName(credentialBaseTypeInfo.getName());
+        if (credentialBaseTypeInfo != null) {
+            qulationBaseInfo.setId(credentialBaseTypeInfo.getId());
+            qulationBaseInfo.setName(credentialBaseTypeInfo.getName());
+        }
+        if ("0".equals(state)) {
+            CredentialUpdateInfo credentialUpdateInfo = new CredentialUpdateInfo();
+            credentialUpdateInfo.setUrl(imageUrl);
+            credentialUpdateInfo.setStartTime(textViewData1.getText().toString());
+            credentialUpdateInfo.setEndTime(textViewData2.getText().toString());
+            credentialUpdateInfo.setCorporation(editTextNume.getText().toString());
+            credentialUpdateInfo.setScope(editTextBody.getText().toString());
+            credentialUpdateInfo.setNumber(editTextCardNumber.getText().toString());
+            credentialUpdateInfo.setName(shopCredentialBaseInfo.getName());
+            credentialUpdateInfo.setCompositeid(BaseApplication.getInstansApp().getLoginRequestInfo().getShopId().toString());
+            shopCredentialPresenter.updateCredential(shopCredentialBaseInfo.getId(), JSON.toJSONString(credentialUpdateInfo));
+        } else if ("1".equals(state)) {
+            CredentialUpdateInfo credentialUpdateInfo = new CredentialUpdateInfo();
+            credentialUpdateInfo.setUrl(imageUrl);
+            credentialUpdateInfo.setStartTime(textViewData1.getText().toString());
+            credentialUpdateInfo.setEndTime(textViewData2.getText().toString());
+            credentialUpdateInfo.setCorporation(editTextNume.getText().toString());
+            credentialUpdateInfo.setScope(editTextBody.getText().toString());
+            credentialUpdateInfo.setNumber(editTextCardNumber.getText().toString());
+            credentialUpdateInfo.setName(qulationBaseInfo.getName());
+            credentialUpdateInfo.setCompositeid(BaseApplication.getInstansApp().getLoginRequestInfo().getShopId().toString());
+            shopCredentialPresenter.uploadNewCredential(JSON.toJSONString(credentialUpdateInfo));
+        } else {
+            Intent intent = new Intent();
+            Bundle bundle = new Bundle();
+            bundle.putSerializable("qulation", qulationBaseInfo);
+            bundle.putString("state", state);
+            intent.putExtras(bundle);
+            setResult(1002, intent);
+            finish();
+        }
+
+    }
+
+    @OnClick(R.id.upload_credrntial_data1)
+    void selecteDate1() {
+        pvCustomTime1.show();
+    }
+
+    @OnClick(R.id.upload_credrntial_data2)
+    void selecteDate2() {
+        pvCustomTime2.show();
+    }
+
+
+    private void initCustomTimePicker1(final TextView textView) {
+
+        /**
+         * @description
+         *
+         * 注意事项：
+         * 1.自定义布局中，id为 optionspicker 或者 timepicker 的布局以及其子控件必须要有，否则会报空指针.
+         * 具体可参考demo 里面的两个自定义layout布局。
+         * 2.因为系统Calendar的月份是从0-11的,所以如果是调用Calendar的set方法来设置时间,月份的范围也要是从0-11
+         * setRangDate方法控制起始终止时间(如果不设置范围，则使用默认时间1900-2100年，此段代码可注释)
+         */
+        Calendar selectedDate = Calendar.getInstance();//系统当前时间
+        Calendar startDate = Calendar.getInstance();
+        startDate.set(1990, 0, 1);
+        Calendar endDate = Calendar.getInstance();
+        endDate.set(2070, 11, 30);
+        //时间选择器 ，自定义布局
+        pvCustomTime1 = new TimePickerBuilder(this, new OnTimeSelectListener() {
+            @Override
+            public void onTimeSelect(Date date, View v) {
+                //选中事件回调
+                textView.setText(getTime(date));
+            }
+        }).setDividerColor(R.color.color04c1ab)
+                .setLineSpacingMultiplier(1.6f)
+                /*.setType(TimePickerView.Type.ALL)//default is all
+                .setCancelText("Cancel")
+                .setSubmitText("Sure")
+                .setContentTextSize(18)
+                .setTitleSize(20)
+                .setTitleText("Title")
+                .setTitleColor(Color.BLACK)
+               /*.setDividerColor(Color.WHITE)//设置分割线的颜色
+                .setTextColorCenter(Color.LTGRAY)//设置选中项的颜色
+                .setLineSpacingMultiplier(1.6f)//设置两横线之间的间隔倍数
+                .setTitleBgColor(Color.DKGRAY)//标题背景颜色 Night mode
+                .setBgColor(Color.BLACK)//滚轮背景颜色 Night mode
+                .setSubmitColor(Color.WHITE)
+                .setCancelColor(Color.WHITE)*/
+               /*.animGravity(Gravity.RIGHT)// default is center*/
+                .setDate(selectedDate)
+                .setRangDate(startDate, endDate)
+                .setLayoutRes(R.layout.custom_view_pickerview, new CustomListener() {
+
+                    @Override
+                    public void customLayout(View v) {
+                        final TextView tvSubmit = v.findViewById(R.id.dialog_date_right);
+                        final TextView ivCancel = v.findViewById(R.id.dialog_date_left);
+                        tvSubmit.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                pvCustomTime1.returnData();
+                                pvCustomTime1.dismiss();
+                            }
+                        });
+                        ivCancel.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                pvCustomTime1.dismiss();
+                            }
+                        });
+                    }
+                })
+                .setContentTextSize(18)
+                .setType(new boolean[]{true, true, true, false, false, false})
+                .setLabel("", "", "", "时", "分", "秒")
+                .setLineSpacingMultiplier(1.2f)
+                .setTextXOffset(-40, 0, 40, 40, 0, -40)
+                .isCenterLabel(false) //是否只显示中间选中项的label文字，false则每项item全部都带有label。
+                .isDialog(true)
+                .build();
+
+    }
+
+    private void initCustomTimePicker2(final TextView textView) {
+
+        /**
+         * @description
+         *
+         * 注意事项：
+         * 1.自定义布局中，id为 optionspicker 或者 timepicker 的布局以及其子控件必须要有，否则会报空指针.
+         * 具体可参考demo 里面的两个自定义layout布局。
+         * 2.因为系统Calendar的月份是从0-11的,所以如果是调用Calendar的set方法来设置时间,月份的范围也要是从0-11
+         * setRangDate方法控制起始终止时间(如果不设置范围，则使用默认时间1900-2100年，此段代码可注释)
+         */
+        Calendar selectedDate = Calendar.getInstance();//系统当前时间
+        Calendar startDate = Calendar.getInstance();
+        startDate.set(1990, 0, 1);
+        Calendar endDate = Calendar.getInstance();
+        endDate.set(2070, 11, 30);
+        //时间选择器 ，自定义布局
+        pvCustomTime2 = new TimePickerBuilder(this, new OnTimeSelectListener() {
+            @Override
+            public void onTimeSelect(Date date, View v) {
+                //选中事件回调
+                textView.setText(getTime(date));
+            }
+        }).setDividerColor(R.color.color04c1ab)
+                .setLineSpacingMultiplier(1.6f)
+                /*.setType(TimePickerView.Type.ALL)//default is all
+                .setCancelText("Cancel")
+                .setSubmitText("Sure")
+                .setContentTextSize(18)
+                .setTitleSize(20)
+                .setTitleText("Title")
+                .setTitleColor(Color.BLACK)
+               /*.setDividerColor(Color.WHITE)//设置分割线的颜色
+                .setTextColorCenter(Color.LTGRAY)//设置选中项的颜色
+                .setLineSpacingMultiplier(1.6f)//设置两横线之间的间隔倍数
+                .setTitleBgColor(Color.DKGRAY)//标题背景颜色 Night mode
+                .setBgColor(Color.BLACK)//滚轮背景颜色 Night mode
+                .setSubmitColor(Color.WHITE)
+                .setCancelColor(Color.WHITE)*/
+               /*.animGravity(Gravity.RIGHT)// default is center*/
+                .setDate(selectedDate)
+                .setRangDate(startDate, endDate)
+                .setLayoutRes(R.layout.custom_view_pickerview, new CustomListener() {
+
+                    @Override
+                    public void customLayout(View v) {
+                        final TextView tvSubmit = v.findViewById(R.id.dialog_date_right);
+                        final TextView ivCancel = v.findViewById(R.id.dialog_date_left);
+                        tvSubmit.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                pvCustomTime2.returnData();
+                                pvCustomTime2.dismiss();
+                            }
+                        });
+                        ivCancel.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                pvCustomTime2.dismiss();
+                            }
+                        });
+                    }
+                })
+                .setContentTextSize(18)
+                .setType(new boolean[]{true, true, true, false, false, false})
+                .setLabel("", "", "", "时", "分", "秒")
+                .setLineSpacingMultiplier(1.2f)
+                .setTextXOffset(-40, 0, 40, 40, 0, -40)
+                .isCenterLabel(false) //是否只显示中间选中项的label文字，false则每项item全部都带有label。
+                .isDialog(true)
+                .build();
+
+    }
+
+    private String getTime(Date date) {//可根据需要自行截取数据显示
+        Log.d("getTime()", "choice date millis: " + date.getTime());
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        return format.format(date);
+    }
+
+    @Override
+    public void getShopCredentialSucess(int code, String result) {
+
+    }
+
+    @Override
+    public void getShopCredentialFaild(int code, String result) {
+
+    }
+
+    @Override
+    public void updateShopCredentialSucess(int code, String result) {
         Intent intent = new Intent();
         Bundle bundle = new Bundle();
         bundle.putSerializable("qulation", qulationBaseInfo);
+        bundle.putString("state", state);
+        bundle.putString("result", "ok");
         intent.putExtras(bundle);
         setResult(1002, intent);
         finish();
+    }
+
+    @Override
+    public void updateShopCredentialFaild(int code, String result) {
+
+    }
+
+    @Override
+    public void uploadShopCredentialSucess(int code, String result) {
+        Intent intent = new Intent();
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("qulation", qulationBaseInfo);
+        bundle.putString("state", state);
+        bundle.putString("result", "ok");
+        intent.putExtras(bundle);
+        setResult(1002, intent);
+        finish();
+    }
+
+    @Override
+    public void uploadShopCredentialFaild(int code, String result) {
+
     }
 }

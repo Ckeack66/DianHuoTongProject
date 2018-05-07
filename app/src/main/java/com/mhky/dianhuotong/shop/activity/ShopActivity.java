@@ -12,17 +12,20 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.mhky.dianhuotong.R;
+import com.mhky.dianhuotong.base.view.BaseActivity;
 import com.mhky.dianhuotong.custom.viewgroup.DianHuoTongBaseTitleBar;
 import com.mhky.dianhuotong.shop.custom.DianHuoTongShopTitleBar;
 import com.mhky.dianhuotong.shop.fragment.ShopAllGoodsFragment;
 import com.mhky.dianhuotong.shop.fragment.ShopMainFragment;
 import com.mhky.dianhuotong.shop.fragment.ShopTransferFragment;
+import com.mhky.dianhuotong.shop.precenter.ShopPresenter;
+import com.mhky.dianhuotong.shop.shopif.ShopIF;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class ShopActivity extends AppCompatActivity {
+public class ShopActivity extends BaseActivity implements ShopIF {
     @BindView(R.id.shop_title)
     DianHuoTongShopTitleBar dianHuoTongShopTitleBar;
     @BindView(R.id.shop_main_tab1)
@@ -48,6 +51,8 @@ public class ShopActivity extends AppCompatActivity {
     private ShopAllGoodsFragment shopAllGoodsFragment;
     private ShopMainFragment shopMainFragment;
     private ShopTransferFragment shopTransferFragment;
+    private ShopPresenter shopPresenter;
+    private String shopId;
     private static final String TAG = "ShopActivity";
 
     @Override
@@ -59,11 +64,16 @@ public class ShopActivity extends AppCompatActivity {
     }
 
     private void inIt() {
+        Bundle bundle = getIntent().getExtras();
+        if (bundle != null) {
+            shopId = bundle.getString("shopid");
+        }
         dianHuoTongShopTitleBar.setActivity(this);
         relativeLayoutTab1.setClickable(false);
+        shopPresenter = new ShopPresenter(this);
         shopAllGoodsFragment = ShopAllGoodsFragment.newInstance("", "");
-        shopMainFragment = ShopMainFragment.newInstance("", "");
-        shopTransferFragment = ShopTransferFragment.newInstance("", "");
+        shopMainFragment = ShopMainFragment.newInstance(shopId, "");
+        shopTransferFragment = ShopTransferFragment.newInstance(shopId, "");
         fragmentManager = getSupportFragmentManager();
         fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.add(R.id.shop_fragment, shopTransferFragment);
@@ -71,7 +81,6 @@ public class ShopActivity extends AppCompatActivity {
         fragmentTransaction.add(R.id.shop_fragment, shopMainFragment);
         fragmentTransaction.show(shopMainFragment);
         fragmentTransaction.commit();
-
 
     }
 
@@ -125,6 +134,26 @@ public class ShopActivity extends AppCompatActivity {
             Log.d(TAG, "showFragment: 关闭第三个页面");
             fragmentManager.beginTransaction().hide(shopTransferFragment).show(fragment).commit();
         }
+
+    }
+
+    @Override
+    public void getShopInfoSuccess(int code, String result) {
+
+    }
+
+    @Override
+    public void getShopInfoFailed(int code, String result) {
+
+    }
+
+    @Override
+    public void getShopTypeSuccess(int code, String result) {
+
+    }
+
+    @Override
+    public void getShopTypeFailed(int code, String result) {
 
     }
 }

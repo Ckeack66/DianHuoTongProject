@@ -106,7 +106,7 @@ public class SortPopupwindow extends PopupWindow implements View.OnClickListener
         imageView2.setVisibility(View.GONE);
     }
 
-    public void setOnClickPopupwindowItemListener(OnClickPopupwindow2ItemListener onClickPopupwindow2ItemListener1) {
+    public void setClickPopupwindow2ItemListener(OnClickPopupwindow2ItemListener onClickPopupwindow2ItemListener1) {
         onClickPopupwindow2ItemListener = onClickPopupwindow2ItemListener1;
     }
 

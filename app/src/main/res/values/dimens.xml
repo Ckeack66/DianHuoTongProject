@@ -62,6 +62,7 @@
     <dimen name="x80">80dp</dimen>
     <dimen name="x84">84dp</dimen>
     <dimen name="x85">85dp</dimen>
+    <dimen name="x86">86dp</dimen>
     <dimen name="x88">88dp</dimen>
     <dimen name="x90">90dp</dimen>
     <dimen name="x94">94dp</dimen>
@@ -89,6 +90,7 @@
     <dimen name="x217">217dp</dimen>
     <dimen name="x218">218dp</dimen>
     <dimen name="x225">225dp</dimen>
+    <dimen name="x230">230dp</dimen>
     <dimen name="x256">256dp</dimen>
     <dimen name="x259">259dp</dimen>
     <dimen name="x277">277dp</dimen>

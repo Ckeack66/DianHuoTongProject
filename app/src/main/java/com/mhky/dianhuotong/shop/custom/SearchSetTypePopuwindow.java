@@ -27,12 +27,12 @@ public class SearchSetTypePopuwindow extends PopupWindow {
     private ImageView imageView2;
     private Context mContext;
     private static final String TAG = "SortPopupwindow";
-    private SortPopupwindow.OnClickPopupwindow2ItemListener onClickPopupwindow2ItemListener;
+    private OnClickPopupwindow4ItemListener onClickPopupwindow4ItemListener;
 
     public SearchSetTypePopuwindow(final Context context, int selectNumber1) {
         super(context);
         mContext = context;
-        View view = View.inflate(context, R.layout.popupwindow_goods2, null);
+        View view = View.inflate(context, R.layout.popupwindow_search_set_type, null);
         setContentView(view);
         setWidth(WindowManager.LayoutParams.MATCH_PARENT);
         setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
@@ -54,11 +54,11 @@ public class SearchSetTypePopuwindow extends PopupWindow {
         super.showAsDropDown(anchor);
     }
 
-    public void setOnClickPopupwindowItemListener(SortPopupwindow.OnClickPopupwindow2ItemListener onClickPopupwindow2ItemListener1) {
-        onClickPopupwindow2ItemListener = onClickPopupwindow2ItemListener1;
+    public void setOnClickPopupwindow4ItemListener(OnClickPopupwindow4ItemListener onClickPopupwindow4ItemListener1) {
+        onClickPopupwindow4ItemListener = onClickPopupwindow4ItemListener1;
     }
 
-    public interface OnClickPopupwindow2ItemListener {
+    public interface OnClickPopupwindow4ItemListener {
         void onclick(int number);
     }
 }

@@ -2,29 +2,70 @@ package com.mhky.dianhuotong.shop.fragment;
 
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.PopupWindowCompat;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.alibaba.fastjson.JSON;
+import com.lzy.okgo.model.HttpParams;
 import com.mhky.dianhuotong.R;
+import com.mhky.dianhuotong.custom.ToastUtil;
+import com.mhky.dianhuotong.shop.adapter.SearchGoodsAdpter;
+import com.mhky.dianhuotong.shop.bean.SearchSGoodsBean;
+import com.mhky.dianhuotong.shop.bean.ShopInfo;
+import com.mhky.dianhuotong.shop.bean.ShopTransferInfo;
+import com.mhky.dianhuotong.shop.bean.ShopTypeInfo;
+import com.mhky.dianhuotong.shop.custom.CompanyPopupwindow;
+import com.mhky.dianhuotong.shop.custom.ShopTypePopupwindow;
+import com.mhky.dianhuotong.shop.custom.SortPopupwindow;
+import com.mhky.dianhuotong.shop.precenter.CompanyPrecenter;
+import com.mhky.dianhuotong.shop.precenter.SearchGoodsPresenter;
+import com.mhky.dianhuotong.shop.precenter.ShopPresenter;
+import com.mhky.dianhuotong.shop.shopif.CompanyIF;
+import com.mhky.dianhuotong.shop.shopif.SearchGoodsIF;
+import com.mhky.dianhuotong.shop.shopif.ShopIF;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.constant.SpinnerStyle;
+import com.scwang.smartrefresh.layout.footer.BallPulseFooter;
+import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
+import com.squareup.picasso.MemoryPolicy;
+import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
+import wellijohn.org.scrollviewwithstickheader.ScrollViewWithStickHeader;
 
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link ShopMainFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ShopMainFragment extends Fragment {
+public class ShopMainFragment extends Fragment implements ShopIF, SortPopupwindow.OnClickPopupwindow2ItemListener, ShopTypePopupwindow.OnClickShopPopupwindowItemListener, SearchGoodsIF, CompanyIF {
+    @BindView(R.id.shop_img)
+    ImageView imageViewLogo;
+    @BindView(R.id.shop_main_child_tab1)
+    RelativeLayout relativeLayoutTab1;
+    @BindView(R.id.shop_main_child_tab2)
+    RelativeLayout relativeLayoutTab2;
     @BindView(R.id.shop_main_tab_txt1)
     TextView textViewTab1;
     @BindView(R.id.shop_main_tab_txt2)
@@ -35,17 +76,42 @@ public class ShopMainFragment extends Fragment {
     ImageView imageViewTab2;
     @BindView(R.id.shop_main_rv)
     RecyclerView recyclerView;
+    @BindView(R.id.shop_refresh)
+    SmartRefreshLayout smartRefreshLayout;
+    @BindView(R.id.ll_head)
+    LinearLayout linearLayoutHead;
+    @BindView(R.id.ll_body)
+    LinearLayout linearLayoutBody;
+    @BindView(R.id.shop_name)
+    TextView textViewShopName;
+    @BindView(R.id.shop_notoice)
+    TextView textViewNotice;
+    //    @BindView(R.id.shop_scollview)
+//    ScrollViewWithStickHeader scrollViewWithStickHeader;
     private int chooseOldNumber = -1;
     private boolean tabIsOpen = false;
     private Unbinder unbinder;
+    private List<ShopTypeInfo> shopTransferInfoList;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    private ShopPresenter shopPresenter;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    private ShopTypePopupwindow shopTypePopupwindow;
+    private SortPopupwindow sortPopupwindow;
+    private SearchGoodsPresenter searchGoodsPresenter;
+    private SearchSGoodsBean searchSGoodsBean;
+    private SearchGoodsAdpter searchGoodsAdpter;
+    private int number = 0;
+    private int type = 0;
+    private String childId;
+    private int sortId = 0;
+    private CompanyPrecenter companyPrecenter;
+    private static final String TAG = "ShopMainFragment";
 
 
     public ShopMainFragment() {
@@ -77,6 +143,57 @@ public class ShopMainFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+//        smartRefreshLayout.setRefreshHeader(new BezierRadarHeader(getActivity()).setEnableHorizontalDrag(true).setPrimaryColor(getResources().getColor(R.color.color04c1ab)).setAccentColor(getResources().getColor(R.color.colorWhite)));
+    }
+
+    private void setRefresh() {
+        smartRefreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
+            @Override
+            public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
+                //smartRefreshLayout.setEnableLoadMore(false);
+                smartRefreshLayout.setRefreshFooter(new BallPulseFooter(getActivity()).setSpinnerStyle(SpinnerStyle.Scale).setAnimatingColor(getResources().getColor(R.color.color04c1ab)).setNormalColor(getResources().getColor(R.color.color04c1ab)));
+                if (type == 0) {
+                    //初始数据
+                    getInitData();
+                } else if (type == 1) {
+                    //分类查询
+                    getTypeData();
+                } else if (type == 2) {
+                    //排序
+                    getSortData();
+                }
+
+            }
+        });
+    }
+
+    private void getInitData() {
+        HttpParams httpParams = new HttpParams();
+        httpParams.put("shopId", mParam1);
+        httpParams.put("page", number);
+        searchGoodsPresenter.searchGoods(httpParams, false, 1);
+    }
+
+    private void getTypeData() {
+        HttpParams httpParams = new HttpParams();
+        httpParams.put("shopId", mParam1);
+        httpParams.put("page", number);
+        if (childId != null && !childId.equals("")) {
+            httpParams.put("categoryIds", childId);
+        }
+        searchGoodsPresenter.searchGoods(httpParams, true, 0);
+    }
+
+    private void getSortData() {
+        HttpParams httpParams = new HttpParams();
+        httpParams.put("shopId", mParam1);
+        httpParams.put("page", number);
+        if (sortId == 0) {
+            httpParams.put("sort", "name,DESC");
+        } else {
+            httpParams.put("sort", "createTime,DESC");
+        }
+        searchGoodsPresenter.searchGoods(httpParams, true, 0);
     }
 
     @Override
@@ -85,6 +202,25 @@ public class ShopMainFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_shop_main, container, false);
         unbinder = ButterKnife.bind(this, view);
+        recyclerView.setNestedScrollingEnabled(false);
+        //recyclerView.requestLayout();
+        shopPresenter = new ShopPresenter(this);
+        shopTransferInfoList = new ArrayList<>();
+        sortPopupwindow = new SortPopupwindow(getActivity(), -1);
+        sortPopupwindow.setClickPopupwindow2ItemListener(this);
+        shopPresenter.getShopInfo(mParam1);
+        shopPresenter.getShopType(mParam1);
+        searchGoodsPresenter = new SearchGoodsPresenter(this);
+        HttpParams httpParams = new HttpParams();
+        httpParams.put("shopId", mParam1);
+        httpParams.put("page", number);
+        searchGoodsPresenter.searchGoods(httpParams, true, 0);
+        smartRefreshLayout.setEnableRefresh(false);
+        companyPrecenter.getCompanyTansferInfo(mParam1);
+        //smartRefreshLayout.setEnableLoadMore(false);
+//        scrollViewWithStickHeader.setContentView(linearLayoutHead);
+//        scrollViewWithStickHeader.setSuspensionView(linearLayoutBody);
+        //setRefresh();
         return view;
     }
 
@@ -111,7 +247,11 @@ public class ShopMainFragment extends Fragment {
 
 
     private void hideWindow() {
-
+        if (shopTypePopupwindow.isShowing()) {
+            shopTypePopupwindow.dismiss();
+        } else if (sortPopupwindow.isShowing()) {
+            sortPopupwindow.dismiss();
+        }
     }
 
     private void setTabStateTrue(int newNumber) {
@@ -140,13 +280,13 @@ public class ShopMainFragment extends Fragment {
             case 1:
                 textViewTab1.setTextColor(getResources().getColor(R.color.color04c1ab));
                 imageViewTab1.setImageResource(R.drawable.icon_choose_selecte);
-//                PopupWindowCompat.showAsDropDown(goodsTypePopupwindow, tabI, 0, 0, Gravity.LEFT);
+                PopupWindowCompat.showAsDropDown(shopTypePopupwindow, relativeLayoutTab1, 0, 0, Gravity.LEFT);
                 tabIsOpen = true;
                 break;
             case 2:
                 textViewTab2.setTextColor(getResources().getColor(R.color.color04c1ab));
                 imageViewTab2.setImageResource(R.drawable.icon_choose_selecte);
-//                PopupWindowCompat.showAsDropDown(sortPopupwindow, tabI, 0, 0, Gravity.LEFT);
+                PopupWindowCompat.showAsDropDown(sortPopupwindow, relativeLayoutTab1, 0, 0, Gravity.LEFT);
                 tabIsOpen = true;
                 break;
         }
@@ -168,4 +308,129 @@ public class ShopMainFragment extends Fragment {
 
     }
 
+    @Override
+    public void getShopInfoSuccess(int code, String result) {
+        if (code == 200) {
+            ShopInfo shopInfo = JSON.parseObject(result, ShopInfo.class);
+            if (shopInfo.getLogo() != null) {
+                Picasso.with(getActivity()).load(shopInfo.getLogo()).memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE).into(imageViewLogo);
+            }
+            textViewShopName.setText(shopInfo.getName());
+
+        }
+    }
+
+    @Override
+    public void getShopInfoFailed(int code, String result) {
+
+    }
+
+    @Override
+    public void getShopTypeSuccess(int code, String result) {
+        if (code == 200) {
+            shopTransferInfoList = JSON.parseArray(result, ShopTypeInfo.class);
+            shopTypePopupwindow = new ShopTypePopupwindow(getActivity(), shopTransferInfoList);
+            shopTypePopupwindow.setOnClickPopupwindowItemListener(this);
+        }
+    }
+
+    @Override
+    public void getShopTypeFailed(int code, String result) {
+
+    }
+
+    @Override
+    public void onclick(int number) {
+        String text = "";
+        sortPopupwindow.setSelectState(number);
+        if (number == 0) {
+            text = "默认排序";
+            ToastUtil.makeText(getActivity(), "默认排序", Toast.LENGTH_SHORT).show();
+        } else if (number == 1) {
+            text = "价格排序";
+            ToastUtil.makeText(getActivity(), "价格排序", Toast.LENGTH_SHORT).show();
+        }
+        textViewTab2.setText(text);
+        setTabStateFalse(2);
+        ToastUtil.makeText(getActivity(), "点击---" + number, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onclickType(ShopTypeInfo contentBean) {
+        setTabStateFalse(1);
+        ToastUtil.makeText(getActivity(), "点击---" + contentBean.getName(), Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void searchGoodsInfoSuccess(int code, String result, boolean isfirst, int refreshOrLoadmore) {
+        if (code == 200) {
+            SearchSGoodsBean searchSGoodsBeans = JSON.parseObject(result, SearchSGoodsBean.class);
+            if (isfirst) {
+                //初始页面
+                searchSGoodsBean = searchSGoodsBeans;
+                Log.d(TAG, "searchGoodsInfoSuccess1: " + searchSGoodsBean.getContent().size());
+                Log.d(TAG, "searchGoodsInfoSuccess2: " + searchSGoodsBeans.getContent().size());
+                if (searchSGoodsBeans.getContent() != null) {
+                    searchGoodsAdpter = new SearchGoodsAdpter(searchSGoodsBean.getContent(), getActivity());
+                    LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
+                    linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+                    linearLayoutManager.setAutoMeasureEnabled(true);
+                    recyclerView.setLayoutManager(linearLayoutManager);
+                    searchGoodsAdpter.openLoadAnimation();
+                    recyclerView.setAdapter(searchGoodsAdpter);
+                }
+
+
+            } else {
+                //刷新或者加载更多界面
+                if (refreshOrLoadmore == 0) {
+                    searchSGoodsBean = null;
+                    searchSGoodsBean = searchSGoodsBeans;
+                } else if (refreshOrLoadmore == 1) {
+                    number++;
+                    smartRefreshLayout.finishLoadMore(true);
+                    if (searchSGoodsBeans.getContent().size() < 10) {
+                        searchSGoodsBean.getContent().addAll(searchSGoodsBeans.getContent());
+                        searchGoodsAdpter.addData(searchSGoodsBeans.getContent());
+                    } else if (searchSGoodsBeans.getContent().size() == 0) {
+                        ToastUtil.makeText(getActivity(), "没有更多数据了", Toast.LENGTH_SHORT).show();
+                    }
+
+                }
+            }
+        }
+
+    }
+
+    @Override
+    public void searchGoodsInfoFailed(int code, String result, boolean isfirst, int refreshOrLoadmore) {
+
+    }
+
+    @Override
+    public void getCompanyCredentialSucess(int code, String result) {
+
+    }
+
+    @Override
+    public void getCompanyCredentialFaild(int code, String result) {
+
+    }
+
+    @Override
+    public void getCompanyTansferSucess(int code, String result) {
+        if (code == 200) {
+            ShopTransferInfo shopTransferInfo = JSON.parseObject(result, ShopTransferInfo.class);
+            if (shopTransferInfo != null) {
+                if (shopTransferInfo.getNotice() != null) {
+                    textViewNotice.setText(shopTransferInfo.getNotice().toString());
+                }
+            }
+        }
+    }
+
+    @Override
+    public void getCompanyTansferFaild(int code, String result) {
+
+    }
 }

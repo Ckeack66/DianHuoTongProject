@@ -347,11 +347,11 @@ public class MainActivity extends BaseActivity implements MainIF, DrawerLayout.D
 //                        BaseTool.goActivityNoData(this, ShiYaoQianYanActivity.class);
 //                        break;
                     case 1:
-//                        if (BaseApplication.getInstansApp().isAddShop()) {
-//                            dianHuoTongBaseDialogAddShop.show();
-//                        } else {
+                        if (BaseApplication.getInstansApp().isAddShop()) {
+                            dianHuoTongBaseDialogAddShop.show();
+                        } else {
                             BaseTool.goActivityNoData(this, DianHuoTongShopActivity.class);
-//                        }
+                        }
                         break;
 //                    case 2:
 //                        BaseTool.goActivityNoData(this, YaoLinWangActivity.class);

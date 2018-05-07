@@ -1,4 +1,4 @@
-package com.mhky.dianhuotong.activity;
+package com.mhky.dianhuotong.test;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;

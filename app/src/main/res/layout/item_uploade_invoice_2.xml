@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:background="@color/coloreeeeee"
     android:orientation="vertical">
 
     <RelativeLayout
+        android:id="@+id/add_credential"
         android:layout_width="@dimen/x122"
         android:layout_height="@dimen/x85"
         android:layout_gravity="center_horizontal"
@@ -42,7 +43,7 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="@dimen/x12"
         android:background="@color/colorTransp"
-        android:text="默认证件"
+        android:text="其它证件"
         android:textColor="@color/color707070"
         android:textSize="@dimen/t12" />
     <!--<TextView-->

@@ -97,6 +97,7 @@ public class SearchGoodsActivity extends BaseActivity implements SearchGoodsIF, 
     private String type;
     private Bundle bundle;
     private String type3;
+    private String typeSort;
     private List<GoodsBaseInfo> allGoodsBaseInfos;
     private GoodsBaseInfo.ChildrenBeanX childrenBeanX;
     private List<Popuwindow1Info> popuwindow1InfoList;
@@ -164,6 +165,8 @@ public class SearchGoodsActivity extends BaseActivity implements SearchGoodsIF, 
             if (type3 != null && !type3.equals("")) {
                 getData(type3, true, 0);
             }
+        } else if (type != null && type.equals("104")) {
+            //搜索
         }
         popuwindow1InfoList = searchGoodsPresenter.getPopupwindowData(allGoodsBaseInfos);
         goodsTypePopupwindow = new GoodsTypePopupwindow(this, popuwindow1InfoList);
@@ -171,10 +174,9 @@ public class SearchGoodsActivity extends BaseActivity implements SearchGoodsIF, 
         goodsTypePopupwindow.setOnClickPopupwindowItemListener(this);
         sortPopupwindow = new SortPopupwindow(this, -1);
         sortPopupwindow.setOutsideTouchable(false);
-        sortPopupwindow.setOnClickPopupwindowItemListener(this);
+        sortPopupwindow.setClickPopupwindow2ItemListener(this);
         getAllCompanyPresenter = new GetAllCompanyPresenter(this);
         getAllCompanyPresenter.getAllCompany(new HttpParams(), false);
-
     }
 
     private void setRefresh() {
@@ -183,14 +185,24 @@ public class SearchGoodsActivity extends BaseActivity implements SearchGoodsIF, 
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {
                 number = 0;
                 refreshLayout.setEnableLoadMore(true);
-                if (type != null && type.equals("102")) {
+                if (type != null && type.equals("102")) {//102是二级列表
                     if (childrenBeanX != null) {
                         getData(getChildId(childrenBeanX.getChildren()), false, 1);
                     }
-                } else if (type != null && type.equals("103")) {
+                } else if (type != null && type.equals("103")) {//三级子类
                     if (type3 != null && !type3.equals("")) {
                         getData(type3, false, 1);
                     }
+                } else if (type != null && type.equals("104")) {
+                    //搜索
+                } else if (type != null && type.equals("105")) {
+                    //新的商家分类
+                } else if (type != null && type.equals("106")) {
+                    //排序
+                } else if (type != null && type.equals("107")) {
+                    //商家选择
+                } else if (type != null && type.equals("108")) {
+                    //筛选
                 }
             }
         });
@@ -205,6 +217,14 @@ public class SearchGoodsActivity extends BaseActivity implements SearchGoodsIF, 
                     if (type3 != null && !type3.equals("")) {
                         getData(type3, false, 2);
                     }
+                } else if (type != null && type.equals("104")) {
+                    //新的商家分类
+                } else if (type != null && type.equals("105")) {
+                    //排序
+                } else if (type != null && type.equals("106")) {
+                    //商家选择
+                } else if (type != null && type.equals("107")) {
+                    //筛选
                 }
 
             }
@@ -218,6 +238,10 @@ public class SearchGoodsActivity extends BaseActivity implements SearchGoodsIF, 
             httpParams.put("categoryIds", childID);
         }
         searchGoodsPresenter.searchGoods(httpParams, isFirst, refreshOrLoadmore);
+    }
+
+    private void getTypeData() {
+
     }
 
     private String getChildId(List<GoodsBaseInfo.ChildrenBeanX.ChildrenBean> childrenBeans) {
@@ -462,6 +486,8 @@ public class SearchGoodsActivity extends BaseActivity implements SearchGoodsIF, 
             allCompanyInfo = JSON.parseObject(result, AllCompanyInfo.class);
             companyPopupwindow = new CompanyPopupwindow(this, allCompanyInfo.getContent());
             companyPopupwindow.setOnClickPopupwindowItemListener(this);
+            companyPopupwindow.setTouchable(true);
+            companyPopupwindow.setOutsideTouchable(false);
         }
     }
 

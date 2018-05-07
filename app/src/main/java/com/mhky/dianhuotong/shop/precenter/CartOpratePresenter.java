@@ -21,8 +21,8 @@ public class CartOpratePresenter {
         this.cartOprateIF = cartOprateIF;
     }
 
-    public void addCart(String id, String json) {
-        OkGo.<String>post(BaseUrlTool.getAddCartUrl(id)).upJson(json).execute(new Callback<String>() {
+    public void addCart(HttpParams httpParams) {
+        OkGo.<String>post(BaseUrlTool.ADD_CART).params(httpParams).execute(new Callback<String>() {
             @Override
             public void onStart(Request<String, ? extends Request> request) {
 
@@ -207,7 +207,7 @@ public class CartOpratePresenter {
 
             @Override
             public void onSuccess(Response<String> response) {
-                cartOprateIF.getSkuSucess(response.code(),BaseTool.getResponsBody(response));
+                cartOprateIF.getSkuSucess(response.code(), BaseTool.getResponsBody(response));
             }
 
             @Override
@@ -217,7 +217,7 @@ public class CartOpratePresenter {
 
             @Override
             public void onError(Response<String> response) {
-                cartOprateIF.getSkuFaild(response.code(),BaseTool.getResponsBody(response));
+                cartOprateIF.getSkuFaild(response.code(), BaseTool.getResponsBody(response));
             }
 
             @Override

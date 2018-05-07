@@ -63,4 +63,8 @@ public class GoodsPrecenter {
             }
         });
     }
+
+    public void getGoodsInfo() {
+
+    }
 }

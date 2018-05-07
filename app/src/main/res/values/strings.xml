@@ -70,9 +70,9 @@
     <string name="myselect_bottom3">常购商品</string>
     <string name="myselect_bottom4">浏览历史</string>
     <string name="myselect_d_all">全部</string>
-    <string name="myselect_d_nopay">未付款</string>
-    <string name="myselect_d_paied">已付款</string>
-    <string name="myselect_d_buied">待评价</string>
+    <string name="myselect_d_nopay">待付款</string>
+    <string name="myselect_d_paied">待收货</string>
+    <string name="myselect_d_buied">已完成</string>
     <string name="myselect_item_money">￥</string>
     <string name="myselect_item_money_number">999.99</string>
     <string name="myselect_item_money_danwei">0瓶</string>

@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
+import com.gyf.barlibrary.BarHide;
 import com.gyf.barlibrary.ImmersionBar;
 import com.mhky.dianhuotong.R;
 import com.mhky.dianhuotong.base.BaseTool;
@@ -14,6 +15,7 @@ import com.stone.countdownprogress.CountDownProgress;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+
 public class WelcomActivity extends BaseActivity {
     @BindView(R.id.welcom_countdown)
     CountDownProgress countDownProgress;
@@ -25,7 +27,7 @@ public class WelcomActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcom);
         ButterKnife.bind(this);
-        ImmersionBar.with(this).init();
+        ImmersionBar.with(this).hideBar(BarHide.FLAG_HIDE_BAR).init();
         context = this;
         inIt();
     }

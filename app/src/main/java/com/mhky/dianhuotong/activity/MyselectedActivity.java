@@ -80,19 +80,19 @@ public class MyselectedActivity extends BaseActivity implements RadioGroup.OnChe
     private void inIt() {
         dianHuoTongBaseTitleBar.setLeftImage(R.drawable.icon_back);
         dianHuoTongBaseTitleBar.setCenterTextView(getString(R.string.myselect_title));
-        dianHuoTongBaseTitleBar.setRightText(getString(R.string.myselected_right));
+//        dianHuoTongBaseTitleBar.setRightText(getString(R.string.myselected_right));
         dianHuoTongBaseTitleBar.setLeftOnclickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
             }
         });
-        dianHuoTongBaseTitleBar.setRightTextOnclickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                BaseTool.goActivityNoData(mContext, BillActivity.class);
-            }
-        });
+//        dianHuoTongBaseTitleBar.setRightTextOnclickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                BaseTool.goActivityNoData(mContext, BillActivity.class);
+//            }
+//        });
         radioGroup.setOnCheckedChangeListener(this);
         myselectFragment1 = MyselectFragment1.newInstance("", "");
         myselectFragment2 = MyselectFragment2.newInstance("", "");

@@ -121,11 +121,7 @@ public class BaseUrlTool {
     /**
      * 添加到购物车
      */
-    private static String ADD_CART = HOST_GOODS_URL + "/cart?buyerId=";
-
-    public static String getAddCartUrl(String Id) {
-        return ADD_CART + Id;
-    }
+    public static String ADD_CART = HOST_GOODS_URL + "/cart";
 
     /**
      * 删除购物车商品
@@ -172,7 +168,47 @@ public class BaseUrlTool {
      */
     private static String GET_UP_SHOP_INFO = HOST_URL + "/user/seller/company/";
 
-    public String getGetUpShopInfoUrl(String id) {
+    public static String getShopInfoUrl(String id) {
         return GET_UP_SHOP_INFO + id;
+    }
+
+    /**
+     * 查询店铺资质信息
+     */
+    private static final String GET_SHOP_CREDENTIAL = HOST_URL + "/user/qualification/";
+
+    public static String getShopCredentialUrl(String Id) {
+        return GET_SHOP_CREDENTIAL + Id;
+    }
+
+    /**
+     * 修改店铺资质
+     */
+    private static final String UPDATE_CREDENTIAL = HOST_URL + "/user/qualification/";
+
+    public static String getUpdateCredentialUrl(String ID) {
+        return UPDATE_CREDENTIAL + ID;
+    }
+
+    /**
+     * 添加单个资质
+     */
+    public static final String UPLOAD_CREDENTIAL = HOST_URL + "/user/qualification";
+
+    /**
+     * 获取店铺分类
+     */
+    private static final String GET_SHOP_TYPE = HOST_GOODS_URL + "/shopGoodsClassify/list?shopId=";
+
+    public static String getShopType(String ID) {
+        return GET_SHOP_TYPE + ID;
+    }
+
+    /**
+     * 获取公司信息
+     */
+    private static final String GET_COMPANY_INFO=HOST_URL+"/user/seller/";
+    public static String getCompanyInfoUrl(String comId){
+        return GET_COMPANY_INFO+comId+"/company";
     }
 }

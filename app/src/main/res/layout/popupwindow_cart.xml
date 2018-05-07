@@ -74,23 +74,31 @@
 
     </RelativeLayout>
 
-    <com.zhy.view.flowlayout.TagFlowLayout
-        android:id="@+id/cart_popup_type_layout"
+    <FrameLayout
+        android:id="@+id/cart_popup_type_layout1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@id/cart_popup_number"
-        android:background="@color/colorWhite"
-        android:paddingBottom="@dimen/x20"
-        android:paddingEnd="@dimen/x14"
-        android:paddingStart="@dimen/x14"
-        android:paddingTop="@dimen/x20"
-        zhy:max_select="1" />
+        android:background="@color/colorWhite">
+
+        <com.zhy.view.flowlayout.TagFlowLayout
+            android:id="@+id/cart_popup_type_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/x10"
+            android:layout_marginStart="@dimen/x10"
+            android:background="@color/colorWhite"
+            android:paddingBottom="@dimen/x20"
+            android:paddingTop="@dimen/x20"
+            zhy:max_select="1" />
+    </FrameLayout>
+
 
     <TextView
         android:id="@+id/cart_popup_type"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@id/cart_popup_type_layout"
+        android:layout_above="@id/cart_popup_type_layout1"
         android:background="@color/white"
         android:paddingStart="@dimen/x14"
         android:paddingTop="@dimen/x10"
