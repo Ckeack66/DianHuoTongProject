@@ -54,7 +54,8 @@
             android:paddingStart="@dimen/x4"
             android:paddingTop="@dimen/x2"
             android:text="500元起配"
-            android:textColor="@color/color04c1ab" />
+            android:textColor="@color/color04c1ab"
+            android:visibility="gone" />
 
         <FrameLayout
             android:id="@+id/cart_head_go"

@@ -20,6 +20,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.alibaba.fastjson.JSON;
 import com.joker.annotation.PermissionsDenied;
 import com.joker.annotation.PermissionsGranted;
 import com.joker.annotation.PermissionsRequestSync;
@@ -36,6 +37,11 @@ import com.mhky.dianhuotong.main.MainIF;
 import com.mhky.dianhuotong.main.adpter.DrawerLayoutAdapter;
 import com.mhky.dianhuotong.main.adpter.GridViewAdapter;
 import com.mhky.dianhuotong.main.presenter.MainActivityPrecenter;
+import com.mhky.dianhuotong.shop.adapter.AllGoodsListview1Adapter;
+import com.mhky.dianhuotong.shop.adapter.AllGoodsListview2Adapter;
+import com.mhky.dianhuotong.shop.bean.GoodsBaseInfo;
+import com.mhky.dianhuotong.shop.precenter.AllGoosPrecenter;
+import com.mhky.dianhuotong.shop.shopif.AllGoodsIF;
 import com.squareup.picasso.Picasso;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
@@ -50,7 +56,7 @@ import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 @PermissionsRequestSync(permission = {Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE}, value = {101, 102, 103, 104})
-public class MainActivity extends BaseActivity implements MainIF, DrawerLayout.DrawerListener, AdapterView.OnItemClickListener, DianHuoTongBaseDialog.BaseDialogListener {
+public class MainActivity extends BaseActivity implements MainIF, DrawerLayout.DrawerListener, AdapterView.OnItemClickListener, DianHuoTongBaseDialog.BaseDialogListener, AllGoodsIF {
     @BindView(R.id.drawer_listview)
     ListView listView;
     @BindView(R.id.mian_titlebar)
@@ -86,6 +92,7 @@ public class MainActivity extends BaseActivity implements MainIF, DrawerLayout.D
     private DianHuoTongBaseDialog dianHuoTongBaseDialogAddShop;
     private String main3 = "mian3";
     private Context mContext;
+    private AllGoosPrecenter allGoosPrecenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,6 +102,7 @@ public class MainActivity extends BaseActivity implements MainIF, DrawerLayout.D
         mContext = this;
         BaseApplication.getInstansApp().clearToaken();
         inIt();
+        initData();
     }
 
     @Override
@@ -347,7 +355,7 @@ public class MainActivity extends BaseActivity implements MainIF, DrawerLayout.D
 //                        BaseTool.goActivityNoData(this, ShiYaoQianYanActivity.class);
 //                        break;
                     case 1:
-                        if (BaseApplication.getInstansApp().isAddShop()) {
+                        if (BaseApplication.getInstansApp().getLoginRequestInfo().getShopId() == null) {
                             dianHuoTongBaseDialogAddShop.show();
                         } else {
                             BaseTool.goActivityNoData(this, DianHuoTongShopActivity.class);
@@ -482,4 +490,21 @@ public class MainActivity extends BaseActivity implements MainIF, DrawerLayout.D
         }
     }
 
+
+    private void initData() {
+        allGoosPrecenter = new AllGoosPrecenter(this);
+        allGoosPrecenter.getAllGoodsType();
+    }
+
+    @Override
+    public void getAllGoodsInfoSuccess(int code, String result) {
+        if (code == 200) {
+            BaseApplication.getInstansApp().setAllGoodsBaseInfos(JSON.parseArray(result, GoodsBaseInfo.class));
+        }
+    }
+
+    @Override
+    public void getAllGoodsInfoFailed(int code, String result) {
+
+    }
 }

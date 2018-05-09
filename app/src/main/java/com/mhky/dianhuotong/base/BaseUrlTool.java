@@ -13,6 +13,8 @@ public class BaseUrlTool {
     private final static String HOST_IMAGE_URL = "http://192.168.2.158:9040";
     private final static String HOST_ADRESS_URL = "http://192.168.2.158:8088";
     private final static String HOST_GOODS_URL = "http://192.168.2.158:9000";
+    private final static String HOST_CART_URL = "http://192.168.2.158:9050";
+    private final static String HOST_BANLANCE_URL = "http://192.168.2.158:9030";
 //    private final static String HOST_ADRESS_URL = "http://192.168.2.235:8088";
     /**
      * 获取短信验证码
@@ -121,12 +123,12 @@ public class BaseUrlTool {
     /**
      * 添加到购物车
      */
-    public static String ADD_CART = HOST_GOODS_URL + "/cart";
+    public static String ADD_CART = HOST_CART_URL + "/cart?";
 
     /**
      * 删除购物车商品
      */
-    private static String DELETE_CART = HOST_GOODS_URL + "/cart?buyerId=";
+    private static String DELETE_CART = HOST_CART_URL + "/cart?buyerId=";
 
     public static String getDeleteCartUrl(String buyerID, String SkuID) {
         return DELETE_CART + buyerID + "&skuId=" + SkuID;
@@ -135,7 +137,7 @@ public class BaseUrlTool {
     /**
      * 查询购物车
      */
-    private static String GET_CART = HOST_GOODS_URL + "/cart?buyerId=";
+    private static String GET_CART = HOST_CART_URL + "/cart?buyerId=";
 
     public static String getCartInfo(String ID) {
         return GET_CART + ID;
@@ -144,7 +146,7 @@ public class BaseUrlTool {
     /**
      * 更改购物车商品
      */
-    public static String ALTER_CART = HOST_GOODS_URL + "/cart?";
+    public static String ALTER_CART = HOST_CART_URL + "/cart?";
     /**
      * 获取商品属性信息
      */
@@ -207,8 +209,14 @@ public class BaseUrlTool {
     /**
      * 获取公司信息
      */
-    private static final String GET_COMPANY_INFO=HOST_URL+"/user/seller/";
-    public static String getCompanyInfoUrl(String comId){
-        return GET_COMPANY_INFO+comId+"/company";
+    private static final String GET_COMPANY_INFO = HOST_URL + "/user/seller/";
+
+    public static String getCompanyInfoUrl(String comId) {
+        return GET_COMPANY_INFO + comId + "/company";
     }
+
+    /**
+     *
+     */
+    public static final String DO_BANLANCE_URL = HOST_BANLANCE_URL + "/order?";
 }

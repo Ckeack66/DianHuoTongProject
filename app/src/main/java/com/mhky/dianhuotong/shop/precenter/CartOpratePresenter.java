@@ -6,9 +6,12 @@ import com.lzy.okgo.model.HttpParams;
 import com.lzy.okgo.model.Progress;
 import com.lzy.okgo.model.Response;
 import com.lzy.okgo.request.base.Request;
+import com.mhky.dianhuotong.base.BaseApplication;
 import com.mhky.dianhuotong.base.BaseTool;
 import com.mhky.dianhuotong.base.BaseUrlTool;
 import com.mhky.dianhuotong.shop.shopif.CartOprateIF;
+
+import java.util.Map;
 
 /**
  * Created by Administrator on 2018/4/23.
@@ -21,8 +24,8 @@ public class CartOpratePresenter {
         this.cartOprateIF = cartOprateIF;
     }
 
-    public void addCart(HttpParams httpParams) {
-        OkGo.<String>post(BaseUrlTool.ADD_CART).params(httpParams).execute(new Callback<String>() {
+    public void addCart(Map map) {
+        OkGo.<String>post(BaseUrlTool.ADD_CART + BaseTool.getUrlParamsByMap(map, false)).execute(new Callback<String>() {
             @Override
             public void onStart(Request<String, ? extends Request> request) {
 
@@ -241,4 +244,6 @@ public class CartOpratePresenter {
             }
         });
     }
+
+
 }

@@ -35,6 +35,8 @@ android {
     allprojects {
         repositories {
             maven { url "https://jitpack.io" }
+            jcenter()
+            maven { url "https://raw.githubusercontent.com/Pgyer/mvn_repo_pgyer/master" }
         }
     }
     dexOptions {
@@ -160,4 +162,6 @@ dependencies {
 
     //scollview
     implementation project(':stickscrollview')
+    //蒲公英
+    compile 'com.pgyersdk:sdk:2.8.1'
 }

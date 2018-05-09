@@ -74,7 +74,11 @@
             android:value="guEle2R0kMZVXMg3Zu5h4RkuW1ueKS8f" />
 
         <activity android:name=".activity.WelcomActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity android:name=".base.view.BaseActivity" />
         <activity android:name=".activity.MainActivity" />
@@ -99,13 +103,7 @@
             android:windowSoftInputMode="stateHidden|stateAlwaysHidden" />
         <activity android:name=".activity.CredentialsActivity" />
         <activity android:name=".activity.ShiYaoQianYanActivity" />
-        <activity android:name=".activity.DianHuoTongShopActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+        <activity android:name=".activity.DianHuoTongShopActivity"></activity>
         <activity android:name=".activity.YaoLinWangActivity" />
         <activity android:name=".activity.MingHuiFuActivity" />
         <activity android:name=".activity.JianKang121Activity" />
@@ -159,7 +157,7 @@
             android:screenOrientation="behind"
             android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity android:name=".shop.activity.GoodsInfoActivity" />
-        <activity android:name=".shop.activity.ShopActivity"></activity>
+        <activity android:name=".shop.activity.ShopActivity" />
         <activity android:name=".shop.activity.CardActivity" />
         <!-- 极光推送分享 -->
         <!-- Rich push 核心功能 since 2.0.6 -->
@@ -278,8 +276,14 @@
         <activity android:name=".test.TestActivity" />
         <activity android:name=".shop.activity.BalanceActivity" />
         <activity android:name=".shop.activity.VipShopActivity" />
-        <activity android:name=".shop.activity.CartActivity"></activity>
-        <activity android:name=".activity.InitActivity"></activity>
+        <activity android:name=".shop.activity.CartActivity" />
+        <activity android:name=".activity.InitActivity" />
+        <activity android:name=".shop.activity.CouponActivity"></activity>
+        <!--蒲公英-->
+        <meta-data
+            android:name="PGYER_APPID"
+            android:value="4b6e8877dfcc2462bedb37dcf66b6d87" >
+        </meta-data>
     </application>
 
 </manifest>

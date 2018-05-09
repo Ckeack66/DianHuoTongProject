@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/colorF7F7F7"
+    android:paddingEnd="@dimen/x16"
+    android:paddingStart="@dimen/x16">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/x16"
+        android:background="@drawable/shape_coupon"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/x100"
+            android:background="@drawable/icon_coupon">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/icon_coupon" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/x10"
+                android:layout_marginTop="@dimen/x10"
+                android:text="Green orange"
+                android:textSize="@dimen/t10" />
+
+            <RelativeLayout
+                android:id="@+id/coupon_namel"
+                android:layout_width="@dimen/x100"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/name_1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:text="满减券"
+                    android:textColor="@color/color308CAB"
+                    android:textSize="@dimen/t18" />
+
+                <TextView
+                    android:id="@+id/name_2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/name_1"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="@dimen/x10"
+                    android:text="满100减30"
+                    android:textColor="@color/color308CAB"
+                    android:textSize="@dimen/t12" />
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="@dimen/x20"
+                android:layout_toStartOf="@id/coupon_namel"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="bottom"
+                    android:text="￥"
+                    android:textSize="@dimen/t24" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="30"
+                    android:textSize="@dimen/t40" />
+            </LinearLayout>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/x36">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="@dimen/x16"
+                android:text="使用期限：2016.12.12  ~  2017.10.01"
+                android:textColor="@color/color666666"
+                android:textSize="@dimen/t10" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="@dimen/x16"
+                android:text="立即领取"
+                android:textColor="@color/color308CAB"
+                android:textSize="@dimen/t12" />
+        </RelativeLayout>
+    </LinearLayout>
+
+</FrameLayout>

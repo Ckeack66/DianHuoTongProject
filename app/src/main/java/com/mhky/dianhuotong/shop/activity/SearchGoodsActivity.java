@@ -25,6 +25,7 @@ import com.alibaba.fastjson.JSON;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.lzy.okgo.model.HttpParams;
 import com.mhky.dianhuotong.R;
+import com.mhky.dianhuotong.base.BaseApplication;
 import com.mhky.dianhuotong.base.BaseTool;
 import com.mhky.dianhuotong.base.view.BaseActivity;
 import com.mhky.dianhuotong.custom.ToastUtil;
@@ -145,7 +146,7 @@ public class SearchGoodsActivity extends BaseActivity implements SearchGoodsIF, 
     private void inIt() {
         goodsPrecenter = new GoodsPrecenter(this);
         dianHuoTongShopTitleBar.setActivity(this);
-        allGoodsBaseInfos = AllGoodsActivity.allGoodsBaseInfos;
+        allGoodsBaseInfos = BaseApplication.getInstansApp().getAllGoodsBaseInfos();
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(linearLayoutManager);
@@ -168,7 +169,7 @@ public class SearchGoodsActivity extends BaseActivity implements SearchGoodsIF, 
         } else if (type != null && type.equals("104")) {
             //搜索
         }
-        popuwindow1InfoList = searchGoodsPresenter.getPopupwindowData(allGoodsBaseInfos);
+        popuwindow1InfoList = searchGoodsPresenter.getPopupwindowData();
         goodsTypePopupwindow = new GoodsTypePopupwindow(this, popuwindow1InfoList);
         goodsTypePopupwindow.setOutsideTouchable(false);
         goodsTypePopupwindow.setOnClickPopupwindowItemListener(this);

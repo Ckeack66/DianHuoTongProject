@@ -41,6 +41,15 @@ public class CartBodyInfo {
     public void setChildIndex(int childIndex) {
         this.childIndex = childIndex;
     }
-
     private int childIndex=-1;
+
+    public CartBaseInfo.GoodsItemsBean getGoodsItemsBean() {
+        return goodsItemsBean;
+    }
+
+    public void setGoodsItemsBean(CartBaseInfo.GoodsItemsBean goodsItemsBean) {
+        this.goodsItemsBean = goodsItemsBean;
+    }
+
+    private CartBaseInfo.GoodsItemsBean goodsItemsBean;
 }

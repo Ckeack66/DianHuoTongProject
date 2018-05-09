@@ -93,7 +93,7 @@
                 android:layout_above="@id/goods_base_money_rel"
                 android:layout_marginBottom="@dimen/x8"
                 android:background="@drawable/shape_cart_backgroud_selected"
-                android:text="200G/一盒"
+                android:text="200G/一盒11111111111111111111111111111"
                 android:textColor="@color/color04c1ab"
                 android:textSize="@dimen/t8" />
 
@@ -120,8 +120,8 @@
 
             <ImageView
                 android:id="@+id/cart_popup_reduce"
-                android:layout_width="@dimen/x40"
-                android:layout_height="@dimen/x40"
+                android:layout_width="@dimen/x30"
+                android:layout_height="@dimen/x30"
                 android:scaleType="center"
                 android:src="@drawable/icon_reduce" />
 
@@ -137,8 +137,8 @@
 
             <ImageView
                 android:id="@+id/cart_popup_plus"
-                android:layout_width="@dimen/x40"
-                android:layout_height="@dimen/x40"
+                android:layout_width="@dimen/x30"
+                android:layout_height="@dimen/x30"
                 android:scaleType="center"
                 android:src="@drawable/icon_plus" />
         </LinearLayout>

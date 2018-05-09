@@ -18,8 +18,13 @@
         android:layout_marginBottom="@dimen/x50"
         android:layout_marginTop="@dimen/x40"
         android:background="@color/colorWhite" />
-
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/x1"
+        android:background="@color/colorF7F7F7"
+        android:layout_above="@id/cart_bottom"/>
     <LinearLayout
+        android:id="@+id/cart_bottom"
         android:layout_width="match_parent"
         android:layout_height="@dimen/x50"
         android:layout_alignParentBottom="true"
@@ -62,11 +67,12 @@
             android:orientation="horizontal">
 
             <TextView
+                android:id="@+id/cart_balance_money"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="合计：￥60.00"
+                android:text="合计：￥0.00"
                 android:textColor="@color/colorFF5305"
                 android:textSize="@dimen/t12" />
 

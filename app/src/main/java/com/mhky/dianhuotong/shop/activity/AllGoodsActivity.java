@@ -9,6 +9,7 @@ import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 import com.mhky.dianhuotong.R;
+import com.mhky.dianhuotong.base.BaseApplication;
 import com.mhky.dianhuotong.base.BaseTool;
 import com.mhky.dianhuotong.base.view.BaseActivity;
 import com.mhky.dianhuotong.custom.ToastUtil;
@@ -33,7 +34,7 @@ public class AllGoodsActivity extends BaseActivity implements AdapterView.OnItem
     DianHuoTongShopTitleBar dianHuoTongShopTitleBar;
     private AllGoodsListview1Adapter all_goods_listview1;
     private AllGoodsListview2Adapter all_goods_listview2;
-    public static List<GoodsBaseInfo> allGoodsBaseInfos;
+    private List<GoodsBaseInfo> allGoodsBaseInfos;
     private AllGoosPrecenter allGoosPrecenter;
     private int Itype = 0;
     private int IItype = 0;
@@ -53,7 +54,13 @@ public class AllGoodsActivity extends BaseActivity implements AdapterView.OnItem
     private void init() {
         dianHuoTongShopTitleBar.setActivity(this);
         allGoosPrecenter = new AllGoosPrecenter(this);
-        allGoosPrecenter.getAllGoodsType();
+        if (BaseApplication.getInstansApp().getAllGoodsBaseInfos() != null) {
+            allGoodsBaseInfos = BaseApplication.getInstansApp().getAllGoodsBaseInfos();
+            setListData(allGoodsBaseInfos);
+        } else {
+            allGoosPrecenter.getAllGoodsType();
+        }
+
     }
 
     @Override
@@ -88,16 +95,19 @@ public class AllGoodsActivity extends BaseActivity implements AdapterView.OnItem
     public void getAllGoodsInfoSuccess(int code, String result) {
         if (code == 200) {
             allGoodsBaseInfos = JSON.parseArray(result, GoodsBaseInfo.class);
-            if (allGoodsBaseInfos != null) {
-                all_goods_listview1 = new AllGoodsListview1Adapter(allGoodsBaseInfos, this);
-                listView1.setAdapter(all_goods_listview1);
-                listView1.setOnItemClickListener(this);
-                all_goods_listview2 = new AllGoodsListview2Adapter(allGoodsBaseInfos.get(0).getChildren(), this);
-                all_goods_listview2.setOnItemGridviewClickListener(this);
-                listView2.setAdapter(all_goods_listview2);
-                listView2.setOnItemClickListener(this);
-            }
+            setListData(allGoodsBaseInfos);
+        }
+    }
 
+    private void setListData(List<GoodsBaseInfo> goodsBaseInfoList) {
+        if (goodsBaseInfoList != null) {
+            all_goods_listview1 = new AllGoodsListview1Adapter(goodsBaseInfoList, this);
+            listView1.setAdapter(all_goods_listview1);
+            listView1.setOnItemClickListener(this);
+            all_goods_listview2 = new AllGoodsListview2Adapter(goodsBaseInfoList.get(0).getChildren(), this);
+            all_goods_listview2.setOnItemGridviewClickListener(this);
+            listView2.setAdapter(all_goods_listview2);
+            listView2.setOnItemClickListener(this);
         }
     }
 

@@ -34,7 +34,9 @@ import com.zhy.view.flowlayout.TagAdapter;
 import com.zhy.view.flowlayout.TagFlowLayout;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 
@@ -179,16 +181,18 @@ public class CartPopupwindow extends PopupWindow implements View.OnClickListener
                 }
                 break;
             case R.id.cart_popup_ok:
-                if (BaseApplication.getInstansApp().getLoginRequestInfo()!=null){
-                    HttpParams httpParams=new HttpParams();
-                    httpParams.put("buyerId", BaseApplication.getInstansApp().getLoginRequestInfo().getId());
-                    httpParams.put("goodsId",goodsInfo.getId());
-                    httpParams.put("skuId","");
-                    httpParams.put("amount",10);
-                    httpParams.put("checked",true);
-                    cartOpratePresenter.addCart(httpParams);
+                if (BaseApplication.getInstansApp().getLoginRequestInfo() != null) {
+                    Map map = new HashMap();
+                    map.put("buyerId", BaseApplication.getInstansApp().getLoginRequestInfo().getId());
+                    map.put("goodsId", goodsInfo.getId());
+                    map.put("skuId", goodsSkuInfoList.get(selectNUmber).getId());
+                    map.put("amount", goodsNumber);
+                    map.put("checked", true);
+                    cartOpratePresenter.addCart(map);
+                } else {
+                    ToastUtil.makeText(mContext, "用户未登录", Toast.LENGTH_SHORT).show();
                 }
-                ToastUtil.makeText(mContext, "进入结算系统", Toast.LENGTH_SHORT).show();
+
                 break;
         }
         if (goodsNumber > 0) {
@@ -203,12 +207,17 @@ public class CartPopupwindow extends PopupWindow implements View.OnClickListener
 
     @Override
     public void addCartSucess(int code, String result) {
-
+        if (code == 204) {
+            ToastUtil.makeText(mContext, "加购成功！", Toast.LENGTH_SHORT).show();
+            dismiss();
+        } else {
+            ToastUtil.makeText(mContext, "加购失败-" + code, Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
     public void addCartFaild(int code, String result) {
-
+        ToastUtil.makeText(mContext, "加购失败-" + code, Toast.LENGTH_SHORT).show();
     }
 
     @Override

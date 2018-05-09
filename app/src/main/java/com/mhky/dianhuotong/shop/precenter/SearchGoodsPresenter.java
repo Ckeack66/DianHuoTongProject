@@ -8,6 +8,7 @@ import com.lzy.okgo.model.HttpParams;
 import com.lzy.okgo.model.Progress;
 import com.lzy.okgo.model.Response;
 import com.lzy.okgo.request.base.Request;
+import com.mhky.dianhuotong.base.BaseApplication;
 import com.mhky.dianhuotong.base.BaseTool;
 import com.mhky.dianhuotong.base.BaseUrlTool;
 import com.mhky.dianhuotong.shop.bean.GoodsBaseInfo;
@@ -80,8 +81,9 @@ public class SearchGoodsPresenter {
         });
     }
 
-    public List<Popuwindow1Info> getPopupwindowData(List<GoodsBaseInfo> childrenBeanXList) {
+    public List<Popuwindow1Info> getPopupwindowData() {
         List<Popuwindow1Info> popuwindow1Infos = new ArrayList<>();
+        List<GoodsBaseInfo> childrenBeanXList = BaseApplication.getInstansApp().getAllGoodsBaseInfos();
         for (int a = 0; a < childrenBeanXList.size(); a++) {
             Popuwindow1ChildInfo popuwindow1ChildInfo = new Popuwindow1ChildInfo();
             popuwindow1ChildInfo.setNumber(childrenBeanXList.get(a).getChildren().size() + "种");

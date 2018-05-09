@@ -4,21 +4,26 @@ import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 
 import com.gyf.barlibrary.BarHide;
 import com.gyf.barlibrary.ImmersionBar;
 import com.mhky.dianhuotong.R;
 import com.mhky.dianhuotong.base.BaseTool;
 import com.mhky.dianhuotong.base.view.BaseActivity;
+import com.mhky.dianhuotong.shop.activity.CouponActivity;
 import com.stone.countdownprogress.CountDownProgress;
 
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class WelcomActivity extends BaseActivity {
     @BindView(R.id.welcom_countdown)
     CountDownProgress countDownProgress;
+    @BindView(R.id.welcom_img)
+    ImageView imageView;
     private Context context;
     private boolean aBoolean = true;
 
@@ -62,8 +67,18 @@ public class WelcomActivity extends BaseActivity {
             countDownProgress.cancel();
             BaseTool.goActivityNoData(context, MainActivity.class);
             finish();
+        } else if (a == 3) {
+            aBoolean = false;
+            countDownProgress.cancel();
+            BaseTool.goActivityNoData(this, CouponActivity.class);
+            finish();
         }
 
+    }
+
+    @OnClick(R.id.welcom_img)
+    void goCouponActivity() {
+        finishs(3);
     }
 
 }

@@ -20,21 +20,28 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.lzy.okgo.model.HttpParams;
 import com.mhky.dianhuotong.R;
+import com.mhky.dianhuotong.base.BaseTool;
 import com.mhky.dianhuotong.custom.ToastUtil;
+import com.mhky.dianhuotong.shop.activity.GoodsActivity;
 import com.mhky.dianhuotong.shop.adapter.SearchGoodsAdpter;
+import com.mhky.dianhuotong.shop.bean.GoodsInfo;
 import com.mhky.dianhuotong.shop.bean.SearchSGoodsBean;
 import com.mhky.dianhuotong.shop.bean.ShopInfo;
 import com.mhky.dianhuotong.shop.bean.ShopTransferInfo;
 import com.mhky.dianhuotong.shop.bean.ShopTypeInfo;
+import com.mhky.dianhuotong.shop.custom.CartPopupwindow;
 import com.mhky.dianhuotong.shop.custom.CompanyPopupwindow;
 import com.mhky.dianhuotong.shop.custom.ShopTypePopupwindow;
 import com.mhky.dianhuotong.shop.custom.SortPopupwindow;
 import com.mhky.dianhuotong.shop.precenter.CompanyPrecenter;
+import com.mhky.dianhuotong.shop.precenter.GoodsPrecenter;
 import com.mhky.dianhuotong.shop.precenter.SearchGoodsPresenter;
 import com.mhky.dianhuotong.shop.precenter.ShopPresenter;
 import com.mhky.dianhuotong.shop.shopif.CompanyIF;
+import com.mhky.dianhuotong.shop.shopif.GoodsIF;
 import com.mhky.dianhuotong.shop.shopif.SearchGoodsIF;
 import com.mhky.dianhuotong.shop.shopif.ShopIF;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
@@ -59,7 +66,7 @@ import wellijohn.org.scrollviewwithstickheader.ScrollViewWithStickHeader;
  * Use the {@link ShopMainFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ShopMainFragment extends Fragment implements ShopIF, SortPopupwindow.OnClickPopupwindow2ItemListener, ShopTypePopupwindow.OnClickShopPopupwindowItemListener, SearchGoodsIF, CompanyIF {
+public class ShopMainFragment extends Fragment implements ShopIF, SortPopupwindow.OnClickPopupwindow2ItemListener, ShopTypePopupwindow.OnClickShopPopupwindowItemListener, SearchGoodsIF, CompanyIF, GoodsIF {
     @BindView(R.id.shop_img)
     ImageView imageViewLogo;
     @BindView(R.id.shop_main_child_tab1)
@@ -111,6 +118,9 @@ public class ShopMainFragment extends Fragment implements ShopIF, SortPopupwindo
     private String childId;
     private int sortId = 0;
     private CompanyPrecenter companyPrecenter;
+    private GoodsPrecenter goodsPrecenter;
+    private GoodsInfo goodsInfo;
+    private CartPopupwindow cartPopupwindow;
     private static final String TAG = "ShopMainFragment";
 
 
@@ -204,6 +214,7 @@ public class ShopMainFragment extends Fragment implements ShopIF, SortPopupwindo
         unbinder = ButterKnife.bind(this, view);
         recyclerView.setNestedScrollingEnabled(false);
         //recyclerView.requestLayout();
+        goodsPrecenter = new GoodsPrecenter(this);
         shopPresenter = new ShopPresenter(this);
         shopTransferInfoList = new ArrayList<>();
         sortPopupwindow = new SortPopupwindow(getActivity(), -1);
@@ -216,6 +227,7 @@ public class ShopMainFragment extends Fragment implements ShopIF, SortPopupwindo
         httpParams.put("page", number);
         searchGoodsPresenter.searchGoods(httpParams, true, 0);
         smartRefreshLayout.setEnableRefresh(false);
+        companyPrecenter = new CompanyPrecenter(this);
         companyPrecenter.getCompanyTansferInfo(mParam1);
         //smartRefreshLayout.setEnableLoadMore(false);
 //        scrollViewWithStickHeader.setContentView(linearLayoutHead);
@@ -372,6 +384,20 @@ public class ShopMainFragment extends Fragment implements ShopIF, SortPopupwindo
                 Log.d(TAG, "searchGoodsInfoSuccess2: " + searchSGoodsBeans.getContent().size());
                 if (searchSGoodsBeans.getContent() != null) {
                     searchGoodsAdpter = new SearchGoodsAdpter(searchSGoodsBean.getContent(), getActivity());
+                    searchGoodsAdpter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                            Bundle bundle = new Bundle();
+                            bundle.putSerializable("getgoodsinfo", searchSGoodsBean.getContent().get(position));
+                            BaseTool.goActivityWithData(getActivity(), GoodsActivity.class, bundle);
+                        }
+                    });
+                    searchGoodsAdpter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+                        @Override
+                        public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                            goodsPrecenter.getGoodsInfo(String.valueOf(searchSGoodsBean.getContent().get(position).getId()));
+                        }
+                    });
                     LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
                     linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
                     linearLayoutManager.setAutoMeasureEnabled(true);
@@ -431,6 +457,24 @@ public class ShopMainFragment extends Fragment implements ShopIF, SortPopupwindo
 
     @Override
     public void getCompanyTansferFaild(int code, String result) {
+
+    }
+
+    @Override
+    public void getGoodsInfoSuccess(int code, String result) {
+        if (code == 200) {
+            if (result != null && !result.equals("")) {
+                goodsInfo = JSON.parseObject(result, GoodsInfo.class);
+                cartPopupwindow = new CartPopupwindow(getActivity(), goodsInfo);
+                cartPopupwindow.showAtLocation(linearLayoutHead, Gravity.BOTTOM, 0, 0);
+                //ToastUtil.makeText(mContext, searchSGoodsBean.getContent().get(position).getName(), Toast.LENGTH_SHORT).show();
+            }
+            //textViewUseTime.setText(goodsInfo.getExpiryDate());
+        }
+    }
+
+    @Override
+    public void getGoodsInfoFailed(int code, String result) {
 
     }
 }

@@ -11,9 +11,11 @@ import com.facebook.drawee.backends.pipeline.Fresco;
 import com.lzy.okgo.OkGo;
 import com.mhky.dianhuotong.login.LoginRequestInfo;
 import com.mhky.dianhuotong.person.bean.PersonInfo;
+import com.mhky.dianhuotong.shop.bean.GoodsBaseInfo;
 import com.tencent.smtt.sdk.QbSdk;
 
 import java.security.NoSuchAlgorithmException;
+import java.util.List;
 
 /**
  * Created by Administrator on 2018/3/31.
@@ -76,6 +78,16 @@ public class BaseApplication extends Application {
     }
 
     private LoginRequestInfo loginRequestInfo;
+
+    public List<GoodsBaseInfo> getAllGoodsBaseInfos() {
+        return allGoodsBaseInfos;
+    }
+
+    public void setAllGoodsBaseInfos(List<GoodsBaseInfo> allGoodsBaseInfos) {
+        this.allGoodsBaseInfos = allGoodsBaseInfos;
+    }
+
+    private List<GoodsBaseInfo> allGoodsBaseInfos;
 
     @Override
     public void onCreate() {
