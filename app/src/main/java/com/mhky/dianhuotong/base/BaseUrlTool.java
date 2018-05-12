@@ -8,14 +8,24 @@ public class BaseUrlTool {
     /**
      * 主机
      */
-    private final static String HOST_URL = "http://192.168.2.158:9088";
-    //        private final static String HOST_URL = "http://192.168.2.235:9088";
-    private final static String HOST_IMAGE_URL = "http://192.168.2.158:9040";
-    private final static String HOST_ADRESS_URL = "http://192.168.2.158:8088";
-    private final static String HOST_GOODS_URL = "http://192.168.2.158:9000";
-    private final static String HOST_CART_URL = "http://192.168.2.158:9050";
-    private final static String HOST_BANLANCE_URL = "http://192.168.2.158:9030";
+//
+//    private final static String HOSTS = "http://116.255.150.39:";//release
+//    private final static String HOST_IMAGE_URL = "http://116.255.155.156:9040";//release  Imge
+    private final static String HOSTS = "http://192.168.2.158:";//debug
+    private final static String HOST_IMAGE_URL = HOSTS + "9040";//debug  Imge
+
+    /**
+     * 上传图片地址
+     */
+    public static final String UPLOAD_IMAGE = HOST_IMAGE_URL + "/common/upload";
+    private final static String HOST_URL = HOSTS + "9088";
+    private final static String HOST_ADRESS_URL = HOSTS + "8018";
+    private final static String HOST_GOODS_URL = HOSTS + "9000";
+    private final static String HOST_CART_URL = HOSTS + "9050";
+    private final static String HOST_BANLANCE_URL = HOSTS + "9030";
+//    private final static String HOST_BANLANCE_URL = "http://192.168.2.237:" + "9030";
 //    private final static String HOST_ADRESS_URL = "http://192.168.2.235:8088";
+    //        private final static String HOST_URL = "http://192.168.2.235:9088";
     /**
      * 获取短信验证码
      */
@@ -42,10 +52,6 @@ public class BaseUrlTool {
         return PERSON_INFO + UserID + PERSON_INFO_END;
     }
 
-    /**
-     * 上传图片地址
-     */
-    public static final String UPLOAD_IMAGE = HOST_IMAGE_URL + "/upload";
     /**
      * 修改商户个人信息
      */
@@ -128,11 +134,7 @@ public class BaseUrlTool {
     /**
      * 删除购物车商品
      */
-    private static String DELETE_CART = HOST_CART_URL + "/cart?buyerId=";
-
-    public static String getDeleteCartUrl(String buyerID, String SkuID) {
-        return DELETE_CART + buyerID + "&skuId=" + SkuID;
-    }
+    public static String DELETE_CART = HOST_CART_URL + "/cart?";
 
     /**
      * 查询购物车
@@ -216,7 +218,29 @@ public class BaseUrlTool {
     }
 
     /**
-     *
+     * 订单服务
      */
     public static final String DO_BANLANCE_URL = HOST_BANLANCE_URL + "/order?";
+
+    /**
+     * 获取订单信息
+     */
+    /**
+     * 订单服务
+     */
+    public static final String GET_ORDERINFO = HOST_BANLANCE_URL + "/order?buyerId=";
+    /**
+     * 获取支付宝订单信息
+     */
+
+    public static final String GET_ALIPAY_CODE = HOST_BANLANCE_URL + "/order/payCode?";
+
+    /**
+     * 根据userID进行查询店铺信息
+     */
+
+    private static final String GET_SHOP_INFO=HOST_URL+"/user/buyer/";
+    public static String getShopInfo(String ID){
+        return GET_SHOP_INFO+ID+"/shop";
+    }
 }

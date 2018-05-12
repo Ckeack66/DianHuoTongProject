@@ -76,6 +76,36 @@ public class PersonInfoUpdateActivity extends TakePhotoActivity implements DianH
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        if (BaseApplication.getInstansApp().getPersonInfo() != null) {
+            if (BaseApplication.getInstansApp().getPersonInfo().getTruename() != null) {
+                editTextRealName.setText(BaseApplication.getInstansApp().getPersonInfo().getTruename().toString());
+            }
+            if (BaseApplication.getInstansApp().getPersonInfo().getUsername() != null) {
+                editTextUserName.setText(BaseApplication.getInstansApp().getPersonInfo().getUsername().toString());
+            }
+            if (BaseApplication.getInstansApp().getPersonInfo().getType() != null) {
+                radioButtonBoss.setClickable(true);
+                radioButtonWorker.setClickable(true);
+                if (BaseApplication.getInstansApp().getPersonInfo().getType().toString().equals("1")) {
+                    radioButtonBoss.setChecked(true);
+                } else if (BaseApplication.getInstansApp().getPersonInfo().getType().toString().equals("0")) {
+                    radioButtonWorker.setChecked(true);
+                }
+            } else {
+                radioButtonBoss.setClickable(false);
+                radioButtonWorker.setClickable(false);
+                radioButtonBoss.setOnTouchListener(this);
+                radioButtonWorker.setOnTouchListener(this);
+            }
+            if (BaseApplication.getInstansApp().getPersonInfo().getImage() != null) {
+                Picasso.with(this).load(BaseApplication.getInstansApp().getPersonInfo().getImage().toString()).into(imageView);
+            }
+        }
+    }
+
+    @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
     }
@@ -146,9 +176,9 @@ public class PersonInfoUpdateActivity extends TakePhotoActivity implements DianH
         //getTakePhoto().onPickFromGallery();
         Permissions4M.get(this)
                 // 是否强制弹出权限申请对话框，建议设置为 true，默认为 true
-                // .requestForce(true)
+                .requestForce(true)
                 // 是否支持 5.0 权限申请，默认为 false
-                // .requestUnderM(false)
+                .requestUnderM(true)
                 // 权限，单权限申请仅只能填入一个
                 .requestPermissions(Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 // 权限码
@@ -236,6 +266,7 @@ public class PersonInfoUpdateActivity extends TakePhotoActivity implements DianH
             personInfoPrecenter.getPersonInfo(BaseApplication.getInstansApp().getLoginRequestInfo().getId());
             BaseApplication.getInstansApp().setUpdata(true);
             ToastUtil.makeText(this, "更新成功", Toast.LENGTH_SHORT).show();
+            finish();
         }
 
     }

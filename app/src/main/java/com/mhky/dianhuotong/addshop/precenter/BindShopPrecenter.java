@@ -8,6 +8,7 @@ import com.lzy.okgo.request.base.Request;
 import com.mhky.dianhuotong.addshop.addshopif.BindShopIF;
 import com.mhky.dianhuotong.base.BaseTool;
 import com.mhky.dianhuotong.base.BaseUrlTool;
+import com.mhky.dianhuotong.shop.precenter.ShopInfoPresenter;
 
 /**
  * Created by Administrator on 2018/4/15.
@@ -15,9 +16,10 @@ import com.mhky.dianhuotong.base.BaseUrlTool;
 
 public class BindShopPrecenter {
     private BindShopIF bindShopIF;
-
+    private ShopInfoPresenter shopInfoPresenter;
     public BindShopPrecenter(BindShopIF bindShopIF) {
         this.bindShopIF = bindShopIF;
+        shopInfoPresenter=new ShopInfoPresenter();
     }
 
     public void binShop(String json) {
@@ -29,6 +31,7 @@ public class BindShopPrecenter {
 
             @Override
             public void onSuccess(Response<String> response) {
+                shopInfoPresenter.getShopInfo();
                 bindShopIF.bindShopInfoSuccess(response.code(), BaseTool.getResponsBody(response));
             }
 

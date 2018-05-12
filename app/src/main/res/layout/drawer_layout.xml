@@ -16,16 +16,26 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/x40" />
 
-        <com.youth.banner.Banner
+        <!--<com.youth.banner.Banner-->
+            <!--android:id="@+id/main_title_banner"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="@dimen/x180"-->
+
+            <!--app:banner_default_image="@drawable/image_banner"-->
+            <!--app:image_scale_type="fit_xy"-->
+            <!--app:indicator_height="@dimen/x6"-->
+            <!--app:indicator_width="@dimen/x6"-->
+            <!--app:title_background="@color/colorE6E6E6" />-->
+
+        <cn.bingoogolapple.bgabanner.BGABanner
             android:id="@+id/main_title_banner"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/x180"
+            style="@style/BannerDefaultStyle"
             android:layout_below="@id/mian_titlebar"
-            app:banner_default_image="@drawable/image_banner"
-            app:image_scale_type="fit_xy"
-            app:indicator_height="@dimen/x6"
-            app:indicator_width="@dimen/x6"
-            app:title_background="@color/colorE6E6E6" />
+            android:background="@color/colorTransp"
+            app:banner_numberIndicatorBackground="@color/colorTransp"
+            app:banner_numberIndicatorTextColor="@color/colorTransp"
+            app:banner_pointDrawable="@drawable/selector_banner_unequal"
+            app:banner_transitionEffect="accordion" />
 
         <GridView
             android:id="@+id/main_gridview"
@@ -65,16 +75,15 @@
             android:layout_height="@dimen/x256"
             android:background="@color/color04c1ab">
 
-            <de.hdodenhof.circleimageview.CircleImageView
-                xmlns:app="http://schemas.android.com/apk/res-auto"
+            <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:id="@+id/main_user_image"
                 android:layout_width="@dimen/x94"
                 android:layout_height="@dimen/x94"
-                android:src="@drawable/icon_header_big"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="@dimen/x64"
-                app:civ_border_width="2dp"
-                app:civ_border_color="#FFffffff"/>
+                android:src="@drawable/icon_header_big"
+                app:civ_border_color="#FFffffff"
+                app:civ_border_width="2dp" />
 
             <TextView
                 android:id="@+id/drawer_text_name"

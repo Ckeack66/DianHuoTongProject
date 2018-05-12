@@ -37,11 +37,13 @@
             android:layout_weight="0.8">
 
             <FrameLayout
+                android:id="@+id/cart_all_selelct"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1">
 
                 <CheckBox
+                    android:id="@+id/cart_all_check"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -72,7 +74,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="合计：￥0.00"
+                android:text="合计：￥0.0"
                 android:textColor="@color/colorFF5305"
                 android:textSize="@dimen/t12" />
 

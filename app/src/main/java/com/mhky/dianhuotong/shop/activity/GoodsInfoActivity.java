@@ -50,6 +50,11 @@ public class GoodsInfoActivity extends BaseActivity {
         fragmentTransaction.show(goodsInfoDetialsFragment).commit();
     }
 
+    @OnClick(R.id.goodsinfo_back)
+    void back() {
+        finish();
+    }
+
     @OnClick(R.id.goods_info_left)
     void chooseLeft() {
         textViewLeft.setEnabled(false);

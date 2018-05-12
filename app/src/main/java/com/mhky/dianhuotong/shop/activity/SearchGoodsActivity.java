@@ -385,7 +385,7 @@ public class SearchGoodsActivity extends BaseActivity implements SearchGoodsIF, 
                         @Override
                         public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                             Bundle bundle = new Bundle();
-                            bundle.putSerializable("getgoodsinfo", searchSGoodsBean.getContent().get(position));
+                            bundle.putSerializable("id", searchSGoodsBean.getContent().get(position).getId()+"");
                             BaseTool.goActivityWithData(mContext, GoodsActivity.class, bundle);
                             //ToastUtil.makeText(mContext, "点击了父控件", Toast.LENGTH_SHORT).show();
                         }

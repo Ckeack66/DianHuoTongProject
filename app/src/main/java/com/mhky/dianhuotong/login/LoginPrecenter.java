@@ -2,24 +2,36 @@ package com.mhky.dianhuotong.login;
 
 import android.util.Log;
 
+import com.alibaba.fastjson.JSON;
+import com.liqi.utils.encoding.MD5Util;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.Callback;
 import com.lzy.okgo.model.Progress;
 import com.lzy.okgo.model.Response;
 import com.lzy.okgo.request.base.Request;
+import com.mhky.dianhuotong.base.BaseApplication;
 import com.mhky.dianhuotong.base.BaseTool;
 import com.mhky.dianhuotong.base.BaseUrlTool;
+import com.mhky.dianhuotong.person.bean.PersonInfo;
+import com.mhky.dianhuotong.person.personif.PersonIF;
+import com.mhky.dianhuotong.person.pesenter.PersonInfoPrecenter;
+import com.mhky.dianhuotong.shop.precenter.ShopInfoPresenter;
+import com.mhky.dianhuotong.shop.shopif.ShopInfoIF;
 
 /**
  * Created by Administrator on 2018/4/2.
  */
 
-public class LoginPrecenter {
+public class LoginPrecenter implements PersonIF, ShopInfoIF {
     private LoginIF loginIF;
+    private PersonInfoPrecenter personInfoPrecenter;
+    private ShopInfoPresenter shopInfoPresenter;
     private static final String TAG = "LoginPrecenter";
 
     public LoginPrecenter(LoginIF loginIF) {
         this.loginIF = loginIF;
+        personInfoPrecenter = new PersonInfoPrecenter(this);
+        shopInfoPresenter = new ShopInfoPresenter(this);
     }
 
     public void Login(String phone, String pwd) {
@@ -31,9 +43,20 @@ public class LoginPrecenter {
 
             @Override
             public void onSuccess(Response<String> response) {
-                if (loginIF != null) {
-                    loginIF.LoginSucess(response.code(), BaseTool.getResponsBody(response));
+                String redult = BaseTool.getResponsBody(response);
+                if (response.code()==200){
+                    if (loginIF != null) {
+                        LoginRequestInfo loginRequestInfo = JSON.parseObject(redult, LoginRequestInfo.class);
+                        BaseApplication.getInstansApp().setLoginRequestInfo(loginRequestInfo);
+                        if (loginRequestInfo != null) {
+                            personInfoPrecenter.getPersonInfo(loginRequestInfo.getId());
+                        }
+                        shopInfoPresenter.getShopInfo();
+                        BaseApplication.getInstansApp().setUpdata(true);
+                    }
+
                 }
+                loginIF.LoginSucess(response.code(), redult);
 
             }
 
@@ -70,5 +93,26 @@ public class LoginPrecenter {
                 return null;
             }
         });
+    }
+
+
+    @Override
+    public void getUserInfoSucess(PersonInfo userInfo) {
+
+    }
+
+    @Override
+    public void getUserinfoFailed(int code, String result) {
+
+    }
+
+    @Override
+    public void getShopInfoSuccess(int code, String result) {
+
+    }
+
+    @Override
+    public void getShopInfoFailed(int code, String result) {
+
     }
 }

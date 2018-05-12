@@ -13,13 +13,13 @@ public interface CartOprateIF {
 
     void deleteCartFaild(int code, String result);
 
-    void getCartSucess(int code, String result);
+    void getCartSucess(int code, String result,int type);
 
-    void getCartFaild(int code, String result);
+    void getCartFaild(int code, String result,int type);
 
-    void alterCartSucess(int code, String result);
+    void alterCartSucess(int code, String result,int type);
 
-    void alterCartFaild(int code, String result);
+    void alterCartFaild(int code, String result,int type);
 
     void getSkuSucess(int code, String result);
 

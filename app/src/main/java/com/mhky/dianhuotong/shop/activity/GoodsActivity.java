@@ -65,6 +65,7 @@ public class GoodsActivity extends BaseActivity implements GoodsIF {
     private String goodsIns;
     private CartPopupwindow cartPopupwindow;
     private boolean isFirst = true;
+    private String goodsId;
     private static final String TAG = "GoodsActivity";
 
     @Override
@@ -81,17 +82,18 @@ public class GoodsActivity extends BaseActivity implements GoodsIF {
         goodsPrecenter = new GoodsPrecenter(this);
         if (getIntent().getExtras() != null) {
             bundle = getIntent().getExtras();
-            goodsInfoBase = (SearchSGoodsBean.ContentBean) bundle.getSerializable("getgoodsinfo");
-            if (goodsInfoBase != null) {
-                goodsPrecenter.getGoodsInfo(goodsInfoBase.getId() + "");
-                textViewTitle.setText(goodsInfoBase.getTitle());
-                textViewGoodsPrice.setText(String.valueOf(goodsInfoBase.getPrice() / 100));
-                textViewGoodsName.setText(goodsInfoBase.getName());
-                textViewGoodsCompany.setText(goodsInfoBase.getManufacturer());
-                textViewGoodsGuige.setText(goodsInfoBase.getModel());
-                textViewPzwh.setText(goodsInfoBase.getApprovalNumber());
-                textViewUseTime.setText(goodsInfoBase.getExpiryDate());
-                textViewShopName.setText("");
+            goodsId=bundle.getString("id");
+            //goodsInfoBase = (SearchSGoodsBean.ContentBean) bundle.getSerializable("getgoodsinfo");
+            if (goodsId != null) {
+                goodsPrecenter.getGoodsInfo(goodsId);
+//                textViewTitle.setText(goodsInfoBase.getTitle());
+//                textViewGoodsPrice.setText(String.valueOf(goodsInfoBase.getPrice() / 100));
+//                textViewGoodsName.setText(goodsInfoBase.getName());
+//                textViewGoodsCompany.setText(goodsInfoBase.getManufacturer());
+//                textViewGoodsGuige.setText(goodsInfoBase.getModel());
+//                textViewPzwh.setText(goodsInfoBase.getApprovalNumber());
+//                textViewUseTime.setText(goodsInfoBase.getExpiryDate());
+//                textViewShopName.setText("");
             } else {
                 ToastUtil.makeText(mContext, "数据解析错误", Toast.LENGTH_SHORT).show();
             }
@@ -125,8 +127,8 @@ public class GoodsActivity extends BaseActivity implements GoodsIF {
 
     @OnClick(R.id.goods_base_addcart)
     void addCart() {
-        if (goodsInfoBase != null) {
-            goodsPrecenter.getGoodsInfo(goodsInfoBase.getId() + "");
+        if (goodsId != null) {
+            goodsPrecenter.getGoodsInfo(goodsId + "");
         } else {
             ToastUtil.makeText(mContext, "数据解析错误", Toast.LENGTH_SHORT).show();
         }

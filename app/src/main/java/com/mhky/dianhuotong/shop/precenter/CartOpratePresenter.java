@@ -11,6 +11,7 @@ import com.mhky.dianhuotong.base.BaseTool;
 import com.mhky.dianhuotong.base.BaseUrlTool;
 import com.mhky.dianhuotong.shop.shopif.CartOprateIF;
 
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -68,8 +69,14 @@ public class CartOpratePresenter {
         });
     }
 
-    public void deleteCart(String Id, String SkuId) {
-        OkGo.<String>delete(BaseUrlTool.getDeleteCartUrl(Id, SkuId)).execute(new Callback<String>() {
+    public void deleteCart(String skuid) {
+        if (BaseApplication.getInstansApp().getLoginRequestInfo() == null) {
+            return;
+        }
+        HashMap hashMap = new HashMap();
+        hashMap.put("buyerId", BaseApplication.getInstansApp().getLoginRequestInfo().getId());
+        hashMap.put("skuIds", skuid);
+        OkGo.<String>delete(BaseUrlTool.DELETE_CART + BaseTool.getUrlParamsByMap(hashMap, false)).execute(new Callback<String>() {
             @Override
             public void onStart(Request<String, ? extends Request> request) {
 
@@ -112,7 +119,7 @@ public class CartOpratePresenter {
         });
     }
 
-    public void getCart(String Id) {
+    public void getCart(String Id, final int type) {
         OkGo.<String>get(BaseUrlTool.getCartInfo(Id)).execute(new Callback<String>() {
             @Override
             public void onStart(Request<String, ? extends Request> request) {
@@ -121,7 +128,7 @@ public class CartOpratePresenter {
 
             @Override
             public void onSuccess(Response<String> response) {
-                cartOprateIF.getCartSucess(response.code(), BaseTool.getResponsBody(response));
+                cartOprateIF.getCartSucess(response.code(), BaseTool.getResponsBody(response), type);
             }
 
             @Override
@@ -131,7 +138,7 @@ public class CartOpratePresenter {
 
             @Override
             public void onError(Response<String> response) {
-                cartOprateIF.getCartFaild(response.code(), BaseTool.getResponsBody(response));
+                cartOprateIF.getCartFaild(response.code(), BaseTool.getResponsBody(response), type);
             }
 
             @Override
@@ -156,9 +163,11 @@ public class CartOpratePresenter {
         });
     }
 
-    public void alterCart(HttpParams httpParams) {
+    public void alterCart(HashMap hashMap, final int type) {
         //buyerId=19&amount=100000000&checked=true&goodsId=23&skuId=5
-        OkGo.<String>put(BaseUrlTool.ALTER_CART).params(httpParams).execute(new Callback<String>() {
+        //http://192.168.2.158:9050/cart?buyerId=19&skuId=13&amount=15
+        hashMap.put("buyerId", BaseApplication.getInstansApp().getLoginRequestInfo().getId());
+        OkGo.<String>put(BaseUrlTool.ALTER_CART + BaseTool.getUrlParamsByMap(hashMap, false)).execute(new Callback<String>() {
             @Override
             public void onStart(Request<String, ? extends Request> request) {
 
@@ -166,7 +175,7 @@ public class CartOpratePresenter {
 
             @Override
             public void onSuccess(Response<String> response) {
-                cartOprateIF.alterCartSucess(response.code(), BaseTool.getResponsBody(response));
+                cartOprateIF.alterCartSucess(response.code(), BaseTool.getResponsBody(response), type);
             }
 
             @Override
@@ -176,7 +185,7 @@ public class CartOpratePresenter {
 
             @Override
             public void onError(Response<String> response) {
-                cartOprateIF.alterCartFaild(response.code(), BaseTool.getResponsBody(response));
+                cartOprateIF.alterCartFaild(response.code(), BaseTool.getResponsBody(response), type);
             }
 
             @Override

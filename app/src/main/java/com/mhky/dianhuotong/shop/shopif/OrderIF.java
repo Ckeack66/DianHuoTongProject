@@ -5,4 +5,7 @@ package com.mhky.dianhuotong.shop.shopif;
  */
 
 public interface OrderIF {
+    void getOrderSucess(int code, String result);
+
+    void getOrderFaild(int code, String result);
 }

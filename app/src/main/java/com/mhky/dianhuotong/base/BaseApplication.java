@@ -12,6 +12,7 @@ import com.lzy.okgo.OkGo;
 import com.mhky.dianhuotong.login.LoginRequestInfo;
 import com.mhky.dianhuotong.person.bean.PersonInfo;
 import com.mhky.dianhuotong.shop.bean.GoodsBaseInfo;
+import com.mhky.dianhuotong.shop.bean.ShopInfoByUserID;
 import com.tencent.smtt.sdk.QbSdk;
 
 import java.security.NoSuchAlgorithmException;
@@ -88,6 +89,26 @@ public class BaseApplication extends Application {
     }
 
     private List<GoodsBaseInfo> allGoodsBaseInfos;
+
+    public boolean isUpdateCart() {
+        return isUpdateCart;
+    }
+
+    public void setUpdateCart(boolean updateCart) {
+        isUpdateCart = updateCart;
+    }
+
+    private boolean isUpdateCart = false;
+
+    public ShopInfoByUserID getShopInfoByUserID() {
+        return shopInfoByUserID;
+    }
+
+    public void setShopInfoByUserID(ShopInfoByUserID shopInfoByUserID) {
+        this.shopInfoByUserID = shopInfoByUserID;
+    }
+
+    private ShopInfoByUserID shopInfoByUserID;
 
     @Override
     public void onCreate() {

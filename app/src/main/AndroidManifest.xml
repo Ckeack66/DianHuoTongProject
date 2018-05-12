@@ -276,14 +276,15 @@
         <activity android:name=".test.TestActivity" />
         <activity android:name=".shop.activity.BalanceActivity" />
         <activity android:name=".shop.activity.VipShopActivity" />
-        <activity android:name=".shop.activity.CartActivity" />
+        <activity
+            android:name=".shop.activity.CartActivity"
+            android:launchMode="singleTask" />
         <activity android:name=".activity.InitActivity" />
         <activity android:name=".shop.activity.CouponActivity"></activity>
         <!--蒲公英-->
         <meta-data
             android:name="PGYER_APPID"
-            android:value="4b6e8877dfcc2462bedb37dcf66b6d87" >
-        </meta-data>
+            android:value="4b6e8877dfcc2462bedb37dcf66b6d87"></meta-data>
     </application>
 
 </manifest>

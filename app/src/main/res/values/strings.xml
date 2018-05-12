@@ -27,12 +27,12 @@
     <string name="person_shop_name">所属店铺</string>
     <string name="person_work">职位</string>
     <string name="person_phone">绑定手机</string>
-    <string name="person_username_default">张涛</string>
+    <string name="person_username_default">未设置</string>
     <string name="person_sex_defalut">先生</string>
-    <string name="person_username_internet_default">一只快乐的萤火虫</string>
-    <string name="person_shop_name_default">山东济南XXXXXXXXXXXXXXXXX大药房</string>
+    <string name="person_username_internet_default">未设置</string>
+    <string name="person_shop_name_default">未设置</string>
     <string name="person_work_default">店长</string>
-    <string name="person_phone_default">123****6789</string>
+    <string name="person_phone_default">未设置</string>
     <string name="person_update_title">资料修改</string>
     <string name="person_update_save">保存</string>
 

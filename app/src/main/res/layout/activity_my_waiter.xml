@@ -173,7 +173,9 @@
                     android:background="@color/colorTransp"
                     android:text="150 2356 7894"
                     android:textColor="@color/color333333"
-                    android:textSize="@dimen/t12" />
+                    android:textSize="@dimen/t12"
+                    android:autoLink="phone"
+                    android:textColorLink="@color/color04c1ab"/>
 
             </LinearLayout>
 

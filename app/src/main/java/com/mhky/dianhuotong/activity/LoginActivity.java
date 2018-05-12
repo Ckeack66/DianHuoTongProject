@@ -48,7 +48,7 @@ public class LoginActivity extends BaseActivity implements LoginIF {
     }
 
     private void inIt() {
-        ImmersionBar.with(this).transparentStatusBar().init();
+        ImmersionBar.with(this).titleBar(diaHuiTongBaseTitleBar).transparentStatusBar().init();
         diaHuiTongBaseTitleBar.setLeftImage(R.drawable.icon_back);
         diaHuiTongBaseTitleBar.setCenterTextView("登录");
         diaHuiTongBaseTitleBar.setBackGround(Color.parseColor("#00ffffff"));
@@ -93,10 +93,7 @@ public class LoginActivity extends BaseActivity implements LoginIF {
     public void LoginSucess(int code, String result) {
         if (code == 200) {
             ToastUtil.makeText(this, "登陆成功..", Toast.LENGTH_SHORT).show();
-            BaseApplication.getInstansApp().setToakens("abcd1234");
             BaseApplication.getInstansApp().setMypswsds(MD5Util.md5(editTextPwd.getText().toString().trim()));
-            BaseApplication.getInstansApp().setLoginRequestInfo(JSON.parseObject(result, LoginRequestInfo.class));
-            BaseApplication.getInstansApp().setUpdata(true);
             finish();
         } else {
             ToastUtil.makeText(this, "登陆失败..", Toast.LENGTH_SHORT).show();
@@ -105,6 +102,6 @@ public class LoginActivity extends BaseActivity implements LoginIF {
 
     @Override
     public void LoginFailed(int code, String result) {
-
+        ToastUtil.makeText(this, "无法连接服务器..", Toast.LENGTH_SHORT).show();
     }
 }

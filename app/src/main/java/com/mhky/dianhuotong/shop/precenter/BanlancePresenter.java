@@ -69,4 +69,48 @@ public class BanlancePresenter {
             }
         });
     }
+
+    public void getPayID(HashMap hashMap){
+        OkGo.<String>get(BaseUrlTool.GET_ALIPAY_CODE+BaseTool.getUrlParamsByMap(hashMap,false)).execute(new Callback<String>() {
+            @Override
+            public void onStart(Request<String, ? extends Request> request) {
+
+            }
+
+            @Override
+            public void onSuccess(Response<String> response) {
+                banlanceIF.getPayCodeSucess(response.code(),BaseTool.getResponsBody(response));
+            }
+
+            @Override
+            public void onCacheSuccess(Response<String> response) {
+
+            }
+
+            @Override
+            public void onError(Response<String> response) {
+                banlanceIF.getPayCodeFaild(response.code(),BaseTool.getResponsBody(response));
+            }
+
+            @Override
+            public void onFinish() {
+
+            }
+
+            @Override
+            public void uploadProgress(Progress progress) {
+
+            }
+
+            @Override
+            public void downloadProgress(Progress progress) {
+
+            }
+
+            @Override
+            public String convertResponse(okhttp3.Response response) throws Throwable {
+                return null;
+            }
+        });
+    }
 }

@@ -1,6 +1,7 @@
 package com.mhky.dianhuotong.shop.activity;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
 import android.os.Bundle;
@@ -12,17 +13,22 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.alibaba.fastjson.JSON;
+import com.alipay.sdk.app.EnvUtils;
 import com.alipay.sdk.app.PayTask;
 import com.mhky.dianhuotong.R;
+import com.mhky.dianhuotong.base.BaseApplication;
 import com.mhky.dianhuotong.base.view.BaseActivity;
 import com.mhky.dianhuotong.custom.ToastUtil;
 import com.mhky.dianhuotong.custom.viewgroup.DianHuoTongBaseTitleBar;
 import com.mhky.dianhuotong.pay.alipay.AuthResult;
 import com.mhky.dianhuotong.pay.alipay.PayResult;
+import com.mhky.dianhuotong.shop.bean.OrderBaseInfo;
 import com.mhky.dianhuotong.shop.precenter.BanlancePresenter;
 import com.mhky.dianhuotong.shop.shopif.BanlanceIF;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import butterknife.BindView;
@@ -64,12 +70,15 @@ public class BalanceActivity extends BaseActivity implements BanlanceIF {
                     String resultInfo = payResult.getResult();// 同步返回需要验证的信息
                     String resultStatus = payResult.getResultStatus();
                     // 判断resultStatus 为9000则代表支付成功
+                    Log.d(TAG, "handleMessage: ----"+resultStatus);
                     if (TextUtils.equals(resultStatus, "9000")) {
                         // 该笔订单是否真实支付成功，需要依赖服务端的异步通知。
                         Toast.makeText(BalanceActivity.this, "支付成功", Toast.LENGTH_SHORT).show();
                     } else {
                         // 该笔订单真实的支付结果，需要依赖服务端的异步通知。
+                        BaseApplication.getInstansApp().setUpdateCart(true);
                         Toast.makeText(BalanceActivity.this, "支付失败", Toast.LENGTH_SHORT).show();
+
                     }
                     break;
                 }
@@ -97,10 +106,14 @@ public class BalanceActivity extends BaseActivity implements BanlanceIF {
                 default:
                     break;
             }
-        };
+        }
+
+        ;
     };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        EnvUtils.setEnv(EnvUtils.EnvEnum.SANDBOX);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_balance);
         ButterKnife.bind(this);
@@ -122,7 +135,7 @@ public class BalanceActivity extends BaseActivity implements BanlanceIF {
         money = bundle.getString("money");
         textViewMoney.setText(money + "元");
         banlancePresenter = new BanlancePresenter(this);
-        ToastUtil.makeText(this, goodsId, Toast.LENGTH_SHORT).show();
+        //ToastUtil.makeText(this, goodsId, Toast.LENGTH_SHORT).show();
     }
 
     @OnClick(R.id.balance_pay1)
@@ -176,8 +189,36 @@ public class BalanceActivity extends BaseActivity implements BanlanceIF {
 
     @Override
     public void doBanlanceSucess(int code, String result) {
-        final String orderInfo="app_id=2015052600090779&biz_content=%7B%22timeout_express%22%3A%2230m%22%2C%22product_code%22%3A%22QUICK_MSECURITY_PAY%22%2C%22total_amount%22%3A%220.01%22%2C%22subject%22%3A%221%22%2C%22body%22%3A%22%E6%88%91%E6%98%AF%E6%B5%8B%E8%AF%95%E6%95%B0%E6%8D%AE%22%2C%22out_trade_no%22%3A%22IQJZSRC1YMQB5HU%22%7D&charset=utf-8&format=json&method=alipay.trade.app.pay&notify_url=http%3A%2F%2Fdomain.merchant.com%2Fpayment_notify&sign_type=RSA2&timestamp=2016-08-25%2020%3A26%3A31&version=1.0&sign=cYmuUnKi5QdBsoZEAbMXVMmRWjsuUj%2By48A2DvWAVVBuYkiBj13CFDHu2vZQvmOfkjE0YqCUQE04kqm9Xg3tIX8tPeIGIFtsIyp%2FM45w1ZsDOiduBbduGfRo1XRsvAyVAv2hCrBLLrDI5Vi7uZZ77Lo5J0PpUUWwyQGt0M4cj8g%3D";
         if (code == 201) {
+            StringBuffer stringBuffer = new StringBuffer();
+           // OrderBaseInfo orderBaseInfo = JSON.parseObject(result, OrderBaseInfo.class);
+            List<OrderBaseInfo.ContentBean> contentBeanList=JSON.parseArray(result, OrderBaseInfo.ContentBean.class);
+            if (contentBeanList.size() == 1) {
+                stringBuffer.append(contentBeanList.get(0).getId());
+            } else {
+                for (int a = 0; a < contentBeanList.size(); a++) {
+                    stringBuffer.append(contentBeanList.get(a).getId());
+                    if (a != contentBeanList.size() - 1) {
+                        stringBuffer.append(",");
+                    }
+                }
+            }
+            HashMap hashMap = new HashMap();
+            hashMap.put("orderIds", stringBuffer.toString());
+            hashMap.put("paymentType", "ALIPAY");
+            banlancePresenter.getPayID(hashMap);
+        }
+    }
+
+    @Override
+    public void doBanlanceFaild(int code, String result) {
+
+    }
+
+    @Override
+    public void getPayCodeSucess(int code, String result) {
+        final String orderInfo = result;
+        if (code == 200) {
             if (payType == 1) {
                 ToastUtil.makeText(this, "支付宝结账中...请等待", Toast.LENGTH_SHORT).show();
                 Runnable payRunnable = new Runnable() {
@@ -206,7 +247,7 @@ public class BalanceActivity extends BaseActivity implements BanlanceIF {
     }
 
     @Override
-    public void doBanlanceFaild(int code, String result) {
+    public void getPayCodeFaild(int code, String result) {
 
     }
 

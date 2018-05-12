@@ -97,9 +97,4 @@ public class BaseActivity extends FragmentActivity {
         return super.onKeyDown(keyCode, event);
     }
 
-    @SuppressLint("RestrictedApi")
-    @Override
-    public void startActivityForResult(Intent intent, int requestCode, @Nullable Bundle options) {
-        super.startActivityForResult(intent, requestCode, options);
-    }
 }

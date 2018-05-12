@@ -75,7 +75,7 @@ public class ForgetPasswordActivity extends BaseActivity implements ForgetPassWo
 
     @OnClick(R.id.forgetpwd_ok)
     void changePhone() {
-        if (true) {
+        if (false) {
             ToastUtil.makeText(this, "后台调试中", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -186,7 +186,7 @@ public class ForgetPasswordActivity extends BaseActivity implements ForgetPassWo
             messageButtonNo();
             ToastUtil.makeText(this, "发送成功！", Toast.LENGTH_SHORT).show();
         } else if (code == 202) {
-            ToastUtil.makeText(this, "手机号码已注册！", Toast.LENGTH_SHORT).show();
+            ToastUtil.makeText(this, "手机号码未注册！", Toast.LENGTH_SHORT).show();
         } else {
             ToastUtil.makeText(this, "无法发送验证码！", Toast.LENGTH_SHORT).show();
         }

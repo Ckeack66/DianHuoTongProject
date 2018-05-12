@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/colorWhite">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/x60"
+        android:paddingEnd="@dimen/x16">
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="@dimen/x5">
+            <TextView
+                android:id="@+id/order_bottom_text1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/t10"
+                android:textColor="@color/color333333"
+                android:text=""/>
+            <TextView
+                android:id="@+id/order_bottom_text2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/t10"
+                android:textColor="@color/color333333"
+                android:text=""/>
+            <TextView
+                android:id="@+id/order_bottom_text3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/t10"
+                android:textColor="@color/color333333"
+                android:text=""/>
+        </LinearLayout>
+        <TextView
+            android:id="@+id/order_info_button"
+            android:layout_width="@dimen/x50"
+            android:layout_height="@dimen/x18"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginBottom="@dimen/x10"
+            android:background="@drawable/shape_login_button"
+            android:gravity="center"
+            android:text="未知"
+            android:textSize="@dimen/t10" />
+    </RelativeLayout>
+</FrameLayout>

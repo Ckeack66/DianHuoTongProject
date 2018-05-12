@@ -388,7 +388,7 @@ public class ShopMainFragment extends Fragment implements ShopIF, SortPopupwindo
                         @Override
                         public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                             Bundle bundle = new Bundle();
-                            bundle.putSerializable("getgoodsinfo", searchSGoodsBean.getContent().get(position));
+                            bundle.putSerializable("id", searchSGoodsBean.getContent().get(position).getId());
                             BaseTool.goActivityWithData(getActivity(), GoodsActivity.class, bundle);
                         }
                     });

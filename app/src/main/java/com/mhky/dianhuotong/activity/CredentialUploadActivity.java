@@ -236,10 +236,13 @@ public class CredentialUploadActivity extends TakePhotoActivity implements DianH
     @Override
     public void updataCredentialImageSucess(int code, String result) {
         if (code == 201) {
-            ToastUtil.makeText(this, "上传成功", Toast.LENGTH_SHORT).show();
-            imageUrl = result;
-            Picasso.with(mContext).load(imageUrl).memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE).resize(withResult, heightResult).into(imageViewCredentail);
-            Log.d(TAG, "updataCredentialImageSucess: ------" + result);
+            if (result!=null&&!"".equals(result)){
+                ToastUtil.makeText(this, "上传成功", Toast.LENGTH_SHORT).show();
+                imageUrl = result;
+                Picasso.with(mContext).load(imageUrl).memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE).resize(withResult, heightResult).into(imageViewCredentail);
+                Log.d(TAG, "updataCredentialImageSucess: ------" + result);
+            }
+
         }
     }
 

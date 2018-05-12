@@ -231,22 +231,22 @@ public class CartPopupwindow extends PopupWindow implements View.OnClickListener
     }
 
     @Override
-    public void getCartSucess(int code, String result) {
+    public void getCartSucess(int code, String result,int type) {
 
     }
 
     @Override
-    public void getCartFaild(int code, String result) {
+    public void getCartFaild(int code, String result,int type) {
 
     }
 
     @Override
-    public void alterCartSucess(int code, String result) {
+    public void alterCartSucess(int code, String result,int type) {
 
     }
 
     @Override
-    public void alterCartFaild(int code, String result) {
+    public void alterCartFaild(int code, String result,int type) {
 
     }
 

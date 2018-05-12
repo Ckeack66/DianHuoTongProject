@@ -3,7 +3,9 @@ package com.mhky.dianhuotong.activity;
 import android.Manifest;
 import android.content.Context;
 import android.graphics.Color;
+import android.net.Uri;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.content.PermissionChecker;
 import android.support.v4.widget.DrawerLayout;
 import android.os.Bundle;
@@ -41,6 +43,7 @@ import com.mhky.dianhuotong.shop.adapter.AllGoodsListview1Adapter;
 import com.mhky.dianhuotong.shop.adapter.AllGoodsListview2Adapter;
 import com.mhky.dianhuotong.shop.bean.GoodsBaseInfo;
 import com.mhky.dianhuotong.shop.precenter.AllGoosPrecenter;
+import com.mhky.dianhuotong.shop.precenter.ShopInfoPresenter;
 import com.mhky.dianhuotong.shop.shopif.AllGoodsIF;
 import com.squareup.picasso.Picasso;
 import com.youth.banner.Banner;
@@ -53,6 +56,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import cn.bingoogolapple.bgabanner.BGABanner;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 @PermissionsRequestSync(permission = {Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE}, value = {101, 102, 103, 104})
@@ -72,7 +76,7 @@ public class MainActivity extends BaseActivity implements MainIF, DrawerLayout.D
     @BindView(R.id.drawer_bodyayout)
     RelativeLayout relativeLayoutBody;
     @BindView(R.id.main_title_banner)
-    Banner banner;
+    BGABanner banner;
     @BindView(R.id.main_user_image)
     CircleImageView imageViewUser;
     @BindView(R.id.drawer_text_name)
@@ -93,6 +97,7 @@ public class MainActivity extends BaseActivity implements MainIF, DrawerLayout.D
     private String main3 = "mian3";
     private Context mContext;
     private AllGoosPrecenter allGoosPrecenter;
+    private ShopInfoPresenter shopInfoPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,7 +105,6 @@ public class MainActivity extends BaseActivity implements MainIF, DrawerLayout.D
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         mContext = this;
-        BaseApplication.getInstansApp().clearToaken();
         inIt();
         initData();
     }
@@ -128,8 +132,9 @@ public class MainActivity extends BaseActivity implements MainIF, DrawerLayout.D
     @Override
     protected void onResume() {
         super.onResume();
-        if (BaseApplication.getInstansApp().getToakens() != null) {
+        if (BaseApplication.getInstansApp().getLoginRequestInfo() != null) {
             drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+            shopInfoPresenter.getShopInfo();
         } else {
             if (isOpenDrawer) {
                 drawerLayout.closeDrawers();
@@ -191,7 +196,7 @@ public class MainActivity extends BaseActivity implements MainIF, DrawerLayout.D
     }
 
     private void inIt() {
-        if (BaseApplication.getInstansApp().getToakens() == null) {
+        if (BaseApplication.getInstansApp().getAllGoodsBaseInfos() == null) {
             drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
         }
         dianHuoTongBaseDialog = new DianHuoTongBaseDialog(this, this, "温馨提示", "登录之后会有更多精彩哦~", "稍后再说", "马上登陆", main1);
@@ -203,7 +208,7 @@ public class MainActivity extends BaseActivity implements MainIF, DrawerLayout.D
         diaHuiTongBaseTitleBar.setLeftOnclickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (BaseApplication.getInstansApp().getToakens() == null) {
+                if (BaseApplication.getInstansApp().getLoginRequestInfo() == null) {
                     dianHuoTongBaseDialog.show();
                 } else {
                     if (!isOpenDrawer) {
@@ -241,23 +246,16 @@ public class MainActivity extends BaseActivity implements MainIF, DrawerLayout.D
      */
 
     private void initImageBaner(List<?> list) {
-        banner.setBannerStyle(BannerConfig.CIRCLE_INDICATOR);
-        //设置图片加载器
-        banner.setImageLoader(new GlideImageLoader());
-        //设置图片集合
-        banner.setImages(list);
-        //设置banner动画效果
-        banner.setBannerAnimation(Transformer.DepthPage);
-        //设置标题集合（当banner样式有显示title时）
-        //banner.setBannerTitles(titles);
-        //设置自动轮播，默认为true
-        banner.isAutoPlay(true);
-        //设置轮播时间
-        banner.setDelayTime(1500);
-        //设置指示器位置（当banner模式中有指示器时）
-        banner.setIndicatorGravity(BannerConfig.CENTER);
-        //banner设置方法全部调用完毕时最后调用
-        banner.start();
+        banner.setAdapter(new BGABanner.Adapter() {
+            @Override
+            public void fillBannerItem(BGABanner banner, View itemView, @Nullable Object model, int position) {
+                Uri uri = Uri.parse((String) model);
+                Picasso.with(mContext).load(uri).fit().into((ImageView) itemView);
+            }
+        });
+
+        banner.setAutoPlayAble(true);
+        banner.setData(list, new ArrayList<String>());
     }
 
     /**
@@ -344,7 +342,7 @@ public class MainActivity extends BaseActivity implements MainIF, DrawerLayout.D
      */
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        if (BaseApplication.getInstansApp().getToakens() == null) {
+        if (BaseApplication.getInstansApp().getLoginRequestInfo() == null) {
             dianHuoTongBaseDialog.show();
             return;
         }
@@ -355,9 +353,11 @@ public class MainActivity extends BaseActivity implements MainIF, DrawerLayout.D
 //                        BaseTool.goActivityNoData(this, ShiYaoQianYanActivity.class);
 //                        break;
                     case 1:
-                        if (BaseApplication.getInstansApp().getLoginRequestInfo().getShopId() == null) {
+                        if (BaseApplication.getInstansApp().getShopInfoByUserID() == null) {
                             dianHuoTongBaseDialogAddShop.show();
-                        } else {
+                        } else if ("UNAUDITED".equals(BaseApplication.getInstansApp().getShopInfoByUserID().getStatus())) {
+                            ToastUtil.makeText(this, "您已经加入店铺正在审核中哦~", Toast.LENGTH_SHORT).show();
+                        } else if ("APPROVED".equals(BaseApplication.getInstansApp().getShopInfoByUserID().getStatus())) {
                             BaseTool.goActivityNoData(this, DianHuoTongShopActivity.class);
                         }
                         break;
@@ -494,6 +494,7 @@ public class MainActivity extends BaseActivity implements MainIF, DrawerLayout.D
     private void initData() {
         allGoosPrecenter = new AllGoosPrecenter(this);
         allGoosPrecenter.getAllGoodsType();
+        shopInfoPresenter = new ShopInfoPresenter();
     }
 
     @Override
