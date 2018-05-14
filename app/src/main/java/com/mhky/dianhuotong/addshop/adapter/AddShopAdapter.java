@@ -18,17 +18,28 @@ import java.util.List;
 public class AddShopAdapter extends BaseAdapter {
     private Context context;
     private List<ShopBaseInfo> shopBaseInfoList;
+    private int type;
 
-    public AddShopAdapter(Context context, List<ShopBaseInfo> shopBaseInfoList) {
+    public AddShopAdapter(Context context, List<ShopBaseInfo> shopBaseInfoList, int type1) {
         this.context = context;
         this.shopBaseInfoList = shopBaseInfoList;
+        type = type1;
     }
 
 
     @Override
     public int getCount() {
         if (shopBaseInfoList != null) {
-            return shopBaseInfoList.size();
+            if (type==0){
+                if (shopBaseInfoList.size() > 6) {
+                    return 6;
+                } else {
+                    return shopBaseInfoList.size();
+                }
+            }else {
+                return shopBaseInfoList.size();
+            }
+
         }
         return 0;
     }

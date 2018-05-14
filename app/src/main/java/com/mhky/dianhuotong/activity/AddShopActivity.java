@@ -134,7 +134,7 @@ public class AddShopActivity extends BaseActivity implements AdapterView.OnItemC
             shopBaseInfoList = JSON.parseArray(result, ShopBaseInfo.class);
             if (shopBaseInfoList != null) {
                 Log.d(TAG, "getShopInfoSuccess: --list" + shopBaseInfoList.size());
-                addShopAdapter = new AddShopAdapter(this, shopBaseInfoList);
+                addShopAdapter = new AddShopAdapter(this, shopBaseInfoList,0);
                 listView.setAdapter(addShopAdapter);
                 BaseTool.setListViewHeightBasedOnChildrenCustom(listView);
             }

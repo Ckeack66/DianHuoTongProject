@@ -42,7 +42,7 @@ import butterknife.Unbinder;
  * Use the {@link MyselectFragment1#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class MyselectFragment1 extends Fragment implements OrderIF {
+public class MyselectFragment1 extends Fragment {
 
     @BindView(R.id.myselected_fragment1_rv)
     RecyclerView recyclerView;
@@ -60,7 +60,6 @@ public class MyselectFragment1 extends Fragment implements OrderIF {
     private OrderDataPresenter orderDataPresenter;
     private List<OrderInfo> orderInfoList;
     private OrderBaseInfo orderBaseInfo;
-    private OrderPrecenter orderPrecenter;
 
     public MyselectFragment1() {
     }
@@ -74,8 +73,10 @@ public class MyselectFragment1 extends Fragment implements OrderIF {
      * @return A new instance of fragment MyselectFragment1.
      */
     // TODO: Rename and change types and number of parameters
-    public static MyselectFragment1 newInstance(String param1, String param2) {
+    public static MyselectFragment1 newInstance(String param1, String param2, OrderBaseInfo orderBaseInfoInit) {
         MyselectFragment1 fragment = new MyselectFragment1();
+        fragment.orderInfoList = new ArrayList<>();
+        fragment.orderBaseInfo=orderBaseInfoInit;
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -98,9 +99,7 @@ public class MyselectFragment1 extends Fragment implements OrderIF {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_myselect_fragment1, container, false);
         unbinder = ButterKnife.bind(this, view);
-        orderPrecenter = new OrderPrecenter(this);
-        orderInfoList = new ArrayList<>();
-        orderPrecenter.getOrder(BaseApplication.getInstansApp().getLoginRequestInfo().getId());
+        setData();
         return view;
     }
 
@@ -126,11 +125,18 @@ public class MyselectFragment1 extends Fragment implements OrderIF {
         super.onDetach();
     }
 
-    @Override
-    public void getOrderSucess(int code, String result) {
-        if (code == 200) {
-            orderDataPresenter = new OrderDataPresenter();
-            orderBaseInfo = JSON.parseObject(result, OrderBaseInfo.class);
+    private void setData() {
+        doDate(0);
+    }
+
+    public void upData(OrderBaseInfo orderBaseInfoNew) {
+        orderBaseInfo = orderBaseInfoNew;
+        doDate(1);
+    }
+
+    private void doDate(int type) {
+        orderDataPresenter = new OrderDataPresenter();
+        if (type == 0) {
             if (orderBaseInfo != null) {
                 orderInfoList = orderDataPresenter.getOrderList(orderBaseInfo);
                 LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
@@ -156,33 +162,33 @@ public class MyselectFragment1 extends Fragment implements OrderIF {
                 orderAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
                     @Override
                     public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-                        switch (view.getId()){
+                        switch (view.getId()) {
                             case R.id.order_head_go:
-                                ToastUtil.makeText(getActivity(),"点击了店铺"+position, Toast.LENGTH_SHORT).show();
+                                ToastUtil.makeText(getActivity(), "点击了店铺" + position, Toast.LENGTH_SHORT).show();
                                 Bundle bundle = new Bundle();
                                 bundle.putString("shopid", orderInfoList.get(position).getOrderTopInfo().getShopID());
                                 BaseTool.goActivityWithData(getActivity(), ShopActivity.class, bundle);
                                 break;
                             case R.id.order_body_goods:
-                                ToastUtil.makeText(getActivity(),"点击了商品"+position, Toast.LENGTH_SHORT).show();
+                                ToastUtil.makeText(getActivity(), "点击了商品" + position, Toast.LENGTH_SHORT).show();
                                 Bundle bundle1 = new Bundle();
-                                bundle1.putString("id", orderInfoList.get(position).getOrderBodyInfo().getGoodsInfo().getId());
+                                bundle1.putString("id", orderInfoList.get(position).getOrderBodyInfo().getGoodsInfo().getGoodsId());
                                 BaseTool.goActivityWithData(getActivity(), GoodsActivity.class, bundle1);
                                 break;
                             case R.id.order_info_button:
-                                ToastUtil.makeText(getActivity(),"点击了操作"+position, Toast.LENGTH_SHORT).show();
+                                ToastUtil.makeText(getActivity(), "点击了操作" + position, Toast.LENGTH_SHORT).show();
                                 switch (orderInfoList.get(position).getOrderBottomInfo().getOrderStatus()) {
                                     case "ORDERED":
-                                        ToastUtil.makeText(getActivity(),"待付款"+position, Toast.LENGTH_SHORT).show();
+                                        ToastUtil.makeText(getActivity(), "待付款" + position, Toast.LENGTH_SHORT).show();
                                         break;
                                     case "PAID":
-                                        ToastUtil.makeText(getActivity(),"已付款"+position, Toast.LENGTH_SHORT).show();
+                                        ToastUtil.makeText(getActivity(), "已付款" + position, Toast.LENGTH_SHORT).show();
                                         break;
                                     case "COMPLETED":
-                                        ToastUtil.makeText(getActivity(),"已完成"+position, Toast.LENGTH_SHORT).show();
+                                        ToastUtil.makeText(getActivity(), "已完成" + position, Toast.LENGTH_SHORT).show();
                                         break;
                                     case "CANCELLED":
-                                        ToastUtil.makeText(getActivity(),"已取消"+position, Toast.LENGTH_SHORT).show();
+                                        ToastUtil.makeText(getActivity(), "已取消" + position, Toast.LENGTH_SHORT).show();
                                         break;
                                 }
                                 break;
@@ -200,12 +206,12 @@ public class MyselectFragment1 extends Fragment implements OrderIF {
                 recyclerView.setAdapter(orderAdapter);
             }
 
+        } else if (type == 1) {
+            if (orderBaseInfo != null) {
+                orderInfoList = orderDataPresenter.getOrderList(orderBaseInfo);
+                orderAdapter.setNewData(orderInfoList);
+            }
         }
-    }
-
-    @Override
-    public void getOrderFaild(int code, String result) {
-
     }
 
     /**

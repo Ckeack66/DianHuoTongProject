@@ -95,6 +95,7 @@ public class AllGoodsActivity extends BaseActivity implements AdapterView.OnItem
     public void getAllGoodsInfoSuccess(int code, String result) {
         if (code == 200) {
             allGoodsBaseInfos = JSON.parseArray(result, GoodsBaseInfo.class);
+            BaseApplication.getInstansApp().setAllGoodsBaseInfos(allGoodsBaseInfos);
             setListData(allGoodsBaseInfos);
         }
     }

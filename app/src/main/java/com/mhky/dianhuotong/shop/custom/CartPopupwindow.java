@@ -171,26 +171,31 @@ public class CartPopupwindow extends PopupWindow implements View.OnClickListener
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.cart_popup_reduce:
-                if (goodsNumber > 0) {
+                if (goodsNumber > 0 && selectNUmber != -1) {
                     goodsNumber--;
                 }
                 break;
             case R.id.cart_popup_plus:
-                if (goodsNumber < goodsNumberMax) {
+                if (goodsNumber < goodsNumberMax && selectNUmber != -1) {
                     goodsNumber++;
                 }
                 break;
             case R.id.cart_popup_ok:
                 if (BaseApplication.getInstansApp().getLoginRequestInfo() != null) {
-                    Map map = new HashMap();
-                    map.put("buyerId", BaseApplication.getInstansApp().getLoginRequestInfo().getId());
-                    map.put("goodsId", goodsInfo.getId());
-                    map.put("skuId", goodsSkuInfoList.get(selectNUmber).getId());
-                    map.put("amount", goodsNumber);
-                    map.put("checked", true);
-                    cartOpratePresenter.addCart(map);
+                    if (goodsNumber > 0) {
+                        Map map = new HashMap();
+                        map.put("buyerId", BaseApplication.getInstansApp().getLoginRequestInfo().getId());
+                        map.put("goodsId", goodsInfo.getId());
+                        map.put("skuId", goodsSkuInfoList.get(selectNUmber).getId());
+                        map.put("amount", goodsNumber);
+                        map.put("checked", true);
+                        cartOpratePresenter.addCart(map);
+                    } else {
+                        ToastUtil.makeText(mContext, "请选择要加购的商品", Toast.LENGTH_SHORT).show();
+                    }
+
                 } else {
-                    ToastUtil.makeText(mContext, "用户未登录", Toast.LENGTH_SHORT).show();
+
                 }
 
                 break;
@@ -209,6 +214,7 @@ public class CartPopupwindow extends PopupWindow implements View.OnClickListener
     public void addCartSucess(int code, String result) {
         if (code == 204) {
             ToastUtil.makeText(mContext, "加购成功！", Toast.LENGTH_SHORT).show();
+            BaseApplication.getInstansApp().setUpdateCart(true);
             dismiss();
         } else {
             ToastUtil.makeText(mContext, "加购失败-" + code, Toast.LENGTH_SHORT).show();
@@ -231,41 +237,47 @@ public class CartPopupwindow extends PopupWindow implements View.OnClickListener
     }
 
     @Override
-    public void getCartSucess(int code, String result,int type) {
+    public void getCartSucess(int code, String result, int type) {
 
     }
 
     @Override
-    public void getCartFaild(int code, String result,int type) {
+    public void getCartFaild(int code, String result, int type) {
 
     }
 
     @Override
-    public void alterCartSucess(int code, String result,int type) {
+    public void alterCartSucess(int code, String result, int type) {
 
     }
 
     @Override
-    public void alterCartFaild(int code, String result,int type) {
+    public void alterCartFaild(int code, String result, int type) {
 
     }
 
     @Override
     public void getSkuSucess(int code, String result) {
         if (code == 200) {
-            goodsSkuInfoList = JSON.parseArray(result, GoodsSkuInfo.class);
-            ArrayList<String> arrayList = new ArrayList();
-            if (goodsSkuInfoList != null && goodsSkuInfoList.size() > 0) {
-                for (int a = 0; a < goodsSkuInfoList.size(); a++) {
-                    String s = "";
-                    for (int b = 0; b < goodsSkuInfoList.get(a).getSalePropertyOptions().size(); b++) {
-                        s = s + goodsSkuInfoList.get(a).getSalePropertyOptions().get(b).getValue();
+            Log.d(TAG, "getSkuSucess: ------"+result);
+            if (result != null && !"".equals(result)) {
+                goodsSkuInfoList = JSON.parseArray(result, GoodsSkuInfo.class);
+                ArrayList<String> arrayList = new ArrayList();
+                if (goodsSkuInfoList != null && goodsSkuInfoList.size() > 0) {
+                    for (int a = 0; a < goodsSkuInfoList.size(); a++) {
+                        String s = "";
+                        for (int b = 0; b < goodsSkuInfoList.get(a).getSalePropertyOptions().size(); b++) {
+                            s = s + goodsSkuInfoList.get(a).getSalePropertyOptions().get(b).getValue();
+                        }
+                        arrayList.add(s);
                     }
-                    arrayList.add(s);
+                    typeName = arrayList.toArray(new String[0]);
+                    setTagFlowLayout(typeName);
                 }
-                typeName = arrayList.toArray(new String[0]);
-                setTagFlowLayout(typeName);
-            }
+            } else {
+                ToastUtil.makeText(mContext, "获取信息失败！", Toast.LENGTH_SHORT).show();
+        }
+
         }
     }
 

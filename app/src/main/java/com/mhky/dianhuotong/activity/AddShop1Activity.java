@@ -10,6 +10,7 @@ import com.gjiazhe.wavesidebar.WaveSideBar;
 import com.mhky.dianhuotong.R;
 import com.mhky.dianhuotong.addshop.adapter.AddShopAdapter;
 import com.mhky.dianhuotong.addshop.addshopif.AddShopIF;
+import com.mhky.dianhuotong.addshop.precenter.AddShopPrecenter;
 import com.mhky.dianhuotong.base.BaseActivityManager;
 import com.mhky.dianhuotong.base.view.BaseActivity;
 import com.mhky.dianhuotong.custom.ToastUtil;
@@ -24,6 +25,7 @@ public class AddShop1Activity extends BaseActivity implements WaveSideBar.OnSele
     @BindView(R.id.addshop1_listview)
     ListView listView;
     private AddShopAdapter addShopAdapter;
+    private AddShopPrecenter addShopPrecenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +48,9 @@ public class AddShop1Activity extends BaseActivity implements WaveSideBar.OnSele
         //addShopAdapter = new AddShopAdapter(this);
         listView.setAdapter(addShopAdapter);
         listView.setOnItemClickListener(this);
+        addShopPrecenter=new AddShopPrecenter(this);
         BaseActivityManager.getInstance().addActivity(this);
+        //addShopPrecenter.getShopInfo();
     }
 
     @Override

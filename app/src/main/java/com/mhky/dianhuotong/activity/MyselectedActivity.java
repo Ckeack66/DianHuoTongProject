@@ -12,7 +12,9 @@ import android.widget.FrameLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
+import com.alibaba.fastjson.JSON;
 import com.mhky.dianhuotong.R;
+import com.mhky.dianhuotong.base.BaseApplication;
 import com.mhky.dianhuotong.base.BaseTool;
 import com.mhky.dianhuotong.base.view.BaseActivity;
 import com.mhky.dianhuotong.custom.viewgroup.DianHuoTongBaseTitleBar;
@@ -20,12 +22,19 @@ import com.mhky.dianhuotong.dingdan.fragment.MyselectFragment1;
 import com.mhky.dianhuotong.dingdan.fragment.MyselectFragment2;
 import com.mhky.dianhuotong.dingdan.fragment.MyselectFragment3;
 import com.mhky.dianhuotong.dingdan.fragment.MyselectFragment4;
+import com.mhky.dianhuotong.shop.bean.OrderBaseInfo;
+import com.mhky.dianhuotong.shop.bean.OrderInfo;
+import com.mhky.dianhuotong.shop.precenter.OrderPrecenter;
+import com.mhky.dianhuotong.shop.shopif.OrderIF;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class MyselectedActivity extends BaseActivity implements RadioGroup.OnCheckedChangeListener {
+public class MyselectedActivity extends BaseActivity implements RadioGroup.OnCheckedChangeListener,OrderIF {
     @BindView(R.id.myselect_title)
     DianHuoTongBaseTitleBar dianHuoTongBaseTitleBar;
     @BindView(R.id.myselected_tab)
@@ -64,7 +73,8 @@ public class MyselectedActivity extends BaseActivity implements RadioGroup.OnChe
     private MyselectFragment3 myselectFragment3;
     private MyselectFragment4 myselectFragment4;
 
-
+    private OrderPrecenter orderPrecenter;
+    private OrderBaseInfo orderBaseInfo;
     private Context mContext;
     private static final String TAG = "MyselectedActivity";
 
@@ -78,6 +88,8 @@ public class MyselectedActivity extends BaseActivity implements RadioGroup.OnChe
     }
 
     private void inIt() {
+        orderPrecenter = new OrderPrecenter(this);
+        orderPrecenter.getOrder(BaseApplication.getInstansApp().getLoginRequestInfo().getId());
         dianHuoTongBaseTitleBar.setLeftImage(R.drawable.icon_back);
         dianHuoTongBaseTitleBar.setCenterTextView(getString(R.string.myselect_title));
 //        dianHuoTongBaseTitleBar.setRightText(getString(R.string.myselected_right));
@@ -94,18 +106,7 @@ public class MyselectedActivity extends BaseActivity implements RadioGroup.OnChe
 //            }
 //        });
         radioGroup.setOnCheckedChangeListener(this);
-        myselectFragment1 = MyselectFragment1.newInstance("", "");
-        myselectFragment2 = MyselectFragment2.newInstance("", "");
-        myselectFragment3 = MyselectFragment3.newInstance("", "");
-        myselectFragment4 = MyselectFragment4.newInstance("", "");
-        fragmentManager = getSupportFragmentManager();
-        fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.add(R.id.myselected_fragment, myselectFragment1);
-        fragmentTransaction.add(R.id.myselected_fragment, myselectFragment2);
-        fragmentTransaction.add(R.id.myselected_fragment, myselectFragment3);
-        fragmentTransaction.add(R.id.myselected_fragment, myselectFragment4);
-        showFragment(myselectFragment1);
-        fragmentTransaction.commit();
+
     }
 
     @OnClick(R.id.myselect_zizhi)
@@ -158,22 +159,45 @@ public class MyselectedActivity extends BaseActivity implements RadioGroup.OnChe
     }
 
     private void showFragment(Fragment fragment) {
-        if (!myselectFragment1.isHidden()) {
+        if (myselectFragment1!=null&&!myselectFragment1.isHidden()) {
             Log.d(TAG, "showFragment: 关闭第一个页面");
             fragmentManager.beginTransaction().hide(myselectFragment1).show(fragment).commit();
         }
-        if (!myselectFragment2.isHidden()) {
+        if (myselectFragment2!=null&&!myselectFragment2.isHidden()) {
             Log.d(TAG, "showFragment: 关闭第二个页面");
             fragmentManager.beginTransaction().hide(myselectFragment2).show(fragment).commit();
         }
-        if (!myselectFragment3.isHidden()) {
+        if (myselectFragment3!=null&&!myselectFragment3.isHidden()) {
             Log.d(TAG, "showFragment: 关闭第三个页面");
             fragmentManager.beginTransaction().hide(myselectFragment3).show(fragment).commit();
         }
-        if (!myselectFragment4.isHidden()) {
+        if (myselectFragment4!=null&&!myselectFragment4.isHidden()) {
             Log.d(TAG, "showFragment: 关闭第四个页面");
             fragmentManager.beginTransaction().hide(myselectFragment4).show(fragment).commit();
         }
     }
 
+    @Override
+    public void getOrderSucess(int code, String result) {
+        if (code==200){
+            orderBaseInfo= JSON.parseObject(result,OrderBaseInfo.class);
+            myselectFragment1 = MyselectFragment1.newInstance("", "",orderBaseInfo);
+            myselectFragment2 = MyselectFragment2.newInstance("", "",orderBaseInfo);
+            myselectFragment3 = MyselectFragment3.newInstance("", "",orderBaseInfo);
+            myselectFragment4 = MyselectFragment4.newInstance("", "",orderBaseInfo);
+            fragmentManager = getSupportFragmentManager();
+            fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.add(R.id.myselected_fragment, myselectFragment1);
+            fragmentTransaction.add(R.id.myselected_fragment, myselectFragment2);
+            fragmentTransaction.add(R.id.myselected_fragment, myselectFragment3);
+            fragmentTransaction.add(R.id.myselected_fragment, myselectFragment4);
+            showFragment(myselectFragment1);
+            fragmentTransaction.commit();
+        }
+    }
+
+    @Override
+    public void getOrderFaild(int code, String result) {
+
+    }
 }

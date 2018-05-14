@@ -385,7 +385,7 @@ public class SearchGoodsActivity extends BaseActivity implements SearchGoodsIF, 
                         @Override
                         public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                             Bundle bundle = new Bundle();
-                            bundle.putSerializable("id", searchSGoodsBean.getContent().get(position).getId()+"");
+                            bundle.putSerializable("id", searchSGoodsBean.getContent().get(position).getId() + "");
                             BaseTool.goActivityWithData(mContext, GoodsActivity.class, bundle);
                             //ToastUtil.makeText(mContext, "点击了父控件", Toast.LENGTH_SHORT).show();
                         }
@@ -508,10 +508,13 @@ public class SearchGoodsActivity extends BaseActivity implements SearchGoodsIF, 
     public void getGoodsInfoSuccess(int code, String result) {
         if (code == 200) {
             if (result != null && !result.equals("")) {
+                hideWindow();
                 goodsInfo = JSON.parseObject(result, GoodsInfo.class);
                 cartPopupwindow = new CartPopupwindow(this, goodsInfo);
                 cartPopupwindow.showAtLocation(dianHuoTongShopTitleBar, Gravity.BOTTOM, 0, 0);
                 //ToastUtil.makeText(mContext, searchSGoodsBean.getContent().get(position).getName(), Toast.LENGTH_SHORT).show();
+            }else {
+                ToastUtil.makeText(mContext, "获取信息失败！", Toast.LENGTH_SHORT).show();
             }
             //textViewUseTime.setText(goodsInfo.getExpiryDate());
         }

@@ -48,6 +48,8 @@ public class BalanceActivity extends BaseActivity implements BanlanceIF {
     LinearLayout linearLayout;
     @BindView(R.id.banlance_money)
     TextView textViewMoney;
+    @BindView(R.id.balance_pay)
+    TextView textViewPay;
     private String goodsId;
     private String money;
     private int payType = -1;
@@ -56,6 +58,7 @@ public class BalanceActivity extends BaseActivity implements BanlanceIF {
     private static final int SDK_PAY_FLAG = 1;
     private static final int SDK_AUTH_FLAG = 2;
     private static final String TAG = "BalanceActivity";
+    private boolean isUploadOrder=false;
     @SuppressLint("HandlerLeak")
     private Handler mHandler = new Handler() {
         @SuppressWarnings("unused")
@@ -74,9 +77,9 @@ public class BalanceActivity extends BaseActivity implements BanlanceIF {
                     if (TextUtils.equals(resultStatus, "9000")) {
                         // 该笔订单是否真实支付成功，需要依赖服务端的异步通知。
                         Toast.makeText(BalanceActivity.this, "支付成功", Toast.LENGTH_SHORT).show();
+                        finish();
                     } else {
                         // 该笔订单真实的支付结果，需要依赖服务端的异步通知。
-                        BaseApplication.getInstansApp().setUpdateCart(true);
                         Toast.makeText(BalanceActivity.this, "支付失败", Toast.LENGTH_SHORT).show();
 
                     }
@@ -166,6 +169,11 @@ public class BalanceActivity extends BaseActivity implements BanlanceIF {
             HashMap<String, String> m = new HashMap();
             m.put("skuIds", goodsId);
             banlancePresenter.doBanlance(m);
+        }else if (orderID!=null){
+            HashMap hashMap = new HashMap();
+            hashMap.put("orderIds", orderID);
+            hashMap.put("paymentType", "ALIPAY");
+            banlancePresenter.getPayID(hashMap);
         }
 //        else if (payType == 1) {
 //            ToastUtil.makeText(this, "支付宝结账中...请等待", Toast.LENGTH_SHORT).show();
@@ -190,6 +198,9 @@ public class BalanceActivity extends BaseActivity implements BanlanceIF {
     @Override
     public void doBanlanceSucess(int code, String result) {
         if (code == 201) {
+            ToastUtil.makeText(this, "订单提交成功！", Toast.LENGTH_SHORT).show();
+            textViewPay.setText("订单支付");
+            BaseApplication.getInstansApp().setUpdateCart(true);
             StringBuffer stringBuffer = new StringBuffer();
            // OrderBaseInfo orderBaseInfo = JSON.parseObject(result, OrderBaseInfo.class);
             List<OrderBaseInfo.ContentBean> contentBeanList=JSON.parseArray(result, OrderBaseInfo.ContentBean.class);
@@ -203,8 +214,9 @@ public class BalanceActivity extends BaseActivity implements BanlanceIF {
                     }
                 }
             }
+            orderID=stringBuffer.toString();
             HashMap hashMap = new HashMap();
-            hashMap.put("orderIds", stringBuffer.toString());
+            hashMap.put("orderIds", orderID);
             hashMap.put("paymentType", "ALIPAY");
             banlancePresenter.getPayID(hashMap);
         }
@@ -220,7 +232,6 @@ public class BalanceActivity extends BaseActivity implements BanlanceIF {
         final String orderInfo = result;
         if (code == 200) {
             if (payType == 1) {
-                ToastUtil.makeText(this, "支付宝结账中...请等待", Toast.LENGTH_SHORT).show();
                 Runnable payRunnable = new Runnable() {
 
                     @Override

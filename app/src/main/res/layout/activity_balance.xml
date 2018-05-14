@@ -399,7 +399,7 @@
         android:layout_marginTop="@dimen/x60"
         android:background="@drawable/shape_login_button"
         android:gravity="center"
-        android:text="结算"
+        android:text="提交订单"
         android:textSize="@dimen/t12" />
 
 </LinearLayout>

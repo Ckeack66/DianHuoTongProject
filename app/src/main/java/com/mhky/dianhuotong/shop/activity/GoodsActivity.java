@@ -46,8 +46,6 @@ public class GoodsActivity extends BaseActivity implements GoodsIF {
     TextView textViewGoodsGuige;
     @BindView(R.id.goods_info_company)
     TextView textViewGoodsCompany;
-    @BindView(R.id.goods_use_time)
-    TextView textViewUseTime;
     @BindView(R.id.goods_info_pzwh)
     TextView textViewPzwh;
     @BindView(R.id.banner_main_accordion)
@@ -56,6 +54,10 @@ public class GoodsActivity extends BaseActivity implements GoodsIF {
     TextView textViewShopName;
     @BindView(R.id.goods_base_addcart)
     TextView textViewAddCart;
+    @BindView(R.id.goods_use_time)
+    TextView textViewExp;
+    @BindView(R.id.go_cart)
+    TextView textViewGoCart;
     private SearchSGoodsBean.ContentBean goodsInfoBase;
     private GoodsInfo goodsInfo;
     private Bundle bundle;
@@ -82,7 +84,7 @@ public class GoodsActivity extends BaseActivity implements GoodsIF {
         goodsPrecenter = new GoodsPrecenter(this);
         if (getIntent().getExtras() != null) {
             bundle = getIntent().getExtras();
-            goodsId=bundle.getString("id");
+            goodsId = bundle.getString("id");
             //goodsInfoBase = (SearchSGoodsBean.ContentBean) bundle.getSerializable("getgoodsinfo");
             if (goodsId != null) {
                 goodsPrecenter.getGoodsInfo(goodsId);
@@ -134,6 +136,11 @@ public class GoodsActivity extends BaseActivity implements GoodsIF {
         }
     }
 
+    @OnClick(R.id.go_cart)
+    void goCart() {
+        BaseTool.goActivityNoData(this,CartActivity.class);
+    }
+
     @Override
     public void getGoodsInfoSuccess(int code, String result) {
         try {
@@ -169,11 +176,13 @@ public class GoodsActivity extends BaseActivity implements GoodsIF {
                         String[] imageDate = goodsInfo.getPicture().split(",");
                         initImageBaner(Arrays.asList(imageDate));
                     }
+                    if (goodsInfo.getExpiryDate() != null) {
+                        textViewExp.setText(goodsInfo.getExpiryDate().toString());
+                    }
                     if (!isFirst) {
                         cartPopupwindow = new CartPopupwindow(this, goodsInfo);
                         cartPopupwindow.showAtLocation(textViewAddCart, Gravity.BOTTOM, 0, 0);
-                    }
-                    {
+                    } else {
                         isFirst = false;
                     }
 

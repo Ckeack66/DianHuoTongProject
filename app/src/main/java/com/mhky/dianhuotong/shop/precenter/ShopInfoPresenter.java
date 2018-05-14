@@ -40,6 +40,8 @@ public class ShopInfoPresenter {
                     if (response.code() == 200) {
                         ShopInfoByUserID shopInfoByUserID = JSON.parseObject(BaseTool.getResponsBody(response), ShopInfoByUserID.class);
                         BaseApplication.getInstansApp().setShopInfoByUserID(shopInfoByUserID);
+                    }else {
+                        BaseApplication.getInstansApp().setShopInfoByUserID(null);
                     }
                 }
 
@@ -50,7 +52,7 @@ public class ShopInfoPresenter {
 
                 @Override
                 public void onError(Response<String> response) {
-
+                    BaseApplication.getInstansApp().setShopInfoByUserID(null);
                 }
 
                 @Override

@@ -4,6 +4,7 @@ package com.mhky.dianhuotong.shop.fragment;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v4.widget.PopupWindowCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -93,6 +94,8 @@ public class ShopMainFragment extends Fragment implements ShopIF, SortPopupwindo
     TextView textViewShopName;
     @BindView(R.id.shop_notoice)
     TextView textViewNotice;
+    @BindView(R.id.shop_scollview)
+    NestedScrollView nestedScrollView;
     //    @BindView(R.id.shop_scollview)
 //    ScrollViewWithStickHeader scrollViewWithStickHeader;
     private int chooseOldNumber = -1;
@@ -233,6 +236,13 @@ public class ShopMainFragment extends Fragment implements ShopIF, SortPopupwindo
 //        scrollViewWithStickHeader.setContentView(linearLayoutHead);
 //        scrollViewWithStickHeader.setSuspensionView(linearLayoutBody);
         //setRefresh();
+        nestedScrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
+            @Override
+            public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+                hideWindow();
+                setTabStateFalse(chooseOldNumber);
+            }
+        });
         return view;
     }
 
@@ -259,6 +269,8 @@ public class ShopMainFragment extends Fragment implements ShopIF, SortPopupwindo
 
 
     private void hideWindow() {
+//        nestedScrollView.setFocusable(true);
+//        nestedScrollView.setNestedScrollingEnabled(false);
         if (shopTypePopupwindow.isShowing()) {
             shopTypePopupwindow.dismiss();
         } else if (sortPopupwindow.isShowing()) {
@@ -267,7 +279,6 @@ public class ShopMainFragment extends Fragment implements ShopIF, SortPopupwindo
     }
 
     private void setTabStateTrue(int newNumber) {
-
         if (newNumber == chooseOldNumber && tabIsOpen) {
             setTabStateFalse(newNumber);
             hideWindow();
@@ -294,12 +305,18 @@ public class ShopMainFragment extends Fragment implements ShopIF, SortPopupwindo
                 imageViewTab1.setImageResource(R.drawable.icon_choose_selecte);
                 PopupWindowCompat.showAsDropDown(shopTypePopupwindow, relativeLayoutTab1, 0, 0, Gravity.LEFT);
                 tabIsOpen = true;
+//                nestedScrollView.setFocusable(false);
+//                nestedScrollView.setNestedScrollingEnabled(false);
+                nestedScrollView.setEnabled(false);
                 break;
             case 2:
                 textViewTab2.setTextColor(getResources().getColor(R.color.color04c1ab));
                 imageViewTab2.setImageResource(R.drawable.icon_choose_selecte);
                 PopupWindowCompat.showAsDropDown(sortPopupwindow, relativeLayoutTab1, 0, 0, Gravity.LEFT);
                 tabIsOpen = true;
+//                nestedScrollView.setFocusable(false);
+//                nestedScrollView.setNestedScrollingEnabled(false);
+                nestedScrollView.setEnabled(false);
                 break;
         }
     }
@@ -388,7 +405,7 @@ public class ShopMainFragment extends Fragment implements ShopIF, SortPopupwindo
                         @Override
                         public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                             Bundle bundle = new Bundle();
-                            bundle.putSerializable("id", searchSGoodsBean.getContent().get(position).getId());
+                            bundle.putSerializable("id", searchSGoodsBean.getContent().get(position).getId()+"");
                             BaseTool.goActivityWithData(getActivity(), GoodsActivity.class, bundle);
                         }
                     });

@@ -155,6 +155,9 @@ public class BaseApplication extends Application {
     public boolean clearToaken() {
         BaseApplication.getInstansApp().setLoginRequestInfo(null);
         BaseApplication.getInstansApp().setPersonInfo(null);
+        BaseApplication.getInstansApp().setShopInfoByUserID(null);
+        BaseApplication.getInstansApp().setUpdateCart(false);
+        BaseApplication.getInstansApp().setUpdata(false);
         return mSharedPreferences.edit().clear().commit();
     }
 

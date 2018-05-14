@@ -895,6 +895,16 @@ public class GoodsInfo implements Serializable {
     private String lastModifyTime;
     private List<Integer> skuIds;
 
+    public Object getExpiryDate() {
+        return expiryDate;
+    }
+
+    public void setExpiryDate(Object expiryDate) {
+        this.expiryDate = expiryDate;
+    }
+
+    private Object expiryDate;
+
     public int getId() {
         return id;
     }

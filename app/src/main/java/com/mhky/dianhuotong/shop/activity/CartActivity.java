@@ -432,7 +432,7 @@ public class CartActivity extends BaseActivity implements CartOprateIF, CartData
                 for (int i = 0; i < cartInfoListResult.size(); i++) {
                     if (!cartInfoListResult.get(i).isHeader && cartInfoListResult.get(i).getCartBodyBaseInfo().isSelectChild()) {
                         nameList.add(cartInfoListResult.get(i).getCartBodyBaseInfo().getGoodsItemsBean().getSkuDTO().getId() + "");
-                        integerList.add(cartInfoListResult.get(i).getCartBodyBaseInfo().getGoodsItemsBean().getInPrice());
+                        integerList.add(cartInfoListResult.get(i).getCartBodyBaseInfo().getGoodsItemsBean().getInPrice()*cartInfoListResult.get(i).getCartBodyBaseInfo().getGoodsItemsBean().getAmount());
                     }
                 }
             }
