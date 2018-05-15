@@ -24,8 +24,11 @@ import com.mhky.dianhuotong.custom.viewgroup.DianHuoTongBaseTitleBar;
 import com.mhky.dianhuotong.pay.alipay.AuthResult;
 import com.mhky.dianhuotong.pay.alipay.PayResult;
 import com.mhky.dianhuotong.shop.bean.OrderBaseInfo;
+import com.mhky.dianhuotong.shop.bean.ShopAdressInfo;
 import com.mhky.dianhuotong.shop.precenter.BanlancePresenter;
+import com.mhky.dianhuotong.shop.precenter.ShopAdressPresenter;
 import com.mhky.dianhuotong.shop.shopif.BanlanceIF;
+import com.mhky.dianhuotong.shop.shopif.ShopAdressIF;
 
 import java.util.HashMap;
 import java.util.List;
@@ -35,7 +38,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class BalanceActivity extends BaseActivity implements BanlanceIF {
+public class BalanceActivity extends BaseActivity implements BanlanceIF, ShopAdressIF {
     @BindView(R.id.balance_title)
     DianHuoTongBaseTitleBar dianHuoTongBaseTitleBar;
     @BindView(R.id.balance_pay11)
@@ -50,6 +53,8 @@ public class BalanceActivity extends BaseActivity implements BanlanceIF {
     TextView textViewMoney;
     @BindView(R.id.balance_pay)
     TextView textViewPay;
+    @BindView(R.id.balance_shop_adress)
+    TextView textViewShopAdress;
     private String goodsId;
     private String money;
     private int payType = -1;
@@ -58,7 +63,8 @@ public class BalanceActivity extends BaseActivity implements BanlanceIF {
     private static final int SDK_PAY_FLAG = 1;
     private static final int SDK_AUTH_FLAG = 2;
     private static final String TAG = "BalanceActivity";
-    private boolean isUploadOrder=false;
+    private boolean isUploadOrder = false;
+    private ShopAdressPresenter shopAdressPresenter;
     @SuppressLint("HandlerLeak")
     private Handler mHandler = new Handler() {
         @SuppressWarnings("unused")
@@ -73,7 +79,7 @@ public class BalanceActivity extends BaseActivity implements BanlanceIF {
                     String resultInfo = payResult.getResult();// 同步返回需要验证的信息
                     String resultStatus = payResult.getResultStatus();
                     // 判断resultStatus 为9000则代表支付成功
-                    Log.d(TAG, "handleMessage: ----"+resultStatus);
+                    Log.d(TAG, "handleMessage: ----" + resultStatus);
                     if (TextUtils.equals(resultStatus, "9000")) {
                         // 该笔订单是否真实支付成功，需要依赖服务端的异步通知。
                         Toast.makeText(BalanceActivity.this, "支付成功", Toast.LENGTH_SHORT).show();
@@ -125,6 +131,8 @@ public class BalanceActivity extends BaseActivity implements BanlanceIF {
     }
 
     private void init() {
+        shopAdressPresenter = new ShopAdressPresenter(this);
+        shopAdressPresenter.getShopAdress();
         dianHuoTongBaseTitleBar.setLeftImage(R.drawable.icon_back);
         dianHuoTongBaseTitleBar.setLeftOnclickListener(new View.OnClickListener() {
             @Override
@@ -169,7 +177,7 @@ public class BalanceActivity extends BaseActivity implements BanlanceIF {
             HashMap<String, String> m = new HashMap();
             m.put("skuIds", goodsId);
             banlancePresenter.doBanlance(m);
-        }else if (orderID!=null){
+        } else if (orderID != null) {
             HashMap hashMap = new HashMap();
             hashMap.put("orderIds", orderID);
             hashMap.put("paymentType", "ALIPAY");
@@ -202,8 +210,8 @@ public class BalanceActivity extends BaseActivity implements BanlanceIF {
             textViewPay.setText("订单支付");
             BaseApplication.getInstansApp().setUpdateCart(true);
             StringBuffer stringBuffer = new StringBuffer();
-           // OrderBaseInfo orderBaseInfo = JSON.parseObject(result, OrderBaseInfo.class);
-            List<OrderBaseInfo.ContentBean> contentBeanList=JSON.parseArray(result, OrderBaseInfo.ContentBean.class);
+            // OrderBaseInfo orderBaseInfo = JSON.parseObject(result, OrderBaseInfo.class);
+            List<OrderBaseInfo.ContentBean> contentBeanList = JSON.parseArray(result, OrderBaseInfo.ContentBean.class);
             if (contentBeanList.size() == 1) {
                 stringBuffer.append(contentBeanList.get(0).getId());
             } else {
@@ -214,7 +222,7 @@ public class BalanceActivity extends BaseActivity implements BanlanceIF {
                     }
                 }
             }
-            orderID=stringBuffer.toString();
+            orderID = stringBuffer.toString();
             HashMap hashMap = new HashMap();
             hashMap.put("orderIds", orderID);
             hashMap.put("paymentType", "ALIPAY");
@@ -263,4 +271,22 @@ public class BalanceActivity extends BaseActivity implements BanlanceIF {
     }
 
 
+    @Override
+    public void getShopAdressSuccess(int code, String result) {
+        if (code == 200) {
+            ShopAdressInfo shopAdressInfo = JSON.parseObject(result, ShopAdressInfo.class);
+            StringBuilder stringBuilder = new StringBuilder();
+            stringBuilder.append(shopAdressInfo.getAddress().getProvince());
+            stringBuilder.append(shopAdressInfo.getAddress().getCity());
+            stringBuilder.append(shopAdressInfo.getAddress().getDistrict());
+            stringBuilder.append(shopAdressInfo.getAddress().getTown());
+            stringBuilder.append(shopAdressInfo.getAddress().getRoad());
+            textViewShopAdress.setText(stringBuilder.toString());
+        }
+    }
+
+    @Override
+    public void getShopAdressFailed(int code, String result) {
+
+    }
 }

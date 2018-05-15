@@ -83,8 +83,8 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="action_settings">Settings</string>
     <!--发票信息Invoiceactivity-->
-    <string name="invoice_company_name">暂无公司名称</string>
-    <string name="invoice_company_adress">暂无公司地址</string>
+    <string name="invoice_company_name">暂无店铺名称</string>
+    <string name="invoice_company_adress">暂无店铺地址</string>
     <string name="invoice_company_corporation">请输入法人姓名</string>
     <string name="invoice_company_phone">请输入联系方式</string>
     <string name="invoice_tab1">资质信息</string>
@@ -154,7 +154,7 @@
 
     <string name="add_shop_finish_name">姓名：</string>
     <string name="add_shop_finish_mywaiter">服务专员：</string>
-    <string name="add_shop_finish_mywaiter_txt">请输入服务专员手机号</string>
+    <string name="add_shop_finish_mywaiter_txt">请输入服务专员工号</string>
     <string name="add_shop_finish_button">确认加入</string>
     <string name="add_shop_search">店铺、药店</string>
     <!-- TODO: Remove or change this placeholder text -->

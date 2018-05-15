@@ -29,7 +29,9 @@ import com.mhky.dianhuotong.shop.adapter.CredentialRecycleViewAdapter;
 import com.mhky.dianhuotong.shop.bean.CredentialUpdateInfo;
 import com.mhky.dianhuotong.shop.bean.ShopCredentialBaseInfo;
 import com.mhky.dianhuotong.shop.bean.ShopCredentialInfo;
+import com.mhky.dianhuotong.shop.precenter.BillPresenter;
 import com.mhky.dianhuotong.shop.precenter.ShopCredentialPresenter;
+import com.mhky.dianhuotong.shop.shopif.BillIF;
 import com.mhky.dianhuotong.shop.shopif.ShopCredentialIF;
 
 import java.util.ArrayList;
@@ -44,7 +46,7 @@ import butterknife.Unbinder;
  * Use the {@link InvoiceFragment1#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class InvoiceFragment1 extends Fragment implements ShopCredentialIF, CredentialsDialogIF, CredentialBaseDialog.CredentialBaseDialogListener {
+public class InvoiceFragment1 extends Fragment implements ShopCredentialIF, CredentialsDialogIF, CredentialBaseDialog.CredentialBaseDialogListener,BillIF {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -66,6 +68,7 @@ public class InvoiceFragment1 extends Fragment implements ShopCredentialIF, Cred
     private CredentialBaseDialog credentialBaseDialog;
     private List<CredentialBaseTypeInfo> credentialBaseTypeInfoList;
     private int upNumber;
+    private BillPresenter billPresenter;
     private static final String TAG = "InvoiceFragment1";
     private Unbinder unbinder;
 
@@ -114,6 +117,8 @@ public class InvoiceFragment1 extends Fragment implements ShopCredentialIF, Cred
         shopCredentialBaseInfo = new ShopCredentialBaseInfo();
         shopCredentialBaseInfo.setItemType(2);
         credentialsDialogPresenter.getCredentialDialogData();
+        billPresenter=new BillPresenter(this);
+        billPresenter.getBill();
         return view;
     }
 
@@ -264,5 +269,35 @@ public class InvoiceFragment1 extends Fragment implements ShopCredentialIF, Cred
         } else {
             ToastUtil.makeText(getActivity(), "没有可上传的资质信息", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    @Override
+    public void getBillSuccess(int code, String result) {
+
+    }
+
+    @Override
+    public void getBillFailed(int code, String result) {
+
+    }
+
+    @Override
+    public void alterBillSuccess(int code, String result) {
+
+    }
+
+    @Override
+    public void alterBillFailed(int code, String result) {
+
+    }
+
+    @Override
+    public void addBillSuccess(int code, String result) {
+
+    }
+
+    @Override
+    public void addBillFailed(int code, String result) {
+
     }
 }

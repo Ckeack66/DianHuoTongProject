@@ -22,8 +22,8 @@ public class BaseUrlTool {
     private final static String HOST_ADRESS_URL = HOSTS + "8018";
     private final static String HOST_GOODS_URL = HOSTS + "9000";
     private final static String HOST_CART_URL = HOSTS + "9050";
-//    private final static String HOST_BANLANCE_URL = HOSTS + "9030";
-    private final static String HOST_BANLANCE_URL = "http://192.168.2.237:" + "9030";
+    private final static String HOST_BANLANCE_URL = HOSTS + "9030";
+//    private final static String HOST_BANLANCE_URL = "http://192.168.2.237:" + "9030";
 //    private final static String HOST_ADRESS_URL = "http://192.168.2.235:8088";
     //        private final static String HOST_URL = "http://192.168.2.235:9088";
     /**
@@ -242,5 +242,26 @@ public class BaseUrlTool {
     private static final String GET_SHOP_INFO=HOST_URL+"/user/buyer/";
     public static String getShopInfo(String ID){
         return GET_SHOP_INFO+ID+"/shop";
+    }
+
+    /**
+     * 通过店铺ID获取商铺信息
+     */
+    public static String GET_SHOP_ADRESS=HOST_URL+"/user/buyer/shop/";
+
+    /**
+     * 获取发票信息
+     */
+    public static String GET_SHOP_BILL=HOST_URL+"/user/buyer/shop/ticket/";
+    /**
+     * 添加发票信息
+     */
+    public static String ADD_SHOP_BILL=HOST_URL+"/user/buyer/shop/ticket";
+    /**
+     * 获取服务专员手机号
+     */
+    private static String GET_SALE_MAN=HOST_URL+"/user/salesman/";
+    public static String getSaleMan(String code){
+        return GET_SALE_MAN+code+"/code";
     }
 }

@@ -31,6 +31,16 @@ public class PersonInfo implements Serializable{
     private Object truename;
     private Object type;
 
+    public Object getSalesmanCode() {
+        return salesmanCode;
+    }
+
+    public void setSalesmanCode(Object salesmanCode) {
+        this.salesmanCode = salesmanCode;
+    }
+
+    private Object salesmanCode;
+
     public String getUsername() {
         return username;
     }

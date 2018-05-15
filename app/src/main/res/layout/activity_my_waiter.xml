@@ -52,10 +52,11 @@
                     android:textSize="@dimen/t12" />
 
                 <TextView
+                    android:id="@+id/sale_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@color/colorTransp"
-                    android:text="李荣浩"
+                    android:text="未设置"
                     android:textColor="@color/color333333"
                     android:textSize="@dimen/t12" />
             </LinearLayout>
@@ -80,10 +81,11 @@
                     android:textSize="@dimen/t12" />
 
                 <TextView
+                    android:id="@+id/sale_phone"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@color/colorTransp"
-                    android:text="158 9036 2768"
+                    android:text="未设置"
                     android:textColor="@color/color333333"
                     android:textSize="@dimen/t12"
                     android:autoLink="phone"
@@ -111,10 +113,11 @@
                     android:textSize="@dimen/t12" />
 
                 <TextView
+                    android:id="@+id/sale_area"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@color/colorTransp"
-                    android:text="山东省济南市槐荫区"
+                    android:text="未设置"
                     android:textColor="@color/color333333"
                     android:textSize="@dimen/t12" />
 
@@ -140,10 +143,11 @@
                     android:textSize="@dimen/t12" />
 
                 <TextView
+                    android:id="@+id/sale_manager"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@color/colorTransp"
-                    android:text="黎明"
+                    android:text="营销中心"
                     android:textColor="@color/color333333"
                     android:textSize="@dimen/t12" />
 
@@ -168,10 +172,11 @@
                     android:textSize="@dimen/t12" />
 
                 <TextView
+                    android:id="@+id/sale_manager_phone"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@color/colorTransp"
-                    android:text="150 2356 7894"
+                    android:text="0531-87901115"
                     android:textColor="@color/color333333"
                     android:textSize="@dimen/t12"
                     android:autoLink="phone"

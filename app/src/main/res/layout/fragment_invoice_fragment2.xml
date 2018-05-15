@@ -27,6 +27,7 @@
                 android:textColor="@color/color333333" />
 
             <RadioGroup
+                android:id="@+id/bill_type"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
@@ -34,6 +35,7 @@
                 android:orientation="horizontal">
 
                 <RadioButton
+                    android:id="@+id/bill_type1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:button="@drawable/selector_invoice_fragment2_radiobutton"
@@ -42,6 +44,7 @@
                     android:textColor="@color/color333333" />
 
                 <RadioButton
+                    android:id="@+id/bill_type2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/x35"
@@ -82,6 +85,7 @@
                 android:textColor="@color/color333333" />
 
             <EditText
+                android:id="@+id/bill_number"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginStart="@dimen/x80"
@@ -126,6 +130,7 @@
                 android:textColor="@color/color333333" />
 
             <EditText
+                android:id="@+id/bill_bank"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginStart="@dimen/x80"
@@ -170,13 +175,14 @@
                 android:textColor="@color/color333333" />
 
             <EditText
+                android:id="@+id/bill_bank_number"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginStart="@dimen/x80"
                 android:background="@null"
                 android:gravity="center_vertical|end"
                 android:hint="@string/invoice_fragment2_txt41"
-                android:inputType="text"
+                android:inputType="number"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:textColorHint="@color/colorBFBFBF"

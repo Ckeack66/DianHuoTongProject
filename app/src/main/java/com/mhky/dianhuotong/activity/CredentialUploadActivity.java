@@ -236,19 +236,21 @@ public class CredentialUploadActivity extends TakePhotoActivity implements DianH
     @Override
     public void updataCredentialImageSucess(int code, String result) {
         if (code == 201) {
-            if (result!=null&&!"".equals(result)){
+            if (result != null && !"".equals(result)) {
                 ToastUtil.makeText(this, "上传成功", Toast.LENGTH_SHORT).show();
                 imageUrl = result;
                 Picasso.with(mContext).load(imageUrl).memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE).resize(withResult, heightResult).into(imageViewCredentail);
                 Log.d(TAG, "updataCredentialImageSucess: ------" + result);
             }
 
+        } else {
+            ToastUtil.makeText(this, "上传失败", Toast.LENGTH_SHORT).show();
         }
     }
 
     @Override
     public void updataCredentialImageFailed(int code, String result) {
-
+        ToastUtil.makeText(this, "上传失败", Toast.LENGTH_SHORT).show();
     }
 
     @OnClick(R.id.upload_credrntial_ok)
@@ -348,7 +350,13 @@ public class CredentialUploadActivity extends TakePhotoActivity implements DianH
             @Override
             public void onTimeSelect(Date date, View v) {
                 //选中事件回调
-                textView.setText(getTime(date));
+                if (!TextUtils.isEmpty(textViewData2.getText())) {
+                    if (BaseTool.isDateOneBigger(getTime(date), textViewData2.getText().toString())) {
+                        ToastUtil.makeText(mContext, "开始时间不能大于结束时间", Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    textView.setText(getTime(date));
+                }
             }
         }).setDividerColor(R.color.color04c1ab)
                 .setLineSpacingMultiplier(1.6f)
@@ -366,7 +374,7 @@ public class CredentialUploadActivity extends TakePhotoActivity implements DianH
                 .setBgColor(Color.BLACK)//滚轮背景颜色 Night mode
                 .setSubmitColor(Color.WHITE)
                 .setCancelColor(Color.WHITE)*/
-               /*.animGravity(Gravity.RIGHT)// default is center*/
+                /*.animGravity(Gravity.RIGHT)// default is center*/
                 .setDate(selectedDate)
                 .setRangDate(startDate, endDate)
                 .setLayoutRes(R.layout.custom_view_pickerview, new CustomListener() {
@@ -413,7 +421,7 @@ public class CredentialUploadActivity extends TakePhotoActivity implements DianH
          * setRangDate方法控制起始终止时间(如果不设置范围，则使用默认时间1900-2100年，此段代码可注释)
          */
         Calendar selectedDate = Calendar.getInstance();//系统当前时间
-        Calendar startDate = Calendar.getInstance();
+        final Calendar startDate = Calendar.getInstance();
         startDate.set(1990, 0, 1);
         Calendar endDate = Calendar.getInstance();
         endDate.set(2070, 11, 30);
@@ -422,7 +430,17 @@ public class CredentialUploadActivity extends TakePhotoActivity implements DianH
             @Override
             public void onTimeSelect(Date date, View v) {
                 //选中事件回调
-                textView.setText(getTime(date));
+                if (!TextUtils.isEmpty(textViewData1.getText())) {
+                    if (!BaseTool.isDateOneBigger(getTime(date), textViewData1.getText().toString())) {
+                        ToastUtil.makeText(mContext, "结束时间不能小于开始时间", Toast.LENGTH_SHORT).show();
+                    }else {
+                        textView.setText(getTime(date));
+                    }
+                } else {
+                    textView.setText(getTime(date));
+                }
+
+
             }
         }).setDividerColor(R.color.color04c1ab)
                 .setLineSpacingMultiplier(1.6f)
@@ -440,7 +458,7 @@ public class CredentialUploadActivity extends TakePhotoActivity implements DianH
                 .setBgColor(Color.BLACK)//滚轮背景颜色 Night mode
                 .setSubmitColor(Color.WHITE)
                 .setCancelColor(Color.WHITE)*/
-               /*.animGravity(Gravity.RIGHT)// default is center*/
+                /*.animGravity(Gravity.RIGHT)// default is center*/
                 .setDate(selectedDate)
                 .setRangDate(startDate, endDate)
                 .setLayoutRes(R.layout.custom_view_pickerview, new CustomListener() {

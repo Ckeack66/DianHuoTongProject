@@ -7,17 +7,22 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 
+import com.alibaba.fastjson.JSON;
 import com.mhky.dianhuotong.R;
 import com.mhky.dianhuotong.base.view.BaseActivity;
 import com.mhky.dianhuotong.custom.viewgroup.DianHuoTongBaseTitleBar;
 import com.mhky.dianhuotong.invoice.fragment.InvoiceFragment1;
 import com.mhky.dianhuotong.invoice.fragment.InvoiceFragment2;
+import com.mhky.dianhuotong.shop.bean.ShopAdressInfo;
+import com.mhky.dianhuotong.shop.precenter.ShopAdressPresenter;
+import com.mhky.dianhuotong.shop.shopif.ShopAdressIF;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class InvoiceActivity extends BaseActivity implements RadioGroup.OnCheckedChangeListener {
+public class InvoiceActivity extends BaseActivity implements RadioGroup.OnCheckedChangeListener, ShopAdressIF {
 
     @BindView(R.id.invoice_tab)
     RadioGroup radioGroup;
@@ -33,9 +38,14 @@ public class InvoiceActivity extends BaseActivity implements RadioGroup.OnChecke
     FrameLayout frameLayout;
     @BindView(R.id.invoice_title)
     DianHuoTongBaseTitleBar dianHuoTongBaseTitleBar;
+    @BindView(R.id.invoice_shop_name)
+    TextView textViewShopName;
+    @BindView(R.id.invoice_shop_adress)
+    TextView textViewAdress;
     private FragmentManager fragmentManager;
     private InvoiceFragment1 invoiceFragment1;
     private InvoiceFragment2 invoiceFragment2;
+    private ShopAdressPresenter shopAdressPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,13 +56,22 @@ public class InvoiceActivity extends BaseActivity implements RadioGroup.OnChecke
     }
 
     private void inIt() {
+        shopAdressPresenter = new ShopAdressPresenter(this);
+        shopAdressPresenter.getShopAdress();
         dianHuoTongBaseTitleBar.setLeftImage(R.drawable.icon_back);
         dianHuoTongBaseTitleBar.setCenterTextView(getString(R.string.invoice_title));
-        dianHuoTongBaseTitleBar.setRightText(getString(R.string.invoice_save));
         dianHuoTongBaseTitleBar.setLeftOnclickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
+            }
+        });
+        dianHuoTongBaseTitleBar.setRightTextViewListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (invoiceFragment2 != null&&!invoiceFragment2.isHidden()) {
+                    invoiceFragment2.saveInfo();
+                }
             }
         });
         radioGroup.setOnCheckedChangeListener(this);
@@ -68,10 +87,12 @@ public class InvoiceActivity extends BaseActivity implements RadioGroup.OnChecke
             case R.id.invoice_tab_1:
                 showRadioButtonColor(radioButton1, view1);
                 showFragment(invoiceFragment1);
+                dianHuoTongBaseTitleBar.setRightText("");
                 break;
             case R.id.invoice_tab_2:
                 showRadioButtonColor(radioButton2, view2);
                 showFragment(invoiceFragment2);
+                dianHuoTongBaseTitleBar.setRightText(getString(R.string.invoice_save));
                 break;
         }
     }
@@ -92,5 +113,25 @@ public class InvoiceActivity extends BaseActivity implements RadioGroup.OnChecke
         } else if (!invoiceFragment2.isHidden()) {
             fragmentManager.beginTransaction().hide(invoiceFragment2).show(fragment).commit();
         }
+    }
+
+    @Override
+    public void getShopAdressSuccess(int code, String result) {
+        if (code == 200) {
+            ShopAdressInfo shopAdressInfo = JSON.parseObject(result, ShopAdressInfo.class);
+            StringBuilder stringBuilder = new StringBuilder();
+            stringBuilder.append(shopAdressInfo.getAddress().getProvince());
+            stringBuilder.append(shopAdressInfo.getAddress().getCity());
+            stringBuilder.append(shopAdressInfo.getAddress().getDistrict());
+            stringBuilder.append(shopAdressInfo.getAddress().getTown());
+            stringBuilder.append(shopAdressInfo.getAddress().getRoad());
+            textViewAdress.setText(stringBuilder.toString());
+            textViewShopName.setText(shopAdressInfo.getShopname());
+        }
+    }
+
+    @Override
+    public void getShopAdressFailed(int code, String result) {
+
     }
 }

@@ -27,6 +27,7 @@
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/invoice_shop_name"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/x30"
                 android:background="@null"
@@ -43,6 +44,7 @@
                 android:background="@color/colorBFBFBF" />
 
             <TextView
+                android:id="@+id/invoice_shop_adress"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/x30"
                 android:background="@null"

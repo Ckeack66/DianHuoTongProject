@@ -23,6 +23,7 @@ import com.mhky.dianhuotong.shop.adapter.AllGoodsListViewGridviewAdpter;
 import com.mhky.dianhuotong.shop.adapter.ShopListviewAdapter;
 
 import java.net.URL;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -305,6 +306,24 @@ public class BaseTool {
     public static int px2sp(Context context, float pxValue) {
         final float fontScale = context.getResources().getDisplayMetrics().scaledDensity;
         return (int) (pxValue / fontScale + 0.5f);
+    }
+    public static boolean isDateOneBigger(String str1, String str2) {
+        boolean isBigger = false;
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Date dt1 = null;
+        Date dt2 = null;
+        try {
+            dt1 = sdf.parse(str1);
+            dt2 = sdf.parse(str2);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        if (dt1.getTime() > dt2.getTime()) {
+            isBigger = true;
+        } else if (dt1.getTime() < dt2.getTime()) {
+            isBigger = false;
+        }
+        return isBigger;
     }
 
 }

@@ -271,9 +271,9 @@ public class ShopMainFragment extends Fragment implements ShopIF, SortPopupwindo
     private void hideWindow() {
 //        nestedScrollView.setFocusable(true);
 //        nestedScrollView.setNestedScrollingEnabled(false);
-        if (shopTypePopupwindow.isShowing()) {
+        if (shopTypePopupwindow!=null&&shopTypePopupwindow.isShowing()) {
             shopTypePopupwindow.dismiss();
-        } else if (sortPopupwindow.isShowing()) {
+        } else if (sortPopupwindow!=null&&sortPopupwindow.isShowing()) {
             sortPopupwindow.dismiss();
         }
     }
