@@ -22,8 +22,8 @@ public class BaseUrlTool {
     private final static String HOST_ADRESS_URL = HOSTS + "8018";
     private final static String HOST_GOODS_URL = HOSTS + "9000";
     private final static String HOST_CART_URL = HOSTS + "9050";
-    private final static String HOST_BANLANCE_URL = HOSTS + "9030";
-//    private final static String HOST_BANLANCE_URL = "http://192.168.2.237:" + "9030";
+//    private final static String HOST_BANLANCE_URL = HOSTS + "9030";
+    private final static String HOST_BANLANCE_URL = "http://192.168.2.237:" + "9030";
 //    private final static String HOST_ADRESS_URL = "http://192.168.2.235:8088";
     //        private final static String HOST_URL = "http://192.168.2.235:9088";
     /**

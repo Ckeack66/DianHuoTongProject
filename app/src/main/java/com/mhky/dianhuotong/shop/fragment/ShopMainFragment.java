@@ -41,10 +41,12 @@ import com.mhky.dianhuotong.shop.precenter.CompanyPrecenter;
 import com.mhky.dianhuotong.shop.precenter.GoodsPrecenter;
 import com.mhky.dianhuotong.shop.precenter.SearchGoodsPresenter;
 import com.mhky.dianhuotong.shop.precenter.ShopPresenter;
+import com.mhky.dianhuotong.shop.precenter.StarGoodsPrecenter;
 import com.mhky.dianhuotong.shop.shopif.CompanyIF;
 import com.mhky.dianhuotong.shop.shopif.GoodsIF;
 import com.mhky.dianhuotong.shop.shopif.SearchGoodsIF;
 import com.mhky.dianhuotong.shop.shopif.ShopIF;
+import com.mhky.dianhuotong.shop.shopif.StarShopAddIF;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.constant.SpinnerStyle;
@@ -267,13 +269,18 @@ public class ShopMainFragment extends Fragment implements ShopIF, SortPopupwindo
         setTabStateTrue(2);
     }
 
+    @OnClick(R.id.shop_start)
+    void startShop() {
+
+
+    }
 
     private void hideWindow() {
 //        nestedScrollView.setFocusable(true);
 //        nestedScrollView.setNestedScrollingEnabled(false);
-        if (shopTypePopupwindow!=null&&shopTypePopupwindow.isShowing()) {
+        if (shopTypePopupwindow != null && shopTypePopupwindow.isShowing()) {
             shopTypePopupwindow.dismiss();
-        } else if (sortPopupwindow!=null&&sortPopupwindow.isShowing()) {
+        } else if (sortPopupwindow != null && sortPopupwindow.isShowing()) {
             sortPopupwindow.dismiss();
         }
     }
@@ -405,7 +412,7 @@ public class ShopMainFragment extends Fragment implements ShopIF, SortPopupwindo
                         @Override
                         public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                             Bundle bundle = new Bundle();
-                            bundle.putSerializable("id", searchSGoodsBean.getContent().get(position).getId()+"");
+                            bundle.putSerializable("id", searchSGoodsBean.getContent().get(position).getId() + "");
                             BaseTool.goActivityWithData(getActivity(), GoodsActivity.class, bundle);
                         }
                     });

@@ -12,6 +12,7 @@ import com.mhky.dianhuotong.R;
 import com.mhky.dianhuotong.base.BaseTool;
 import com.mhky.dianhuotong.base.view.BaseActivity;
 import com.mhky.dianhuotong.shop.activity.CouponActivity;
+import com.mhky.dianhuotong.shop.activity.OderOkActivity;
 import com.stone.countdownprogress.CountDownProgress;
 
 
@@ -70,7 +71,8 @@ public class WelcomActivity extends BaseActivity {
         } else if (a == 3) {
             aBoolean = false;
             countDownProgress.cancel();
-            BaseTool.goActivityNoData(this, CouponActivity.class);
+//            BaseTool.goActivityNoData(this, CouponActivity.class);
+            BaseTool.goActivityNoData(this, OderOkActivity.class);
             finish();
         }
 

@@ -1,6 +1,5 @@
 package com.mhky.dianhuotong.activity;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.RelativeLayout;
@@ -54,5 +53,9 @@ public class SystemSetActivity extends BaseActivity {
         BaseApplication.getInstansApp().clearToaken();
         BaseTool.goActivityNoData(this, LoginActivity.class);
         finish();
+    }
+    @OnClick(R.id.system_set_up)
+    void goFeedBackActivity(){
+        BaseTool.goActivityNoData(this, FeedBackBaseActivity.class);
     }
 }

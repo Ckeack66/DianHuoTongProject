@@ -24,6 +24,9 @@ public class PersonInfoPrecenter {
         this.personIF = personIF;
     }
 
+    public PersonInfoPrecenter() {
+    }
+
     public void getPersonInfo(String userID) {
         OkGo.<String>get(BaseUrlTool.getPersonInfoURL(userID)).execute(new Callback<String>() {
             @Override

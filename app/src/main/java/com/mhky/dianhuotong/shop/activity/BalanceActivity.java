@@ -29,6 +29,9 @@ import com.mhky.dianhuotong.shop.precenter.BanlancePresenter;
 import com.mhky.dianhuotong.shop.precenter.ShopAdressPresenter;
 import com.mhky.dianhuotong.shop.shopif.BanlanceIF;
 import com.mhky.dianhuotong.shop.shopif.ShopAdressIF;
+import com.tencent.mm.opensdk.modelpay.PayReq;
+import com.tencent.mm.opensdk.openapi.IWXAPI;
+import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
 import java.util.HashMap;
 import java.util.List;
@@ -65,6 +68,7 @@ public class BalanceActivity extends BaseActivity implements BanlanceIF, ShopAdr
     private static final String TAG = "BalanceActivity";
     private boolean isUploadOrder = false;
     private ShopAdressPresenter shopAdressPresenter;
+    private final IWXAPI msgApi = WXAPIFactory.createWXAPI(this, null);
     @SuppressLint("HandlerLeak")
     private Handler mHandler = new Handler() {
         @SuppressWarnings("unused")
@@ -126,6 +130,7 @@ public class BalanceActivity extends BaseActivity implements BanlanceIF, ShopAdr
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_balance);
         ButterKnife.bind(this);
+        msgApi.registerApp("wxd930ea5d5a258f4f");
         init();
 
     }
@@ -259,6 +264,25 @@ public class BalanceActivity extends BaseActivity implements BanlanceIF, ShopAdr
                 payThread.start();
             } else if (payType == 2) {
                 ToastUtil.makeText(this, "微信结账中...请等待", Toast.LENGTH_SHORT).show();
+                Runnable payRunnable1 = new Runnable() {
+                    @Override
+                    public void run() {
+                        PayReq req = new PayReq();
+                        req.appId = "wxf8b4f85f3a794e77";  // 测试用appId
+//                        req.appId			= json.getString("appid");
+//                        req.partnerId		= json.getString("partnerid");
+//                        req.prepayId		= json.getString("prepayid");
+//                        req.nonceStr		= json.getString("noncestr");
+//                        req.timeStamp		= json.getString("timestamp");
+//                        req.packageValue	= json.getString("package");
+//                        req.sign			= json.getString("sign");
+                        req.extData			= "app data"; // optional
+                        msgApi.sendReq(req);
+                    }
+                };
+                Thread payThread1 = new Thread(payRunnable1);
+                payThread1.start();
+
             } else if (payType == 3) {
                 ToastUtil.makeText(this, "此订单将进行线下结账...请仔细核对商家信息", Toast.LENGTH_SHORT).show();
             }

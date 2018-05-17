@@ -13,10 +13,10 @@ android {
         applicationId "com.mhky.dianhuotong"
         minSdkVersion 18
         targetSdkVersion 26
-        versionCode 1
-        versionName "1.0"
+        versionName '1.0.0'
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         signingConfig signingConfigs.config
+        versionCode 1
     }
     buildTypes {
         release {
@@ -102,6 +102,7 @@ dependencies {
     //权限相关
     compile 'com.github.jokermonn:permissions4m:2.1.2-lib'
     annotationProcessor 'com.github.jokermonn:permissions4m:2.1.2-processor'
+    compile 'me.weyye.hipermission:library:1.0.7'
 
     //banner
     implementation 'com.android.support:support-v4:26.1.0'
@@ -146,8 +147,6 @@ dependencies {
 
     //筛选
     compile 'com.github.dongjunkun:DropDownMenu:1.0.4'
-    implementation files('libs/jcore-android-1.2.0.jar')
-    implementation files('libs/jpush-android-3.1.2.jar')
 
     //流式布局
     compile 'com.hyman:flowlayout-lib:1.1.2'
@@ -162,6 +161,7 @@ dependencies {
 
     //scollview
     implementation project(':stickscrollview')
+
     //蒲公英
     compile 'com.pgyersdk:sdk:2.8.1'
 }

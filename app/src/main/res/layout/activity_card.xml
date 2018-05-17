@@ -14,8 +14,8 @@
 
     <ImageView
         android:id="@+id/shop_code_img"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="@dimen/x200"
+        android:layout_height="@dimen/x200"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="@dimen/x100"
         android:src="@drawable/icon_code_big" />
@@ -45,8 +45,16 @@
             android:drawableTop="@drawable/icon_qq"
             android:gravity="center"
             android:text="QQ"
-            android:textColor="@color/color333333" />
+            android:textColor="@color/color333333"
+            android:visibility="gone"/>
 
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:drawablePadding="@dimen/x6"
+            android:gravity="center"
+            android:textColor="@color/color333333" />
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -55,9 +63,10 @@
             android:drawableTop="@drawable/icon_qz"
             android:gravity="center"
             android:text="QQ空间"
-            android:textColor="@color/color333333" />
-
+            android:textColor="@color/color333333"
+            android:visibility="gone"/>
         <TextView
+            android:id="@+id/card_wx"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -68,6 +77,7 @@
             android:textColor="@color/color333333" />
 
         <TextView
+            android:id="@+id/card_py"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -75,6 +85,13 @@
             android:drawableTop="@drawable/icon_wz"
             android:gravity="center"
             android:text="朋友圈"
+            android:textColor="@color/color333333" />
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:drawablePadding="@dimen/x6"
+            android:gravity="center"
             android:textColor="@color/color333333" />
     </LinearLayout>
 

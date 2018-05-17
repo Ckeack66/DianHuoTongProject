@@ -2,6 +2,7 @@ package com.mhky.dianhuotong.activity;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.net.Uri;
 import android.support.annotation.NonNull;
@@ -9,6 +10,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.content.PermissionChecker;
 import android.support.v4.widget.DrawerLayout;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
@@ -45,6 +47,10 @@ import com.mhky.dianhuotong.shop.bean.GoodsBaseInfo;
 import com.mhky.dianhuotong.shop.precenter.AllGoosPrecenter;
 import com.mhky.dianhuotong.shop.precenter.ShopInfoPresenter;
 import com.mhky.dianhuotong.shop.shopif.AllGoodsIF;
+import com.pgyersdk.crash.PgyCrashManager;
+import com.pgyersdk.javabean.AppBean;
+import com.pgyersdk.update.PgyUpdateManager;
+import com.pgyersdk.update.UpdateManagerListener;
 import com.squareup.picasso.Picasso;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
@@ -98,6 +104,7 @@ public class MainActivity extends BaseActivity implements MainIF, DrawerLayout.D
     private Context mContext;
     private AllGoosPrecenter allGoosPrecenter;
     private ShopInfoPresenter shopInfoPresenter;
+    private List list;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,6 +114,34 @@ public class MainActivity extends BaseActivity implements MainIF, DrawerLayout.D
         mContext = this;
         inIt();
         initData();
+        PgyUpdateManager.setIsForced(false);
+        PgyUpdateManager.register(this, new UpdateManagerListener() {
+            @Override
+            public void onNoUpdateAvailable() {
+
+            }
+
+            @Override
+            public void onUpdateAvailable(String s) {
+                final AppBean appBean=getAppBeanFromString(s);
+                new AlertDialog.Builder(MainActivity.this)
+                        .setTitle("有新版本更新啦~")
+                        .setMessage("修复了一些bug,增加用户体验")
+                        .setNegativeButton(
+                                "确定",
+                                new DialogInterface.OnClickListener() {
+
+                                    @Override
+                                    public void onClick(
+                                            DialogInterface dialog,
+                                            int which) {
+                                        startDownloadTask(
+                                                MainActivity.this,
+                                                appBean.getDownloadURL());
+                                    }
+                                }).show();
+            }
+        });
     }
 
     @Override
@@ -127,6 +162,12 @@ public class MainActivity extends BaseActivity implements MainIF, DrawerLayout.D
     protected void onStop() {
         super.onStop();
 
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        PgyUpdateManager.unregister();
     }
 
     @Override
@@ -300,9 +341,9 @@ public class MainActivity extends BaseActivity implements MainIF, DrawerLayout.D
      */
     @Override
     public void onDrawerSlide(View drawerView, float slideOffset) {
-        Log.d(TAG, "onDrawerSlide: " + slideOffset);
-        getWindowManager().getDefaultDisplay().getMetrics(display);
-        relativeLayoutBody.layout(relativeLayoutLeft.getRight(), 0, relativeLayoutLeft.getRight() + display.widthPixels, display.heightPixels);
+//        Log.d(TAG, "onDrawerSlide: " + slideOffset);
+//        getWindowManager().getDefaultDisplay().getMetrics(display);
+//        relativeLayoutBody.layout(relativeLayoutLeft.getRight(), 0, relativeLayoutLeft.getRight() + display.widthPixels, display.heightPixels);
     }
 
     /**
@@ -313,7 +354,7 @@ public class MainActivity extends BaseActivity implements MainIF, DrawerLayout.D
     @Override
     public void onDrawerOpened(View drawerView) {
         isOpenDrawer = true;
-        banner.stopAutoPlay();
+        //banner.stopAutoPlay();
     }
 
     /**
@@ -324,7 +365,7 @@ public class MainActivity extends BaseActivity implements MainIF, DrawerLayout.D
     @Override
     public void onDrawerClosed(View drawerView) {
         isOpenDrawer = false;
-        banner.startAutoPlay();
+        // banner.startAutoPlay();
     }
 
     @Override

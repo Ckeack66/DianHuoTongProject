@@ -13,6 +13,9 @@ import com.mhky.dianhuotong.login.LoginRequestInfo;
 import com.mhky.dianhuotong.person.bean.PersonInfo;
 import com.mhky.dianhuotong.shop.bean.GoodsBaseInfo;
 import com.mhky.dianhuotong.shop.bean.ShopInfoByUserID;
+import com.pgyersdk.crash.PgyCrashManager;
+import com.tencent.mm.opensdk.openapi.IWXAPI;
+import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.tencent.smtt.sdk.QbSdk;
 
 import java.security.NoSuchAlgorithmException;
@@ -130,6 +133,8 @@ public class BaseApplication extends Application {
                 Log.d(TAG, "onCoreInitFinished: -----腾讯x5内核初始化" + b);
             }
         });
+        PgyCrashManager.register(this);
+
     }
 
     public static BaseApplication getInstansApp() {
