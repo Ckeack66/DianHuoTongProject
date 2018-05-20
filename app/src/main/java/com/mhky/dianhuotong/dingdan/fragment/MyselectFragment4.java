@@ -152,31 +152,31 @@ public class MyselectFragment4 extends Fragment {
                     public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                         switch (view.getId()) {
                             case R.id.order_head_go:
-                                ToastUtil.makeText(getActivity(), "点击了店铺" + position, Toast.LENGTH_SHORT).show();
+                               //ToastUtil.makeText(getActivity(), "点击了店铺" + position, Toast.LENGTH_SHORT).show();
                                 Bundle bundle = new Bundle();
                                 bundle.putString("shopid", orderInfoList.get(position).getOrderTopInfo().getShopID());
                                 BaseTool.goActivityWithData(getActivity(), ShopActivity.class, bundle);
                                 break;
                             case R.id.order_body_goods:
-                                ToastUtil.makeText(getActivity(), "点击了商品" + position, Toast.LENGTH_SHORT).show();
+                                //ToastUtil.makeText(getActivity(), "点击了商品" + position, Toast.LENGTH_SHORT).show();
                                 Bundle bundle1 = new Bundle();
                                 bundle1.putString("id", orderInfoList.get(position).getOrderBodyInfo().getGoodsInfo().getGoodsId());
                                 BaseTool.goActivityWithData(getActivity(), GoodsActivity.class, bundle1);
                                 break;
                             case R.id.order_info_button:
-                                ToastUtil.makeText(getActivity(), "点击了操作" + position, Toast.LENGTH_SHORT).show();
+                               // ToastUtil.makeText(getActivity(), "点击了操作" + position, Toast.LENGTH_SHORT).show();
                                 switch (orderInfoList.get(position).getOrderBottomInfo().getOrderStatus()) {
                                     case "ORDERED":
-                                        ToastUtil.makeText(getActivity(), "待付款" + position, Toast.LENGTH_SHORT).show();
+                                        //ToastUtil.makeText(getActivity(), "待付款" + position, Toast.LENGTH_SHORT).show();
                                         break;
                                     case "PAID":
-                                        ToastUtil.makeText(getActivity(), "已付款" + position, Toast.LENGTH_SHORT).show();
+                                       // ToastUtil.makeText(getActivity(), "已付款" + position, Toast.LENGTH_SHORT).show();
                                         break;
                                     case "COMPLETED":
-                                        ToastUtil.makeText(getActivity(), "已完成" + position, Toast.LENGTH_SHORT).show();
+                                        //ToastUtil.makeText(getActivity(), "已完成" + position, Toast.LENGTH_SHORT).show();
                                         break;
                                     case "CANCELLED":
-                                        ToastUtil.makeText(getActivity(), "已取消" + position, Toast.LENGTH_SHORT).show();
+                                        //ToastUtil.makeText(getActivity(), "已取消" + position, Toast.LENGTH_SHORT).show();
                                         break;
                                 }
                                 break;

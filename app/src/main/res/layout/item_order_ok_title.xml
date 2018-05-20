@@ -11,14 +11,19 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/x34"
         android:background="@color/colorWhite">
-
+        <ImageView
+            android:id="@+id/order_ok_shop_img"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/icon_shop_defalt"
+            />
         <TextView
             android:id="@+id/order_ok_head_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginStart="@dimen/x16"
             android:text="仁爱大药房"
+            android:layout_toEndOf="@id/order_ok_shop_img"
             android:textColor="@color/color333333"
             android:textSize="@dimen/t14"
             android:textStyle="bold" />

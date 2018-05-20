@@ -14,6 +14,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.mhky.dianhuotong.R;
 import com.mhky.dianhuotong.base.BaseApplication;
@@ -23,9 +25,14 @@ import com.mhky.dianhuotong.custom.AlertDialog.DianHuoTongBaseDialog;
 import com.mhky.dianhuotong.custom.ToastUtil;
 import com.mhky.dianhuotong.custom.viewgroup.DianHuoTongBaseTitleBar;
 import com.mhky.dianhuotong.shop.adapter.CartAdapter;
+import com.mhky.dianhuotong.shop.bean.CartBaseInfo;
 import com.mhky.dianhuotong.shop.bean.CartBodyInfo;
 import com.mhky.dianhuotong.shop.bean.CartInfo;
 import com.mhky.dianhuotong.shop.bean.CartTitleInfo;
+import com.mhky.dianhuotong.shop.bean.OrderOkBotttomInfo;
+import com.mhky.dianhuotong.shop.bean.OrderOkCenterInfo;
+import com.mhky.dianhuotong.shop.bean.OrderOkInfo;
+import com.mhky.dianhuotong.shop.bean.OrderOkTitleInfo;
 import com.mhky.dianhuotong.shop.precenter.CartDataPresenter;
 import com.mhky.dianhuotong.shop.precenter.CartOpratePresenter;
 import com.mhky.dianhuotong.shop.shopif.CartDataIF;
@@ -33,7 +40,9 @@ import com.mhky.dianhuotong.shop.shopif.CartOprateIF;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -63,7 +72,10 @@ public class CartActivity extends BaseActivity implements CartOprateIF, CartData
     private String selelctGoodsId = "";
     private double integerMoney = 0;
     private int alterGoodsNumber = -1;
+    private List<Integer> parentId;
+    private List<Integer> listID;
     private DianHuoTongBaseDialog dianHuoTongBaseDialog;
+    private HashMap<String, List<CartBaseInfo.GoodsItemsBean>> hashMapInteger;
     private static final String TAG = "CartActivity";
 
     @Override
@@ -92,6 +104,9 @@ public class CartActivity extends BaseActivity implements CartOprateIF, CartData
 
 
     private void init() {
+        hashMapInteger = new HashMap<>();
+        parentId = new ArrayList<>();
+        listID = new ArrayList<>();
         dianHuoTongBaseDialog = new DianHuoTongBaseDialog(this, this, "温馨提示", "您确定要删除所选中的商品吗？", "取消", "确定", "0");
         initTitle();
     }
@@ -127,12 +142,32 @@ public class CartActivity extends BaseActivity implements CartOprateIF, CartData
 
     @OnClick(R.id.cart_sum_button)
     void doBanlance() {
+        getGoodsIdList();
         if (!"".equals(selelctGoodsId)) {
-            getGoodsIdList();
+            Log.d(TAG, "doBanlance: map-" + hashMapInteger.size());
+            StringBuffer s2=new StringBuffer();
+            try {
+                Iterator iter = hashMapInteger.entrySet().iterator();
+                while (iter.hasNext()){
+                    Map.Entry entry = (Map.Entry) iter.next();
+                    String key = (String)entry.getKey();
+                    Log.d(TAG, "doBanlance: key"+key);
+                    s2.append(key+",");
+                }
+            }catch (Exception e){
+
+            }
+
+            String s1= JSON.toJSONString(hashMapInteger);
+            String s3=s2.toString().substring(0,s2.length()-1);
+            Log.d(TAG, "doBanlance: ------map"+s1);
             Bundle bundle = new Bundle();
-            bundle.putString("goodsIds", selelctGoodsId);
-            bundle.putString("money", Double.toString(integerMoney));
-            BaseTool.goActivityWithData(this, BalanceActivity.class, bundle);
+//            bundle.putString("goodsIds", selelctGoodsId);
+//            bundle.putString("money", Double.toString(integerMoney));
+            bundle.putString("basedata",s1);
+            bundle.putString("sids",s3);
+            bundle.putSerializable("data",hashMapInteger);
+            BaseTool.goActivityWithData(this, OderOkActivity.class, bundle);
             //BaseTool.goActivityWithData(mContext, BalanceActivity.class, bundle);
         } else {
             ToastUtil.makeText(this, "请下单商品", Toast.LENGTH_SHORT).show();
@@ -224,7 +259,7 @@ public class CartActivity extends BaseActivity implements CartOprateIF, CartData
                     @Override
                     public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                         List<CartInfo> cartInfoListChild = (List<CartInfo>) adapter.getData();
-                        if (!cartInfoListChild.get(position).isHeader){
+                        if (!cartInfoListChild.get(position).isHeader) {
                             Bundle bundle = new Bundle();
                             bundle.putString("id", cartInfoList.get(position).getCartBodyBaseInfo().getGoodsItemsBean().getGoodsId());
                             BaseTool.goActivityWithData(mContext, GoodsActivity.class, bundle);
@@ -422,6 +457,8 @@ public class CartActivity extends BaseActivity implements CartOprateIF, CartData
      * @return
      */
     private String getGoodsIdList() {
+        listID.clear();
+        hashMapInteger.clear();
         StringBuilder stringBuilder = new StringBuilder("");
         Integer integer = new Integer(0);
         List<String> nameList = new ArrayList<>();
@@ -431,8 +468,16 @@ public class CartActivity extends BaseActivity implements CartOprateIF, CartData
             if (cartInfoListResult != null) {
                 for (int i = 0; i < cartInfoListResult.size(); i++) {
                     if (!cartInfoListResult.get(i).isHeader && cartInfoListResult.get(i).getCartBodyBaseInfo().isSelectChild()) {
+                        listID.add(i);
+                        if (!hashMapInteger.containsKey(cartInfoListResult.get(i).getCartBodyBaseInfo().getGoodsItemsBean().getShopDTO().getId())) {
+                            List<CartBaseInfo.GoodsItemsBean> list = new ArrayList();
+                            list.add(cartInfoListResult.get(i).getCartBodyBaseInfo().getGoodsItemsBean());
+                            hashMapInteger.put(cartInfoListResult.get(i).getCartBodyBaseInfo().getGoodsItemsBean().getShopDTO().getId(), list);
+                        } else {
+                            hashMapInteger.get(cartInfoListResult.get(i).getCartBodyBaseInfo().getGoodsItemsBean().getShopDTO().getId()).add(cartInfoListResult.get(i).getCartBodyBaseInfo().getGoodsItemsBean());
+                        }
                         nameList.add(cartInfoListResult.get(i).getCartBodyBaseInfo().getGoodsItemsBean().getSkuDTO().getId() + "");
-                        integerList.add(cartInfoListResult.get(i).getCartBodyBaseInfo().getGoodsItemsBean().getInPrice()*cartInfoListResult.get(i).getCartBodyBaseInfo().getGoodsItemsBean().getAmount());
+                        integerList.add(cartInfoListResult.get(i).getCartBodyBaseInfo().getGoodsItemsBean().getInPrice() * cartInfoListResult.get(i).getCartBodyBaseInfo().getGoodsItemsBean().getAmount());
                     }
                 }
             }

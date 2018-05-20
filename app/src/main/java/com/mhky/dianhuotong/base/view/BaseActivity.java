@@ -7,6 +7,8 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
 import android.view.KeyEvent;
 
+import com.mhky.dianhuotong.custom.AlertDialog.DianHuoTongBaseDialog;
+
 
 /**
  * Created by Administrator on 2018/3/26.
@@ -20,9 +22,11 @@ public class BaseActivity extends FragmentActivity {
      *
      * @param savedInstanceState
      */
+    private DianHuoTongBaseDialog dianHuoTongBaseDialog;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+//        dianHuoTongBaseDialog.show();
 //        Sofia.with(this).statusBarBackground(getResources().getColor(R.color.color04c1ab));
 //        Sofia.with(this).statusBarBackgroundAlpha(100);
     }
@@ -52,7 +56,9 @@ public class BaseActivity extends FragmentActivity {
     protected void onStop() {
         super.onStop();
     }
-
+    protected  void dismisss(){
+//        dianHuoTongBaseDialog.dismiss();
+    }
     @Override
     protected void onDestroy() {
         super.onDestroy();

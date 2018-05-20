@@ -40,6 +40,56 @@
         android:layout_marginLeft="@dimen/x15"
         android:layout_marginRight="@dimen/x15"
         android:background="@color/colorCDCDCD" />
+    <LinearLayout
+        android:id="@+id/create_shop_txt5"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/x49"
+        android:layout_marginLeft="@dimen/x15"
+        android:layout_marginRight="@dimen/x15">
+        <EditText
+            android:id="@+id/create_shop_phone1"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:background="@null"
+            android:gravity="center_vertical"
+            android:hint="@string/create_shop_txt31"
+            android:maxLines="1"
+            android:textColor="@color/color333333"
+            android:textColorHint="@color/colorBFBFBF"
+            android:textSize="@dimen/t14"
+            android:maxLength="4"
+            android:inputType="phone"
+            android:paddingEnd="@dimen/x10"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="-"
+            android:textSize="@dimen/t14"
+            android:textColor="@color/color333333"/>
+        <EditText
+            android:id="@+id/create_shop_phone"
+            android:layout_width="0dp"
+            android:layout_weight="4"
+            android:layout_height="match_parent"
+            android:background="@null"
+            android:gravity="center_vertical"
+            android:hint="@string/create_shop_txt32"
+            android:maxLines="1"
+            android:textColor="@color/color333333"
+            android:textColorHint="@color/colorBFBFBF"
+            android:textSize="@dimen/t14"
+            android:maxLength="8"
+            android:inputType="phone"
+            android:paddingStart="@dimen/x10" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/x1"
+        android:layout_marginLeft="@dimen/x15"
+        android:layout_marginRight="@dimen/x15"
+        android:background="@color/colorCDCDCD" />
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/x49"
@@ -189,7 +239,7 @@
         android:layout_marginRight="@dimen/x15"
         android:background="@color/colorCDCDCD" />
 
-    <RelativeLayout
+    <FrameLayout
         android:id="@+id/create_shop_txt4"
         android:layout_width="wrap_content"
         android:layout_height="@dimen/x49"
@@ -208,7 +258,7 @@
             android:textColorHint="@color/colorBFBFBF"
             android:textSize="@dimen/t14" />
 
-    </RelativeLayout>
+    </FrameLayout>
 
     <View
         android:layout_width="match_parent"
@@ -216,7 +266,34 @@
         android:layout_marginLeft="@dimen/x15"
         android:layout_marginRight="@dimen/x15"
         android:background="@color/colorCDCDCD" />
+    <FrameLayout
+        android:id="@+id/create_shop_txt6"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/x49"
+        android:layout_marginLeft="@dimen/x15"
+        android:layout_marginRight="@dimen/x15">
 
+        <EditText
+            android:id="@+id/create_shop_compenay_postcode"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@null"
+            android:gravity="center_vertical"
+            android:hint="@string/create_shop_txt41"
+            android:maxLines="1"
+            android:textColor="@color/color333333"
+            android:textColorHint="@color/colorBFBFBF"
+            android:maxLength="6"
+            android:textSize="@dimen/t14" />
+
+    </FrameLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/x1"
+        android:layout_marginLeft="@dimen/x15"
+        android:layout_marginRight="@dimen/x15"
+        android:background="@color/colorCDCDCD" />
     <TextView
         android:id="@+id/creatshop_next"
         android:layout_width="match_parent"

@@ -77,6 +77,26 @@ public class QualicationInfo implements Serializable {
         private String shopType;
         private String shopname;
 
+        public String getPhone() {
+            return phone;
+        }
+
+        public void setPhone(String phone) {
+            this.phone = phone;
+        }
+
+        private String phone;
+
+        public String getPostalcode() {
+            return postalcode;
+        }
+
+        public void setPostalcode(String postalcode) {
+            this.postalcode = postalcode;
+        }
+
+        private String postalcode;
+
         public AddressBean getAddress() {
             return address;
         }

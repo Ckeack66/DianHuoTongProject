@@ -27,5 +27,56 @@ public class OrderOkBotttomInfo {
 
     private OrderBaseInfo.ContentBean.FreightInfoBean freightInfoBean;
     private String goodsNumber;
-    private String words;
+    private String words = "";
+
+    public int getMoney() {
+        return money;
+    }
+
+    public void setMoney(int money) {
+        this.money = money;
+    }
+
+    private int money;
+
+    public String getyH() {
+        return yH;
+    }
+
+    public void setyH(String yH) {
+        this.yH = yH;
+    }
+
+    private String yH = "";
+
+
+    public String getParentId() {
+        return parentId;
+    }
+
+    public void setParentId(String parentId) {
+        this.parentId = parentId;
+    }
+
+    private String parentId;
+
+    public FrigthInfo getFrigthInfo() {
+        return frigthInfo;
+    }
+
+    public void setFrigthInfo(FrigthInfo frigthInfo) {
+        this.frigthInfo = frigthInfo;
+    }
+
+    private FrigthInfo frigthInfo;
+
+    public CouponInfo getCouponInfo() {
+        return couponInfo;
+    }
+
+    public void setCouponInfo(CouponInfo couponInfo) {
+        this.couponInfo = couponInfo;
+    }
+
+    private CouponInfo couponInfo;
 }

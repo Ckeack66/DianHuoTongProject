@@ -6,9 +6,17 @@ public class OrderOkInfo implements MultiItemEntity {
     public static final int TOP = 1;
     public static final int CENTER = 2;
     public static final int BOTTOM = 3;
-    private int type;
-    public OrderOkInfo(int type) {
+
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
         this.type = type;
+    }
+    private int type;
+
+    public OrderOkInfo() {
     }
 
     public OrderOkTitleInfo getOrderOkTitleInfo() {

@@ -105,6 +105,7 @@ public class MainActivity extends BaseActivity implements MainIF, DrawerLayout.D
     private AllGoosPrecenter allGoosPrecenter;
     private ShopInfoPresenter shopInfoPresenter;
     private List list;
+    private boolean isShowUpdate = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,34 +115,6 @@ public class MainActivity extends BaseActivity implements MainIF, DrawerLayout.D
         mContext = this;
         inIt();
         initData();
-        PgyUpdateManager.setIsForced(false);
-        PgyUpdateManager.register(this, new UpdateManagerListener() {
-            @Override
-            public void onNoUpdateAvailable() {
-
-            }
-
-            @Override
-            public void onUpdateAvailable(String s) {
-                final AppBean appBean=getAppBeanFromString(s);
-                new AlertDialog.Builder(MainActivity.this)
-                        .setTitle("有新版本更新啦~")
-                        .setMessage("修复了一些bug,增加用户体验")
-                        .setNegativeButton(
-                                "确定",
-                                new DialogInterface.OnClickListener() {
-
-                                    @Override
-                                    public void onClick(
-                                            DialogInterface dialog,
-                                            int which) {
-                                        startDownloadTask(
-                                                MainActivity.this,
-                                                appBean.getDownloadURL());
-                                    }
-                                }).show();
-            }
-        });
     }
 
     @Override
@@ -173,6 +146,38 @@ public class MainActivity extends BaseActivity implements MainIF, DrawerLayout.D
     @Override
     protected void onResume() {
         super.onResume();
+        if (!isShowUpdate) {
+            PgyUpdateManager.setIsForced(false);
+            PgyUpdateManager.register(this, new UpdateManagerListener() {
+                @Override
+                public void onNoUpdateAvailable() {
+
+                }
+
+                @Override
+                public void onUpdateAvailable(String s) {
+                    final AppBean appBean = getAppBeanFromString(s);
+                    new AlertDialog.Builder(MainActivity.this)
+                            .setTitle("有新版本更新啦~")
+                            .setMessage("修复了一些bug,增加用户体验")
+                            .setNegativeButton(
+                                    "确定",
+                                    new DialogInterface.OnClickListener() {
+
+                                        @Override
+                                        public void onClick(
+                                                DialogInterface dialog,
+                                                int which) {
+                                            startDownloadTask(
+                                                    MainActivity.this,
+                                                    appBean.getDownloadURL());
+                                        }
+                                    }).show();
+                }
+            });
+            isShowUpdate = true;
+        }
+
         if (BaseApplication.getInstansApp().getLoginRequestInfo() != null) {
             drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
             shopInfoPresenter.getShopInfo();
@@ -266,7 +271,7 @@ public class MainActivity extends BaseActivity implements MainIF, DrawerLayout.D
         diaHuiTongBaseTitleBar.setRightOnclickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ToastUtil.makeText(mContext, "进入消息中心", Toast.LENGTH_SHORT).show();
+                //ToastUtil.makeText(mContext, "进入消息中心", Toast.LENGTH_SHORT).show();
             }
         });
         mainActivityPrecenter = new MainActivityPrecenter(this, this);

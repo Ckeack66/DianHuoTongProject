@@ -76,10 +76,10 @@ public class DianHuoTongShopTitleBar extends RelativeLayout implements View.OnCl
                 BaseTool.goActivityNoData(mContext, ScanCodeActivity.class);
                 break;
             case R.id.shop_input:
-                ToastUtil.makeText(mContext, "跳转到搜索界面", Toast.LENGTH_SHORT).show();
+                //ToastUtil.makeText(mContext, "跳转到搜索界面", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.shop_car:
-                ToastUtil.makeText(mContext, "跳转到购物车界面", Toast.LENGTH_SHORT).show();
+                //ToastUtil.makeText(mContext, "跳转到购物车界面", Toast.LENGTH_SHORT).show();
                 BaseTool.goActivityNoData(mContext, CartActivity.class);
                 break;
             case R.id.shop_order:

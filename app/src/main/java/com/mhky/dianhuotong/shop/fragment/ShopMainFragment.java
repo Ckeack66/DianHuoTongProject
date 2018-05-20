@@ -349,7 +349,7 @@ public class ShopMainFragment extends Fragment implements ShopIF, SortPopupwindo
         if (code == 200) {
             ShopInfo shopInfo = JSON.parseObject(result, ShopInfo.class);
             if (shopInfo.getLogo() != null) {
-                Picasso.with(getActivity()).load(shopInfo.getLogo()).memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE).into(imageViewLogo);
+                Picasso.with(getActivity()).load(shopInfo.getLogo()).into(imageViewLogo);
             }
             textViewShopName.setText(shopInfo.getName());
 

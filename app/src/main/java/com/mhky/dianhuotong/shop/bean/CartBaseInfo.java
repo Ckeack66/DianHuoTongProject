@@ -33,7 +33,7 @@ public class CartBaseInfo implements Serializable {
         this.goodsItems = goodsItems;
     }
 
-    public static class GoodsItemsBean {
+    public static class GoodsItemsBean implements Serializable{
         /**
          * goodsId : 23
          * title : 同仁堂 六味地黄丸（浓缩丸）120丸*12件
@@ -81,6 +81,16 @@ public class CartBaseInfo implements Serializable {
         private int inPrice;
         private boolean checked;
         private boolean enable;
+
+        public FrigthInfo getFrigthInfo() {
+            return frigthInfo;
+        }
+
+        public void setFrigthInfo(FrigthInfo frigthInfo) {
+            this.frigthInfo = frigthInfo;
+        }
+
+        private FrigthInfo frigthInfo;
 
         public String getGoodsId() {
             return goodsId;
@@ -258,7 +268,7 @@ public class CartBaseInfo implements Serializable {
             this.enable = enable;
         }
 
-        public static class SkuDTOBean {
+        public static class SkuDTOBean implements Serializable{
             /**
              * id : 5
              * skuNo : 123456
@@ -363,7 +373,7 @@ public class CartBaseInfo implements Serializable {
                 this.salePropertyOptions = salePropertyOptions;
             }
 
-            public static class SalePropertyOptionsBean {
+            public static class SalePropertyOptionsBean implements Serializable{
                 /**
                  * name : 规格
                  * value : 200G
@@ -400,7 +410,7 @@ public class CartBaseInfo implements Serializable {
             }
         }
 
-        public static class ShopDTOBean {
+        public static class ShopDTOBean implements Serializable{
             /**
              * id : 1
              * shopName : 大鹏旗舰店

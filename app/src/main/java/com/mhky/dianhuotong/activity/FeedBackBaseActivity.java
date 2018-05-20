@@ -16,21 +16,6 @@ public class FeedBackBaseActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_feed_back);
-        Permissions4M.get(this)
-                // 是否强制弹出权限申请对话框，建议设置为 true，默认为 true
-                // .requestForce(true)
-                // 是否支持 5.0 权限申请，默认为 false
-                // .requestUnderM(false)
-                // 权限，单权限申请仅只能填入一个
-                .requestPermissions(Manifest.permission.RECORD_AUDIO)
-                // 权限码
-                .requestCodes(1001)
-                // 如果需要使用 @PermissionNonRationale 注解的话，建议添加如下一行
-                // 返回的 intent 是跳转至**系统设置页面**
-                // .requestPageType(Permissions4M.PageType.MANAGER_PAGE)
-                // 返回的 intent 是跳转至**手机管家页面**
-                // .requestPageType(Permissions4M.PageType.ANDROID_SETTING_PAGE)
-                .request();
     }
 
     @Override
@@ -60,9 +45,5 @@ public class FeedBackBaseActivity extends BaseActivity {
         PgyFeedbackShakeManager.register(this, true);
     }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        Permissions4M.onRequestPermissionsResult(this, requestCode, grantResults);
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-    }
+
 }

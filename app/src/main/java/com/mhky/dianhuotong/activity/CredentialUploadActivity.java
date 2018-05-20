@@ -124,7 +124,7 @@ public class CredentialUploadActivity extends TakePhotoActivity implements DianH
             textViewData2.setText(shopCredentialBaseInfo.getEndTime());
             if (shopCredentialBaseInfo.getUrl() != null) {
                 Log.d(TAG, "inIt: ------------" + shopCredentialBaseInfo.getUrl());
-                Picasso.with(this).load(shopCredentialBaseInfo.getUrl()).memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE).resize(withResult, heightResult).into(imageViewCredentail);
+                Picasso.with(this).load(shopCredentialBaseInfo.getUrl()).resize(withResult, heightResult).into(imageViewCredentail);
                 imageUrl = shopCredentialBaseInfo.getUrl();
             }
             editTextBody.setText(shopCredentialBaseInfo.getScope());
@@ -205,13 +205,13 @@ public class CredentialUploadActivity extends TakePhotoActivity implements DianH
     @Override
     public void takeFail(TResult result, String msg) {
         super.takeFail(result, msg);
-        ToastUtil.makeText(this, "选取失败" + msg, Toast.LENGTH_SHORT).show();
+        ToastUtil.makeText(this, "无法选取图片" + msg, Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void takeCancel() {
         super.takeCancel();
-        ToastUtil.makeText(this, "选取取消", Toast.LENGTH_SHORT).show();
+//        ToastUtil.makeText(this, "取消", Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -239,7 +239,9 @@ public class CredentialUploadActivity extends TakePhotoActivity implements DianH
             if (result != null && !"".equals(result)) {
                 ToastUtil.makeText(this, "上传成功", Toast.LENGTH_SHORT).show();
                 imageUrl = result;
-                Picasso.with(mContext).load(imageUrl).memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE).resize(withResult, heightResult).into(imageViewCredentail);
+                Picasso.with(mContext).load(imageUrl).resize(withResult, heightResult).into(imageViewCredentail);
+                Log.d(TAG, "updataCredentialImageSucess: W---"+withResult);
+                Log.d(TAG, "updataCredentialImageSucess: H---"+heightResult);
                 Log.d(TAG, "updataCredentialImageSucess: ------" + result);
             }
 

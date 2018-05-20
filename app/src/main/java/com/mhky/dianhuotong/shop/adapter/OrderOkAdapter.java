@@ -44,51 +44,45 @@ public class OrderOkAdapter extends BaseMultiItemQuickAdapter<OrderOkInfo, BaseV
     protected void convert(final BaseViewHolder helper, OrderOkInfo item) {
         switch (helper.getItemViewType()) {
             case OrderOkInfo.TOP:
-//                helper.setText(R.id.order_head_name, item.getOrderTopInfo().getName());
-//                helper.addOnClickListener(R.id.order_head_go);
+                helper.setText(R.id.order_ok_head_name, item.getOrderOkTitleInfo().getShopDTOBean().getShopName());
                 break;
             case OrderOkInfo.CENTER:
-//                if (item.getOrderBodyInfo().getGoodsInfo().getImageUrl() != null) {
-//                    String url = item.getOrderBodyInfo().getGoodsInfo().getImageUrl().split(",")[0];
-//                    Picasso.with(mContexts).load(url).resize(withResult, heightResult).into((ImageView) helper.getView(R.id.order_body_imageview));
-//                }
-//                helper.setText(R.id.order_body_title, item.getOrderBodyInfo().getGoodsInfo().getName());
-//                //helper.setText(R.id.order_body_companay,item.getOrderBodyInfo().getGoodsInfo().)
-//                helper.setText(R.id.goods_base_type, item.getOrderBodyInfo().getGoodsInfo().getSpec());
-//                double a = (double) item.getOrderBodyInfo().getRealPrice();
-//                double money = a / 100;
-//                helper.setText(R.id.order_body_money, "￥" + money);
-//                helper.setText(R.id.order_body_goods_number, "x" + item.getOrderBodyInfo().getQuantity());
-//                helper.addOnClickListener(R.id.order_body_goods);
+                if (item.getOrderOkCenterInfo().getGoodsItemsBean().getSkuDTO().getSalePropertyOptions().size() == 1) {
+                    helper.setText(R.id.order_ok_goods_base_type, item.getOrderOkCenterInfo().getGoodsItemsBean().getSkuDTO().getSalePropertyOptions().get(0).getValue());
+                } else {
+                    String name = "";
+                    String value = "";
+                    for (int b = 0; b < item.getOrderOkCenterInfo().getGoodsItemsBean().getSkuDTO().getSalePropertyOptions().size(); b++) {
+                        if (item.getOrderOkCenterInfo().getGoodsItemsBean().getSkuDTO().getSalePropertyOptions().get(b).getName().equals("规格")) {
+                            name = item.getOrderOkCenterInfo().getGoodsItemsBean().getSkuDTO().getSalePropertyOptions().get(b).getValue();
+                        } else {
+                            value = value + item.getOrderOkCenterInfo().getGoodsItemsBean().getSkuDTO().getSalePropertyOptions().get(b).getValue();
+                        }
+                    }
+                    helper.setText(R.id.order_ok_goods_base_type, name + "/" + value);
+                }
+                helper.setText(R.id.order_ok_numbers,"x"+item.getOrderOkCenterInfo().getGoodsItemsBean().getAmount());
+                helper.setText(R.id.order_ok_body_title, item.getOrderOkCenterInfo().getGoodsItemsBean().getTitle());
+                String url = item.getOrderOkCenterInfo().getGoodsItemsBean().getPicture().split(",")[0];
+                Picasso.with(mContexts).load(url).resize(withResult, heightResult).into((ImageView) helper.getView(R.id.order_body_imageview));
+                helper.setText(R.id.order_ok_body_companay, item.getOrderOkCenterInfo().getGoodsItemsBean().getManufacturer());
+                double a = (double) item.getOrderOkCenterInfo().getGoodsItemsBean().getSkuDTO().getRetailPrice();
+                double money = a / 100;
+                helper.setText(R.id.order_ok_money, "￥" + money);
                 break;
             case OrderOkInfo.BOTTOM:
-//                helper.setText(R.id.order_bottom_text1, "共" + item.getOrderBottomInfo().getAllGoodsNumber() + "件商品   ");
-//                double b = (double) item.getOrderBottomInfo().getMoney();
-//                double money1 = b / 100;
-//                helper.setText(R.id.order_bottom_text2, "合计：￥" + money1);
-//                double c = (double) item.getOrderBottomInfo().getFreightInfoBean().getFreight();
-//                double money2 = c / 100;
-//                if (item.getOrderBottomInfo().getFreightInfoBean().getFreight() == 0) {
-//                    helper.setText(R.id.order_bottom_text3, "（已免邮）");
-//                } else {
-//                    helper.setText(R.id.order_bottom_text3, "（含运费￥）" + money2);
-//                }
-//                switch (item.getOrderBottomInfo().getOrderStatus()) {
-//                    case "ORDERED":
-//                        helper.setText(R.id.order_info_button, "待付款");
-//                        break;
-//                    case "PAID":
-//                        helper.setText(R.id.order_info_button, "已付款");
-//                        break;
-//                    case "COMPLETED":
-//                        helper.setText(R.id.order_info_button, "已完成");
-//                        break;
-//                    case "CANCELLED":
-//                        helper.setText(R.id.order_info_button, "已取消");
-//                        break;
-//                }
-//                helper.addOnClickListener(R.id.order_info_button);
+                helper.setText(R.id.order_ok_bto_yh, item.getOrderOkBotttomInfo().getyH());
+                helper.addOnClickListener(R.id.order_ok_bto_select);
                 helper.setText(R.id.order_ok_bto_words, item.getOrderOkBotttomInfo().getWords());
+                helper.setText(R.id.order_ok_bto_number, "共" + item.getOrderOkBotttomInfo().getGoodsNumber() + "件商品   小计：");
+                double b = (double) item.getOrderOkBotttomInfo().getMoney();
+                double money1 = b / 100;
+                if (item.getOrderOkBotttomInfo().getFrigthInfo()!= null &&item.getOrderOkBotttomInfo().getFrigthInfo().getSendAccount()!=null&& money1 <Double.valueOf(item.getOrderOkBotttomInfo().getFrigthInfo().getSendAccount().toString())) {
+                    helper.setText(R.id.order_ok_bto_child_money, "￥" + (money1 + Double.valueOf(item.getOrderOkBotttomInfo().getFrigthInfo().getFreight().toString())));
+                    helper.setText(R.id.order_ok_frgit,"￥"+item.getOrderOkBotttomInfo().getFrigthInfo().getFreight().toString());
+                } else {
+                    helper.setText(R.id.order_ok_bto_child_money, "￥" + money1);
+                }
                 EditText editText = helper.getView(R.id.order_ok_bto_words);
                 editText.addTextChangedListener(new TextWatcher() {
                     @Override
@@ -102,12 +96,13 @@ public class OrderOkAdapter extends BaseMultiItemQuickAdapter<OrderOkInfo, BaseV
 
                     @Override
                     public void afterTextChanged(Editable s) {
-                        Log.d(TAG, "afterTextChanged: ------正在输入第" + helper.getLayoutPosition()+ "个留言框");
+                        Log.d(TAG, "afterTextChanged: ------正在输入第" + helper.getLayoutPosition() + "个留言框+" + s.toString());
                         if (getEditWordsListenner != null) {
                             getEditWordsListenner.getEditData(s.toString(), helper.getLayoutPosition());
                         }
                     }
                 });
+
                 break;
         }
     }

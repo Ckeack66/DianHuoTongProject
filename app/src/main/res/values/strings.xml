@@ -149,7 +149,10 @@
     <string name="create_shop_txt1">选择地址:</string>
     <string name="create_shop_txt2">选择坐标:</string>
     <string name="create_shop_txt3">请输入店铺名称</string>
+    <string name="create_shop_txt31">区号</string>
+    <string name="create_shop_txt32">固定电话</string>
     <string name="create_shop_txt4">请输入店铺的详细地址XX路XX号</string>
+    <string name="create_shop_txt41">请输入店铺所在区域的邮政编码</string>
     <string name="create_shop_txt5">下一步</string>
 
     <string name="add_shop_finish_name">姓名：</string>

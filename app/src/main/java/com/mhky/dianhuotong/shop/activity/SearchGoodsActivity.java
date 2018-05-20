@@ -472,10 +472,10 @@ public class SearchGoodsActivity extends BaseActivity implements SearchGoodsIF, 
         sortPopupwindow.setSelectState(number);
         if (number == 0) {
             text = "默认排序";
-            ToastUtil.makeText(this, "默认排序", Toast.LENGTH_SHORT).show();
+           // ToastUtil.makeText(this, "默认排序", Toast.LENGTH_SHORT).show();
         } else if (number == 1) {
             text = "价格排序";
-            ToastUtil.makeText(this, "价格排序", Toast.LENGTH_SHORT).show();
+           // ToastUtil.makeText(this, "价格排序", Toast.LENGTH_SHORT).show();
         }
         textViewChoose2.setText(text);
         setTabStateFalse(2);

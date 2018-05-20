@@ -46,6 +46,12 @@ public class CreatShopActivity extends BaseActivity {
     EditText editTextCompenay;
     @BindView(R.id.create_shop_compenay_adress)
     EditText editTextCompenayAdress;
+    @BindView(R.id.create_shop_phone1)
+    EditText editTextAreaCode;
+    @BindView(R.id.create_shop_phone)
+    EditText editTextPhone;
+    @BindView(R.id.create_shop_compenay_postcode)
+    EditText editTextPostCode;
     public static final int GET_DATA_RESULT_CODE = 10000;
     private String city1;
     private String area1;
@@ -136,7 +142,19 @@ public class CreatShopActivity extends BaseActivity {
     void goInvoiceUpload() {
         Log.d(TAG, "goInvoiceUpload: " + returnCity + returnArea);
         Log.d(TAG, "goInvoiceUpload: " + city1 + area1);
-        if (TextUtils.isEmpty(textViewAdress.getText())) {
+        if (TextUtils.isEmpty(editTextCompenay.getText())) {
+            ToastUtil.makeText(this, "请输入公司名称", Toast.LENGTH_SHORT).show();
+            return;
+        } else if (TextUtils.isEmpty(editTextAreaCode.getText())) {
+            ToastUtil.makeText(this, "请输入区号", Toast.LENGTH_SHORT).show();
+            return;
+        } else if (TextUtils.isEmpty(editTextPhone.getText())) {
+            ToastUtil.makeText(this, "请输入固话号码", Toast.LENGTH_SHORT).show();
+            return;
+        }else if (shopType == null) {
+            ToastUtil.makeText(this, "请选择店铺类型", Toast.LENGTH_SHORT).show();
+            return;
+        } else if (TextUtils.isEmpty(textViewAdress.getText())) {
             ToastUtil.makeText(this, "请选择坐地址", Toast.LENGTH_SHORT).show();
             return;
         } else if (city1 == null && area1 == null) {
@@ -145,14 +163,11 @@ public class CreatShopActivity extends BaseActivity {
         } else if (city1.indexOf(returnCity) == -1 || !returnArea.equals(area1)) {
             ToastUtil.makeText(this, "您选择的地点不属于" + returnCity + returnArea + returnAdress + "，请重新选择市区街道", Toast.LENGTH_SHORT).show();
             return;
-        } else if (TextUtils.isEmpty(editTextCompenay.getText())) {
-            ToastUtil.makeText(this, "请输入公司名称", Toast.LENGTH_SHORT).show();
-            return;
-        } else if (shopType == null) {
-            ToastUtil.makeText(this, "请选择店铺类型", Toast.LENGTH_SHORT).show();
-            return;
         } else if (TextUtils.isEmpty(editTextCompenayAdress.getText())) {
             ToastUtil.makeText(this, "请输入公司详细地址", Toast.LENGTH_SHORT).show();
+            return;
+        } else if (TextUtils.isEmpty(editTextPostCode.getText())) {
+            ToastUtil.makeText(this, "请输入公司所在区域的邮政编码", Toast.LENGTH_SHORT).show();
             return;
         } else {
             qualicationInfo.getShopDataDTO().getAddress().setCity(city1);
@@ -163,6 +178,8 @@ public class CreatShopActivity extends BaseActivity {
             qualicationInfo.getShopDataDTO().setMapPoint(textViewZuoBiao.getText().toString());
             qualicationInfo.getShopDataDTO().setShopType(shopType);
             qualicationInfo.getShopDataDTO().setShopname(editTextCompenay.getText().toString());
+            qualicationInfo.getShopDataDTO().setPhone(editTextAreaCode.getText().toString()+editTextPhone.getText().toString());
+            qualicationInfo.getShopDataDTO().setPostalcode(editTextPostCode.getText().toString());
             Bundle bundle = new Bundle();
             bundle.putSerializable("qulication", qualicationInfo);
             BaseTool.goActivityWithData(this, CredentialsActivity.class, bundle);

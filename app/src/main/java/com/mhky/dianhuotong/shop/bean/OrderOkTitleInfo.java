@@ -19,4 +19,14 @@ public class OrderOkTitleInfo {
 
     private String shopName;
     private String shopId;
+
+    public CartBaseInfo.GoodsItemsBean.ShopDTOBean getShopDTOBean() {
+        return shopDTOBean;
+    }
+
+    public void setShopDTOBean(CartBaseInfo.GoodsItemsBean.ShopDTOBean shopDTOBean) {
+        this.shopDTOBean = shopDTOBean;
+    }
+
+    private CartBaseInfo.GoodsItemsBean.ShopDTOBean shopDTOBean;
 }

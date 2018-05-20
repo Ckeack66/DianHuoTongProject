@@ -45,7 +45,7 @@ public class CredentialRecycleView1Adapter extends BaseMultiItemQuickAdapter<Sho
             case ShopCredentialBaseInfo.CREDETIAL:
                 helper.setText(R.id.voice_gridview_item_txt1, item.getName());
                 if (item.getUrl() != null && !item.getUrl().equals("")) {
-                    Picasso.with(mContext).load(item.getUrl()).memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE).resize(withResult, heightResult).into((ImageView) helper.getView(R.id.voice_gridview_item_image));
+                    Picasso.with(mContext).load(item.getUrl()).resize(withResult, heightResult).into((ImageView) helper.getView(R.id.voice_gridview_item_image));
                 }
                 helper.addOnClickListener(R.id.voice_gridview_item_image);
                 break;

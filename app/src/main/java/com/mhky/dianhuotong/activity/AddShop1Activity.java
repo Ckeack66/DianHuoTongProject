@@ -60,7 +60,7 @@ public class AddShop1Activity extends BaseActivity implements WaveSideBar.OnSele
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        ToastUtil.makeText(this, "点击了item" + position, Toast.LENGTH_SHORT).show();
+       // ToastUtil.makeText(this, "点击了item" + position, Toast.LENGTH_SHORT).show();
     }
 
     @Override

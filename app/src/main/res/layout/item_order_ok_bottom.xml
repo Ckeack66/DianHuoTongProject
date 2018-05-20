@@ -9,6 +9,7 @@
         android:orientation="vertical"
         android:background="@color/colorWhite">
         <RelativeLayout
+            android:id="@+id/order_ok_bto_select"
             android:layout_width="match_parent"
             android:layout_height="@dimen/x34"
             android:background="@color/colorWhite">
@@ -35,6 +36,17 @@
                     android:scaleType="center"
                     android:src="@drawable/icon_go" />
             </FrameLayout>
+
+            <TextView
+                android:id="@+id/order_ok_bto_yh"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toStartOf="@+id/order_ok_head_go"
+                android:text="满减券100-5"
+                android:textSize="@dimen/t10"
+                android:layout_marginEnd="@dimen/x16"
+                android:textColor="@color/colorE20F12" />
         </RelativeLayout>
         <View
             android:layout_width="match_parent"
@@ -108,9 +120,10 @@
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true" />
             <TextView
+                android:id="@+id/order_ok_frgit"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="￥10.00"
+                android:text="￥0.0"
                 android:textColor="@color/colorE20F12"
                 android:layout_toStartOf="@id/order_ok_bto_transfer"
                 android:layout_centerVertical="true"
@@ -139,6 +152,7 @@
                 android:textSize="@dimen/t10"
                 android:layout_alignParentEnd="true"/>
             <TextView
+                android:id="@+id/order_ok_bto_number"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="共0件商品   小计："

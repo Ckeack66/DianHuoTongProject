@@ -58,7 +58,6 @@ public class BalanceActivity extends BaseActivity implements BanlanceIF, ShopAdr
     TextView textViewPay;
     @BindView(R.id.balance_shop_adress)
     TextView textViewShopAdress;
-    private String goodsId;
     private String money;
     private int payType = -1;
     private BanlancePresenter banlancePresenter;
@@ -147,7 +146,7 @@ public class BalanceActivity extends BaseActivity implements BanlanceIF, ShopAdr
         });
         dianHuoTongBaseTitleBar.setCenterTextView("结算");
         Bundle bundle = getIntent().getExtras();
-        goodsId = bundle.getString("goodsIds");
+        orderID= bundle.getString("order");
         money = bundle.getString("money");
         textViewMoney.setText(money + "元");
         banlancePresenter = new BanlancePresenter(this);
@@ -178,23 +177,21 @@ public class BalanceActivity extends BaseActivity implements BanlanceIF, ShopAdr
         if (payType == -1) {
             ToastUtil.makeText(this, "请选择支付方式", Toast.LENGTH_SHORT).show();
             return;
-        } else if (orderID == null) {
-            HashMap<String, String> m = new HashMap();
-            m.put("skuIds", goodsId);
-            banlancePresenter.doBanlance(m);
-        } else if (orderID != null) {
+        } else if (payType == 1) {
             HashMap hashMap = new HashMap();
             hashMap.put("orderIds", orderID);
             hashMap.put("paymentType", "ALIPAY");
             banlancePresenter.getPayID(hashMap);
+            ToastUtil.makeText(this, "支付宝结账中...请等待", Toast.LENGTH_SHORT).show();
+        } else if (payType == 2) {
+            HashMap hashMap = new HashMap();
+            hashMap.put("orderIds", orderID);
+            hashMap.put("paymentType", "WECHATPAY");
+            banlancePresenter.getPayID(hashMap);
+            ToastUtil.makeText(this, "微信结账中...请等待", Toast.LENGTH_SHORT).show();
+        } else if (payType == 3) {
+            ToastUtil.makeText(this, "线下支付暂未开通", Toast.LENGTH_SHORT).show();
         }
-//        else if (payType == 1) {
-//            ToastUtil.makeText(this, "支付宝结账中...请等待", Toast.LENGTH_SHORT).show();
-//        } else if (payType == 2) {
-//            ToastUtil.makeText(this, "微信结账中...请等待", Toast.LENGTH_SHORT).show();
-//        } else if (payType == 3) {
-//            ToastUtil.makeText(this, "此订单将进行线下结账...请仔细核对商家信息", Toast.LENGTH_SHORT).show();
-//        }
 
     }
 
@@ -210,29 +207,7 @@ public class BalanceActivity extends BaseActivity implements BanlanceIF, ShopAdr
 
     @Override
     public void doBanlanceSucess(int code, String result) {
-        if (code == 201) {
-            ToastUtil.makeText(this, "订单提交成功！", Toast.LENGTH_SHORT).show();
-            textViewPay.setText("订单支付");
-            BaseApplication.getInstansApp().setUpdateCart(true);
-            StringBuffer stringBuffer = new StringBuffer();
-            // OrderBaseInfo orderBaseInfo = JSON.parseObject(result, OrderBaseInfo.class);
-            List<OrderBaseInfo.ContentBean> contentBeanList = JSON.parseArray(result, OrderBaseInfo.ContentBean.class);
-            if (contentBeanList.size() == 1) {
-                stringBuffer.append(contentBeanList.get(0).getId());
-            } else {
-                for (int a = 0; a < contentBeanList.size(); a++) {
-                    stringBuffer.append(contentBeanList.get(a).getId());
-                    if (a != contentBeanList.size() - 1) {
-                        stringBuffer.append(",");
-                    }
-                }
-            }
-            orderID = stringBuffer.toString();
-            HashMap hashMap = new HashMap();
-            hashMap.put("orderIds", orderID);
-            hashMap.put("paymentType", "ALIPAY");
-            banlancePresenter.getPayID(hashMap);
-        }
+
     }
 
     @Override
