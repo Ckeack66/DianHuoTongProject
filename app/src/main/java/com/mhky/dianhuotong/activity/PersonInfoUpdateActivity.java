@@ -18,6 +18,7 @@ import com.joker.api.Permissions4M;
 import com.lzy.okgo.model.HttpParams;
 import com.mhky.dianhuotong.base.BaseActivityManager;
 import com.mhky.dianhuotong.base.BaseApplication;
+import com.mhky.dianhuotong.custom.AlertDialog.LoadingDialog;
 import com.mhky.dianhuotong.person.bean.PersonInfo;
 import com.mhky.dianhuotong.person.personif.PersonIF;
 import com.mhky.dianhuotong.person.personif.UpdataPersonIF;
@@ -61,6 +62,7 @@ public class PersonInfoUpdateActivity extends TakePhotoActivity implements DianH
     RadioButton radioButtonWorker;
     private Context mContext;
     private Uri uri = null;
+    private LoadingDialog loadingDialog;
     private DianHuoTongBottomMenuDialog dianHuoTongBottomMenuDialog;
     private UpdataPersonInfoPersenter updataPersonInfoPersenter;
     private static final String TAG = "PersonInfoUpdateActivit";
@@ -134,6 +136,7 @@ public class PersonInfoUpdateActivity extends TakePhotoActivity implements DianH
         httpParams.put("userId", BaseApplication.getInstansApp().getLoginRequestInfo().getId());
         httpParams.put("type", "USER");
         httpParams.put("file", new File(result.getImages().get(0).getOriginalPath()));
+        loadingDialog.show();
         updataPersonInfoPersenter.uploadeImage(httpParams);
         //Picasso.with(this).load("file://" + result.getImages().get(0).getOriginalPath()).into(imageView);
 //        if (uri != null) {
@@ -192,6 +195,7 @@ public class PersonInfoUpdateActivity extends TakePhotoActivity implements DianH
     }
 
     private void inIt() {
+        loadingDialog=new LoadingDialog(this);
         dianHuoTongBaseTitleBar.setLeftImage(R.drawable.icon_back);
         dianHuoTongBaseTitleBar.setCenterTextView(getString(R.string.person_update_title));
         dianHuoTongBaseTitleBar.setRightText(getString(R.string.person_update_save));
@@ -257,6 +261,9 @@ public class PersonInfoUpdateActivity extends TakePhotoActivity implements DianH
 
     @Override
     public void updataUserImageFailed(int code, String result) {
+        if (loadingDialog!=null&&loadingDialog.isShowing()){
+            loadingDialog.dismiss();
+        }
         ToastUtil.makeText(this, "上传失败" + code, Toast.LENGTH_SHORT).show();
     }
 
@@ -273,11 +280,17 @@ public class PersonInfoUpdateActivity extends TakePhotoActivity implements DianH
 
     @Override
     public void updataUserinfoFailed(int code, String result) {
+        if (loadingDialog!=null&&loadingDialog.isShowing()){
+            loadingDialog.dismiss();
+        }
         ToastUtil.makeText(this, "更新失败" + code, Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void getUserInfoSucess(PersonInfo personInfo) {
+        if (loadingDialog!=null&&loadingDialog.isShowing()){
+            loadingDialog.dismiss();
+        }
         if (personInfo != null) {
             if (personInfo.getTruename() != null) {
                 editTextRealName.setText(personInfo.getTruename().toString());
@@ -305,6 +318,9 @@ public class PersonInfoUpdateActivity extends TakePhotoActivity implements DianH
 
     @Override
     public void getUserinfoFailed(int code, String result) {
+        if (loadingDialog!=null&&loadingDialog.isShowing()){
+            loadingDialog.dismiss();
+        }
         ToastUtil.makeText(this, "没有获取到信息" + code, Toast.LENGTH_SHORT).show();
     }
 

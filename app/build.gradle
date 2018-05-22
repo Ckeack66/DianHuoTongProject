@@ -13,10 +13,10 @@ android {
         applicationId "com.mhky.dianhuotong"
         minSdkVersion 18
         targetSdkVersion 26
-        versionName '1.0.0'
+        versionName '1.0.1'
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         signingConfig signingConfigs.config
-        versionCode 1
+        versionCode 2
     }
     buildTypes {
         release {
@@ -164,4 +164,5 @@ dependencies {
 
     //蒲公英
     compile 'com.pgyersdk:sdk:2.8.1'
+    compile 'com.google.zxing:core:3.3.2'
 }

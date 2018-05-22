@@ -35,6 +35,7 @@ public class OrderDataPresenter {
                 OrderInfo orderInfoBody = new OrderInfo(2);
                 orderInfoBody.setOrderBodyInfo(orderBaseInfo.getContent().get(a).getItems().get(b));
                 orderInfoList.add(orderInfoBody);
+                orderInfoBody.setParentNumber(a);
             }
             OrderInfo orderInfoBottom = new OrderInfo(3);
             OrderBottomInfo orderBottomInfo = new OrderBottomInfo();
@@ -67,6 +68,7 @@ public class OrderDataPresenter {
                     OrderInfo orderInfoBody = new OrderInfo(2);
                     orderInfoBody.setOrderBodyInfo(orderBaseInfo.getContent().get(a).getItems().get(b));
                     orderInfoList.add(orderInfoBody);
+                    orderInfoBody.setParentNumber(a);
                 }
                 OrderInfo orderInfoBottom = new OrderInfo(3);
                 OrderBottomInfo orderBottomInfo = new OrderBottomInfo();

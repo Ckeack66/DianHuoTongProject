@@ -17,11 +17,13 @@ import com.mhky.dianhuotong.base.BaseTool;
 import com.mhky.dianhuotong.custom.ToastUtil;
 import com.mhky.dianhuotong.dingdan.adapter.MyselectFragmentAdapter;
 import com.mhky.dianhuotong.shop.activity.GoodsActivity;
+import com.mhky.dianhuotong.shop.activity.OrderInfoActivity;
 import com.mhky.dianhuotong.shop.activity.ShopActivity;
 import com.mhky.dianhuotong.shop.adapter.OrderAdapter;
 import com.mhky.dianhuotong.shop.bean.OrderBaseInfo;
 import com.mhky.dianhuotong.shop.bean.OrderInfo;
 import com.mhky.dianhuotong.shop.precenter.OrderDataPresenter;
+import com.pgyersdk.crash.PgyCrashManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -159,9 +161,13 @@ public class MyselectFragment4 extends Fragment {
                                 break;
                             case R.id.order_body_goods:
                                 //ToastUtil.makeText(getActivity(), "点击了商品" + position, Toast.LENGTH_SHORT).show();
-                                Bundle bundle1 = new Bundle();
-                                bundle1.putString("id", orderInfoList.get(position).getOrderBodyInfo().getGoodsInfo().getGoodsId());
-                                BaseTool.goActivityWithData(getActivity(), GoodsActivity.class, bundle1);
+                                try {
+                                    Bundle bundle1 = new Bundle();
+                                    bundle1.putString("order", orderBaseInfo.getContent().get(orderInfoList.get(position).getParentNumber()).getOrderCirculations().get(0).getOrderCirculationId().getOrderNo());
+                                    BaseTool.goActivityWithData(getActivity(), OrderInfoActivity.class, bundle1);
+                                }catch (Exception e){
+                                    PgyCrashManager.reportCaughtException(getActivity(),e);
+                                }
                                 break;
                             case R.id.order_info_button:
                                // ToastUtil.makeText(getActivity(), "点击了操作" + position, Toast.LENGTH_SHORT).show();

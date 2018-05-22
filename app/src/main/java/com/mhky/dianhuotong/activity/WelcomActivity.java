@@ -69,11 +69,11 @@ public class WelcomActivity extends BaseActivity {
             BaseTool.goActivityNoData(context, MainActivity.class);
             finish();
         } else if (a == 3) {
-            aBoolean = false;
-            countDownProgress.cancel();
+            //aBoolean = false;
+            //countDownProgress.cancel();
 //            BaseTool.goActivityNoData(this, CouponActivity.class);
-            BaseTool.goActivityNoData(this, OderOkActivity.class);
-            finish();
+           // BaseTool.goActivityNoData(this, OderOkActivity.class);
+           // finish();
         }
 
     }

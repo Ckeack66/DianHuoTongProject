@@ -218,19 +218,20 @@
                             android:layout_height="@dimen/x60"
                             android:layout_centerVertical="true"
                             android:layout_marginStart="@dimen/x16"
-                            android:scaleType="center"
+                            android:scaleType="centerInside"
                             android:src="@drawable/icon_shop_good_shopimg" />
 
                         <TextView
                             android:id="@+id/shop_name"
-                            android:layout_width="@dimen/x230"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
                             android:layout_marginStart="@dimen/x14"
                             android:layout_toEndOf="@id/shop_img"
                             android:text="山东济南惠民大药房"
                             android:textColor="@color/color333333"
-                            android:textSize="@dimen/t14" />
+                            android:textSize="@dimen/t14"
+                            android:layout_marginEnd="@dimen/x50"/>
                         <TextView
                             android:id="@+id/shop_start"
                             android:layout_width="wrap_content"
@@ -241,11 +242,12 @@
                             android:paddingTop="@dimen/x2"
                             android:paddingBottom="@dimen/x2"
                             android:textSize="@dimen/t10"
-                            android:layout_toEndOf="@id/shop_name"
                             android:layout_centerVertical="true"
+                            android:layout_alignParentEnd="true"
                             android:gravity="center"
                             android:layout_marginStart="@dimen/x6"
-                            android:background="@drawable/shape_start"/>
+                            android:background="@drawable/shape_start"
+                            android:layout_marginEnd="@dimen/x6"/>
 
                         <TextView
                             android:layout_width="wrap_content"

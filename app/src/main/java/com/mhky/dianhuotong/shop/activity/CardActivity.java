@@ -3,6 +3,7 @@ package com.mhky.dianhuotong.shop.activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Rect;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -13,9 +14,12 @@ import android.widget.ImageView;
 import com.mhky.dianhuotong.R;
 import com.mhky.dianhuotong.base.BaseTool;
 import com.mhky.dianhuotong.custom.viewgroup.DianHuoTongBaseTitleBar;
+import com.mhky.dianhuotong.shop.tool.QRCodeUtil;
+import com.tencent.mm.opensdk.modelmsg.SendAuth;
 import com.tencent.mm.opensdk.modelmsg.SendMessageToWX;
 import com.tencent.mm.opensdk.modelmsg.WXImageObject;
 import com.tencent.mm.opensdk.modelmsg.WXMediaMessage;
+import com.tencent.mm.opensdk.modelmsg.WXTextObject;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
@@ -38,6 +42,7 @@ public class CardActivity extends AppCompatActivity {
     ImageView imageView;
     private IWXAPI api;
     private Bitmap bitmap;
+    private Bitmap bitmap1;
     public static final String CARD_TAG = "card101";
     private static final String TAG = "CardActivity";
 
@@ -66,6 +71,7 @@ public class CardActivity extends AppCompatActivity {
     @OnClick(R.id.card_wx)
     void shareWx() {
         share(0);
+//        share1();
     }
 
     @OnClick(R.id.card_py)
@@ -74,10 +80,10 @@ public class CardActivity extends AppCompatActivity {
     }
 
     private void share(int type) {
-        WXImageObject imageObject = new WXImageObject(bitmap);
+        WXImageObject imageObject = new WXImageObject(bitmap1);
         WXMediaMessage msg = new WXMediaMessage();  //这个对象是用来包裹发送信息的对象
         msg.mediaObject = imageObject;
-        Bitmap thumbBitmap = Bitmap.createScaledBitmap(bitmap, 150, 150, true);
+        Bitmap thumbBitmap = Bitmap.createScaledBitmap(bitmap1, 150, 150, true);
         msg.thumbData = bitmap2ByteArray(thumbBitmap);
         SendMessageToWX.Req req = new SendMessageToWX.Req();
         req.message = msg;
@@ -91,15 +97,29 @@ public class CardActivity extends AppCompatActivity {
         Log.d(TAG, "share: ---" + b);
     }
 
+    private void share1() {
+        WXTextObject wxTextObject = new WXTextObject();
+        wxTextObject.text = "这是一个测试的文本对象";
+        WXMediaMessage wxMediaMessage = new WXMediaMessage();
+        wxMediaMessage.mediaObject = wxTextObject;
+        wxMediaMessage.description = "看到测试的";
+        SendMessageToWX.Req req = new SendMessageToWX.Req();
+        req.transaction = "1002";
+        req.message = wxMediaMessage;
+        req.scene = SendMessageToWX.Req.WXSceneTimeline;
+        api.sendReq(req);
+    }
+
     private void getCode() {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                bitmap = QRCodeEncoder.syncEncodeQRCode("王者荣耀", dip2px(200));
+                bitmap = QRCodeUtil.createQRCodeBitmap("028000", dip2px(200), Color.parseColor("#04c1ab"), Color.parseColor("#ffffff"));
+                bitmap1 = QRCodeUtil.addText(bitmap, "推广码："+"028000");
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        imageView.setImageBitmap(bitmap);
+                        imageView.setImageBitmap(bitmap1);
                         //bitmap.recycle();
                     }
                 });
@@ -113,7 +133,7 @@ public class CardActivity extends AppCompatActivity {
     }
 
     private byte[] bitmap2ByteArray(Bitmap bitmap1) {
-        Log.d(TAG, "bitmap2ByteArray: "+bitmap1.getRowBytes()*bitmap1.getHeight());
+        Log.d(TAG, "bitmap2ByteArray: " + bitmap1.getRowBytes() * bitmap1.getHeight());
 //        int bytes = bitmap1.getByteCount();
 //        ByteBuffer buf = ByteBuffer.allocate(bytes);
 //        bitmap1.copyPixelsToBuffer(buf);
@@ -124,19 +144,18 @@ public class CardActivity extends AppCompatActivity {
         if (bitmap1.getHeight() > bitmap1.getWidth()) {
             i = bitmap1.getWidth();
             j = bitmap1.getWidth();
-        }  else {
+        } else {
             i = bitmap1.getHeight();
             j = bitmap1.getHeight();
         }
-
         Bitmap localBitmap = Bitmap.createBitmap(i, j, Bitmap.Config.RGB_565);
-        Canvas localCanvas =  new Canvas(localBitmap);
+        Canvas localCanvas = new Canvas(localBitmap);
 
-        while ( true) {
-            localCanvas.drawBitmap(bitmap1,  new Rect(0, 0, i, j),  new Rect(0, 0,i, j),  null);
+        while (true) {
+            localCanvas.drawBitmap(bitmap1, new Rect(0, 0, i, j), new Rect(0, 0, i, j), null);
 //            if (needRecycle)
-                bitmap1.recycle();
-            ByteArrayOutputStream localByteArrayOutputStream =  new ByteArrayOutputStream();
+            bitmap1.recycle();
+            ByteArrayOutputStream localByteArrayOutputStream = new ByteArrayOutputStream();
             localBitmap.compress(Bitmap.CompressFormat.JPEG, 100,
                     localByteArrayOutputStream);
             localBitmap.recycle();
@@ -144,7 +163,7 @@ public class CardActivity extends AppCompatActivity {
             try {
                 localByteArrayOutputStream.close();
                 return arrayOfByte;
-            }  catch (Exception e) {
+            } catch (Exception e) {
                 // F.out(e);
             }
             i = bitmap1.getHeight();

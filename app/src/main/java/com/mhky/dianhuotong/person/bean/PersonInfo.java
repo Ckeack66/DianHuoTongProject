@@ -31,6 +31,16 @@ public class PersonInfo implements Serializable{
     private Object truename;
     private Object type;
 
+    public Object getAuditStatus() {
+        return auditStatus;
+    }
+
+    public void setAuditStatus(Object auditStatus) {
+        this.auditStatus = auditStatus;
+    }
+
+    private Object auditStatus;
+
     public Object getSalesmanCode() {
         return salesmanCode;
     }

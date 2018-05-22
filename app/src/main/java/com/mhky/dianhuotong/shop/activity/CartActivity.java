@@ -113,6 +113,12 @@ public class CartActivity extends BaseActivity implements CartOprateIF, CartData
 
     private void initTitle() {
         dianHuoTongBaseTitleBar.setLeftImage(R.drawable.icon_back);
+        dianHuoTongBaseTitleBar.setLeftOnclickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
         dianHuoTongBaseTitleBar.setCenterTextView("购物车");
         dianHuoTongBaseTitleBar.setRightText("编辑");
         dianHuoTongBaseTitleBar.setRightTextOnclickListener(new View.OnClickListener() {
@@ -145,28 +151,28 @@ public class CartActivity extends BaseActivity implements CartOprateIF, CartData
         getGoodsIdList();
         if (!"".equals(selelctGoodsId)) {
             Log.d(TAG, "doBanlance: map-" + hashMapInteger.size());
-            StringBuffer s2=new StringBuffer();
+            StringBuffer s2 = new StringBuffer();
             try {
                 Iterator iter = hashMapInteger.entrySet().iterator();
-                while (iter.hasNext()){
+                while (iter.hasNext()) {
                     Map.Entry entry = (Map.Entry) iter.next();
-                    String key = (String)entry.getKey();
-                    Log.d(TAG, "doBanlance: key"+key);
-                    s2.append(key+",");
+                    String key = (String) entry.getKey();
+                    Log.d(TAG, "doBanlance: key" + key);
+                    s2.append(key + ",");
                 }
-            }catch (Exception e){
+            } catch (Exception e) {
 
             }
 
-            String s1= JSON.toJSONString(hashMapInteger);
-            String s3=s2.toString().substring(0,s2.length()-1);
-            Log.d(TAG, "doBanlance: ------map"+s1);
+            String s1 = JSON.toJSONString(hashMapInteger);
+            String s3 = s2.toString().substring(0, s2.length() - 1);
+            Log.d(TAG, "doBanlance: ------map" + s1);
             Bundle bundle = new Bundle();
 //            bundle.putString("goodsIds", selelctGoodsId);
 //            bundle.putString("money", Double.toString(integerMoney));
-            bundle.putString("basedata",s1);
-            bundle.putString("sids",s3);
-            bundle.putSerializable("data",hashMapInteger);
+            bundle.putString("basedata", s1);
+            bundle.putString("sids", s3);
+            bundle.putSerializable("data", hashMapInteger);
             BaseTool.goActivityWithData(this, OderOkActivity.class, bundle);
             //BaseTool.goActivityWithData(mContext, BalanceActivity.class, bundle);
         } else {
@@ -186,6 +192,9 @@ public class CartActivity extends BaseActivity implements CartOprateIF, CartData
 
     @OnClick(R.id.cart_all_selelct)
     void setAllSelect() {
+        if (cartAdapter == null) {
+            return;
+        }
         if (checkBoxAll.isChecked()) {
             checkBoxAll.setChecked(false);
             //设置商品取消全部
@@ -199,28 +208,36 @@ public class CartActivity extends BaseActivity implements CartOprateIF, CartData
 
     @OnClick(R.id.cart_love_button)
     void loveGoods() {
-        ToastUtil.makeText(this, "收藏成功", Toast.LENGTH_SHORT).show();
+        if (!"".equals(selelctGoodsId)) {
+            //dianHuoTongBaseDialog.show();
+            //ToastUtil.makeText(this, "收藏成功", Toast.LENGTH_SHORT).show();
+        } else {
+            ToastUtil.makeText(this, "请勾选商品", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void setAllData(int type) {
-        List<CartInfo> cartInfoList3 = cartAdapter.getData();
-        for (int p = 0; p < cartInfoList3.size(); p++) {
-            if (cartInfoList3.get(p).isHeader) {
-                if (type == 0) {
-                    cartInfoList3.get(p).getCartTitleInfo().setSelectTitle(false);
+        if (cartAdapter != null) {
+            List<CartInfo> cartInfoList3 = cartAdapter.getData();
+            for (int p = 0; p < cartInfoList3.size(); p++) {
+                if (cartInfoList3.get(p).isHeader) {
+                    if (type == 0) {
+                        cartInfoList3.get(p).getCartTitleInfo().setSelectTitle(false);
+                    } else {
+                        cartInfoList3.get(p).getCartTitleInfo().setSelectTitle(true);
+                    }
                 } else {
-                    cartInfoList3.get(p).getCartTitleInfo().setSelectTitle(true);
-                }
-            } else {
-                if (type == 0) {
-                    cartInfoList3.get(p).getCartBodyBaseInfo().setSelectChild(false);
-                } else {
-                    cartInfoList3.get(p).getCartBodyBaseInfo().setSelectChild(true);
+                    if (type == 0) {
+                        cartInfoList3.get(p).getCartBodyBaseInfo().setSelectChild(false);
+                    } else {
+                        cartInfoList3.get(p).getCartBodyBaseInfo().setSelectChild(true);
+                    }
                 }
             }
+            cartAdapter.notifyDataSetChanged();
+            getGoodsIdList();
         }
-        cartAdapter.notifyDataSetChanged();
-        getGoodsIdList();
+
     }
 
     @Override

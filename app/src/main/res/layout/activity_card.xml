@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorWhite"
+    android:background="@color/colorF7F7F7"
     tools:context="com.mhky.dianhuotong.shop.activity.CardActivity">
 
     <com.mhky.dianhuotong.custom.viewgroup.DianHuoTongBaseTitleBar
@@ -17,8 +17,7 @@
         android:layout_width="@dimen/x200"
         android:layout_height="@dimen/x200"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/x100"
-        android:src="@drawable/icon_code_big" />
+        android:layout_marginTop="@dimen/x100"/>
 
     <TextView
         android:id="@+id/shop_code_title_txt"

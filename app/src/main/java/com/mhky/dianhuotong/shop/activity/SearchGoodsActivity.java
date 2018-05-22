@@ -115,6 +115,7 @@ public class SearchGoodsActivity extends BaseActivity implements SearchGoodsIF, 
     private CartPopupwindow cartPopupwindow;
     private GoodsPrecenter goodsPrecenter;
     private GoodsInfo goodsInfo;
+    private String type105GoodsId;
 
     private static final String TAG = "SearchGoodsActivity";
 
@@ -198,6 +199,7 @@ public class SearchGoodsActivity extends BaseActivity implements SearchGoodsIF, 
                     //搜索
                 } else if (type != null && type.equals("105")) {
                     //新的商家分类
+                    getTypeData(type105GoodsId, false, 1);
                 } else if (type != null && type.equals("106")) {
                     //排序
                 } else if (type != null && type.equals("107")) {
@@ -219,12 +221,15 @@ public class SearchGoodsActivity extends BaseActivity implements SearchGoodsIF, 
                         getData(type3, false, 2);
                     }
                 } else if (type != null && type.equals("104")) {
-                    //新的商家分类
+                    //搜索
                 } else if (type != null && type.equals("105")) {
-                    //排序
+                    //新的商家分类
+                    getTypeData(type105GoodsId, false, 2);
                 } else if (type != null && type.equals("106")) {
-                    //商家选择
+                    //排序
                 } else if (type != null && type.equals("107")) {
+                    //商家选择
+                } else if (type != null && type.equals("108")) {
                     //筛选
                 }
 
@@ -241,8 +246,13 @@ public class SearchGoodsActivity extends BaseActivity implements SearchGoodsIF, 
         searchGoodsPresenter.searchGoods(httpParams, isFirst, refreshOrLoadmore);
     }
 
-    private void getTypeData() {
-
+    private void getTypeData(String childID, boolean isFirst, int refreshOrLoadmore) {
+        HttpParams httpParams = new HttpParams();
+        httpParams.put("page", number);
+        if (childID != null && !childID.equals("")) {
+            httpParams.put("categoryIds", childID);
+        }
+        searchGoodsPresenter.searchGoods(httpParams, isFirst, refreshOrLoadmore);
     }
 
     private String getChildId(List<GoodsBaseInfo.ChildrenBeanX.ChildrenBean> childrenBeans) {
@@ -368,44 +378,90 @@ public class SearchGoodsActivity extends BaseActivity implements SearchGoodsIF, 
 
     }
 
+    /**
+     * @param code
+     * @param result
+     * @param isfirst
+     * @param refreshOrLoadmore 0是刚进入页面,1是刷新/新条件查询，2是加载
+     */
+
     @Override
     public void searchGoodsInfoSuccess(int code, String result, boolean isfirst, int refreshOrLoadmore) {
         Log.d(TAG, "searchGoodsInfoSuccess: " + code);
         try {
             if (code == 200) {
                 SearchSGoodsBean searchSGoodsBeans = JSON.parseObject(result, SearchSGoodsBean.class);
-                if (searchSGoodsBean != null && searchSGoodsBean.getContent().size() <= 0) {
-                    relativeLayoutTips.setVisibility(View.VISIBLE);
-                }
-                if (isfirst && refreshOrLoadmore == 0) {
-                    searchSGoodsBean = searchSGoodsBeans;
-                    searchGoodsAdpter = new SearchGoodsAdpter(searchSGoodsBean.getContent(), this);
-                    searchGoodsAdpter.openLoadAnimation(BaseQuickAdapter.SLIDEIN_LEFT);
-                    searchGoodsAdpter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-                        @Override
-                        public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                            Bundle bundle = new Bundle();
-                            bundle.putSerializable("id", searchSGoodsBean.getContent().get(position).getId() + "");
-                            BaseTool.goActivityWithData(mContext, GoodsActivity.class, bundle);
-                            //ToastUtil.makeText(mContext, "点击了父控件", Toast.LENGTH_SHORT).show();
-                        }
-                    });
-                    searchGoodsAdpter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
-                        @Override
-                        public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-                            Log.d(TAG, "onItemChildClick: ---" + position);
-                            goodsPrecenter.getGoodsInfo(String.valueOf(searchSGoodsBean.getContent().get(position).getId()));
+                if (refreshOrLoadmore == 0) {
+                    if (searchSGoodsBeans != null && searchSGoodsBeans.getContent().size() == 0) {
+                        relativeLayoutTips.setVisibility(View.VISIBLE);
+                        smartRefreshLayout.setEnableLoadMore(false);
+                    } else if (searchSGoodsBeans != null && searchSGoodsBeans.getContent().size() < 10) {
+                        smartRefreshLayout.setEnableLoadMore(false);
+                        ToastUtil.makeText(this, "已加载全部数据", Toast.LENGTH_SHORT).show();
+                        searchSGoodsBean = searchSGoodsBeans;
+                        searchGoodsAdpter = new SearchGoodsAdpter(searchSGoodsBean.getContent(), this);
+                        searchGoodsAdpter.openLoadAnimation(BaseQuickAdapter.SLIDEIN_LEFT);
+                        searchGoodsAdpter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                                Bundle bundle = new Bundle();
+                                bundle.putSerializable("id", searchSGoodsBean.getContent().get(position).getId() + "");
+                                BaseTool.goActivityWithData(mContext, GoodsActivity.class, bundle);
+                                //ToastUtil.makeText(mContext, "点击了父控件", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                        searchGoodsAdpter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+                            @Override
+                            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                                Log.d(TAG, "onItemChildClick: ---" + position);
+                                goodsPrecenter.getGoodsInfo(String.valueOf(searchSGoodsBean.getContent().get(position).getId()));
 
-                        }
-                    });
-                    recyclerView.setAdapter(searchGoodsAdpter);
+                            }
+                        });
+                        recyclerView.setAdapter(searchGoodsAdpter);
+                    } else {
+                        number++;
+                        searchSGoodsBean = searchSGoodsBeans;
+                        searchGoodsAdpter = new SearchGoodsAdpter(searchSGoodsBean.getContent(), this);
+                        searchGoodsAdpter.openLoadAnimation(BaseQuickAdapter.SLIDEIN_LEFT);
+                        searchGoodsAdpter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                                Bundle bundle = new Bundle();
+                                bundle.putSerializable("id", searchSGoodsBean.getContent().get(position).getId() + "");
+                                BaseTool.goActivityWithData(mContext, GoodsActivity.class, bundle);
+                                //ToastUtil.makeText(mContext, "点击了父控件", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                        searchGoodsAdpter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+                            @Override
+                            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                                Log.d(TAG, "onItemChildClick: ---" + position);
+                                goodsPrecenter.getGoodsInfo(String.valueOf(searchSGoodsBean.getContent().get(position).getId()));
+
+                            }
+                        });
+                        recyclerView.setAdapter(searchGoodsAdpter);
+                    }
+
                 } else if (refreshOrLoadmore == 1) {
-                    searchSGoodsBean = searchSGoodsBeans;
-                    searchGoodsAdpter.setNewData(searchSGoodsBean.getContent());
-                    smartRefreshLayout.finishRefresh(1000, true);
-                    ToastUtil.makeText(this, "刷新成功", Toast.LENGTH_SHORT).show();
-                } else if (refreshOrLoadmore == 2) {
-                    number++;
+                    if (searchSGoodsBeans != null && searchSGoodsBeans.getContent().size() == 0) {
+                        relativeLayoutTips.setVisibility(View.VISIBLE);
+                        smartRefreshLayout.setEnableLoadMore(false);
+                    } else if (searchSGoodsBeans != null && searchSGoodsBeans.getContent().size() < 10) {
+                        searchSGoodsBean = searchSGoodsBeans;
+                        searchGoodsAdpter.setNewData(searchSGoodsBean.getContent());
+                        smartRefreshLayout.finishRefresh(1000, true);
+                        smartRefreshLayout.setEnableLoadMore(false);
+                        ToastUtil.makeText(this, "刷新成功-没有更多数据了", Toast.LENGTH_SHORT).show();
+                    }else {
+                        searchSGoodsBean = searchSGoodsBeans;
+                        searchGoodsAdpter.setNewData(searchSGoodsBean.getContent());
+                        smartRefreshLayout.finishRefresh(1000, true);
+                        ToastUtil.makeText(this, "刷新成功", Toast.LENGTH_SHORT).show();
+                        number++;
+                    }
+                } else if (refreshOrLoadmore == 1) {
                     if (searchSGoodsBean.getContent().size() == 0) {
                         smartRefreshLayout.finishLoadMore(true);
                         smartRefreshLayout.setEnableLoadMore(false);
@@ -420,9 +476,9 @@ public class SearchGoodsActivity extends BaseActivity implements SearchGoodsIF, 
                         searchSGoodsBean.getContent().addAll(searchSGoodsBeans.getContent());
                         searchGoodsAdpter.addData(searchSGoodsBean.getContent());
                         smartRefreshLayout.finishLoadMore(1000, true, false);
+                        number++;
                         ToastUtil.makeText(this, "加载了更多", Toast.LENGTH_SHORT).show();
                     }
-
                 }
 
             } else {
@@ -459,8 +515,31 @@ public class SearchGoodsActivity extends BaseActivity implements SearchGoodsIF, 
         String text;
         if (popuwindow1Info.isHeader) {
             text = popuwindow1Info.getPopuwindow1ChildInfo().getGoodsBaseInfo().getName();
+            StringBuilder stringBuilder = new StringBuilder();
+            for (int a = 0; a < popuwindow1Info.getPopuwindow1ChildInfo().getGoodsBaseInfo().getChildren().size(); a++) {
+                for (int b = 0; b < popuwindow1Info.getPopuwindow1ChildInfo().getGoodsBaseInfo().getChildren().get(a).getChildren().size(); b++) {
+                    stringBuilder.append(String.valueOf(popuwindow1Info.getPopuwindow1ChildInfo().getGoodsBaseInfo().getChildren().get(a).getChildren().get(b).getId()));
+                    stringBuilder.append(",");
+                }
+
+            }
+            type = "105";
+            number = 0;
+            type105GoodsId=stringBuilder.toString().substring(0, stringBuilder.toString().length() - 1);
+            getTypeData(type105GoodsId, false, 1);
+            Log.d(TAG, "onclick: ---a-a-a-a-" + stringBuilder.toString().substring(0, stringBuilder.toString().length() - 1));
+
         } else {
             text = popuwindow1Info.t.getName();
+            StringBuilder stringBuilder = new StringBuilder();
+            for (int i = 0; i < popuwindow1Info.t.getChildren().size(); i++) {
+                stringBuilder.append(popuwindow1Info.t.getChildren().get(i).getId());
+                stringBuilder.append(",");
+            }
+            type = "104";
+            number = 0;
+            getTypeData(stringBuilder.toString().substring(0, stringBuilder.toString().length() - 1), false, 1);
+            Log.d(TAG, "onclick: ---b-b-b-b-" + stringBuilder.toString().substring(0, stringBuilder.toString().length() - 1));
         }
         textViewChoose1.setText(text);
         setTabStateFalse(1);
@@ -472,10 +551,10 @@ public class SearchGoodsActivity extends BaseActivity implements SearchGoodsIF, 
         sortPopupwindow.setSelectState(number);
         if (number == 0) {
             text = "默认排序";
-           // ToastUtil.makeText(this, "默认排序", Toast.LENGTH_SHORT).show();
+            // ToastUtil.makeText(this, "默认排序", Toast.LENGTH_SHORT).show();
         } else if (number == 1) {
             text = "价格排序";
-           // ToastUtil.makeText(this, "价格排序", Toast.LENGTH_SHORT).show();
+            // ToastUtil.makeText(this, "价格排序", Toast.LENGTH_SHORT).show();
         }
         textViewChoose2.setText(text);
         setTabStateFalse(2);
@@ -513,7 +592,7 @@ public class SearchGoodsActivity extends BaseActivity implements SearchGoodsIF, 
                 cartPopupwindow = new CartPopupwindow(this, goodsInfo);
                 cartPopupwindow.showAtLocation(dianHuoTongShopTitleBar, Gravity.BOTTOM, 0, 0);
                 //ToastUtil.makeText(mContext, searchSGoodsBean.getContent().get(position).getName(), Toast.LENGTH_SHORT).show();
-            }else {
+            } else {
                 ToastUtil.makeText(mContext, "获取信息失败！", Toast.LENGTH_SHORT).show();
             }
             //textViewUseTime.setText(goodsInfo.getExpiryDate());

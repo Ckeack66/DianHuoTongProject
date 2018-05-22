@@ -9,10 +9,15 @@ public class BaseUrlTool {
      * 主机
      */
 //
-//    private final static String HOSTS = "http://116.255.150.39:";//release
-//    private final static String HOST_IMAGE_URL = "http://116.255.155.156:9040";//release  Imge
-    private final static String HOSTS = "http://192.168.2.158:";//debug
-    private final static String HOST_IMAGE_URL = HOSTS + "9040";//debug  Imge
+    private final static String HOSTS = "http://116.255.150.39:";//release
+    private final static String HOSTS_CART = "http://116.255.158.91:";//release
+    private final static String HOST_IMAGE_URL = "http://116.255.155.156:9040";//release  Imge
+    private final static String HOSTS_ORDER="http://116.255.158.91:";
+    //debug
+//    private final static String HOSTS = "http://192.168.2.158:";//debug
+//    private final static String HOSTS_CART="http://192.168.2.158:";
+//    private final static String HOST_IMAGE_URL = HOSTS + "9040";//debug  Imge
+//    private final static String HOSTS_ORDER="http://192.168.2.158:";
 
     /**
      * 上传图片地址
@@ -21,10 +26,10 @@ public class BaseUrlTool {
     private final static String HOST_URL = HOSTS + "9088";
     private final static String HOST_ADRESS_URL = HOSTS + "8018";
     private final static String HOST_GOODS_URL = HOSTS + "9000";
-    private final static String HOST_CART_URL = HOSTS + "9050";
-//    private final static String HOST_BANLANCE_URL = HOSTS + "9030";
+    private final static String HOST_CART_URL = HOSTS_CART + "9050";
+    private final static String HOST_BANLANCE_URL = HOSTS_ORDER + "9030";
 //    private final static String HOST_ACTIVITY_URL=HOSTS+"9060";
-    private final static String HOST_BANLANCE_URL = "http://192.168.2.237:" + "9030";
+//    private final static String HOST_BANLANCE_URL = "http://192.168.2.237:" + "9030";
 //    private final static String HOST_ADRESS_URL = "http://192.168.2.235:8088";
     //        private final static String HOST_URL = "http://192.168.2.235:9088";
     /**
@@ -274,4 +279,8 @@ public class BaseUrlTool {
      * 获取优惠券
      */
     public static final String GET_COUPON=HOST_URL+"/couponRecord?";
+    /**
+     * 获取订单信息
+     */
+    public static final String GET_ORDER_INFO=HOST_BANLANCE_URL+"/order?";
 }

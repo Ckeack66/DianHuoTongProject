@@ -399,11 +399,11 @@ public class MainActivity extends BaseActivity implements MainIF, DrawerLayout.D
 //                        BaseTool.goActivityNoData(this, ShiYaoQianYanActivity.class);
 //                        break;
                     case 1:
-                        if (BaseApplication.getInstansApp().getShopInfoByUserID() == null) {
+                        if (BaseApplication.getInstansApp().getPersonInfo().getAuditStatus() == null) {
                             dianHuoTongBaseDialogAddShop.show();
-                        } else if ("UNAUDITED".equals(BaseApplication.getInstansApp().getShopInfoByUserID().getStatus())) {
-                            ToastUtil.makeText(this, "您已经加入店铺正在审核中哦~", Toast.LENGTH_SHORT).show();
-                        } else if ("APPROVED".equals(BaseApplication.getInstansApp().getShopInfoByUserID().getStatus())) {
+                        } else if ("UNAUDITED".equals(BaseApplication.getInstansApp().getPersonInfo().getAuditStatus().toString())) {
+                            ToastUtil.makeText(this, "正在审核中~", Toast.LENGTH_SHORT).show();
+                        } else if ("APPROVED".equals(BaseApplication.getInstansApp().getPersonInfo().getAuditStatus().toString())) {
                             BaseTool.goActivityNoData(this, DianHuoTongShopActivity.class);
                         }
                         break;
@@ -520,19 +520,6 @@ public class MainActivity extends BaseActivity implements MainIF, DrawerLayout.D
             }
             BaseApplication.getInstansApp().setUpdata(false);
             return;
-        }
-        if (BaseApplication.getInstansApp().getLoginRequestInfo() != null) {
-            if (BaseApplication.getInstansApp().getLoginRequestInfo().getImage() != null) {
-                Log.d(TAG, "updateDrawer: --------" + BaseApplication.getInstansApp().getLoginRequestInfo().getImage().toString());
-                Picasso.with(this).load(BaseApplication.getInstansApp().getLoginRequestInfo().getImage().toString()).into(imageViewUser);
-            }
-            if (BaseApplication.getInstansApp().getLoginRequestInfo().getUsername() != null) {
-                textViewUserName.setText(BaseApplication.getInstansApp().getLoginRequestInfo().getUsername());
-            }
-            if (BaseApplication.getInstansApp().getLoginRequestInfo().getMobile() != null) {
-                textViewPhone.setText(BaseApplication.getInstansApp().getLoginRequestInfo().getMobile());
-            }
-            BaseApplication.getInstansApp().setUpdata(false);
         }
     }
 

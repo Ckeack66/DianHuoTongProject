@@ -34,7 +34,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class MyselectedActivity extends BaseActivity implements RadioGroup.OnCheckedChangeListener,OrderIF {
+public class MyselectedActivity extends BaseActivity implements RadioGroup.OnCheckedChangeListener, OrderIF {
     @BindView(R.id.myselect_title)
     DianHuoTongBaseTitleBar dianHuoTongBaseTitleBar;
     @BindView(R.id.myselected_tab)
@@ -76,6 +76,7 @@ public class MyselectedActivity extends BaseActivity implements RadioGroup.OnChe
     private OrderPrecenter orderPrecenter;
     private OrderBaseInfo orderBaseInfo;
     private Context mContext;
+    private boolean isFirst = false;
     private static final String TAG = "MyselectedActivity";
 
     @Override
@@ -85,6 +86,14 @@ public class MyselectedActivity extends BaseActivity implements RadioGroup.OnChe
         ButterKnife.bind(this);
         mContext = this;
         inIt();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (isFirst){
+            orderPrecenter.getOrder(BaseApplication.getInstansApp().getLoginRequestInfo().getId());
+        }
     }
 
     private void inIt() {
@@ -159,19 +168,19 @@ public class MyselectedActivity extends BaseActivity implements RadioGroup.OnChe
     }
 
     private void showFragment(Fragment fragment) {
-        if (myselectFragment1!=null&&!myselectFragment1.isHidden()) {
+        if (myselectFragment1 != null && !myselectFragment1.isHidden()) {
             Log.d(TAG, "showFragment: 关闭第一个页面");
             fragmentManager.beginTransaction().hide(myselectFragment1).show(fragment).commit();
         }
-        if (myselectFragment2!=null&&!myselectFragment2.isHidden()) {
+        if (myselectFragment2 != null && !myselectFragment2.isHidden()) {
             Log.d(TAG, "showFragment: 关闭第二个页面");
             fragmentManager.beginTransaction().hide(myselectFragment2).show(fragment).commit();
         }
-        if (myselectFragment3!=null&&!myselectFragment3.isHidden()) {
+        if (myselectFragment3 != null && !myselectFragment3.isHidden()) {
             Log.d(TAG, "showFragment: 关闭第三个页面");
             fragmentManager.beginTransaction().hide(myselectFragment3).show(fragment).commit();
         }
-        if (myselectFragment4!=null&&!myselectFragment4.isHidden()) {
+        if (myselectFragment4 != null && !myselectFragment4.isHidden()) {
             Log.d(TAG, "showFragment: 关闭第四个页面");
             fragmentManager.beginTransaction().hide(myselectFragment4).show(fragment).commit();
         }
@@ -179,20 +188,28 @@ public class MyselectedActivity extends BaseActivity implements RadioGroup.OnChe
 
     @Override
     public void getOrderSucess(int code, String result) {
-        if (code==200){
-            orderBaseInfo= JSON.parseObject(result,OrderBaseInfo.class);
-            myselectFragment1 = MyselectFragment1.newInstance("", "",orderBaseInfo);
-            myselectFragment2 = MyselectFragment2.newInstance("", "",orderBaseInfo);
-            myselectFragment3 = MyselectFragment3.newInstance("", "",orderBaseInfo);
-            myselectFragment4 = MyselectFragment4.newInstance("", "",orderBaseInfo);
-            fragmentManager = getSupportFragmentManager();
-            fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.add(R.id.myselected_fragment, myselectFragment1);
-            fragmentTransaction.add(R.id.myselected_fragment, myselectFragment2);
-            fragmentTransaction.add(R.id.myselected_fragment, myselectFragment3);
-            fragmentTransaction.add(R.id.myselected_fragment, myselectFragment4);
-            showFragment(myselectFragment1);
-            fragmentTransaction.commit();
+        if (code == 200) {
+            orderBaseInfo = JSON.parseObject(result, OrderBaseInfo.class);
+            if (!isFirst) {
+                myselectFragment1 = MyselectFragment1.newInstance("", "", orderBaseInfo);
+                myselectFragment2 = MyselectFragment2.newInstance("", "", orderBaseInfo);
+                myselectFragment3 = MyselectFragment3.newInstance("", "", orderBaseInfo);
+                myselectFragment4 = MyselectFragment4.newInstance("", "", orderBaseInfo);
+                fragmentManager = getSupportFragmentManager();
+                fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.add(R.id.myselected_fragment, myselectFragment1);
+                fragmentTransaction.add(R.id.myselected_fragment, myselectFragment2);
+                fragmentTransaction.add(R.id.myselected_fragment, myselectFragment3);
+                fragmentTransaction.add(R.id.myselected_fragment, myselectFragment4);
+                showFragment(myselectFragment1);
+                fragmentTransaction.commit();
+                isFirst = true;
+            } else {
+                myselectFragment1.upData(orderBaseInfo);
+                myselectFragment2.upData(orderBaseInfo);
+                myselectFragment3.upData(orderBaseInfo);
+                myselectFragment4.upData(orderBaseInfo);
+            }
         }
     }
 

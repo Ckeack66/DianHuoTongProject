@@ -15,6 +15,7 @@ import com.mhky.dianhuotong.R;
 import com.mhky.dianhuotong.base.BaseApplication;
 import com.mhky.dianhuotong.base.BaseTool;
 import com.mhky.dianhuotong.base.view.BaseActivity;
+import com.mhky.dianhuotong.custom.AlertDialog.LoadingDialog;
 import com.mhky.dianhuotong.custom.ToastUtil;
 import com.mhky.dianhuotong.custom.viewgroup.DianHuoTongBaseTitleBar;
 import com.mhky.dianhuotong.shop.adapter.OrderOkAdapter;
@@ -25,10 +26,14 @@ import com.mhky.dianhuotong.shop.bean.OrderOkBotttomInfo;
 import com.mhky.dianhuotong.shop.bean.OrderOkCenterInfo;
 import com.mhky.dianhuotong.shop.bean.OrderOkInfo;
 import com.mhky.dianhuotong.shop.bean.OrderOkTitleInfo;
+import com.mhky.dianhuotong.shop.bean.ShopAdressInfo;
 import com.mhky.dianhuotong.shop.precenter.BanlancePresenter;
 import com.mhky.dianhuotong.shop.precenter.OrderOkPresenter;
+import com.mhky.dianhuotong.shop.precenter.ShopAdressPresenter;
 import com.mhky.dianhuotong.shop.shopif.BanlanceIF;
 import com.mhky.dianhuotong.shop.shopif.OrderOkIF;
+import com.mhky.dianhuotong.shop.shopif.ShopAdressIF;
+import com.pgyersdk.crash.PgyCrashManager;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -40,13 +45,19 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class OderOkActivity extends BaseActivity implements OrderOkAdapter.GetEditWordsListenner, OrderOkIF, BanlanceIF {
+public class OderOkActivity extends BaseActivity implements OrderOkAdapter.GetEditWordsListenner, OrderOkIF, BanlanceIF, ShopAdressIF {
     @BindView(R.id.order_ok_rcv)
     RecyclerView recyclerView;
     @BindView(R.id.order_ok_title)
     DianHuoTongBaseTitleBar dianHuoTongBaseTitleBar;
     @BindView(R.id.order_ok_money)
     TextView textViewMoney;
+    @BindView(R.id.order_ok_adress)
+    TextView textViewAdress;
+    @BindView(R.id.order_ok_name)
+    TextView textViewName;
+    @BindView(R.id.order_ok_phone)
+    TextView textViewPhone;
     private OrderOkAdapter orderOkAdapter;
     private List<OrderOkInfo> orderOkInfoList;
     private HashMap<String, List<CartBaseInfo.GoodsItemsBean>> hashMapInteger;
@@ -58,11 +69,14 @@ public class OderOkActivity extends BaseActivity implements OrderOkAdapter.GetEd
     private double devYh = 0;//平台优惠
     private double allMoney = 0;//总价
     private double allMoney1 = 0;//总价不含运费
-    private double shopYh=0;//店铺优惠
-    private double shopFright=0;
+    private double shopYh = 0;//店铺优惠
+    private double shopFright = 0;
     private OrderOkPresenter orderOkPresenter;
     private static final String TAG = "OderOkActivity";
     private BanlancePresenter banlancePresenter;
+    private ShopAdressPresenter shopAdressPresenter;
+    private LoadingDialog loadingDialog;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,12 +84,22 @@ public class OderOkActivity extends BaseActivity implements OrderOkAdapter.GetEd
         setContentView(R.layout.activity_oder_ok);
         mContext = this;
         ButterKnife.bind(this);
-        inIt();
+        try {
+            inIt();
+        }catch (Exception e){
+            PgyCrashManager.reportCaughtException(this,e);
+        }
+
     }
 
     private void inIt() {
+        loadingDialog=new LoadingDialog(this);
+        shopAdressPresenter = new ShopAdressPresenter(this);
+        shopAdressPresenter.getShopAdress();
         banlancePresenter = new BanlancePresenter(this);
         orderOkPresenter = new OrderOkPresenter(this);
+        textViewName.setText("收货人："+BaseApplication.getInstansApp().getPersonInfo().getTruename().toString());
+        textViewPhone.setText("联系方式："+BaseApplication.getInstansApp().getPersonInfo().getMobile());
         dianHuoTongBaseTitleBar.setLeftImage(R.drawable.icon_back);
         dianHuoTongBaseTitleBar.setLeftOnclickListener(new View.OnClickListener() {
             @Override
@@ -190,6 +214,7 @@ public class OderOkActivity extends BaseActivity implements OrderOkAdapter.GetEd
 
     @OnClick(R.id.order_ok_submit)
     void sumOrder() {
+        loadingDialog.show();
         HashMap<String, String> m = new HashMap();
         m.put("skuIds", goodsIDs);
         banlancePresenter.doBanlance(m);
@@ -211,24 +236,25 @@ public class OderOkActivity extends BaseActivity implements OrderOkAdapter.GetEd
         }
         sumYh();
     }
-    private void sumYh(){
-        shopYh=0;
-        shopFright=0;
-        for (int a=0;a<orderOkInfoList.size();a++){
-            if (orderOkInfoList.get(a).getItemType()==3&&orderOkInfoList.get(a).getOrderOkBotttomInfo().getFrigthInfo()!=null&&orderOkInfoList.get(a).getOrderOkBotttomInfo().getFrigthInfo().getSendAccount()!=null){
+
+    private void sumYh() {
+        shopYh = 0;
+        shopFright = 0;
+        for (int a = 0; a < orderOkInfoList.size(); a++) {
+            if (orderOkInfoList.get(a).getItemType() == 3 && orderOkInfoList.get(a).getOrderOkBotttomInfo().getFrigthInfo() != null && orderOkInfoList.get(a).getOrderOkBotttomInfo().getFrigthInfo().getSendAccount() != null) {
                 double b = (double) orderOkInfoList.get(a).getOrderOkBotttomInfo().getMoney();
                 double money1 = b / 100;
-                if (money1 <Double.valueOf(orderOkInfoList.get(a).getOrderOkBotttomInfo().getFrigthInfo().getSendAccount().toString())){
-                    shopFright=shopFright+Double.valueOf(orderOkInfoList.get(a).getOrderOkBotttomInfo().getFrigthInfo().getFreight().toString());
+                if (money1 < Double.valueOf(orderOkInfoList.get(a).getOrderOkBotttomInfo().getFrigthInfo().getSendAccount().toString())) {
+                    shopFright = shopFright + Double.valueOf(orderOkInfoList.get(a).getOrderOkBotttomInfo().getFrigthInfo().getFreight().toString());
                 }
             }
-            if (orderOkInfoList.get(a).getItemType()==3&&orderOkInfoList.get(a).getOrderOkBotttomInfo().getCouponInfo()!=null){
-                shopYh=shopYh+orderOkInfoList.get(a).getOrderOkBotttomInfo().getCouponInfo().getPromotionItem().getGradientFullCut().getCutPrice();
+            if (orderOkInfoList.get(a).getItemType() == 3 && orderOkInfoList.get(a).getOrderOkBotttomInfo().getCouponInfo() != null) {
+                shopYh = shopYh + orderOkInfoList.get(a).getOrderOkBotttomInfo().getCouponInfo().getPromotionItem().getGradientFullCut().getCutPrice();
             }
 
         }
-        allMoney1=allMoney/100+shopFright;
-        textViewMoney.setText("￥"+allMoney1);
+        allMoney1 = allMoney / 100 + shopFright;
+        textViewMoney.setText("￥" + allMoney1);
     }
 
     @Override
@@ -238,6 +264,9 @@ public class OderOkActivity extends BaseActivity implements OrderOkAdapter.GetEd
 
     @Override
     public void doBanlanceSucess(int code, String result) {
+        if (loadingDialog!=null&&loadingDialog.isShowing()){
+            loadingDialog.dismiss();
+        }
         if (code == 201) {
             ToastUtil.makeText(this, "订单提交成功！", Toast.LENGTH_SHORT).show();
             BaseApplication.getInstansApp().setUpdateCart(true);
@@ -259,17 +288,19 @@ public class OderOkActivity extends BaseActivity implements OrderOkAdapter.GetEd
 //            hashMap.put("orderIds", orderID);
 //            hashMap.put("paymentType", "ALIPAY");
 //            banlancePresenter.getPayID(hashMap);
-            Bundle bundle=new Bundle();
-            bundle.putString("order",orderIDs);
-            bundle.putString("money",String.valueOf(allMoney1));
-            BaseTool.goActivityWithData(this,BalanceActivity.class,bundle);
+            Bundle bundle = new Bundle();
+            bundle.putString("order", orderIDs);
+            bundle.putString("money", String.valueOf(allMoney1));
+            BaseTool.goActivityWithData(this, BalanceActivity.class, bundle);
             finish();
         }
     }
 
     @Override
     public void doBanlanceFaild(int code, String result) {
-
+        if (loadingDialog!=null&&loadingDialog.isShowing()){
+            loadingDialog.dismiss();
+        }
     }
 
     @Override
@@ -279,6 +310,25 @@ public class OderOkActivity extends BaseActivity implements OrderOkAdapter.GetEd
 
     @Override
     public void getPayCodeFaild(int code, String result) {
+
+    }
+
+    @Override
+    public void getShopAdressSuccess(int code, String result) {
+        if (code == 200) {
+            ShopAdressInfo shopAdressInfo = JSON.parseObject(result, ShopAdressInfo.class);
+            StringBuilder stringBuilder = new StringBuilder();
+            stringBuilder.append(shopAdressInfo.getAddress().getProvince());
+            stringBuilder.append(shopAdressInfo.getAddress().getCity());
+            stringBuilder.append(shopAdressInfo.getAddress().getDistrict());
+            stringBuilder.append(shopAdressInfo.getAddress().getTown());
+            stringBuilder.append(shopAdressInfo.getAddress().getRoad());
+            textViewAdress.setText(stringBuilder.toString());
+        }
+    }
+
+    @Override
+    public void getShopAdressFailed(int code, String result) {
 
     }
 }

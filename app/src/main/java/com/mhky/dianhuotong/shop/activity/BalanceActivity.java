@@ -19,6 +19,7 @@ import com.alipay.sdk.app.PayTask;
 import com.mhky.dianhuotong.R;
 import com.mhky.dianhuotong.base.BaseApplication;
 import com.mhky.dianhuotong.base.view.BaseActivity;
+import com.mhky.dianhuotong.custom.AlertDialog.LoadingDialog;
 import com.mhky.dianhuotong.custom.ToastUtil;
 import com.mhky.dianhuotong.custom.viewgroup.DianHuoTongBaseTitleBar;
 import com.mhky.dianhuotong.pay.alipay.AuthResult;
@@ -65,8 +66,9 @@ public class BalanceActivity extends BaseActivity implements BanlanceIF, ShopAdr
     private static final int SDK_PAY_FLAG = 1;
     private static final int SDK_AUTH_FLAG = 2;
     private static final String TAG = "BalanceActivity";
-    private boolean isUploadOrder = false;
     private ShopAdressPresenter shopAdressPresenter;
+    private LoadingDialog loadingDialog;
+    private int state;
     private final IWXAPI msgApi = WXAPIFactory.createWXAPI(this, null);
     @SuppressLint("HandlerLeak")
     private Handler mHandler = new Handler() {
@@ -86,6 +88,9 @@ public class BalanceActivity extends BaseActivity implements BanlanceIF, ShopAdr
                     if (TextUtils.equals(resultStatus, "9000")) {
                         // 该笔订单是否真实支付成功，需要依赖服务端的异步通知。
                         Toast.makeText(BalanceActivity.this, "支付成功", Toast.LENGTH_SHORT).show();
+                        if (state==1){
+                            setResult(1020);
+                        }
                         finish();
                     } else {
                         // 该笔订单真实的支付结果，需要依赖服务端的异步通知。
@@ -125,7 +130,7 @@ public class BalanceActivity extends BaseActivity implements BanlanceIF, ShopAdr
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        EnvUtils.setEnv(EnvUtils.EnvEnum.SANDBOX);
+//        EnvUtils.setEnv(EnvUtils.EnvEnum.SANDBOX);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_balance);
         ButterKnife.bind(this);
@@ -135,6 +140,7 @@ public class BalanceActivity extends BaseActivity implements BanlanceIF, ShopAdr
     }
 
     private void init() {
+        loadingDialog=new LoadingDialog(this);
         shopAdressPresenter = new ShopAdressPresenter(this);
         shopAdressPresenter.getShopAdress();
         dianHuoTongBaseTitleBar.setLeftImage(R.drawable.icon_back);
@@ -148,6 +154,7 @@ public class BalanceActivity extends BaseActivity implements BanlanceIF, ShopAdr
         Bundle bundle = getIntent().getExtras();
         orderID= bundle.getString("order");
         money = bundle.getString("money");
+        state=bundle.getInt("state");
         textViewMoney.setText(money + "元");
         banlancePresenter = new BanlancePresenter(this);
         //ToastUtil.makeText(this, goodsId, Toast.LENGTH_SHORT).show();
@@ -182,13 +189,15 @@ public class BalanceActivity extends BaseActivity implements BanlanceIF, ShopAdr
             hashMap.put("orderIds", orderID);
             hashMap.put("paymentType", "ALIPAY");
             banlancePresenter.getPayID(hashMap);
-            ToastUtil.makeText(this, "支付宝结账中...请等待", Toast.LENGTH_SHORT).show();
+            loadingDialog.show();
+           // ToastUtil.makeText(this, "支付宝结账中...请等待", Toast.LENGTH_SHORT).show();
         } else if (payType == 2) {
             HashMap hashMap = new HashMap();
             hashMap.put("orderIds", orderID);
             hashMap.put("paymentType", "WECHATPAY");
             banlancePresenter.getPayID(hashMap);
-            ToastUtil.makeText(this, "微信结账中...请等待", Toast.LENGTH_SHORT).show();
+            loadingDialog.show();
+            //ToastUtil.makeText(this, "微信结账中...请等待", Toast.LENGTH_SHORT).show();
         } else if (payType == 3) {
             ToastUtil.makeText(this, "线下支付暂未开通", Toast.LENGTH_SHORT).show();
         }
@@ -217,6 +226,9 @@ public class BalanceActivity extends BaseActivity implements BanlanceIF, ShopAdr
 
     @Override
     public void getPayCodeSucess(int code, String result) {
+        if (loadingDialog!=null&&loadingDialog.isShowing()){
+            loadingDialog.dismiss();
+        }
         final String orderInfo = result;
         if (code == 200) {
             if (payType == 1) {
@@ -266,7 +278,9 @@ public class BalanceActivity extends BaseActivity implements BanlanceIF, ShopAdr
 
     @Override
     public void getPayCodeFaild(int code, String result) {
-
+        if (loadingDialog!=null&&loadingDialog.isShowing()){
+            loadingDialog.dismiss();
+        }
     }
 
 

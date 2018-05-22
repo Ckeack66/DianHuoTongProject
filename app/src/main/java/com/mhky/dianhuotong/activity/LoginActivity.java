@@ -17,6 +17,7 @@ import com.mhky.dianhuotong.R;
 import com.mhky.dianhuotong.base.BaseApplication;
 import com.mhky.dianhuotong.base.BaseTool;
 import com.mhky.dianhuotong.base.view.BaseActivity;
+import com.mhky.dianhuotong.custom.AlertDialog.LoadingDialog;
 import com.mhky.dianhuotong.custom.ToastUtil;
 import com.mhky.dianhuotong.custom.viewgroup.DianHuoTongBaseTitleBar;
 import com.mhky.dianhuotong.login.LoginIF;
@@ -36,6 +37,7 @@ public class LoginActivity extends BaseActivity implements LoginIF {
     EditText editTextPwd;
     @BindView(R.id.login_login)
     TextView textViewLogin;
+    private LoadingDialog loadingDialog;
     private LoginPrecenter loginPrecenter;
     private static final String TAG = "LoginActivity";
 
@@ -49,6 +51,7 @@ public class LoginActivity extends BaseActivity implements LoginIF {
 
     private void inIt() {
         ImmersionBar.with(this).titleBar(diaHuiTongBaseTitleBar).transparentStatusBar().init();
+        loadingDialog=new LoadingDialog(this);
         diaHuiTongBaseTitleBar.setLeftImage(R.drawable.icon_back);
         diaHuiTongBaseTitleBar.setCenterTextView("登录");
         diaHuiTongBaseTitleBar.setBackGround(Color.parseColor("#00ffffff"));
@@ -76,6 +79,7 @@ public class LoginActivity extends BaseActivity implements LoginIF {
             ToastUtil.makeText(this, "密码格式不正确", Toast.LENGTH_SHORT).show();
             return;
         }
+        loadingDialog.show();
         loginPrecenter.Login(editTextPhone.getText().toString(), String.valueOf(MD5Util.md5(editTextPwd.getText().toString().trim())));
     }
 
@@ -91,6 +95,9 @@ public class LoginActivity extends BaseActivity implements LoginIF {
 
     @Override
     public void LoginSucess(int code, String result) {
+        if (loadingDialog!=null&&loadingDialog.isShowing()){
+            loadingDialog.dismiss();
+        }
         if (code == 200) {
             ToastUtil.makeText(this, "登陆成功..", Toast.LENGTH_SHORT).show();
             BaseApplication.getInstansApp().setMypswsds(MD5Util.md5(editTextPwd.getText().toString().trim()));
@@ -102,6 +109,9 @@ public class LoginActivity extends BaseActivity implements LoginIF {
 
     @Override
     public void LoginFailed(int code, String result) {
+        if (loadingDialog!=null&&loadingDialog.isShowing()){
+            loadingDialog.dismiss();
+        }
         ToastUtil.makeText(this, "无法连接服务器..", Toast.LENGTH_SHORT).show();
     }
 }

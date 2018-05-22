@@ -66,12 +66,14 @@ public class OrderAdapter extends BaseMultiItemQuickAdapter<OrderInfo, BaseViewH
                 double b = (double) item.getOrderBottomInfo().getMoney();
                 double money1 = b / 100;
                 helper.setText(R.id.order_bottom_text2, "合计：￥" + money1);
-                double c = (double) item.getOrderBottomInfo().getFreightInfoBean().getFreight();
-                double money2 = c / 100;
-                if (item.getOrderBottomInfo().getFreightInfoBean().getFreight() == 0) {
+//                double c = (double) item.getOrderBottomInfo().getFreightInfoBean().getFreight();
+//                double money2 = c / 100;
+                if (item.getOrderBottomInfo().getFreightInfoBean().getFreight()!=null&&Integer.valueOf(item.getOrderBottomInfo().getFreightInfoBean().getFreight().toString())== 0) {
                     helper.setText(R.id.order_bottom_text3, "（已免邮）");
-                } else {
-                    helper.setText(R.id.order_bottom_text3, "（含运费￥）" + money2);
+                } else if (item.getOrderBottomInfo().getFreightInfoBean().getFreight()==null){
+                    helper.setText(R.id.order_bottom_text3, "（运费未知）");
+                }else {
+                    helper.setText(R.id.order_bottom_text3, "（含运费￥" + item.getOrderBottomInfo().getFreightInfoBean().getFreight()+"）");
                 }
                 switch (item.getOrderBottomInfo().getOrderStatus()) {
                     case "ORDERED":

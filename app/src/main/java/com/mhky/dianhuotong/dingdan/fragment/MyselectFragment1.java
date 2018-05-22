@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +20,7 @@ import com.mhky.dianhuotong.base.BaseTool;
 import com.mhky.dianhuotong.custom.ToastUtil;
 import com.mhky.dianhuotong.dingdan.adapter.MyselectFragmentAdapter;
 import com.mhky.dianhuotong.shop.activity.GoodsActivity;
+import com.mhky.dianhuotong.shop.activity.OrderInfoActivity;
 import com.mhky.dianhuotong.shop.activity.ShopActivity;
 import com.mhky.dianhuotong.shop.adapter.OrderAdapter;
 import com.mhky.dianhuotong.shop.bean.OrderBaseInfo;
@@ -26,6 +28,7 @@ import com.mhky.dianhuotong.shop.bean.OrderInfo;
 import com.mhky.dianhuotong.shop.precenter.OrderDataPresenter;
 import com.mhky.dianhuotong.shop.precenter.OrderPrecenter;
 import com.mhky.dianhuotong.shop.shopif.OrderIF;
+import com.pgyersdk.crash.PgyCrashManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -165,15 +168,26 @@ public class MyselectFragment1 extends Fragment {
                         switch (view.getId()) {
                             case R.id.order_head_go:
                                // ToastUtil.makeText(getActivity(), "点击了店铺" + position, Toast.LENGTH_SHORT).show();
-                                Bundle bundle = new Bundle();
-                                bundle.putString("shopid", orderInfoList.get(position).getOrderTopInfo().getShopID());
-                                BaseTool.goActivityWithData(getActivity(), ShopActivity.class, bundle);
+                                try {
+                                    Bundle bundle = new Bundle();
+                                    bundle.putString("shopid", orderInfoList.get(position).getOrderTopInfo().getShopID());
+                                    BaseTool.goActivityWithData(getActivity(), ShopActivity.class, bundle);
+                                }catch (Exception e){
+                                    PgyCrashManager.reportCaughtException(getActivity(),e);
+                                }
+
                                 break;
                             case R.id.order_body_goods:
+                                try {
+                                    Bundle bundle1 = new Bundle();
+                                    bundle1.putString("order", orderBaseInfo.getContent().get(orderInfoList.get(position).getParentNumber()).getOrderCirculations().get(0).getOrderCirculationId().getOrderNo());
+//                               ToastUtil.makeText(getActivity(),"aa"+orderInfoList.get(position).getParentNumber(),Toast.LENGTH_SHORT).show();
+                                    BaseTool.goActivityWithData(getActivity(), OrderInfoActivity.class, bundle1);
+                                }catch (Exception e){
+                                    PgyCrashManager.reportCaughtException(getActivity(),e);
+                                }
                                 //ToastUtil.makeText(getActivity(), "点击了商品" + position, Toast.LENGTH_SHORT).show();
-                                Bundle bundle1 = new Bundle();
-                                bundle1.putString("id", orderInfoList.get(position).getOrderBodyInfo().getGoodsInfo().getGoodsId());
-                                BaseTool.goActivityWithData(getActivity(), GoodsActivity.class, bundle1);
+
                                 break;
                             case R.id.order_info_button:
                                 //ToastUtil.makeText(getActivity(), "点击了操作" + position, Toast.LENGTH_SHORT).show();
