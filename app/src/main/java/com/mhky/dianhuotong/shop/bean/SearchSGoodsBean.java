@@ -213,7 +213,7 @@ public class SearchSGoodsBean implements Serializable {
         private String description;
         private String instruction;
         private String saleProperties;
-        private Object shopInfo;
+        private ShopInfoBean shopInfo;
         private boolean shelves;
         private AduitGoodsInfoBean aduitGoodsInfo;
         private String createTime;
@@ -374,11 +374,46 @@ public class SearchSGoodsBean implements Serializable {
             this.saleProperties = saleProperties;
         }
 
-        public Object getShopInfo() {
+        public ShopInfoBean getShopInfo() {
             return shopInfo;
         }
+        public static class ShopInfoBean implements Serializable {
 
-        public void setShopInfo(Object shopInfo) {
+            /**
+             * address : 济南槐荫区齐州路
+             * shopName : 大鹏旗舰店
+             * id : 1
+             */
+
+            private String address;
+            private String shopName;
+            private String id;
+
+            public String getAddress() {
+                return address;
+            }
+
+            public void setAddress(String address) {
+                this.address = address;
+            }
+
+            public String getShopName() {
+                return shopName;
+            }
+
+            public void setShopName(String shopName) {
+                this.shopName = shopName;
+            }
+
+            public String getId() {
+                return id;
+            }
+
+            public void setId(String id) {
+                this.id = id;
+            }
+        }
+        public void setShopInfo(ShopInfoBean shopInfo) {
             this.shopInfo = shopInfo;
         }
 
@@ -467,5 +502,6 @@ public class SearchSGoodsBean implements Serializable {
                 this.remarks = remarks;
             }
         }
+
     }
 }

@@ -25,6 +25,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.lzy.okgo.model.HttpParams;
 import com.mhky.dianhuotong.R;
 import com.mhky.dianhuotong.base.BaseTool;
+import com.mhky.dianhuotong.custom.AlertDialog.DianHuoTongBaseDialog;
 import com.mhky.dianhuotong.custom.ToastUtil;
 import com.mhky.dianhuotong.shop.activity.GoodsActivity;
 import com.mhky.dianhuotong.shop.adapter.SearchGoodsAdpter;
@@ -33,6 +34,7 @@ import com.mhky.dianhuotong.shop.bean.SearchSGoodsBean;
 import com.mhky.dianhuotong.shop.bean.ShopInfo;
 import com.mhky.dianhuotong.shop.bean.ShopTransferInfo;
 import com.mhky.dianhuotong.shop.bean.ShopTypeInfo;
+import com.mhky.dianhuotong.shop.bean.StarShopInfo;
 import com.mhky.dianhuotong.shop.custom.CartPopupwindow;
 import com.mhky.dianhuotong.shop.custom.CompanyPopupwindow;
 import com.mhky.dianhuotong.shop.custom.ShopTypePopupwindow;
@@ -42,11 +44,14 @@ import com.mhky.dianhuotong.shop.precenter.GoodsPrecenter;
 import com.mhky.dianhuotong.shop.precenter.SearchGoodsPresenter;
 import com.mhky.dianhuotong.shop.precenter.ShopPresenter;
 import com.mhky.dianhuotong.shop.precenter.StarGoodsPrecenter;
+import com.mhky.dianhuotong.shop.precenter.StarShopPrecenter;
 import com.mhky.dianhuotong.shop.shopif.CompanyIF;
 import com.mhky.dianhuotong.shop.shopif.GoodsIF;
 import com.mhky.dianhuotong.shop.shopif.SearchGoodsIF;
 import com.mhky.dianhuotong.shop.shopif.ShopIF;
 import com.mhky.dianhuotong.shop.shopif.StarShopAddIF;
+import com.mhky.dianhuotong.shop.shopif.StarShopIF;
+import com.pgyersdk.crash.PgyCrashManager;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.constant.SpinnerStyle;
@@ -69,7 +74,7 @@ import wellijohn.org.scrollviewwithstickheader.ScrollViewWithStickHeader;
  * Use the {@link ShopMainFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ShopMainFragment extends Fragment implements ShopIF, SortPopupwindow.OnClickPopupwindow2ItemListener, ShopTypePopupwindow.OnClickShopPopupwindowItemListener, SearchGoodsIF, CompanyIF, GoodsIF {
+public class ShopMainFragment extends Fragment implements ShopIF, SortPopupwindow.OnClickPopupwindow2ItemListener, ShopTypePopupwindow.OnClickShopPopupwindowItemListener, SearchGoodsIF, CompanyIF, GoodsIF, StarShopIF, DianHuoTongBaseDialog.BaseDialogListener {
     @BindView(R.id.shop_img)
     ImageView imageViewLogo;
     @BindView(R.id.shop_main_child_tab1)
@@ -98,8 +103,8 @@ public class ShopMainFragment extends Fragment implements ShopIF, SortPopupwindo
     TextView textViewNotice;
     @BindView(R.id.shop_scollview)
     NestedScrollView nestedScrollView;
-    //    @BindView(R.id.shop_scollview)
-//    ScrollViewWithStickHeader scrollViewWithStickHeader;
+    @BindView(R.id.shop_star)
+    TextView textViewShopStar;
     private int chooseOldNumber = -1;
     private boolean tabIsOpen = false;
     private Unbinder unbinder;
@@ -126,6 +131,10 @@ public class ShopMainFragment extends Fragment implements ShopIF, SortPopupwindo
     private GoodsPrecenter goodsPrecenter;
     private GoodsInfo goodsInfo;
     private CartPopupwindow cartPopupwindow;
+    private ShopInfo shopInfo;
+    private StarShopPrecenter starShopPrecenter;
+    private DianHuoTongBaseDialog dianHuoTongBaseDialog;
+    private String starID;
     private static final String TAG = "ShopMainFragment";
 
 
@@ -158,7 +167,6 @@ public class ShopMainFragment extends Fragment implements ShopIF, SortPopupwindo
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-//        smartRefreshLayout.setRefreshHeader(new BezierRadarHeader(getActivity()).setEnableHorizontalDrag(true).setPrimaryColor(getResources().getColor(R.color.color04c1ab)).setAccentColor(getResources().getColor(R.color.colorWhite)));
     }
 
     private void setRefresh() {
@@ -217,8 +225,17 @@ public class ShopMainFragment extends Fragment implements ShopIF, SortPopupwindo
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_shop_main, container, false);
         unbinder = ButterKnife.bind(this, view);
+        try {
+            init();
+        } catch (Exception e) {
+            PgyCrashManager.reportCaughtException(getActivity(), e);
+        }
+
+        return view;
+    }
+
+    private void init() {
         recyclerView.setNestedScrollingEnabled(false);
-        //recyclerView.requestLayout();
         goodsPrecenter = new GoodsPrecenter(this);
         shopPresenter = new ShopPresenter(this);
         shopTransferInfoList = new ArrayList<>();
@@ -234,10 +251,6 @@ public class ShopMainFragment extends Fragment implements ShopIF, SortPopupwindo
         smartRefreshLayout.setEnableRefresh(false);
         companyPrecenter = new CompanyPrecenter(this);
         companyPrecenter.getCompanyTansferInfo(mParam1);
-        //smartRefreshLayout.setEnableLoadMore(false);
-//        scrollViewWithStickHeader.setContentView(linearLayoutHead);
-//        scrollViewWithStickHeader.setSuspensionView(linearLayoutBody);
-        //setRefresh();
         nestedScrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
             @Override
             public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
@@ -245,7 +258,9 @@ public class ShopMainFragment extends Fragment implements ShopIF, SortPopupwindo
                 setTabStateFalse(chooseOldNumber);
             }
         });
-        return view;
+        starShopPrecenter = new StarShopPrecenter();
+        starShopPrecenter.setStarShopIF(this);
+        dianHuoTongBaseDialog = new DianHuoTongBaseDialog(getActivity(), this, "温馨提示", "请问客官确定要取消收藏店铺吗？", "取消", "确定", "fg");
     }
 
     @Override
@@ -269,15 +284,18 @@ public class ShopMainFragment extends Fragment implements ShopIF, SortPopupwindo
         setTabStateTrue(2);
     }
 
-    @OnClick(R.id.shop_start)
+    @OnClick(R.id.shop_star)
     void startShop() {
-
-
+        if (shopInfo.isFollowStatus()) {
+            //取消关注
+            starShopPrecenter.getStarShop();
+        } else {
+            //关注店铺
+            starShopPrecenter.addStarShop(shopInfo.getId());
+        }
     }
 
     private void hideWindow() {
-//        nestedScrollView.setFocusable(true);
-//        nestedScrollView.setNestedScrollingEnabled(false);
         if (shopTypePopupwindow != null && shopTypePopupwindow.isShowing()) {
             shopTypePopupwindow.dismiss();
         } else if (sortPopupwindow != null && sortPopupwindow.isShowing()) {
@@ -312,8 +330,6 @@ public class ShopMainFragment extends Fragment implements ShopIF, SortPopupwindo
                 imageViewTab1.setImageResource(R.drawable.icon_choose_selecte);
                 PopupWindowCompat.showAsDropDown(shopTypePopupwindow, relativeLayoutTab1, 0, 0, Gravity.LEFT);
                 tabIsOpen = true;
-//                nestedScrollView.setFocusable(false);
-//                nestedScrollView.setNestedScrollingEnabled(false);
                 nestedScrollView.setEnabled(false);
                 break;
             case 2:
@@ -321,8 +337,6 @@ public class ShopMainFragment extends Fragment implements ShopIF, SortPopupwindo
                 imageViewTab2.setImageResource(R.drawable.icon_choose_selecte);
                 PopupWindowCompat.showAsDropDown(sortPopupwindow, relativeLayoutTab1, 0, 0, Gravity.LEFT);
                 tabIsOpen = true;
-//                nestedScrollView.setFocusable(false);
-//                nestedScrollView.setNestedScrollingEnabled(false);
                 nestedScrollView.setEnabled(false);
                 break;
         }
@@ -347,11 +361,16 @@ public class ShopMainFragment extends Fragment implements ShopIF, SortPopupwindo
     @Override
     public void getShopInfoSuccess(int code, String result) {
         if (code == 200) {
-            ShopInfo shopInfo = JSON.parseObject(result, ShopInfo.class);
+            shopInfo = JSON.parseObject(result, ShopInfo.class);
             if (shopInfo.getLogo() != null) {
                 Picasso.with(getActivity()).load(shopInfo.getLogo()).into(imageViewLogo);
             }
             textViewShopName.setText(shopInfo.getName());
+            if (shopInfo.isFollowStatus()) {
+                textViewShopStar.setText("已关注");
+            } else {
+                textViewShopStar.setText("关注");
+            }
 
         }
     }
@@ -500,5 +519,80 @@ public class ShopMainFragment extends Fragment implements ShopIF, SortPopupwindo
     @Override
     public void getGoodsInfoFailed(int code, String result) {
 
+    }
+
+    @Override
+    public void getStarShopSuccess(int code, String result) {
+        try {
+            if (code == 200) {
+                List<StarShopInfo> starShopInfoList = JSON.parseArray(result, StarShopInfo.class);
+                for (int a = 0; a < starShopInfoList.size(); a++) {
+                    if (shopInfo.getId().equals(starShopInfoList.get(a).getCompanyId())) {
+                        starID = starShopInfoList.get(a).getId();
+                        break;
+                    }
+                }
+                if (starID != null && !starID.equals("")) {
+                    dianHuoTongBaseDialog.show();
+                }
+            }
+        } catch (Exception e) {
+            PgyCrashManager.reportCaughtException(getActivity(), e);
+        }
+
+    }
+
+    @Override
+    public void getStarShopInfoFailed(int code, String result) {
+
+    }
+
+    @Override
+    public void addStarShopSuccess(int code, String result) {
+        if (code == 200) {
+            shopInfo.setFollowStatus(true);
+            textViewShopStar.setText("已关注");
+        }
+    }
+
+    @Override
+    public void addStarShopInfoFailed(int code, String result) {
+
+    }
+
+    @Override
+    public void deleteStarShopSuccess(int code, String result) {
+        if (code == 200) {
+            shopInfo.setFollowStatus(false);
+            textViewShopStar.setText("关注");
+            if (dianHuoTongBaseDialog != null) {
+                dianHuoTongBaseDialog.dismiss();
+            }
+        } else {
+            ToastUtil.makeText(getActivity(), "取消失败！", Toast.LENGTH_SHORT).show();
+            if (dianHuoTongBaseDialog != null) {
+                dianHuoTongBaseDialog.dismiss();
+            }
+        }
+    }
+
+    @Override
+    public void deleteStarShopInfoFailed(int code, String result) {
+        if (dianHuoTongBaseDialog != null) {
+            ToastUtil.makeText(getActivity(), "取消失败！", Toast.LENGTH_SHORT).show();
+            dianHuoTongBaseDialog.dismiss();
+        }
+    }
+
+    @Override
+    public void onClickBaseDialogLeft(String iTag) {
+        if (dianHuoTongBaseDialog != null) {
+            dianHuoTongBaseDialog.dismiss();
+        }
+    }
+
+    @Override
+    public void onClickBaseDialogRight(String iTag) {
+        starShopPrecenter.delete(starID);
     }
 }

@@ -13,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
+import com.example.administrator.viewexplosion.Utils;
 import com.gyf.barlibrary.ImmersionBar;
 import com.mhky.dianhuotong.R;
 import com.mhky.dianhuotong.base.BaseTool;
@@ -21,9 +22,12 @@ import com.mhky.dianhuotong.custom.ToastUtil;
 import com.mhky.dianhuotong.shop.bean.GoodsBaseInfo;
 import com.mhky.dianhuotong.shop.bean.GoodsInfo;
 import com.mhky.dianhuotong.shop.bean.SearchSGoodsBean;
+import com.mhky.dianhuotong.shop.bean.ShopInfo;
 import com.mhky.dianhuotong.shop.custom.CartPopupwindow;
 import com.mhky.dianhuotong.shop.precenter.GoodsPrecenter;
+import com.mhky.dianhuotong.shop.precenter.ShopPresenter;
 import com.mhky.dianhuotong.shop.shopif.GoodsIF;
+import com.mhky.dianhuotong.shop.shopif.ShopIF;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -35,7 +39,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.bingoogolapple.bgabanner.BGABanner;
 
-public class GoodsActivity extends BaseActivity implements GoodsIF {
+public class GoodsActivity extends BaseActivity implements GoodsIF ,ShopIF{
     @BindView(R.id.goods_title)
     TextView textViewTitle;
     @BindView(R.id.goods_price)
@@ -58,6 +62,8 @@ public class GoodsActivity extends BaseActivity implements GoodsIF {
     TextView textViewExp;
     @BindView(R.id.go_cart)
     TextView textViewGoCart;
+    @BindView(R.id.goods_shop_img)
+    ImageView imageViewLogo;
     private SearchSGoodsBean.ContentBean goodsInfoBase;
     private GoodsInfo goodsInfo;
     private Bundle bundle;
@@ -68,6 +74,7 @@ public class GoodsActivity extends BaseActivity implements GoodsIF {
     private CartPopupwindow cartPopupwindow;
     private boolean isFirst = true;
     private String goodsId;
+    private ShopPresenter shopPresenter;
     private static final String TAG = "GoodsActivity";
 
     @Override
@@ -82,6 +89,7 @@ public class GoodsActivity extends BaseActivity implements GoodsIF {
     private void inIt() {
         ImmersionBar.with(this).fitsSystemWindows(true).statusBarColor("#ffffff").statusBarDarkFont(true).init();
         goodsPrecenter = new GoodsPrecenter(this);
+        shopPresenter=new ShopPresenter(this);
         if (getIntent().getExtras() != null) {
             bundle = getIntent().getExtras();
             goodsId = bundle.getString("id");
@@ -187,7 +195,7 @@ public class GoodsActivity extends BaseActivity implements GoodsIF {
                     }
 
                 }
-                //textViewUseTime.setText(goodsInfo.getExpiryDate());
+              shopPresenter.getShopInfo(goodsInfo.getShopInfo().getId());
             }
         } catch (Exception e) {
             ToastUtil.makeText(this, "数据解析错误", Toast.LENGTH_SHORT).show();
@@ -211,5 +219,31 @@ public class GoodsActivity extends BaseActivity implements GoodsIF {
 
         bgaBanner.setAutoPlayAble(true);
         bgaBanner.setData(list, new ArrayList<String>());
+    }
+
+    @Override
+    public void getShopInfoSuccess(int code, String result) {
+        if (code == 200) {
+            ShopInfo shopInfo = JSON.parseObject(result, ShopInfo.class);
+            if (shopInfo.getLogo() != null) {
+                Picasso.with(this).load(shopInfo.getLogo()).resize(Utils.dp2Px(40),Utils.dp2Px(40)).into(imageViewLogo);
+            }
+            textViewShopName.setText(shopInfo.getName());
+        }
+    }
+
+    @Override
+    public void getShopInfoFailed(int code, String result) {
+
+    }
+
+    @Override
+    public void getShopTypeSuccess(int code, String result) {
+
+    }
+
+    @Override
+    public void getShopTypeFailed(int code, String result) {
+
     }
 }

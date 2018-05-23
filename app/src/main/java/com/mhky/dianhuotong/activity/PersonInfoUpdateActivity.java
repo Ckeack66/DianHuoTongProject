@@ -273,7 +273,6 @@ public class PersonInfoUpdateActivity extends TakePhotoActivity implements DianH
             personInfoPrecenter.getPersonInfo(BaseApplication.getInstansApp().getLoginRequestInfo().getId());
             BaseApplication.getInstansApp().setUpdata(true);
             ToastUtil.makeText(this, "更新成功", Toast.LENGTH_SHORT).show();
-            finish();
         }
 
     }

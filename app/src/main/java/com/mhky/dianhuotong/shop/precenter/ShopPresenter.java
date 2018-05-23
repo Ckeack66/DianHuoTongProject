@@ -5,6 +5,7 @@ import com.lzy.okgo.callback.Callback;
 import com.lzy.okgo.model.Progress;
 import com.lzy.okgo.model.Response;
 import com.lzy.okgo.request.base.Request;
+import com.mhky.dianhuotong.base.BaseApplication;
 import com.mhky.dianhuotong.base.BaseTool;
 import com.mhky.dianhuotong.base.BaseUrlTool;
 import com.mhky.dianhuotong.shop.shopif.ShopIF;
@@ -21,47 +22,50 @@ public class ShopPresenter {
     }
 
     public void getShopInfo(String id) {
-        OkGo.<String>get(BaseUrlTool.getShopInfoUrl(id)).execute(new Callback<String>() {
-            @Override
-            public void onStart(Request<String, ? extends Request> request) {
+        if (BaseApplication.getInstansApp().getPersonInfo()!=null&&BaseApplication.getInstansApp().getPersonInfo().getShopId()!=null){
+            OkGo.<String>get(BaseUrlTool.getShopInfoUrl(id,BaseApplication.getInstansApp().getPersonInfo().getShopId().toString())).execute(new Callback<String>() {
+                @Override
+                public void onStart(Request<String, ? extends Request> request) {
 
-            }
+                }
 
-            @Override
-            public void onSuccess(Response<String> response) {
-                shopIF.getShopInfoSuccess(response.code(), BaseTool.getResponsBody(response));
-            }
+                @Override
+                public void onSuccess(Response<String> response) {
+                    shopIF.getShopInfoSuccess(response.code(), BaseTool.getResponsBody(response));
+                }
 
-            @Override
-            public void onCacheSuccess(Response<String> response) {
+                @Override
+                public void onCacheSuccess(Response<String> response) {
 
-            }
+                }
 
-            @Override
-            public void onError(Response<String> response) {
-                shopIF.getShopInfoFailed(response.code(), BaseTool.getResponsBody(response));
-            }
+                @Override
+                public void onError(Response<String> response) {
+                    shopIF.getShopInfoFailed(response.code(), BaseTool.getResponsBody(response));
+                }
 
-            @Override
-            public void onFinish() {
+                @Override
+                public void onFinish() {
 
-            }
+                }
 
-            @Override
-            public void uploadProgress(Progress progress) {
+                @Override
+                public void uploadProgress(Progress progress) {
 
-            }
+                }
 
-            @Override
-            public void downloadProgress(Progress progress) {
+                @Override
+                public void downloadProgress(Progress progress) {
 
-            }
+                }
 
-            @Override
-            public String convertResponse(okhttp3.Response response) throws Throwable {
-                return null;
-            }
-        });
+                @Override
+                public String convertResponse(okhttp3.Response response) throws Throwable {
+                    return null;
+                }
+            });
+        }
+
     }
 
     public void getShopType(String id) {

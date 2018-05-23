@@ -8,16 +8,16 @@ public class BaseUrlTool {
     /**
      * 主机
      */
-//
-    private final static String HOSTS = "http://116.255.150.39:";//release
-    private final static String HOSTS_CART = "http://116.255.158.91:";//release
-    private final static String HOST_IMAGE_URL = "http://116.255.155.156:9040";//release  Imge
-    private final static String HOSTS_ORDER="http://116.255.158.91:";
+//release
+//    private final static String HOSTS = "http://116.255.150.39:";//release
+//    private final static String HOSTS_CART = "http://116.255.158.91:";//release
+//    private final static String HOST_IMAGE_URL = "http://116.255.155.156:9040";//release  Imge
+//    private final static String HOSTS_ORDER="http://116.255.158.91:";
     //debug
-//    private final static String HOSTS = "http://192.168.2.158:";//debug
-//    private final static String HOSTS_CART="http://192.168.2.158:";
-//    private final static String HOST_IMAGE_URL = HOSTS + "9040";//debug  Imge
-//    private final static String HOSTS_ORDER="http://192.168.2.158:";
+    private final static String HOSTS = "http://192.168.2.158:";//debug
+    private final static String HOSTS_CART = "http://192.168.2.158:";
+    private final static String HOST_IMAGE_URL = HOSTS + "9040";//debug  Imge
+    private final static String HOSTS_ORDER = "http://192.168.2.158:";
 
     /**
      * 上传图片地址
@@ -27,9 +27,9 @@ public class BaseUrlTool {
     private final static String HOST_ADRESS_URL = HOSTS + "8018";
     private final static String HOST_GOODS_URL = HOSTS + "9000";
     private final static String HOST_CART_URL = HOSTS_CART + "9050";
-    private final static String HOST_BANLANCE_URL = HOSTS_ORDER + "9030";
+//    private final static String HOST_BANLANCE_URL = HOSTS_ORDER + "9030";
 //    private final static String HOST_ACTIVITY_URL=HOSTS+"9060";
-//    private final static String HOST_BANLANCE_URL = "http://192.168.2.237:" + "9030";
+    private final static String HOST_BANLANCE_URL = "http://192.168.2.237:" + "9030";
 //    private final static String HOST_ADRESS_URL = "http://192.168.2.235:8088";
     //        private final static String HOST_URL = "http://192.168.2.235:9088";
     /**
@@ -178,8 +178,8 @@ public class BaseUrlTool {
      */
     private static String GET_UP_SHOP_INFO = HOST_URL + "/user/seller/company/";
 
-    public static String getShopInfoUrl(String id) {
-        return GET_UP_SHOP_INFO + id;
+    public static String getShopInfoUrl(String id,String user) {
+        return GET_UP_SHOP_INFO + id+"/"+user;
     }
 
     /**
@@ -245,42 +245,56 @@ public class BaseUrlTool {
      * 根据userID进行查询店铺信息
      */
 
-    private static final String GET_SHOP_INFO=HOST_URL+"/user/buyer/";
-    public static String getShopInfo(String ID){
-        return GET_SHOP_INFO+ID+"/shop";
+    private static final String GET_SHOP_INFO = HOST_URL + "/user/buyer/";
+
+    public static String getShopInfo(String ID) {
+        return GET_SHOP_INFO + ID + "/shop";
     }
 
     /**
      * 通过店铺ID获取商铺信息
      */
-    public static final String GET_SHOP_ADRESS=HOST_URL+"/user/buyer/shop/";
+    public static final String GET_SHOP_ADRESS = HOST_URL + "/user/buyer/shop/";
 
     /**
      * 获取发票信息
      */
-    public static final String GET_SHOP_BILL=HOST_URL+"/user/buyer/shop/ticket/";
+    public static final String GET_SHOP_BILL = HOST_URL + "/user/buyer/shop/ticket/";
     /**
      * 添加发票信息
      */
-    public static final String ADD_SHOP_BILL=HOST_URL+"/user/buyer/shop/ticket";
+    public static final String ADD_SHOP_BILL = HOST_URL + "/user/buyer/shop/ticket";
     /**
      * 获取服务专员手机号
      */
-    private static String GET_SALE_MAN=HOST_URL+"/user/salesman/";
-    public static String getSaleMan(String code){
-        return GET_SALE_MAN+code+"/code";
+    private static String GET_SALE_MAN = HOST_URL + "/user/salesman/";
+
+    public static String getSaleMan(String code) {
+        return GET_SALE_MAN + code + "/code";
     }
 
     /**
      * 批量获取运费
      */
-    public static final String GET_FRIGHT=HOST_URL+"/user/seller/freight?";
+    public static final String GET_FRIGHT = HOST_URL + "/user/seller/freight?";
     /**
      * 获取优惠券
      */
-    public static final String GET_COUPON=HOST_URL+"/couponRecord?";
+    public static final String GET_COUPON = HOST_URL + "/couponRecord?";
     /**
      * 获取订单信息
      */
-    public static final String GET_ORDER_INFO=HOST_BANLANCE_URL+"/order?";
+    public static final String GET_ORDER_INFO = HOST_BANLANCE_URL + "/order?";
+    /**
+     * 收藏新店铺
+     */
+    public static final String ADD_STAR_SHOP=HOST_URL+"/user/buyer/shop/followupstream?";
+    /**
+     * 删除收藏店铺
+     */
+    public  static final String DELETE_STAR_SHOP=HOST_URL+"/user/buyer/shop/followupstream/";
+    /**
+     * 获取关注商家ID列表
+     */
+    public static  final String GET_STAR_SHOP_ID_LIST=HOST_URL+"/user/buyer/shop/followupstream/";
 }

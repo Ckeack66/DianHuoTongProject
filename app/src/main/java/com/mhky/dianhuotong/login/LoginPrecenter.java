@@ -25,13 +25,11 @@ import com.mhky.dianhuotong.shop.shopif.ShopInfoIF;
 public class LoginPrecenter implements PersonIF, ShopInfoIF {
     private LoginIF loginIF;
     private PersonInfoPrecenter personInfoPrecenter;
-    private ShopInfoPresenter shopInfoPresenter;
     private static final String TAG = "LoginPrecenter";
 
     public LoginPrecenter(LoginIF loginIF) {
         this.loginIF = loginIF;
         personInfoPrecenter = new PersonInfoPrecenter(this);
-        shopInfoPresenter = new ShopInfoPresenter(this);
     }
 
     public void Login(String phone, String pwd) {
@@ -51,8 +49,6 @@ public class LoginPrecenter implements PersonIF, ShopInfoIF {
                         if (loginRequestInfo != null) {
                             personInfoPrecenter.getPersonInfo(loginRequestInfo.getId());
                         }
-                        shopInfoPresenter.getShopInfo();
-                        BaseApplication.getInstansApp().setUpdata(true);
                     }
 
                 }

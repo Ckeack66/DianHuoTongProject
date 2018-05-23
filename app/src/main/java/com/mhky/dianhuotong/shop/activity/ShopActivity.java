@@ -19,7 +19,9 @@ import com.mhky.dianhuotong.shop.fragment.ShopAllGoodsFragment;
 import com.mhky.dianhuotong.shop.fragment.ShopMainFragment;
 import com.mhky.dianhuotong.shop.fragment.ShopTransferFragment;
 import com.mhky.dianhuotong.shop.precenter.ShopPresenter;
+import com.mhky.dianhuotong.shop.precenter.StarShopPrecenter;
 import com.mhky.dianhuotong.shop.shopif.ShopIF;
+import com.mhky.dianhuotong.shop.shopif.StarShopIF;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -53,6 +55,7 @@ public class ShopActivity extends BaseActivity implements ShopIF {
     private ShopTransferFragment shopTransferFragment;
     private ShopPresenter shopPresenter;
     private String shopId;
+
     private static final String TAG = "ShopActivity";
 
     @Override
@@ -156,4 +159,5 @@ public class ShopActivity extends BaseActivity implements ShopIF {
     public void getShopTypeFailed(int code, String result) {
 
     }
+
 }

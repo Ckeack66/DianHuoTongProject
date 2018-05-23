@@ -32,9 +32,16 @@ public class SearchGoodsAdpter extends BaseQuickAdapter<SearchSGoodsBean.Content
             String[] imageDate = item.getPicture().split(",");
             Picasso.with(context).load(imageDate[0]).into((ImageView) helper.getView(R.id.goods_base_imageview));
         }
-        helper.setText(R.id.goods_base_title, item.getTitle())
-                .setText(R.id.goods_base__companay, item.getManufacturer())
-                .setText(R.id.goods_base_money, (item.getPrice() / 100) + "");
+        if (item.getTitle() != null) {
+            helper.setText(R.id.goods_base_title, item.getTitle());
+        }
+        if (item.getManufacturer() != null) {
+            helper.setText(R.id.goods_base__companay, item.getManufacturer());
+        }
+        if (item.getShopInfo() != null && item.getShopInfo().getShopName() != null) {
+            helper.setText(R.id.goods_base_shop_name, item.getShopInfo().getShopName());
+        }
+        helper.setText(R.id.goods_base_money, "￥"+(item.getPrice() / 100) );
         helper.addOnClickListener(R.id.goods_base_addcart_button);
 
     }

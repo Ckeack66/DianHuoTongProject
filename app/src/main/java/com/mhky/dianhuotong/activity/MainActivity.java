@@ -186,9 +186,7 @@ public class MainActivity extends BaseActivity implements MainIF, DrawerLayout.D
                 drawerLayout.closeDrawers();
             }
         }
-        if (BaseApplication.getInstansApp().isUpdata()) {
-            updateDrawer();
-        }
+        updateDrawer();
     }
 
     @Override
@@ -359,7 +357,7 @@ public class MainActivity extends BaseActivity implements MainIF, DrawerLayout.D
     @Override
     public void onDrawerOpened(View drawerView) {
         isOpenDrawer = true;
-        //banner.stopAutoPlay();
+        updateDrawer();
     }
 
     /**
@@ -507,6 +505,7 @@ public class MainActivity extends BaseActivity implements MainIF, DrawerLayout.D
      * 更新抽屉界面信息
      */
     private void updateDrawer() {
+        Log.d(TAG, "updateDrawer: ---更新界面");
         if (BaseApplication.getInstansApp().getPersonInfo() != null) {
             if (BaseApplication.getInstansApp().getPersonInfo().getImage() != null) {
                 //Log.d(TAG, "updateDrawer: --------" + BaseApplication.getInstansApp().getLoginRequestInfo().getImage().toString());

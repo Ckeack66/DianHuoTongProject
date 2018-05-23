@@ -27,7 +27,7 @@ public class PersonInfo implements Serializable{
     private Object image;
     private Object shopId;
     private Object shopName;
-    private int id;
+    private String  id;
     private Object truename;
     private Object type;
 
@@ -99,11 +99,11 @@ public class PersonInfo implements Serializable{
         this.shopName = shopName;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 

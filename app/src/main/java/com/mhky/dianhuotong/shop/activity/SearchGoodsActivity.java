@@ -116,6 +116,10 @@ public class SearchGoodsActivity extends BaseActivity implements SearchGoodsIF, 
     private GoodsPrecenter goodsPrecenter;
     private GoodsInfo goodsInfo;
     private String type105GoodsId;
+    private String type106GoodsId;
+    private int type106TypeId;
+    private String type107Company;
+    private String type107GoodsId;
 
     private static final String TAG = "SearchGoodsActivity";
 
@@ -202,8 +206,10 @@ public class SearchGoodsActivity extends BaseActivity implements SearchGoodsIF, 
                     getTypeData(type105GoodsId, false, 1);
                 } else if (type != null && type.equals("106")) {
                     //排序
+                    getSortData(type106GoodsId, false, 1, type106TypeId);
                 } else if (type != null && type.equals("107")) {
                     //商家选择
+                    getCompanyData(type107GoodsId,false,1,type107Company);
                 } else if (type != null && type.equals("108")) {
                     //筛选
                 }
@@ -227,8 +233,10 @@ public class SearchGoodsActivity extends BaseActivity implements SearchGoodsIF, 
                     getTypeData(type105GoodsId, false, 2);
                 } else if (type != null && type.equals("106")) {
                     //排序
+                    getSortData(type106GoodsId, false, 2, type106TypeId);
                 } else if (type != null && type.equals("107")) {
                     //商家选择
+                    getCompanyData(type107GoodsId,false,2,type107Company);
                 } else if (type != null && type.equals("108")) {
                     //筛选
                 }
@@ -255,6 +263,40 @@ public class SearchGoodsActivity extends BaseActivity implements SearchGoodsIF, 
         searchGoodsPresenter.searchGoods(httpParams, isFirst, refreshOrLoadmore);
     }
 
+    private void getSortData(String childID, boolean isFirst, int refreshOrLoadmore, int typeId) {
+        HttpParams httpParams = new HttpParams();
+        httpParams.put("page", number);
+        if (childID != null && !childID.equals("")) {
+            httpParams.put("categoryIds", childID);
+        }
+        if (typeId == 0) {
+            httpParams.put("sort", "name,DESC");
+        } else if (typeId == 1) {
+            httpParams.put("sort", "createTime,DESC");
+        }
+        if (type107Company != null) {
+            httpParams.put("shopId", type107Company);
+        }
+        searchGoodsPresenter.searchGoods(httpParams, isFirst, refreshOrLoadmore);
+    }
+
+    private void getCompanyData(String childID, boolean isFirst, int refreshOrLoadmore, String shopid) {
+        HttpParams httpParams = new HttpParams();
+        httpParams.put("page", number);
+        if (childID != null && !childID.equals("")) {
+            httpParams.put("categoryIds", childID);
+        }
+        if (type106TypeId == 0) {
+            httpParams.put("sort", "name,DESC");
+        } else if (type106TypeId == 1) {
+            httpParams.put("sort", "createTime,DESC");
+        }
+        if (shopid != null) {
+            httpParams.put("shopId", shopid);
+        }
+        searchGoodsPresenter.searchGoods(httpParams, isFirst, refreshOrLoadmore);
+    }
+
     private String getChildId(List<GoodsBaseInfo.ChildrenBeanX.ChildrenBean> childrenBeans) {
         String childId = "";
         if (childrenBeans != null) {
@@ -268,6 +310,15 @@ public class SearchGoodsActivity extends BaseActivity implements SearchGoodsIF, 
             }
         }
         return childId;
+    }
+
+    private void reset() {
+        textViewChoose2.setText("默认排序");
+        textViewChoose3.setText("全部商家");
+        sortPopupwindow = null;
+        companyPopupwindow = null;
+        type107Company = null;
+        type106GoodsId = null;
     }
 
     @OnClick(R.id.goods_base_choose_tab1)
@@ -337,19 +388,36 @@ public class SearchGoodsActivity extends BaseActivity implements SearchGoodsIF, 
             case 1:
                 textViewChoose1.setTextColor(getResources().getColor(R.color.color04c1ab));
                 imageViewChoose1.setImageResource(R.drawable.icon_choose_selecte);
-                PopupWindowCompat.showAsDropDown(goodsTypePopupwindow, tabI, 0, 0, Gravity.LEFT);
+                if (goodsTypePopupwindow == null) {
+                    goodsTypePopupwindow = new GoodsTypePopupwindow(this, popuwindow1InfoList);
+                    goodsTypePopupwindow.setOnClickPopupwindowItemListener(this);
+                    PopupWindowCompat.showAsDropDown(goodsTypePopupwindow, tabI, 0, 0, Gravity.LEFT);
+                } else {
+                    PopupWindowCompat.showAsDropDown(goodsTypePopupwindow, tabI, 0, 0, Gravity.LEFT);
+                }
                 tabIsOpen = true;
                 break;
             case 2:
                 textViewChoose2.setTextColor(getResources().getColor(R.color.color04c1ab));
                 imageViewChoose2.setImageResource(R.drawable.icon_choose_selecte);
-                PopupWindowCompat.showAsDropDown(sortPopupwindow, tabI, 0, 0, Gravity.LEFT);
+                if (sortPopupwindow == null) {
+                    sortPopupwindow = new SortPopupwindow(this, -1);
+                    sortPopupwindow.setClickPopupwindow2ItemListener(this);
+                    PopupWindowCompat.showAsDropDown(sortPopupwindow, tabI, 0, 0, Gravity.LEFT);
+                } else {
+                    PopupWindowCompat.showAsDropDown(sortPopupwindow, tabI, 0, 0, Gravity.LEFT);
+                }
+
                 tabIsOpen = true;
                 break;
             case 3:
                 textViewChoose3.setTextColor(getResources().getColor(R.color.color04c1ab));
                 imageViewChoose3.setImageResource(R.drawable.icon_choose_selecte);
-                if (companyPopupwindow != null) {
+                if (companyPopupwindow == null) {
+                    companyPopupwindow = new CompanyPopupwindow(this, allCompanyInfo.getContent());
+                    companyPopupwindow.setOnClickPopupwindowItemListener(this);
+                    PopupWindowCompat.showAsDropDown(companyPopupwindow, tabI, 0, 0, Gravity.LEFT);
+                } else {
                     PopupWindowCompat.showAsDropDown(companyPopupwindow, tabI, 0, 0, Gravity.LEFT);
                 }
                 tabIsOpen = true;
@@ -387,7 +455,7 @@ public class SearchGoodsActivity extends BaseActivity implements SearchGoodsIF, 
 
     @Override
     public void searchGoodsInfoSuccess(int code, String result, boolean isfirst, int refreshOrLoadmore) {
-        Log.d(TAG, "searchGoodsInfoSuccess: " + code);
+        //Log.d(TAG, "searchGoodsInfoSuccess: " + code);
         try {
             if (code == 200) {
                 SearchSGoodsBean searchSGoodsBeans = JSON.parseObject(result, SearchSGoodsBean.class);
@@ -396,6 +464,7 @@ public class SearchGoodsActivity extends BaseActivity implements SearchGoodsIF, 
                         relativeLayoutTips.setVisibility(View.VISIBLE);
                         smartRefreshLayout.setEnableLoadMore(false);
                     } else if (searchSGoodsBeans != null && searchSGoodsBeans.getContent().size() < 10) {
+                        relativeLayoutTips.setVisibility(View.GONE);
                         smartRefreshLayout.setEnableLoadMore(false);
                         ToastUtil.makeText(this, "已加载全部数据", Toast.LENGTH_SHORT).show();
                         searchSGoodsBean = searchSGoodsBeans;
@@ -421,6 +490,8 @@ public class SearchGoodsActivity extends BaseActivity implements SearchGoodsIF, 
                         recyclerView.setAdapter(searchGoodsAdpter);
                     } else {
                         number++;
+                        relativeLayoutTips.setVisibility(View.GONE);
+                        smartRefreshLayout.setEnableLoadMore(true);
                         searchSGoodsBean = searchSGoodsBeans;
                         searchGoodsAdpter = new SearchGoodsAdpter(searchSGoodsBean.getContent(), this);
                         searchGoodsAdpter.openLoadAnimation(BaseQuickAdapter.SLIDEIN_LEFT);
@@ -449,32 +520,33 @@ public class SearchGoodsActivity extends BaseActivity implements SearchGoodsIF, 
                         relativeLayoutTips.setVisibility(View.VISIBLE);
                         smartRefreshLayout.setEnableLoadMore(false);
                     } else if (searchSGoodsBeans != null && searchSGoodsBeans.getContent().size() < 10) {
+                        relativeLayoutTips.setVisibility(View.GONE);
                         searchSGoodsBean = searchSGoodsBeans;
                         searchGoodsAdpter.setNewData(searchSGoodsBean.getContent());
                         smartRefreshLayout.finishRefresh(1000, true);
                         smartRefreshLayout.setEnableLoadMore(false);
                         ToastUtil.makeText(this, "刷新成功-没有更多数据了", Toast.LENGTH_SHORT).show();
-                    }else {
+                    } else {
+                        relativeLayoutTips.setVisibility(View.GONE);
+                        smartRefreshLayout.setEnableLoadMore(true);
                         searchSGoodsBean = searchSGoodsBeans;
                         searchGoodsAdpter.setNewData(searchSGoodsBean.getContent());
                         smartRefreshLayout.finishRefresh(1000, true);
                         ToastUtil.makeText(this, "刷新成功", Toast.LENGTH_SHORT).show();
                         number++;
                     }
-                } else if (refreshOrLoadmore == 1) {
-                    if (searchSGoodsBean.getContent().size() == 0) {
+                } else if (refreshOrLoadmore == 2) {
+                    if (searchSGoodsBeans != null && searchSGoodsBeans.getContent().size() == 0) {
                         smartRefreshLayout.finishLoadMore(true);
                         smartRefreshLayout.setEnableLoadMore(false);
                         ToastUtil.makeText(this, "已加载全部数据", Toast.LENGTH_SHORT).show();
-                    } else if (searchSGoodsBean.getContent().size() < 10) {
-                        searchSGoodsBean.getContent().addAll(searchSGoodsBeans.getContent());
-                        searchGoodsAdpter.addData(searchSGoodsBean.getContent());
+                    } else if (searchSGoodsBeans != null && searchSGoodsBeans.getContent().size() < 10) {
+                        searchGoodsAdpter.addData(searchSGoodsBeans.getContent());
                         smartRefreshLayout.finishLoadMore(true);
                         smartRefreshLayout.setEnableLoadMore(false);
                         ToastUtil.makeText(this, "已加载全部数据", Toast.LENGTH_SHORT).show();
                     } else {
-                        searchSGoodsBean.getContent().addAll(searchSGoodsBeans.getContent());
-                        searchGoodsAdpter.addData(searchSGoodsBean.getContent());
+                        searchGoodsAdpter.addData(searchSGoodsBeans.getContent());
                         smartRefreshLayout.finishLoadMore(1000, true, false);
                         number++;
                         ToastUtil.makeText(this, "加载了更多", Toast.LENGTH_SHORT).show();
@@ -494,7 +566,7 @@ public class SearchGoodsActivity extends BaseActivity implements SearchGoodsIF, 
                 }
             }
         } catch (Exception e) {
-            ToastUtil.makeText(this, "页面解析错误~", Toast.LENGTH_SHORT).show();
+            ToastUtil.makeText(this, "系统异常~", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -512,6 +584,7 @@ public class SearchGoodsActivity extends BaseActivity implements SearchGoodsIF, 
 
     @Override
     public void onclick(Popuwindow1Info popuwindow1Info) {
+        reset();
         String text;
         if (popuwindow1Info.isHeader) {
             text = popuwindow1Info.getPopuwindow1ChildInfo().getGoodsBaseInfo().getName();
@@ -525,7 +598,7 @@ public class SearchGoodsActivity extends BaseActivity implements SearchGoodsIF, 
             }
             type = "105";
             number = 0;
-            type105GoodsId=stringBuilder.toString().substring(0, stringBuilder.toString().length() - 1);
+            type105GoodsId = stringBuilder.toString().substring(0, stringBuilder.toString().length() - 1);
             getTypeData(type105GoodsId, false, 1);
             Log.d(TAG, "onclick: ---a-a-a-a-" + stringBuilder.toString().substring(0, stringBuilder.toString().length() - 1));
 
@@ -536,7 +609,7 @@ public class SearchGoodsActivity extends BaseActivity implements SearchGoodsIF, 
                 stringBuilder.append(popuwindow1Info.t.getChildren().get(i).getId());
                 stringBuilder.append(",");
             }
-            type = "104";
+            type = "105";
             number = 0;
             getTypeData(stringBuilder.toString().substring(0, stringBuilder.toString().length() - 1), false, 1);
             Log.d(TAG, "onclick: ---b-b-b-b-" + stringBuilder.toString().substring(0, stringBuilder.toString().length() - 1));
@@ -549,13 +622,21 @@ public class SearchGoodsActivity extends BaseActivity implements SearchGoodsIF, 
     public void onclick(int number) {
         String text = "";
         sortPopupwindow.setSelectState(number);
+        this.number = 0;
+        type = "106";
+        if (type105GoodsId != null) {
+            type106GoodsId = type105GoodsId;
+        } else {
+            type106GoodsId = type3;
+        }
         if (number == 0) {
             text = "默认排序";
-            // ToastUtil.makeText(this, "默认排序", Toast.LENGTH_SHORT).show();
+            type106TypeId = 0;
         } else if (number == 1) {
-            text = "价格排序";
-            // ToastUtil.makeText(this, "价格排序", Toast.LENGTH_SHORT).show();
+            text = "时间排序";
+            type106TypeId = 1;
         }
+        getSortData(type106GoodsId, false, 1, type106TypeId);
         textViewChoose2.setText(text);
         setTabStateFalse(2);
     }
@@ -578,8 +659,17 @@ public class SearchGoodsActivity extends BaseActivity implements SearchGoodsIF, 
 
     @Override
     public void onclick(AllCompanyInfo.ContentBean contentBean) {
-        ToastUtil.makeText(this, contentBean.getName(), Toast.LENGTH_SHORT).show();
+        //ToastUtil.makeText(this, contentBean.getName(), Toast.LENGTH_SHORT).show();
+        textViewChoose3.setText(contentBean.getName());
         setTabStateFalse(3);
+        type = "107";
+        type107Company = String.valueOf(contentBean.getId());
+        if (type106GoodsId != null) {
+            type107GoodsId = type106GoodsId;
+        } else {
+            type107GoodsId = type3;
+        }
+        getCompanyData(type107GoodsId, false, 1, type107Company);
     }
 
 

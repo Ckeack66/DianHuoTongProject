@@ -96,6 +96,8 @@
                     android:gravity="center"
                     android:text="全部商家"
                     android:textColor="@color/color333333"
+                    android:maxLength="5"
+                    android:ellipsize="end"
                     android:textSize="@dimen/t12" />
 
                 <ImageView
@@ -113,7 +115,8 @@
                 android:id="@+id/goods_base_choose_tab4"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:visibility="gone">
 
                 <TextView
                     android:id="@+id/goods_base_choose_txt4"
@@ -171,6 +174,7 @@
                 android:id="@+id/base_tips"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:background="@color/white"
                 android:visibility="gone">
 
                 <TextView

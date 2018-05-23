@@ -34,7 +34,7 @@
                 android:layout_marginEnd="@dimen/x14"
                 android:background="@color/colorWhite"
                 android:maxLines="2"
-                android:text="安宫黄体酮安宫黄体酮安宫黄体酮安宫黄体酮安宫黄体酮安宫黄体酮"
+                android:text=""
                 android:ellipsize="marquee"
                 android:textColor="@color/color333333"
                 android:textSize="@dimen/t11" />
@@ -51,7 +51,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
-                    android:text="XX大药房"
+                    android:text=""
                     android:textColor="@color/color767676"
                     android:textSize="@dimen/t8" />
 
@@ -90,7 +90,8 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
                     android:layout_toRightOf="@id/shop_good1_money_text"
-                    android:text="￥18.9"
+                    android:text="￥0.0"
+                    android:layout_marginStart="@dimen/x6"
                     android:textColor="@color/colorE20F12"
                     android:textSize="@dimen/t14" />
 
@@ -103,7 +104,7 @@
                 android:layout_marginBottom="@dimen/x10"
                 android:layout_above="@id/goods_base_money_rel"
                 android:background="@color/colorWhite"
-                android:text="华润三九医药股份有限公司"
+                android:text=""
                 android:textColor="@color/color767676"
                 android:textSize="@dimen/t9" />
 

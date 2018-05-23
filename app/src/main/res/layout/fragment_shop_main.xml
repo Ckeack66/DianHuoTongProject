@@ -228,15 +228,15 @@
                             android:layout_centerVertical="true"
                             android:layout_marginStart="@dimen/x14"
                             android:layout_toEndOf="@id/shop_img"
-                            android:text="山东济南惠民大药房"
+                            android:text="aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
                             android:textColor="@color/color333333"
                             android:textSize="@dimen/t14"
-                            android:layout_marginEnd="@dimen/x50"/>
+                            android:layout_marginEnd="@dimen/x60"/>
                         <TextView
-                            android:id="@+id/shop_start"
-                            android:layout_width="wrap_content"
+                            android:id="@+id/shop_star"
+                            android:layout_width="@dimen/x50"
                             android:layout_height="wrap_content"
-                            android:text="已关注"
+                            android:text="关注"
                             android:paddingStart="@dimen/x6"
                             android:paddingEnd="@dimen/x6"
                             android:paddingTop="@dimen/x2"

@@ -39,6 +39,16 @@ public class ShopInfo implements Serializable {
     private String level;
     private String id;
 
+    public boolean isFollowStatus() {
+        return followStatus;
+    }
+
+    public void setFollowStatus(boolean followStatus) {
+        this.followStatus = followStatus;
+    }
+
+    private boolean followStatus;
+
     public String getName() {
         return name;
     }

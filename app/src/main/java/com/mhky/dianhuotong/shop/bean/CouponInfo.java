@@ -3,21 +3,22 @@ package com.mhky.dianhuotong.shop.bean;
 import java.util.List;
 
 public class CouponInfo {
+
     /**
-     * promotionItem : {"name":"平台优惠券","startDate":"2018-05-21 00:00:00","endDate":"2018-08-30 00:00:00","promotionType":"PING_TAI_YOU_HUI_QUAN","goodsChannel":"MOBILE","cutName":"second","gradientFullCut":{"fullAmount":2000,"limitNums":2,"cutPrice":200,"discount":0,"circulation":100,"limitReceive":1},"goodsIds":[],"shopId":""}
-     * companyId : null
+     * promotionItem : {"name":"店铺周年庆优惠券","startDate":"2018-05-20 00:00:00","endDate":"2018-08-30 00:00:00","promotionType":"DIAN_PU_YOU_HUI_QUAN","goodsChannel":"MOBILE","cutName":"second","gradientFullCut":{"fullAmount":2000,"limitNums":2,"cutPrice":200,"discount":0,"circulation":100,"limitReceive":1},"goodsIds":[],"shopId":"48"}
+     * companyId : 48
      * shopId : 9
      * grads : second
-     * status : true
-     * invalidDate : 1535558400000
+     * status : false
+     * invalidDate : 2018-08-30 00:00:00
      */
 
     private PromotionItemBean promotionItem;
-    private Object companyId;
+    private String companyId;
     private String shopId;
     private String grads;
     private boolean status;
-    private long invalidDate;
+    private String invalidDate;
 
     public PromotionItemBean getPromotionItem() {
         return promotionItem;
@@ -27,11 +28,11 @@ public class CouponInfo {
         this.promotionItem = promotionItem;
     }
 
-    public Object getCompanyId() {
+    public String getCompanyId() {
         return companyId;
     }
 
-    public void setCompanyId(Object companyId) {
+    public void setCompanyId(String companyId) {
         this.companyId = companyId;
     }
 
@@ -59,25 +60,25 @@ public class CouponInfo {
         this.status = status;
     }
 
-    public long getInvalidDate() {
+    public String getInvalidDate() {
         return invalidDate;
     }
 
-    public void setInvalidDate(long invalidDate) {
+    public void setInvalidDate(String invalidDate) {
         this.invalidDate = invalidDate;
     }
 
     public static class PromotionItemBean {
         /**
-         * name : 平台优惠券
-         * startDate : 2018-05-21 00:00:00
+         * name : 店铺周年庆优惠券
+         * startDate : 2018-05-20 00:00:00
          * endDate : 2018-08-30 00:00:00
-         * promotionType : PING_TAI_YOU_HUI_QUAN
+         * promotionType : DIAN_PU_YOU_HUI_QUAN
          * goodsChannel : MOBILE
          * cutName : second
          * gradientFullCut : {"fullAmount":2000,"limitNums":2,"cutPrice":200,"discount":0,"circulation":100,"limitReceive":1}
          * goodsIds : []
-         * shopId :
+         * shopId : 48
          */
 
         private String name;
@@ -172,58 +173,58 @@ public class CouponInfo {
              * limitReceive : 1
              */
 
-            private double fullAmount;
-            private double limitNums;
-            private double cutPrice;
-            private double discount;
-            private double circulation;
-            private double limitReceive;
+            private int fullAmount;
+            private int limitNums;
+            private int cutPrice;
+            private int discount;
+            private int circulation;
+            private int limitReceive;
 
-            public double getFullAmount() {
+            public int getFullAmount() {
                 return fullAmount;
             }
 
-            public void setFullAmount(double fullAmount) {
+            public void setFullAmount(int fullAmount) {
                 this.fullAmount = fullAmount;
             }
 
-            public double getLimitNums() {
+            public int getLimitNums() {
                 return limitNums;
             }
 
-            public void setLimitNums(double limitNums) {
+            public void setLimitNums(int limitNums) {
                 this.limitNums = limitNums;
             }
 
-            public double getCutPrice() {
+            public int getCutPrice() {
                 return cutPrice;
             }
 
-            public void setCutPrice(double cutPrice) {
+            public void setCutPrice(int cutPrice) {
                 this.cutPrice = cutPrice;
             }
 
-            public double getDiscount() {
+            public int getDiscount() {
                 return discount;
             }
 
-            public void setDiscount(double discount) {
+            public void setDiscount(int discount) {
                 this.discount = discount;
             }
 
-            public double getCirculation() {
+            public int getCirculation() {
                 return circulation;
             }
 
-            public void setCirculation(double circulation) {
+            public void setCirculation(int circulation) {
                 this.circulation = circulation;
             }
 
-            public double getLimitReceive() {
+            public int getLimitReceive() {
                 return limitReceive;
             }
 
-            public void setLimitReceive(double limitReceive) {
+            public void setLimitReceive(int limitReceive) {
                 this.limitReceive = limitReceive;
             }
         }
