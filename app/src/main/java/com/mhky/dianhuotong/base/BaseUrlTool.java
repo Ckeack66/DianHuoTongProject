@@ -18,6 +18,7 @@ public class BaseUrlTool {
     private final static String HOSTS_CART = "http://192.168.2.158:";
     private final static String HOST_IMAGE_URL = HOSTS + "9040";//debug  Imge
     private final static String HOSTS_ORDER = "http://192.168.2.158:";
+    private final static String HOST_URL_COUPON="http://192.168.2.158:"+"9060";
 
     /**
      * 上传图片地址
@@ -280,7 +281,7 @@ public class BaseUrlTool {
     /**
      * 获取优惠券
      */
-    public static final String GET_COUPON = HOST_URL + "/couponRecord?";
+    public static final String GET_COUPON = HOST_URL_COUPON + "/couponRecord?";
     /**
      * 获取订单信息
      */

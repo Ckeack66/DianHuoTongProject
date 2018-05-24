@@ -1,5 +1,7 @@
 package com.mhky.dianhuotong.shop.bean;
 
+import java.util.List;
+
 public class OrderOkBotttomInfo {
     public OrderBaseInfo.ContentBean.FreightInfoBean getFreightInfoBean() {
         return freightInfoBean;
@@ -79,4 +81,24 @@ public class OrderOkBotttomInfo {
     }
 
     private CouponInfo couponInfo;
+
+    public List<CouponInfo> getCouponInfoList() {
+        return couponInfoList;
+    }
+
+    public void setCouponInfoList(List<CouponInfo> couponInfoList) {
+        this.couponInfoList = couponInfoList;
+    }
+
+    private List<CouponInfo> couponInfoList;
+
+    public boolean isShowCoupon() {
+        return showCoupon;
+    }
+
+    public void setShowCoupon(boolean showCoupon) {
+        this.showCoupon = showCoupon;
+    }
+
+    private boolean showCoupon=false;
 }

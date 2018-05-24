@@ -4,6 +4,14 @@ import java.util.List;
 
 public class CouponInfo {
 
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
     /**
      * promotionItem : {"name":"店铺周年庆优惠券","startDate":"2018-05-20 00:00:00","endDate":"2018-08-30 00:00:00","promotionType":"DIAN_PU_YOU_HUI_QUAN","goodsChannel":"MOBILE","cutName":"second","gradientFullCut":{"fullAmount":2000,"limitNums":2,"cutPrice":200,"discount":0,"circulation":100,"limitReceive":1},"goodsIds":[],"shopId":"48"}
      * companyId : 48
@@ -12,7 +20,7 @@ public class CouponInfo {
      * status : false
      * invalidDate : 2018-08-30 00:00:00
      */
-
+    private String id;
     private PromotionItemBean promotionItem;
     private String companyId;
     private String shopId;

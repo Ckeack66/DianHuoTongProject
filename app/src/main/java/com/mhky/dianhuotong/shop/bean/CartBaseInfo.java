@@ -92,6 +92,16 @@ public class CartBaseInfo implements Serializable {
 
         private FrigthInfo frigthInfo;
 
+        public CouponInfo getCouponInfo() {
+            return couponInfo;
+        }
+
+        public void setCouponInfo(CouponInfo couponInfo) {
+            this.couponInfo = couponInfo;
+        }
+
+        private CouponInfo couponInfo;
+
         public String getGoodsId() {
             return goodsId;
         }

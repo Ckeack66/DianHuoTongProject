@@ -35,50 +35,62 @@ public class CouponPresenter {
     }
 
     public void getCoupon(){
-        HashMap hashMap=new HashMap();
-        hashMap.put("shopId", BaseApplication.getInstansApp().getLoginRequestInfo().getShopId());
-        hashMap.put("status",true);
-        OkGo.<String>get(BaseUrlTool.GET_COUPON+ BaseTool.getUrlParamsByMap(hashMap,false)).execute(new Callback<String>() {
-            @Override
-            public void onStart(Request<String, ? extends Request> request) {
+        if (BaseApplication.getInstansApp().getLoginRequestInfo()!=null&&BaseApplication.getInstansApp().getLoginRequestInfo().getShopId()!=null){
+            HashMap hashMap=new HashMap();
+            hashMap.put("shopId", BaseApplication.getInstansApp().getLoginRequestInfo().getShopId());
+            hashMap.put("used",false);
+            OkGo.<String>get(BaseUrlTool.GET_COUPON+ BaseTool.getUrlParamsByMap(hashMap,false)).execute(new Callback<String>() {
+                @Override
+                public void onStart(Request<String, ? extends Request> request) {
 
-            }
+                }
 
-            @Override
-            public void onSuccess(Response<String> response) {
+                @Override
+                public void onSuccess(Response<String> response) {
+                    if (couponIF!=null){
+                        couponIF.getCouponSuccess(response.code(),BaseTool.getResponsBody(response));
+                    }else if (counponGetIF!=null){
+                        counponGetIF.getCouponSuccess(response.code(),BaseTool.getResponsBody(response));
+                    }
 
-            }
+                }
 
-            @Override
-            public void onCacheSuccess(Response<String> response) {
+                @Override
+                public void onCacheSuccess(Response<String> response) {
 
-            }
+                }
 
-            @Override
-            public void onError(Response<String> response) {
+                @Override
+                public void onError(Response<String> response) {
+                    if (couponIF!=null){
+                        couponIF.getCouponFailed(response.code(),BaseTool.getResponsBody(response));
+                    }else if (counponGetIF!=null){
+                        counponGetIF.getCouponFailed(response.code(),BaseTool.getResponsBody(response));
+                    }
+                }
 
-            }
+                @Override
+                public void onFinish() {
 
-            @Override
-            public void onFinish() {
+                }
 
-            }
+                @Override
+                public void uploadProgress(Progress progress) {
 
-            @Override
-            public void uploadProgress(Progress progress) {
+                }
 
-            }
+                @Override
+                public void downloadProgress(Progress progress) {
 
-            @Override
-            public void downloadProgress(Progress progress) {
+                }
 
-            }
+                @Override
+                public String convertResponse(okhttp3.Response response) throws Throwable {
+                    return null;
+                }
+            });
+        }
 
-            @Override
-            public String convertResponse(okhttp3.Response response) throws Throwable {
-                return null;
-            }
-        });
     }
     public void addCoupon(){
 

@@ -23,7 +23,7 @@ public class GetAllCompanyPresenter {
 
     public void getAllCompany(HttpParams httpParams, boolean isSet) {
         if (!isSet) {
-            httpParams.put("size", "100");
+            httpParams.put("size", "10000");
             httpParams.put("page", "0");
         }
         httpParams.put("sort", "name,DESC");

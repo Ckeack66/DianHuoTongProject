@@ -15,11 +15,13 @@ import com.mhky.dianhuotong.R;
 import com.mhky.dianhuotong.base.BaseApplication;
 import com.mhky.dianhuotong.base.BaseTool;
 import com.mhky.dianhuotong.base.view.BaseActivity;
+import com.mhky.dianhuotong.custom.AlertDialog.DianHuoTongBaseDialog;
 import com.mhky.dianhuotong.custom.AlertDialog.LoadingDialog;
 import com.mhky.dianhuotong.custom.ToastUtil;
 import com.mhky.dianhuotong.custom.viewgroup.DianHuoTongBaseTitleBar;
 import com.mhky.dianhuotong.shop.adapter.OrderOkAdapter;
 import com.mhky.dianhuotong.shop.bean.CartBaseInfo;
+import com.mhky.dianhuotong.shop.bean.CouponInfo;
 import com.mhky.dianhuotong.shop.bean.FrigthInfo;
 import com.mhky.dianhuotong.shop.bean.OrderBaseInfo;
 import com.mhky.dianhuotong.shop.bean.OrderOkBotttomInfo;
@@ -27,10 +29,13 @@ import com.mhky.dianhuotong.shop.bean.OrderOkCenterInfo;
 import com.mhky.dianhuotong.shop.bean.OrderOkInfo;
 import com.mhky.dianhuotong.shop.bean.OrderOkTitleInfo;
 import com.mhky.dianhuotong.shop.bean.ShopAdressInfo;
+import com.mhky.dianhuotong.shop.custom.CouponDialog;
 import com.mhky.dianhuotong.shop.precenter.BanlancePresenter;
+import com.mhky.dianhuotong.shop.precenter.CouponPresenter;
 import com.mhky.dianhuotong.shop.precenter.OrderOkPresenter;
 import com.mhky.dianhuotong.shop.precenter.ShopAdressPresenter;
 import com.mhky.dianhuotong.shop.shopif.BanlanceIF;
+import com.mhky.dianhuotong.shop.shopif.CounponGetIF;
 import com.mhky.dianhuotong.shop.shopif.OrderOkIF;
 import com.mhky.dianhuotong.shop.shopif.ShopAdressIF;
 import com.pgyersdk.crash.PgyCrashManager;
@@ -45,7 +50,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class OderOkActivity extends BaseActivity implements OrderOkAdapter.GetEditWordsListenner, OrderOkIF, BanlanceIF, ShopAdressIF {
+public class OderOkActivity extends BaseActivity implements OrderOkAdapter.GetEditWordsListenner, OrderOkIF, BanlanceIF, ShopAdressIF, CounponGetIF {
     @BindView(R.id.order_ok_rcv)
     RecyclerView recyclerView;
     @BindView(R.id.order_ok_title)
@@ -58,6 +63,8 @@ public class OderOkActivity extends BaseActivity implements OrderOkAdapter.GetEd
     TextView textViewName;
     @BindView(R.id.order_ok_phone)
     TextView textViewPhone;
+    @BindView(R.id.order_ok_bto_yh)
+    TextView textViewAll;
     private OrderOkAdapter orderOkAdapter;
     private List<OrderOkInfo> orderOkInfoList;
     private HashMap<String, List<CartBaseInfo.GoodsItemsBean>> hashMapInteger;
@@ -68,15 +75,19 @@ public class OderOkActivity extends BaseActivity implements OrderOkAdapter.GetEd
     private Bundle bundle;
     private double devYh = 0;//平台优惠
     private double allMoney = 0;//总价
-    private double allMoney1 = 0;//总价不含运费
+    private double allMoney1 = 0;//总价含运费
     private double shopYh = 0;//店铺优惠
     private double shopFright = 0;
     private OrderOkPresenter orderOkPresenter;
-    private static final String TAG = "OderOkActivity";
     private BanlancePresenter banlancePresenter;
     private ShopAdressPresenter shopAdressPresenter;
     private LoadingDialog loadingDialog;
-
+    private CouponPresenter couponPresenter;
+    private List<CouponInfo> couponInfoList;
+    private List<CouponInfo> couponInfoListPT;
+    private CouponInfo couponInfo;
+    private StringBuilder stringBuilder1;
+    private static final String TAG = "OderOkActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,20 +97,23 @@ public class OderOkActivity extends BaseActivity implements OrderOkAdapter.GetEd
         ButterKnife.bind(this);
         try {
             inIt();
-        }catch (Exception e){
-            PgyCrashManager.reportCaughtException(this,e);
+        } catch (Exception e) {
+            PgyCrashManager.reportCaughtException(this, e);
         }
 
     }
 
     private void inIt() {
-        loadingDialog=new LoadingDialog(this);
+        stringBuilder1=new StringBuilder();
+        couponInfoListPT = new ArrayList<>();
+        loadingDialog = new LoadingDialog(this);
         shopAdressPresenter = new ShopAdressPresenter(this);
         shopAdressPresenter.getShopAdress();
+        couponPresenter = new CouponPresenter().setCounponGetIF(this);
         banlancePresenter = new BanlancePresenter(this);
         orderOkPresenter = new OrderOkPresenter(this);
-        textViewName.setText("收货人："+BaseApplication.getInstansApp().getPersonInfo().getTruename().toString());
-        textViewPhone.setText("联系方式："+BaseApplication.getInstansApp().getPersonInfo().getMobile());
+        textViewName.setText("收货人：" + BaseApplication.getInstansApp().getPersonInfo().getTruename().toString());
+        textViewPhone.setText("联系方式：" + BaseApplication.getInstansApp().getPersonInfo().getMobile());
         dianHuoTongBaseTitleBar.setLeftImage(R.drawable.icon_back);
         dianHuoTongBaseTitleBar.setLeftOnclickListener(new View.OnClickListener() {
             @Override
@@ -147,12 +161,9 @@ public class OderOkActivity extends BaseActivity implements OrderOkAdapter.GetEd
                     List<CartBaseInfo.GoodsItemsBean> list1 = hashMapInteger.get(list.get(a).getCompanyId().toString());
                     list1.get(0).setFrigthInfo(list.get(a));
                     hashMapInteger.put(list.get(a).getCompanyId().toString(), list1);
-//                    List<CartBaseInfo.GoodsItemsBean> list1=hashMapInteger.get(list.get(a).getCompanyId());
-//                    list1.get(0).setFrigthInfo(list.get(a));
-//                    hashMapInteger.put(list.get(a).getCompanyId(),list1);
                 }
             }
-            sumData();
+            couponPresenter.getCoupon();
         }
     }
 
@@ -191,21 +202,53 @@ public class OderOkActivity extends BaseActivity implements OrderOkAdapter.GetEd
                 orderOkBotttomInfo.setParentId(key);
                 orderOkBotttomInfo.setFrigthInfo(list.get(0).getFrigthInfo());
                 orderOkBotttomInfo.setGoodsNumber(String.valueOf(list.size()));
+                List<CouponInfo> couponInfoList1 = new ArrayList<>();
+                if (couponInfoList != null) {
+                    for (int a = 0; a < couponInfoList.size(); a++) {
+                        if (key.equals(couponInfoList.get(a).getCompanyId())) {
+                            //couponInfoList1.add(couponInfoList.get(a));
+                            if (couponInfoList.get(a).getPromotionItem().getGradientFullCut().getFullAmount() <= money) {
+//                                orderOkBotttomInfo.setCouponInfo(couponInfoList.get(a));
+                                couponInfoList1.add(couponInfoList.get(a));
+                            }
+                        }
+                    }
+                }
+                orderOkBotttomInfo.setCouponInfoList(couponInfoList1);
                 orderOkInfo2.setOrderOkBotttomInfo(orderOkBotttomInfo);
                 orderOkInfoList.add(orderOkInfo2);
             }
             goodsIDs = stringBuilder.toString().substring(0, stringBuilder.toString().length() - 1);
+            Log.d(TAG, "sumData: ----goods"+goodsIDs);
             if (orderOkInfoList != null) {
                 orderOkAdapter = new OrderOkAdapter(orderOkInfoList, this, this);
                 orderOkAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
                     @Override
                     public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-                        ToastUtil.makeText(mContext, "点击了-" + position, Toast.LENGTH_SHORT).show();
+                        switch (view.getId()) {
+                            case R.id.order_ok_bto_select:
+                                CouponDialog couponDialog = new CouponDialog(mContext, new CouponDialog.CredentialBaseDialogListener() {
+                                    @Override
+                                    public void OnClickCredentialBaseDialogListviewItem(CouponInfo couponInfo, String tag) {
+                                        if (couponInfo != null) {
+                                            orderOkInfoList.get(Integer.valueOf(tag)).getOrderOkBotttomInfo().setCouponInfo(couponInfo);
+                                        } else {
+                                            orderOkInfoList.get(Integer.valueOf(tag)).getOrderOkBotttomInfo().setCouponInfo(null);
+                                        }
+                                        orderOkAdapter.notifyDataSetChanged();
+                                        sumInitYh();
+                                    }
+                                }, orderOkInfoList.get(position).getOrderOkBotttomInfo().getCouponInfoList(), "请选择优惠券", "取消", position + "");
+                                couponDialog.show();
+
+                                break;
+                        }
+                        //ToastUtil.makeText(mContext, "点击了-" + position, Toast.LENGTH_SHORT).show();
                     }
                 });
                 recyclerView.setAdapter(orderOkAdapter);
             }
-            sumMoney();
+            sumInitMoney();
         } catch (Exception e) {
             Log.d(TAG, "sumData: ---" + e);
         }
@@ -214,13 +257,44 @@ public class OderOkActivity extends BaseActivity implements OrderOkAdapter.GetEd
 
     @OnClick(R.id.order_ok_submit)
     void sumOrder() {
-        loadingDialog.show();
-        HashMap<String, String> m = new HashMap();
-        m.put("skuIds", goodsIDs);
-        banlancePresenter.doBanlance(m);
+        Log.d(TAG, "sumOrder: ------"+goodsIDs);
+        try {
+            if (goodsIDs != null && !"".equals(goodsIDs)) {
+                loadingDialog.show();
+                HashMap<String, String> m = new HashMap();
+                m.put("skuIds", goodsIDs);
+                if (couponInfo!=null){
+                    stringBuilder1.append(couponInfo.getId());
+                    stringBuilder1.append(",");
+                }
+                m.put("couponIds",stringBuilder1.toString().substring(0,stringBuilder1.length()-1));
+                banlancePresenter.doBanlance(m);
+            }else {
+                ToastUtil.makeText(mContext, "商品信息错误", Toast.LENGTH_SHORT).show();
+            }
+        } catch (Exception e) {
+            PgyCrashManager.reportCaughtException(this, e);
+        }
+
     }
 
-    private void sumMoney() {
+    @OnClick(R.id.order_ok_select)
+    void selectCuopon() {
+        if (couponInfoListPT.size() > 0) {
+            CouponDialog couponDialog = new CouponDialog(mContext, new CouponDialog.CredentialBaseDialogListener() {
+                @Override
+                public void OnClickCredentialBaseDialogListviewItem(CouponInfo couponInfo1, String tag) {
+                    couponInfo = couponInfo1;
+                    sumInitYh();
+                }
+            }, couponInfoListPT, "请选择红包", "取消", "1");
+            couponDialog.show();
+        } else {
+            ToastUtil.makeText(mContext, "暂无可用红包", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void sumInitMoney() {
         Iterator<Map.Entry<String, List<CartBaseInfo.GoodsItemsBean>>> iter = hashMapInteger.entrySet().iterator();
         allMoney = 0;
         while (iter.hasNext()) {
@@ -234,12 +308,19 @@ public class OderOkActivity extends BaseActivity implements OrderOkAdapter.GetEd
             }
             allMoney = allMoney + money;
         }
-        sumYh();
+        for (int a = 0; a < couponInfoList.size(); a++) {
+            if ("PING_TAI_YOU_HUI_QUAN".equals(couponInfoList.get(a).getPromotionItem().getPromotionType()) && (allMoney/100) > couponInfoList.get(a).getPromotionItem().getGradientFullCut().getFullAmount()) {
+                couponInfoListPT.add(couponInfoList.get(a));
+                Log.d(TAG, "sumInitMoney: -----all"+allMoney+"------"+ couponInfoList.get(a).getPromotionItem().getGradientFullCut().getFullAmount());
+            }
+        }
+        sumInitYh();
     }
 
-    private void sumYh() {
+    private void sumInitYh() {
         shopYh = 0;
         shopFright = 0;
+        stringBuilder1.delete(0,stringBuilder1.length());
         for (int a = 0; a < orderOkInfoList.size(); a++) {
             if (orderOkInfoList.get(a).getItemType() == 3 && orderOkInfoList.get(a).getOrderOkBotttomInfo().getFrigthInfo() != null && orderOkInfoList.get(a).getOrderOkBotttomInfo().getFrigthInfo().getSendAccount() != null) {
                 double b = (double) orderOkInfoList.get(a).getOrderOkBotttomInfo().getMoney();
@@ -250,12 +331,21 @@ public class OderOkActivity extends BaseActivity implements OrderOkAdapter.GetEd
             }
             if (orderOkInfoList.get(a).getItemType() == 3 && orderOkInfoList.get(a).getOrderOkBotttomInfo().getCouponInfo() != null) {
                 shopYh = shopYh + orderOkInfoList.get(a).getOrderOkBotttomInfo().getCouponInfo().getPromotionItem().getGradientFullCut().getCutPrice();
+                stringBuilder1.append( orderOkInfoList.get(a).getOrderOkBotttomInfo().getCouponInfo().getId());
+                stringBuilder1.append(",");
             }
 
         }
-        allMoney1 = allMoney / 100 + shopFright;
+        if (couponInfo != null) {
+            allMoney1 = allMoney / 100 + shopFright - shopYh - couponInfo.getPromotionItem().getGradientFullCut().getCutPrice();
+            textViewAll.setText("满"+couponInfo.getPromotionItem().getGradientFullCut().getFullAmount()+"减"+couponInfo.getPromotionItem().getGradientFullCut().getCutPrice());
+        } else {
+            allMoney1 = allMoney / 100 + shopFright - shopYh;
+            textViewAll.setText("");
+        }
         textViewMoney.setText("￥" + allMoney1);
     }
+
 
     @Override
     public void getOrderFrightFaild(int code, String result) {
@@ -264,7 +354,7 @@ public class OderOkActivity extends BaseActivity implements OrderOkAdapter.GetEd
 
     @Override
     public void doBanlanceSucess(int code, String result) {
-        if (loadingDialog!=null&&loadingDialog.isShowing()){
+        if (loadingDialog != null && loadingDialog.isShowing()) {
             loadingDialog.dismiss();
         }
         if (code == 201) {
@@ -284,10 +374,6 @@ public class OderOkActivity extends BaseActivity implements OrderOkAdapter.GetEd
                 }
             }
             String orderIDs = stringBuffer.toString();
-//            HashMap hashMap = new HashMap();
-//            hashMap.put("orderIds", orderID);
-//            hashMap.put("paymentType", "ALIPAY");
-//            banlancePresenter.getPayID(hashMap);
             Bundle bundle = new Bundle();
             bundle.putString("order", orderIDs);
             bundle.putString("money", String.valueOf(allMoney1));
@@ -298,7 +384,7 @@ public class OderOkActivity extends BaseActivity implements OrderOkAdapter.GetEd
 
     @Override
     public void doBanlanceFaild(int code, String result) {
-        if (loadingDialog!=null&&loadingDialog.isShowing()){
+        if (loadingDialog != null && loadingDialog.isShowing()) {
             loadingDialog.dismiss();
         }
     }
@@ -331,4 +417,20 @@ public class OderOkActivity extends BaseActivity implements OrderOkAdapter.GetEd
     public void getShopAdressFailed(int code, String result) {
 
     }
+
+    @Override
+    public void getCouponSuccess(int code, String result) {
+        if (code == 200) {
+            couponInfoList = JSON.parseArray(result, CouponInfo.class);
+            sumData();
+        } else {
+            sumData();
+        }
+    }
+
+    @Override
+    public void getCouponFailed(int code, String result) {
+        sumData();
+    }
+
 }

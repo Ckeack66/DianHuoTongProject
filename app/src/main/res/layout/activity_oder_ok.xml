@@ -104,10 +104,10 @@
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/order_ok_rcv"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/x10"/>
             <RelativeLayout
-                android:id="@+id/order_ok_bto_select"
+                android:id="@+id/order_ok_select"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/x34"
                 android:background="@color/colorWhite">
@@ -141,7 +141,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_toStartOf="@+id/order_ok_head_go"
-                    android:text="满100减5"
+                    android:text=""
                     android:textSize="@dimen/t10"
                     android:layout_marginEnd="@dimen/x16"
                     android:textColor="@color/colorE20F12" />

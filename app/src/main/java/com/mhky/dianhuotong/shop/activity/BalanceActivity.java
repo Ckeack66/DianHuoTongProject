@@ -130,7 +130,7 @@ public class BalanceActivity extends BaseActivity implements BanlanceIF, ShopAdr
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-//        EnvUtils.setEnv(EnvUtils.EnvEnum.SANDBOX);
+        EnvUtils.setEnv(EnvUtils.EnvEnum.SANDBOX);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_balance);
         ButterKnife.bind(this);

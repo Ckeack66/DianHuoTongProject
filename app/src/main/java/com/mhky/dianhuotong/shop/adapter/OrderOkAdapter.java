@@ -4,6 +4,7 @@ import android.content.Context;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 
@@ -72,16 +73,33 @@ public class OrderOkAdapter extends BaseMultiItemQuickAdapter<OrderOkInfo, BaseV
                 break;
             case OrderOkInfo.BOTTOM:
                 helper.setText(R.id.order_ok_bto_yh, item.getOrderOkBotttomInfo().getyH());
-                helper.addOnClickListener(R.id.order_ok_bto_select);
                 helper.setText(R.id.order_ok_bto_words, item.getOrderOkBotttomInfo().getWords());
                 helper.setText(R.id.order_ok_bto_number, "共" + item.getOrderOkBotttomInfo().getGoodsNumber() + "件商品   小计：");
+                if (item.getOrderOkBotttomInfo().getCouponInfoList()!=null&&item.getOrderOkBotttomInfo().getCouponInfoList().size()>0){
+                    helper.getView(R.id.order_ok_bto_select).setVisibility(View.VISIBLE);
+                    if (item.getOrderOkBotttomInfo().getCouponInfo()!=null){
+                        helper.setText(R.id.order_ok_bto_yh,"满" + item.getOrderOkBotttomInfo().getCouponInfo().getPromotionItem().getGradientFullCut().getFullAmount() + "减" + item.getOrderOkBotttomInfo().getCouponInfo().getPromotionItem().getGradientFullCut().getCutPrice());
+                    }
+                }else {
+                    helper.getView(R.id.order_ok_bto_select).setVisibility(View.GONE);
+                }
+                helper.addOnClickListener(R.id.order_ok_bto_select);
                 double b = (double) item.getOrderOkBotttomInfo().getMoney();
                 double money1 = b / 100;
                 if (item.getOrderOkBotttomInfo().getFrigthInfo()!= null &&item.getOrderOkBotttomInfo().getFrigthInfo().getSendAccount()!=null&& money1 <Double.valueOf(item.getOrderOkBotttomInfo().getFrigthInfo().getSendAccount().toString())) {
-                    helper.setText(R.id.order_ok_bto_child_money, "￥" + (money1 + Double.valueOf(item.getOrderOkBotttomInfo().getFrigthInfo().getFreight().toString())));
+                   if (item.getOrderOkBotttomInfo().getCouponInfo()!=null){
+                       helper.setText(R.id.order_ok_bto_child_money, "￥" + (money1 + Double.valueOf(item.getOrderOkBotttomInfo().getFrigthInfo().getFreight().toString())-item.getOrderOkBotttomInfo().getCouponInfo().getPromotionItem().getGradientFullCut().getCutPrice()));
+                   }else {
+                       helper.setText(R.id.order_ok_bto_child_money, "￥" + (money1 + Double.valueOf(item.getOrderOkBotttomInfo().getFrigthInfo().getFreight().toString())));
+                   }
                     helper.setText(R.id.order_ok_frgit,"￥"+item.getOrderOkBotttomInfo().getFrigthInfo().getFreight().toString());
                 } else {
-                    helper.setText(R.id.order_ok_bto_child_money, "￥" + money1);
+                    if (item.getOrderOkBotttomInfo().getCouponInfo()!=null){
+                        helper.setText(R.id.order_ok_bto_child_money, "￥" + (money1-((double)(item.getOrderOkBotttomInfo().getCouponInfo().getPromotionItem().getGradientFullCut().getCutPrice()))));
+                    }else {
+                        helper.setText(R.id.order_ok_bto_child_money, "￥"+money1);
+                    }
+
                 }
                 EditText editText = helper.getView(R.id.order_ok_bto_words);
                 editText.addTextChangedListener(new TextWatcher() {
