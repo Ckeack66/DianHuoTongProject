@@ -26,6 +26,16 @@ public class ShopInfoByUserID implements Serializable {
     private String shopType;
     private String status;
     private Object createTime;
+
+    public String getRegionCode() {
+        return regionCode;
+    }
+
+    public void setRegionCode(String regionCode) {
+        this.regionCode = regionCode;
+    }
+
+    private String regionCode;
     private List<BuyersBean> buyers;
 
     public int getId() {

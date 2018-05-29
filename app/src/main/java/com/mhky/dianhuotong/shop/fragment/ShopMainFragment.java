@@ -57,7 +57,6 @@ import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.constant.SpinnerStyle;
 import com.scwang.smartrefresh.layout.footer.BallPulseFooter;
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
-import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -363,7 +362,7 @@ public class ShopMainFragment extends Fragment implements ShopIF, SortPopupwindo
         if (code == 200) {
             shopInfo = JSON.parseObject(result, ShopInfo.class);
             if (shopInfo.getLogo() != null) {
-                Picasso.with(getActivity()).load(shopInfo.getLogo()).into(imageViewLogo);
+                Picasso.get().load(shopInfo.getLogo()).into(imageViewLogo);
             }
             textViewShopName.setText(shopInfo.getName());
             if (shopInfo.isFollowStatus()) {

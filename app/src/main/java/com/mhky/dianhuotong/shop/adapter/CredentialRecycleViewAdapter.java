@@ -36,7 +36,7 @@ public class CredentialRecycleViewAdapter extends BaseSectionQuickAdapter<ShopCr
     protected void convertHead(BaseViewHolder helper, ShopCredentialInfo item) {
         helper.setText(R.id.voice_gridview_item_txt1, item.getShopCredentialBaseInfo().getName());
         if (item.getShopCredentialBaseInfo().getUrl() != null && !item.getShopCredentialBaseInfo().getUrl().equals("")) {
-            Picasso.with(mContext).load(item.getShopCredentialBaseInfo().getUrl()).into((ImageView) helper.getView(R.id.voice_gridview_item_image));
+            Picasso.get().load(item.getShopCredentialBaseInfo().getUrl()).into((ImageView) helper.getView(R.id.voice_gridview_item_image));
         }
 
     }

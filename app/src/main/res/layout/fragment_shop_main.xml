@@ -228,7 +228,7 @@
                             android:layout_centerVertical="true"
                             android:layout_marginStart="@dimen/x14"
                             android:layout_toEndOf="@id/shop_img"
-                            android:text="aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+                            android:text=""
                             android:textColor="@color/color333333"
                             android:textSize="@dimen/t14"
                             android:layout_marginEnd="@dimen/x60"/>
@@ -299,7 +299,6 @@
                         android:paddingEnd="@dimen/x6"
                         android:paddingStart="@dimen/x6"
                         android:paddingTop="@dimen/x6"
-                        android:text="@string/shop_bra"
                         android:textColor="@color/color333333"
                         android:textSize="@dimen/t10" />
                 </LinearLayout>

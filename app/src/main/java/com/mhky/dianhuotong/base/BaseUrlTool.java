@@ -13,6 +13,7 @@ public class BaseUrlTool {
 //    private final static String HOSTS_CART = "http://116.255.158.91:";//release
 //    private final static String HOST_IMAGE_URL = "http://116.255.155.156:9040";//release  Imge
 //    private final static String HOSTS_ORDER="http://116.255.158.91:";
+//    private final static String HOST_URL_COUPON="http://116.255.158.91:"+"9060";
     //debug
     private final static String HOSTS = "http://192.168.2.158:";//debug
     private final static String HOSTS_CART = "http://192.168.2.158:";
@@ -28,9 +29,9 @@ public class BaseUrlTool {
     private final static String HOST_ADRESS_URL = HOSTS + "8018";
     private final static String HOST_GOODS_URL = HOSTS + "9000";
     private final static String HOST_CART_URL = HOSTS_CART + "9050";
-//    private final static String HOST_BANLANCE_URL = HOSTS_ORDER + "9030";
+    private final static String HOST_BANLANCE_URL = HOSTS_ORDER + "9030";
+    private final static String HOST_ADVERT_URL=HOSTS_CART+"9070";
 //    private final static String HOST_ACTIVITY_URL=HOSTS+"9060";
-    private final static String HOST_BANLANCE_URL = "http://192.168.2.237:" + "9030";
 //    private final static String HOST_ADRESS_URL = "http://192.168.2.235:8088";
     //        private final static String HOST_URL = "http://192.168.2.235:9088";
     /**
@@ -162,7 +163,7 @@ public class BaseUrlTool {
     private static String SKU_INFO = HOST_GOODS_URL + "/goods/";
 
     public static String getSkuInfo(String goodsId) {
-        return SKU_INFO + goodsId + "/skus";
+        return SKU_INFO + goodsId + "/skus?";
     }
 
     /**
@@ -235,7 +236,7 @@ public class BaseUrlTool {
     /**
      * 订单服务
      */
-    public static final String GET_ORDERINFO = HOST_BANLANCE_URL + "/order?buyerId=";
+    public static final String GET_ORDERINFO = HOST_BANLANCE_URL + "/order?shopId=";
     /**
      * 获取支付宝订单信息
      */
@@ -298,4 +299,12 @@ public class BaseUrlTool {
      * 获取关注商家ID列表
      */
     public static  final String GET_STAR_SHOP_ID_LIST=HOST_URL+"/user/buyer/shop/followupstream/";
+    /**
+     * 获取首页广告
+     */
+    public static final String GET_ADVERT_MAIN=HOST_ADVERT_URL+"/advert?";
+    /**
+     * 查询上游b列表
+     */
+    public static final String GET_COMPANY_LIST=HOST_URL+"/user/seller/company/list";
 }

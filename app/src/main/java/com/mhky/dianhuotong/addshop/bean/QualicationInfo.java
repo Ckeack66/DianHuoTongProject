@@ -97,6 +97,16 @@ public class QualicationInfo implements Serializable {
 
         private String postalcode;
 
+        public String getRegionCode() {
+            return regionCode;
+        }
+
+        public void setRegionCode(String regionCode) {
+            this.regionCode = regionCode;
+        }
+
+        private String regionCode;
+
         public AddressBean getAddress() {
             return address;
         }

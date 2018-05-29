@@ -30,6 +30,7 @@ import com.mhky.dianhuotong.shop.precenter.BanlancePresenter;
 import com.mhky.dianhuotong.shop.precenter.ShopAdressPresenter;
 import com.mhky.dianhuotong.shop.shopif.BanlanceIF;
 import com.mhky.dianhuotong.shop.shopif.ShopAdressIF;
+import com.tencent.mm.opensdk.modelbiz.WXPayInsurance;
 import com.tencent.mm.opensdk.modelpay.PayReq;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
@@ -41,6 +42,8 @@ import java.util.Map;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+
+import static com.mhky.dianhuotong.wxapi.Constants.APP_ID;
 
 public class BalanceActivity extends BaseActivity implements BanlanceIF, ShopAdressIF {
     @BindView(R.id.balance_title)
@@ -130,11 +133,11 @@ public class BalanceActivity extends BaseActivity implements BanlanceIF, ShopAdr
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        EnvUtils.setEnv(EnvUtils.EnvEnum.SANDBOX);
+//        EnvUtils.setEnv(EnvUtils.EnvEnum.SANDBOX);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_balance);
         ButterKnife.bind(this);
-        msgApi.registerApp("wxd930ea5d5a258f4f");
+        msgApi.registerApp(APP_ID);
         init();
 
     }
@@ -192,11 +195,12 @@ public class BalanceActivity extends BaseActivity implements BanlanceIF, ShopAdr
             loadingDialog.show();
            // ToastUtil.makeText(this, "支付宝结账中...请等待", Toast.LENGTH_SHORT).show();
         } else if (payType == 2) {
-            HashMap hashMap = new HashMap();
-            hashMap.put("orderIds", orderID);
-            hashMap.put("paymentType", "WECHATPAY");
-            banlancePresenter.getPayID(hashMap);
-            loadingDialog.show();
+            ToastUtil.makeText(this, "微信支付暂未开通", Toast.LENGTH_SHORT).show();
+//            HashMap hashMap = new HashMap();
+//            hashMap.put("orderIds", orderID);
+//            hashMap.put("paymentType", "WECHATPAY");
+//            banlancePresenter.getPayID(hashMap);
+//            loadingDialog.show();
             //ToastUtil.makeText(this, "微信结账中...请等待", Toast.LENGTH_SHORT).show();
         } else if (payType == 3) {
             ToastUtil.makeText(this, "线下支付暂未开通", Toast.LENGTH_SHORT).show();

@@ -31,7 +31,9 @@ import com.mhky.dianhuotong.custom.AlertDialog.DianHuoTongBottomMenuDialog;
 import com.mhky.dianhuotong.custom.ToastUtil;
 import com.mhky.dianhuotong.custom.viewgroup.DianHuoTongBaseTitleBar;
 
+import org.devio.takephoto.app.TakePhoto;
 import org.devio.takephoto.app.TakePhotoActivity;
+import org.devio.takephoto.compress.CompressConfig;
 import org.devio.takephoto.model.TResult;
 
 import java.io.File;
@@ -102,7 +104,7 @@ public class PersonInfoUpdateActivity extends TakePhotoActivity implements DianH
                 radioButtonWorker.setOnTouchListener(this);
             }
             if (BaseApplication.getInstansApp().getPersonInfo().getImage() != null) {
-                Picasso.with(this).load(BaseApplication.getInstansApp().getPersonInfo().getImage().toString()).into(imageView);
+                Picasso.get().load(BaseApplication.getInstansApp().getPersonInfo().getImage().toString()).into(imageView);
             }
         }
     }
@@ -128,21 +130,21 @@ public class PersonInfoUpdateActivity extends TakePhotoActivity implements DianH
     public void takeSuccess(TResult result) {
         super.takeSuccess(result);
         dianHuoTongBottomMenuDialog.dismiss();
-        //ToastUtil.makeText(this, "选取成功", Toast.LENGTH_SHORT).show();
+        ToastUtil.makeText(this, "选取成功", Toast.LENGTH_SHORT).show();
         Log.d(TAG, "takeSuccess: " + result.getImages().size());
         Log.d(TAG, "takeSuccess: " + result.getImages().get(0).getOriginalPath());
         HttpParams httpParams = new HttpParams();
         httpParams.put("userName", BaseApplication.getInstansApp().getLoginRequestInfo().getUsername());
         httpParams.put("userId", BaseApplication.getInstansApp().getLoginRequestInfo().getId());
         httpParams.put("type", "USER");
-        httpParams.put("file", new File(result.getImages().get(0).getOriginalPath()));
+        httpParams.put("file", new File(result.getImages().get(0).getCompressPath()));
         loadingDialog.show();
         updataPersonInfoPersenter.uploadeImage(httpParams);
-        //Picasso.with(this).load("file://" + result.getImages().get(0).getOriginalPath()).into(imageView);
+        // Picasso.get().load("file://" + result.getImages().get(0).getOriginalPath()).into(imageView);
 //        if (uri != null) {
-//            Picasso.with(this).load("file://" + result.getImages().get(0).getOriginalPath()).into(imageView);
+//             Picasso.get().load("file://" + result.getImages().get(0).getOriginalPath()).into(imageView);
 //        } else {
-//            Picasso.with(this).load(uri).into(imageView);
+//             Picasso.get().load(uri).into(imageView);
 //        }
 
     }
@@ -161,7 +163,12 @@ public class PersonInfoUpdateActivity extends TakePhotoActivity implements DianH
 
     @OnClick(R.id.person_info_update_go_add_shop)
     void goAddShop() {
-        BaseTool.goActivityNoData(this, AddShopActivity.class);
+        if ("1".equals(BaseApplication.getInstansApp().getPersonInfo().getType().toString())){
+            ToastUtil.makeText(this, "店长暂不支持修改店铺~", Toast.LENGTH_SHORT).show();
+        }else {
+            BaseTool.goActivityNoData(this, AddShopActivity.class);
+        }
+
     }
 
     @OnClick(R.id.person_info_update_go_bind_phone)
@@ -237,12 +244,20 @@ public class PersonInfoUpdateActivity extends TakePhotoActivity implements DianH
     @Override
     public void getCamera() {
         uri = BaseTool.createImagePathUri(mContext);
-        getTakePhoto().onPickFromCapture(uri);
+        TakePhoto takePhoto = getTakePhoto();
+        CompressConfig compressConfig = CompressConfig.ofDefaultConfig();
+        compressConfig.setMaxSize(1000 * 1024);
+        takePhoto.onEnableCompress(compressConfig, true);
+        takePhoto.onPickFromCapture(uri);
     }
 
     @Override
     public void getPhotos() {
-        getTakePhoto().onPickFromGallery();
+        TakePhoto takePhoto = getTakePhoto();
+        CompressConfig compressConfig = CompressConfig.ofDefaultConfig();
+        compressConfig.setMaxSize(1000 * 1024);
+        takePhoto.onEnableCompress(compressConfig, true);
+        takePhoto.onPickFromGallery();
     }
 
     @Override
@@ -298,19 +313,21 @@ public class PersonInfoUpdateActivity extends TakePhotoActivity implements DianH
                 editTextUserName.setText(personInfo.getUsername().toString());
             }
             if (personInfo.getType() != null) {
+                radioButtonBoss.setEnabled(false);
+                radioButtonWorker.setEnabled(false);
                 if (personInfo.getType().toString().equals("1")) {
                     radioButtonBoss.setChecked(true);
                 } else if (personInfo.getType().toString().equals("0")) {
                     radioButtonWorker.setChecked(true);
                 }
             } else {
-                radioButtonBoss.setClickable(false);
-                radioButtonWorker.setClickable(false);
-                radioButtonBoss.setOnTouchListener(this);
-                radioButtonWorker.setOnTouchListener(this);
+                radioButtonBoss.setEnabled(false);
+                radioButtonWorker.setEnabled(false);
+//                radioButtonBoss.setOnTouchListener(this);
+//                radioButtonWorker.setOnTouchListener(this);
             }
             if (personInfo.getImage() != null) {
-                Picasso.with(this).load(personInfo.getImage().toString()).into(imageView);
+                Picasso.get().load(personInfo.getImage().toString()).into(imageView);
             }
         }
     }

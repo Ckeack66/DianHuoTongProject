@@ -63,6 +63,7 @@ public class CreatShopActivity extends BaseActivity {
     public static String returnCity = null;
     public static String returnArea = null;
     public static String returnAdress = null;
+    public static String reigonCode = null;
     public static ArrayList<Activity> activities;
     private String shopType;
 
@@ -79,13 +80,6 @@ public class CreatShopActivity extends BaseActivity {
             textViewZuoBiao.setText(bundle.getString("choosezuobiao"));
             qualicationInfo.getShopDataDTO().setMapPoint(bundle.getString("choosezuobiao"));
             Log.d(TAG, "onActivityResult: " + provance1 + city1 + area1);
-            if (city1.indexOf(returnCity) == -1 || !returnArea.equals(area1)) {
-                ToastUtil.makeText(this, "您选择的地点不属于" + returnCity + returnArea + returnAdress + "，请重新选择市区街道 ", Toast.LENGTH_SHORT).show();
-                textViewAdress.setText(city1 + area1);
-                returnCity = city1;
-                returnArea = area1;
-                returnAdress = "";
-            }
         }
     }
 
@@ -133,6 +127,7 @@ public class CreatShopActivity extends BaseActivity {
         });
     }
 
+
     @OnClick(R.id.create_shop_txt1)
     void goAdress1Activity() {
         BaseTool.goActivityNoData(this, Adress1Activity.class);
@@ -151,7 +146,7 @@ public class CreatShopActivity extends BaseActivity {
         } else if (TextUtils.isEmpty(editTextPhone.getText())) {
             ToastUtil.makeText(this, "请输入固话号码", Toast.LENGTH_SHORT).show();
             return;
-        }else if (shopType == null) {
+        } else if (shopType == null) {
             ToastUtil.makeText(this, "请选择店铺类型", Toast.LENGTH_SHORT).show();
             return;
         } else if (TextUtils.isEmpty(textViewAdress.getText())) {
@@ -178,8 +173,9 @@ public class CreatShopActivity extends BaseActivity {
             qualicationInfo.getShopDataDTO().setMapPoint(textViewZuoBiao.getText().toString());
             qualicationInfo.getShopDataDTO().setShopType(shopType);
             qualicationInfo.getShopDataDTO().setShopname(editTextCompenay.getText().toString());
-            qualicationInfo.getShopDataDTO().setPhone(editTextAreaCode.getText().toString()+editTextPhone.getText().toString());
+            qualicationInfo.getShopDataDTO().setPhone(editTextAreaCode.getText().toString() + editTextPhone.getText().toString());
             qualicationInfo.getShopDataDTO().setPostalcode(editTextPostCode.getText().toString());
+            qualicationInfo.getShopDataDTO().setRegionCode(reigonCode);
             Bundle bundle = new Bundle();
             bundle.putSerializable("qulication", qualicationInfo);
             BaseTool.goActivityWithData(this, CredentialsActivity.class, bundle);

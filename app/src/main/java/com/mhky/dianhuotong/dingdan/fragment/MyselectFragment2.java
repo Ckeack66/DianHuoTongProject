@@ -162,7 +162,7 @@ public class MyselectFragment2 extends Fragment {
                             case R.id.order_body_goods:
                                 try {
                                     Bundle bundle1 = new Bundle();
-                                    bundle1.putString("order", orderBaseInfo.getContent().get(orderInfoList.get(position).getParentNumber()).getOrderCirculations().get(0).getOrderCirculationId().getOrderNo());
+                                    bundle1.putString("order", orderBaseInfo.getContent().get(orderInfoList.get(position).getParentNumber()).getId());
                                     BaseTool.goActivityWithData(getActivity(), OrderInfoActivity.class, bundle1);
                                 }catch (Exception e){
                                     PgyCrashManager.reportCaughtException(getActivity(),e);

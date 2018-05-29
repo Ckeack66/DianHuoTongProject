@@ -30,6 +30,9 @@ import com.joker.annotation.PermissionsGranted;
 import com.joker.annotation.PermissionsRequestSync;
 import com.joker.api.Permissions4M;
 import com.mhky.dianhuotong.R;
+import com.mhky.dianhuotong.advert.AdvertInfo;
+import com.mhky.dianhuotong.advert.AdvertMainIF;
+import com.mhky.dianhuotong.advert.AdvertMainPresenter;
 import com.mhky.dianhuotong.base.BaseApplication;
 import com.mhky.dianhuotong.base.BaseTool;
 import com.mhky.dianhuotong.base.view.BaseActivity;
@@ -66,7 +69,7 @@ import cn.bingoogolapple.bgabanner.BGABanner;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 @PermissionsRequestSync(permission = {Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE}, value = {101, 102, 103, 104})
-public class MainActivity extends BaseActivity implements MainIF, DrawerLayout.DrawerListener, AdapterView.OnItemClickListener, DianHuoTongBaseDialog.BaseDialogListener, AllGoodsIF {
+public class MainActivity extends BaseActivity implements MainIF, DrawerLayout.DrawerListener, AdapterView.OnItemClickListener, DianHuoTongBaseDialog.BaseDialogListener, AllGoodsIF ,AdvertMainIF{
     @BindView(R.id.drawer_listview)
     ListView listView;
     @BindView(R.id.mian_titlebar)
@@ -104,8 +107,9 @@ public class MainActivity extends BaseActivity implements MainIF, DrawerLayout.D
     private Context mContext;
     private AllGoosPrecenter allGoosPrecenter;
     private ShopInfoPresenter shopInfoPresenter;
-    private List list;
     private boolean isShowUpdate = false;
+    private List<AdvertInfo> advertInfoList;
+    private AdvertMainPresenter advertMainPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -240,6 +244,8 @@ public class MainActivity extends BaseActivity implements MainIF, DrawerLayout.D
     }
 
     private void inIt() {
+        advertMainPresenter=new AdvertMainPresenter(this);
+        advertMainPresenter.getAdvertMain();
         if (BaseApplication.getInstansApp().getAllGoodsBaseInfos() == null) {
             drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
         }
@@ -290,16 +296,22 @@ public class MainActivity extends BaseActivity implements MainIF, DrawerLayout.D
      */
 
     private void initImageBaner(List<?> list) {
-        banner.setAdapter(new BGABanner.Adapter() {
-            @Override
-            public void fillBannerItem(BGABanner banner, View itemView, @Nullable Object model, int position) {
-                Uri uri = Uri.parse((String) model);
-                Picasso.with(mContext).load(uri).fit().into((ImageView) itemView);
-            }
-        });
+        try {
+            banner.setAdapter(new BGABanner.Adapter() {
+                @Override
+                public void fillBannerItem(BGABanner banner, View itemView, @Nullable Object model, int position) {
+                    AdvertInfo advertInfo=(AdvertInfo) model;
+                    Uri uri = Uri.parse(advertInfo.getImage());
+                    Picasso.get().load(uri).into((ImageView) itemView);
+                }
+            });
 
-        banner.setAutoPlayAble(true);
-        banner.setData(list, new ArrayList<String>());
+            banner.setAutoPlayAble(true);
+            banner.setData(list, new ArrayList<String>());
+        }catch (Exception e){
+        PgyCrashManager.reportCaughtException(this,e);
+        }
+
     }
 
     /**
@@ -333,7 +345,7 @@ public class MainActivity extends BaseActivity implements MainIF, DrawerLayout.D
      */
     @Override
     public void getBanerList(List<?> list) {
-        initImageBaner(list);
+        //initImageBaner(list);
     }
 
     /**
@@ -443,12 +455,15 @@ public class MainActivity extends BaseActivity implements MainIF, DrawerLayout.D
                         BaseTool.goActivityNoData(this, MyWaiterActivity.class);
                         break;
                     case 3:
-                        BaseTool.goActivityNoData(this, MianZeShowActivity.class);
+                        BaseTool.goActivityNoData(this, MyWalletActivity.class);
                         break;
                     case 4:
-                        BaseTool.goActivityNoData(this, AboutOurActivity.class);
+                        BaseTool.goActivityNoData(this, MianZeShowActivity.class);
                         break;
                     case 5:
+                        BaseTool.goActivityNoData(this, AboutOurActivity.class);
+                        break;
+                    case 6:
                         BaseTool.goActivityNoData(this, SystemSetActivity.class);
                         break;
                 }
@@ -509,7 +524,7 @@ public class MainActivity extends BaseActivity implements MainIF, DrawerLayout.D
         if (BaseApplication.getInstansApp().getPersonInfo() != null) {
             if (BaseApplication.getInstansApp().getPersonInfo().getImage() != null) {
                 //Log.d(TAG, "updateDrawer: --------" + BaseApplication.getInstansApp().getLoginRequestInfo().getImage().toString());
-                Picasso.with(this).load(BaseApplication.getInstansApp().getPersonInfo().getImage().toString()).into(imageViewUser);
+                Picasso.get().load(BaseApplication.getInstansApp().getPersonInfo().getImage().toString()).into(imageViewUser);
             }
             if (BaseApplication.getInstansApp().getPersonInfo().getUsername() != null) {
                 textViewUserName.setText(BaseApplication.getInstansApp().getPersonInfo().getUsername());
@@ -538,6 +553,19 @@ public class MainActivity extends BaseActivity implements MainIF, DrawerLayout.D
 
     @Override
     public void getAllGoodsInfoFailed(int code, String result) {
+
+    }
+
+    @Override
+    public void getAdvertMainSuccess(int code, String result) {
+        if (code==200){
+            advertInfoList=JSON.parseArray(result,AdvertInfo.class);
+            initImageBaner(advertInfoList);
+        }
+    }
+
+    @Override
+    public void getAdvertMainFailed(int code, String result) {
 
     }
 }

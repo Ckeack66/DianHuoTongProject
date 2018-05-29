@@ -121,6 +121,7 @@ public class CredentialsActivity extends BaseActivity implements CredentialIF, C
             ShopBaseInfo shopBaseInfo = JSON.parseObject(result, ShopBaseInfo.class);
             Bundle bundle = new Bundle();
             bundle.putSerializable("shop", shopBaseInfo);
+            bundle.putInt("state",1);
             BaseTool.goActivityWithData(context, AddShop3Activity.class, bundle);
             BaseActivityManager.getInstance().finishAllActivity();
         }

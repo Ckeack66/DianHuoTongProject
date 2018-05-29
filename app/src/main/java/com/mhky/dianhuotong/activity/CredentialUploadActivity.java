@@ -40,7 +40,6 @@ import com.mhky.dianhuotong.shop.bean.CredentialUpdateInfo;
 import com.mhky.dianhuotong.shop.bean.ShopCredentialBaseInfo;
 import com.mhky.dianhuotong.shop.precenter.ShopCredentialPresenter;
 import com.mhky.dianhuotong.shop.shopif.ShopCredentialIF;
-import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.Picasso;
 
 import org.devio.takephoto.app.TakePhoto;
@@ -78,6 +77,10 @@ public class CredentialUploadActivity extends TakePhotoActivity implements DianH
     TextView textViewOk;
     @BindView(R.id.credential_file_name)
     TextView textViewFile;
+    @BindView(R.id.upload_credential_img_start)
+    ImageView imageViewStart;
+    @BindView(R.id.upload_credential_img_stop)
+    ImageView imageViewStop;
     private DianHuoTongBottomMenuDialog dianHuoTongBottomMenuDialog;
     private Uri uri = null;
     private Context mContext;
@@ -124,7 +127,7 @@ public class CredentialUploadActivity extends TakePhotoActivity implements DianH
             textViewData2.setText(shopCredentialBaseInfo.getEndTime());
             if (shopCredentialBaseInfo.getUrl() != null) {
                 Log.d(TAG, "inIt: ------------" + shopCredentialBaseInfo.getUrl());
-                Picasso.with(this).load(shopCredentialBaseInfo.getUrl()).resize(withResult, heightResult).into(imageViewCredentail);
+                Picasso.get().load(shopCredentialBaseInfo.getUrl()).resize(withResult, heightResult).into(imageViewCredentail);
                 imageUrl = shopCredentialBaseInfo.getUrl();
             }
             editTextBody.setText(shopCredentialBaseInfo.getScope());
@@ -140,7 +143,16 @@ public class CredentialUploadActivity extends TakePhotoActivity implements DianH
         initCustomTimePicker1(textViewData1);
         initCustomTimePicker2(textViewData2);
     }
-
+    @OnClick({R.id.upload_credential_img_start})
+    void resetStart(){
+        textViewData1.setText("");
+        imageViewStart.setVisibility(View.GONE);
+    }
+    @OnClick({R.id.upload_credential_img_stop})
+    void resetStop(){
+        textViewData2.setText("");
+        imageViewStop.setVisibility(View.GONE);
+    }
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         Permissions4M.onRequestPermissionsResult(this, requestCode, grantResults);
@@ -193,11 +205,11 @@ public class CredentialUploadActivity extends TakePhotoActivity implements DianH
         httpParams.put("type", "USER");
         httpParams.put("file", new File(result.getImages().get(0).getCompressPath()));
         uploadCredentialPrecenter.getImageUplaodUrl(httpParams);
-        //Picasso.with(this).load("file://" + result.getImages().get(0).getOriginalPath()).into(imageView);
+        // Picasso.get().load("file://" + result.getImages().get(0).getOriginalPath()).into(imageView);
 //        if (uri != null) {
-//            Picasso.with(this).load("file://" + result.getImages().get(0).getOriginalPath()).into(imageView);
+//             Picasso.get().load("file://" + result.getImages().get(0).getOriginalPath()).into(imageView);
 //        } else {
-//            Picasso.with(this).load(uri).into(imageView);
+//            Picasso.get().load(uri).into(imageView);
 //        }
 
     }
@@ -219,7 +231,7 @@ public class CredentialUploadActivity extends TakePhotoActivity implements DianH
         uri = BaseTool.createImagePathUri(mContext);
         TakePhoto takePhoto = getTakePhoto();
         CompressConfig compressConfig = CompressConfig.ofDefaultConfig();
-        compressConfig.setMaxSize(500 * 100);
+        compressConfig.setMaxSize(1000 * 1024);
         takePhoto.onEnableCompress(compressConfig, true);
         takePhoto.onPickFromCapture(uri);
     }
@@ -228,7 +240,7 @@ public class CredentialUploadActivity extends TakePhotoActivity implements DianH
     public void getPhotos() {
         TakePhoto takePhoto = getTakePhoto();
         CompressConfig compressConfig = CompressConfig.ofDefaultConfig();
-        compressConfig.setMaxSize(500 * 100);
+        compressConfig.setMaxSize(1000 * 1024);
         takePhoto.onEnableCompress(compressConfig, true);
         takePhoto.onPickFromGallery();
     }
@@ -239,9 +251,9 @@ public class CredentialUploadActivity extends TakePhotoActivity implements DianH
             if (result != null && !"".equals(result)) {
                 ToastUtil.makeText(this, "上传成功", Toast.LENGTH_SHORT).show();
                 imageUrl = result;
-                Picasso.with(mContext).load(imageUrl).resize(withResult, heightResult).into(imageViewCredentail);
-                Log.d(TAG, "updataCredentialImageSucess: W---"+withResult);
-                Log.d(TAG, "updataCredentialImageSucess: H---"+heightResult);
+                Picasso.get().load(imageUrl).resize(withResult, heightResult).into(imageViewCredentail);
+                Log.d(TAG, "updataCredentialImageSucess: W---" + withResult);
+                Log.d(TAG, "updataCredentialImageSucess: H---" + heightResult);
                 Log.d(TAG, "updataCredentialImageSucess: ------" + result);
             }
 
@@ -260,28 +272,42 @@ public class CredentialUploadActivity extends TakePhotoActivity implements DianH
         if (imageUrl == null) {
             ToastUtil.makeText(this, "请上传证件", Toast.LENGTH_SHORT).show();
             return;
-        } else if (TextUtils.isEmpty(textViewData1.getText())) {
-            ToastUtil.makeText(this, "请填写营业期限开始时间", Toast.LENGTH_SHORT).show();
-            return;
-        } else if (TextUtils.isEmpty(textViewData2.getText())) {
-            ToastUtil.makeText(this, "请填写营业期限结束时间", Toast.LENGTH_SHORT).show();
-            return;
-        } else if (TextUtils.isEmpty(editTextCardNumber.getText())) {
-            ToastUtil.makeText(this, "请填写证件编号", Toast.LENGTH_SHORT).show();
-            return;
-        } else if (TextUtils.isEmpty(editTextBody.getText())) {
-            ToastUtil.makeText(this, "请填写经营范围", Toast.LENGTH_SHORT).show();
-            return;
-        } else if (TextUtils.isEmpty(editTextNume.getText())) {
-            ToastUtil.makeText(this, "请填写法人姓名", Toast.LENGTH_SHORT).show();
-            return;
         }
+//        } else if (TextUtils.isEmpty(textViewData1.getText())) {
+//            ToastUtil.makeText(this, "请填写营业期限开始时间", Toast.LENGTH_SHORT).show();
+//            return;
+//        } else if (TextUtils.isEmpty(textViewData2.getText())) {
+//            ToastUtil.makeText(this, "请填写营业期限结束时间", Toast.LENGTH_SHORT).show();
+//            return;
+//        } else if (TextUtils.isEmpty(editTextCardNumber.getText())) {
+//            ToastUtil.makeText(this, "请填写证件编号", Toast.LENGTH_SHORT).show();
+//            return;
+//        } else if (TextUtils.isEmpty(editTextBody.getText())) {
+//            ToastUtil.makeText(this, "请填写经营范围", Toast.LENGTH_SHORT).show();
+//            return;
+//        } else if (TextUtils.isEmpty(editTextNume.getText())) {
+//            ToastUtil.makeText(this, "请填写法人姓名", Toast.LENGTH_SHORT).show();
+//            return;
+//        }
         qulationBaseInfo.setUrl(imageUrl);
-        qulationBaseInfo.setStartTime(textViewData1.getText().toString());
-        qulationBaseInfo.setEndTime(textViewData2.getText().toString());
-        qulationBaseInfo.setNumber(editTextCardNumber.getText().toString());
-        qulationBaseInfo.setScope(editTextBody.getText().toString());
-        qulationBaseInfo.setCorporation(editTextNume.getText().toString());
+        if (!TextUtils.isEmpty(textViewData1.getText())) {
+            qulationBaseInfo.setStartTime(textViewData1.getText().toString());
+            if (!TextUtils.isEmpty(textViewData2.getText())){
+                qulationBaseInfo.setEndTime(textViewData2.getText().toString());
+            }else {
+                qulationBaseInfo.setEndTime("");
+            }
+
+        }
+        if (!TextUtils.isEmpty(editTextCardNumber.getText())) {
+            qulationBaseInfo.setNumber(editTextCardNumber.getText().toString());
+        }
+        if (!TextUtils.isEmpty(editTextBody.getText())) {
+            qulationBaseInfo.setScope(editTextBody.getText().toString());
+        }
+        if (!TextUtils.isEmpty(editTextNume.getText())) {
+            qulationBaseInfo.setCorporation(editTextNume.getText().toString());
+        }
         if (credentialBaseTypeInfo != null) {
             qulationBaseInfo.setId(credentialBaseTypeInfo.getId());
             qulationBaseInfo.setName(credentialBaseTypeInfo.getName());
@@ -355,9 +381,13 @@ public class CredentialUploadActivity extends TakePhotoActivity implements DianH
                 if (!TextUtils.isEmpty(textViewData2.getText())) {
                     if (BaseTool.isDateOneBigger(getTime(date), textViewData2.getText().toString())) {
                         ToastUtil.makeText(mContext, "开始时间不能大于结束时间", Toast.LENGTH_SHORT).show();
+                    }else {
+                        textView.setText(getTime(date));
+                        imageViewStart.setVisibility(View.VISIBLE);
                     }
                 } else {
                     textView.setText(getTime(date));
+                    imageViewStart.setVisibility(View.VISIBLE);
                 }
             }
         }).setDividerColor(R.color.color04c1ab)
@@ -435,11 +465,13 @@ public class CredentialUploadActivity extends TakePhotoActivity implements DianH
                 if (!TextUtils.isEmpty(textViewData1.getText())) {
                     if (!BaseTool.isDateOneBigger(getTime(date), textViewData1.getText().toString())) {
                         ToastUtil.makeText(mContext, "结束时间不能小于开始时间", Toast.LENGTH_SHORT).show();
-                    }else {
+                    } else {
                         textView.setText(getTime(date));
+                        imageViewStop.setVisibility(View.VISIBLE);
                     }
                 } else {
                     textView.setText(getTime(date));
+                    imageViewStop.setVisibility(View.VISIBLE);
                 }
 
 

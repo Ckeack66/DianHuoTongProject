@@ -117,7 +117,7 @@ public class CartPopupwindow extends PopupWindow implements View.OnClickListener
         textViewTitleText.setText(goodsInfo.getTitle());
         String[] imageDate = goodsInfo.getPicture().split(",");
         if (imageDate != null && imageDate.length > 0) {
-            Picasso.with(mContext).load(imageDate[0]).into(imageViewGoods);
+            Picasso.get().load(imageDate[0]).into(imageViewGoods);
         }
 
     }

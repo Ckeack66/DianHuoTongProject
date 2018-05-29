@@ -43,6 +43,16 @@ public class AdressBaseInfo implements Serializable {
         private String name;
         private Object firstName;
 
+        public String getCode() {
+            return code;
+        }
+
+        public void setCode(String code) {
+            this.code = code;
+        }
+
+        private String code;
+
         public int getId() {
             return id;
         }

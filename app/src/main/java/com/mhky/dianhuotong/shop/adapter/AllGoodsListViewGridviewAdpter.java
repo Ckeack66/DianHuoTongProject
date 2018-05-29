@@ -57,7 +57,7 @@ public class AllGoodsListViewGridviewAdpter extends BaseAdapter {
         TextView textView = convertView.findViewById(R.id.all_goods_listview2_gridview_text);
         textView.setText(childrenBean.get(position).getName());
         if (childrenBean.get(position).getPicture() != null) {
-            Picasso.with(context).load(childrenBean.get(position).getPicture().toString()).into(imageView);
+            Picasso.get().load(childrenBean.get(position).getPicture().toString()).into(imageView);
         }
         return convertView;
     }

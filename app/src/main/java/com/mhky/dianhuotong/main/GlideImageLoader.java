@@ -18,7 +18,7 @@ public class GlideImageLoader extends ImageLoader {
     @Override
     public void displayImage(Context context, Object path, ImageView imageView) {
         Uri uri = Uri.parse((String) path);
-        Picasso.with(context).load(uri).fit().into(imageView);
+        Picasso.get().load(uri).fit().into(imageView);
 //        Uri uri = Uri.parse((String) path);
 //        imageView.setImageURI(uri);
     }

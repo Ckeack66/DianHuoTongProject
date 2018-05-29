@@ -163,7 +163,7 @@ public class MyselectFragment4 extends Fragment {
                                 //ToastUtil.makeText(getActivity(), "点击了商品" + position, Toast.LENGTH_SHORT).show();
                                 try {
                                     Bundle bundle1 = new Bundle();
-                                    bundle1.putString("order", orderBaseInfo.getContent().get(orderInfoList.get(position).getParentNumber()).getOrderCirculations().get(0).getOrderCirculationId().getOrderNo());
+                                    bundle1.putString("order", orderBaseInfo.getContent().get(orderInfoList.get(position).getParentNumber()).getId());
                                     BaseTool.goActivityWithData(getActivity(), OrderInfoActivity.class, bundle1);
                                 }catch (Exception e){
                                     PgyCrashManager.reportCaughtException(getActivity(),e);

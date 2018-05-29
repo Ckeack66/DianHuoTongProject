@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/colorWhite">
@@ -7,7 +7,8 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/x60"
-        android:paddingEnd="@dimen/x16">
+        android:paddingEnd="@dimen/x16"
+        android:background="@color/white">
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -38,8 +39,8 @@
         </LinearLayout>
         <TextView
             android:id="@+id/order_info_button"
-            android:layout_width="@dimen/x50"
-            android:layout_height="@dimen/x18"
+            android:layout_width="@dimen/x64"
+            android:layout_height="@dimen/x24"
             android:layout_alignParentBottom="true"
             android:layout_alignParentEnd="true"
             android:layout_marginBottom="@dimen/x10"
@@ -48,4 +49,4 @@
             android:text="未知"
             android:textSize="@dimen/t10" />
     </RelativeLayout>
-</FrameLayout>
+</LinearLayout>

@@ -155,7 +155,7 @@ public class BaiDuMapActivity extends BaseActivity implements BaiduMap.OnMapClic
         poiSearch = PoiSearch.newInstance();
         dianHuoTongBaseTitleBar.setCenterTextView("坐标选择");
         dianHuoTongBaseTitleBar.setLeftImage(R.drawable.icon_back);
-        dianHuoTongBaseTitleBar.setRightText("搜索");
+//        dianHuoTongBaseTitleBar.setRightText("搜索");
         dianHuoTongBaseTitleBar.setLeftOnclickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -163,12 +163,12 @@ public class BaiDuMapActivity extends BaseActivity implements BaiduMap.OnMapClic
                 finish();
             }
         });
-        dianHuoTongBaseTitleBar.setRightTextOnclickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getStringAdress("济南", editTextMap.getText().toString().trim());
-            }
-        });
+//        dianHuoTongBaseTitleBar.setRightTextOnclickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                getStringAdress("济南", editTextMap.getText().toString().trim());
+//            }
+//        });
         myLocationListener = new MyLocationListener(this);
 
         Permissions4M.get(this).requestSync();
@@ -317,6 +317,7 @@ public class BaiDuMapActivity extends BaseActivity implements BaiduMap.OnMapClic
             chosseArea = location.getDistrict();
             chooseProvance = location.getProvince();
             chooseRoad = location.getStreet();
+            locationClient.stop();
         } else {
             getStringAdress(getCity, getArea);
         }

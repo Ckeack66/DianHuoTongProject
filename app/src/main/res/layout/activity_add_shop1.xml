@@ -20,7 +20,8 @@
         android:layout_marginRight="@dimen/x15"
         android:layout_marginTop="@dimen/x9"
         android:background="@drawable/shape_myselected_search"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:visibility="gone">
 
         <ImageView
             android:layout_width="wrap_content"
@@ -46,21 +47,26 @@
             android:textSize="@dimen/t11" />
     </LinearLayout>
 
-    <RelativeLayout
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:id="@+id/add_shop_refresh"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="@dimen/x9"
-        android:background="@color/colorWhite"
-        >
+        android:background="@color/colorWhite">
 
-        <ListView
-            android:id="@+id/addshop1_listview"
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginStart="@dimen/x18"
-            android:background="@color/colorTransp" />
+            android:background="@color/colorWhite">
 
-        <!--<com.gjiazhe.wavesidebar.WaveSideBar-->
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/addshop1_rv"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="@dimen/x18"
+                android:background="@color/colorTransp" />
+
+
+            <!--<com.gjiazhe.wavesidebar.WaveSideBar-->
             <!--android:id="@+id/addshop1_waveslidebar"-->
             <!--android:layout_width="match_parent"-->
             <!--android:layout_height="match_parent"-->
@@ -74,6 +80,6 @@
             <!--app:sidebar_text_size="@dimen/t14" />-->
 
 
-    </RelativeLayout>
-
+        </RelativeLayout>
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 </LinearLayout>

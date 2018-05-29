@@ -42,12 +42,12 @@ public class AddShop3Activity extends BaseActivity implements BindShopIF, SaleMa
     EditText editTextUsername;
     @BindView(R.id.shop3_myweiter_phone)
     EditText editTextPhone;
-    @BindView(R.id.add_shop_boss)
-    RadioButton radioButtonBoss;
-    @BindView(R.id.add_shop_worker)
-    RadioButton radioButtonWorker;
-    @BindView(R.id.shop3_group)
-    RadioGroup radioGroup;
+//    @BindView(R.id.add_shop_boss)
+//    RadioButton radioButtonBoss;
+//    @BindView(R.id.add_shop_worker)
+//    RadioButton radioButtonWorker;
+//    @BindView(R.id.shop3_group)
+//    RadioGroup radioGroup;
     private ShopBaseInfo shopBaseInfo;
     private BindShopPrecenter bindShopPrecenter;
     private SaleManPresenter saleManPresenter;
@@ -55,6 +55,7 @@ public class AddShop3Activity extends BaseActivity implements BindShopIF, SaleMa
     private String typeId;
     private DianHuoTongBaseDialog dianHuoTongBaseDialog;
     private PersonInfoPrecenter personInfoPrecenter;
+    private int type;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,20 +77,26 @@ public class AddShop3Activity extends BaseActivity implements BindShopIF, SaleMa
             }
         });
         shopBaseInfo = (ShopBaseInfo) getIntent().getExtras().getSerializable("shop");
+        type=getIntent().getExtras().getInt("state");
         if (shopBaseInfo != null) {
             textViewShopName.setText("正在加入：" + shopBaseInfo.getShopname());
         }
+        if (type==0){
+            typeId = "1";
+        }else {
+            typeId="0";
+        }
         bindShopPrecenter = new BindShopPrecenter(this);
-        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                if (checkedId == radioButtonBoss.getId()) {
-                    typeId = "1";
-                } else if (checkedId == radioButtonWorker.getId()) {
-                    typeId = "0";
-                }
-            }
-        });
+//        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+//            @Override
+//            public void onCheckedChanged(RadioGroup group, int checkedId) {
+//                if (checkedId == radioButtonBoss.getId()) {
+//                    typeId = "1";
+//                } else if (checkedId == radioButtonWorker.getId()) {
+//                    typeId = "0";
+//                }
+//            }
+//        });
         BaseActivityManager.getInstance().addActivity(this);
     }
 
@@ -99,10 +106,10 @@ public class AddShop3Activity extends BaseActivity implements BindShopIF, SaleMa
             ToastUtil.makeText(this, "请输入姓名", Toast.LENGTH_SHORT).show();
             return;
         }
-        if (!radioButtonBoss.isChecked() && !radioButtonWorker.isChecked()) {
-            ToastUtil.makeText(this, "请选择职位", Toast.LENGTH_SHORT).show();
-            return;
-        }
+//        if (!radioButtonBoss.isChecked() && !radioButtonWorker.isChecked()) {
+//            ToastUtil.makeText(this, "请选择职位", Toast.LENGTH_SHORT).show();
+//            return;
+//        }
         if (!(shopBaseInfo != null && shopBaseInfo.getId() != null)) {
             ToastUtil.makeText(this, "请求信息有误", Toast.LENGTH_SHORT).show();
             return;

@@ -8,7 +8,6 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.mhky.dianhuotong.R;
 import com.mhky.dianhuotong.base.BaseTool;
 import com.mhky.dianhuotong.shop.bean.ShopCredentialBaseInfo;
-import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -45,7 +44,7 @@ public class CredentialRecycleView1Adapter extends BaseMultiItemQuickAdapter<Sho
             case ShopCredentialBaseInfo.CREDETIAL:
                 helper.setText(R.id.voice_gridview_item_txt1, item.getName());
                 if (item.getUrl() != null && !item.getUrl().equals("")) {
-                    Picasso.with(mContext).load(item.getUrl()).resize(withResult, heightResult).into((ImageView) helper.getView(R.id.voice_gridview_item_image));
+                    Picasso.get().load(item.getUrl()).resize(withResult, heightResult).into((ImageView) helper.getView(R.id.voice_gridview_item_image));
                 }
                 helper.addOnClickListener(R.id.voice_gridview_item_image);
                 break;

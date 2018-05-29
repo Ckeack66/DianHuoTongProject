@@ -14,9 +14,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.mhky.dianhuotong.shop.activity.AllGoodsActivity;
+import com.mhky.dianhuotong.shop.activity.SearchCompanyActivity;
 import com.mhky.dianhuotong.shop.adapter.ShopListviewAdapter;
 import com.mhky.dianhuotong.shop.adapter.ShopMiaoShaAdapter;
 import com.mhky.dianhuotong.shop.custom.DianHuoTongShopTitleBar;
+import com.mhky.dianhuotong.shop.precenter.ShopInfoPresenter;
 import com.mhky.dianhuotong.shop.tool.TimerMiaoSha;
 import com.squareup.picasso.Picasso;
 import com.mhky.dianhuotong.R;
@@ -57,6 +59,7 @@ public class DianHuoTongShopActivity extends BaseActivity implements ShopBannerI
     private ShopMiaoShaAdapter shopMiaoShaAdapter;
     private static final String TAG = "DianHuoTongShopActivity";
     private TimerMiaoSha timerMiaoSha;
+    private ShopInfoPresenter shopInfoPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,6 +102,7 @@ public class DianHuoTongShopActivity extends BaseActivity implements ShopBannerI
     }
 
     private void inIt() {
+        shopInfoPresenter=new ShopInfoPresenter();
         dianHuoTongShopTitleBar.setActivity(this);
         shopBannerPresenter = new ShopBannerPresenter(this);
         shopBannerPresenter.getdata();
@@ -122,6 +126,10 @@ public class DianHuoTongShopActivity extends BaseActivity implements ShopBannerI
     void goAllGoodsActivity() {
         BaseTool.goActivityNoData(this, AllGoodsActivity.class);
     }
+    @OnClick(R.id.shop_area_vipshop)
+    void goAllCompany(){
+        BaseTool.goActivityNoData(this, SearchCompanyActivity.class);
+    }
 
     @Override
     public void getDataIF(List<?> stringData) {
@@ -134,7 +142,7 @@ public class DianHuoTongShopActivity extends BaseActivity implements ShopBannerI
             @Override
             public void fillBannerItem(BGABanner banner, View itemView, @Nullable Object model, int position) {
                 Uri uri = Uri.parse((String) model);
-                Picasso.with(mContext).load(uri).fit().into((ImageView) itemView);
+                Picasso.get().load(uri).fit().into((ImageView) itemView);
             }
         });
 

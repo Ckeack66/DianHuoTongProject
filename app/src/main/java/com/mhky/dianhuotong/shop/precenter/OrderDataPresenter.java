@@ -44,6 +44,7 @@ public class OrderDataPresenter {
             orderBottomInfo.setFreightInfoBean(orderBaseInfo.getContent().get(a).getFreightInfo());
             orderBottomInfo.setMoney(orderBaseInfo.getContent().get(a).getPayment());
             orderBottomInfo.setOrderStatus(orderBaseInfo.getContent().get(a).getStatus());
+            orderBottomInfo.setContentBean(orderBaseInfo.getContent().get(a));
             orderInfoBottom.setOrderBottomInfo(orderBottomInfo);
             orderInfoList.add(orderInfoBottom);
         }

@@ -65,7 +65,7 @@ public class OrderOkAdapter extends BaseMultiItemQuickAdapter<OrderOkInfo, BaseV
                 helper.setText(R.id.order_ok_numbers,"x"+item.getOrderOkCenterInfo().getGoodsItemsBean().getAmount());
                 helper.setText(R.id.order_ok_body_title, item.getOrderOkCenterInfo().getGoodsItemsBean().getTitle());
                 String url = item.getOrderOkCenterInfo().getGoodsItemsBean().getPicture().split(",")[0];
-                Picasso.with(mContexts).load(url).resize(withResult, heightResult).into((ImageView) helper.getView(R.id.order_body_imageview));
+                Picasso.get().load(url).resize(withResult, heightResult).into((ImageView) helper.getView(R.id.order_body_imageview));
                 helper.setText(R.id.order_ok_body_companay, item.getOrderOkCenterInfo().getGoodsItemsBean().getManufacturer());
                 double a = (double) item.getOrderOkCenterInfo().getGoodsItemsBean().getSkuDTO().getRetailPrice();
                 double money = a / 100;
@@ -86,16 +86,16 @@ public class OrderOkAdapter extends BaseMultiItemQuickAdapter<OrderOkInfo, BaseV
                 helper.addOnClickListener(R.id.order_ok_bto_select);
                 double b = (double) item.getOrderOkBotttomInfo().getMoney();
                 double money1 = b / 100;
-                if (item.getOrderOkBotttomInfo().getFrigthInfo()!= null &&item.getOrderOkBotttomInfo().getFrigthInfo().getSendAccount()!=null&& money1 <Double.valueOf(item.getOrderOkBotttomInfo().getFrigthInfo().getSendAccount().toString())) {
+                if (item.getOrderOkBotttomInfo().getFrigthInfo()!= null &&item.getOrderOkBotttomInfo().getFrigthInfo().getSendAccount()!=null&& money1 <(Double.valueOf(item.getOrderOkBotttomInfo().getFrigthInfo().getSendAccount().toString())/100)) {
                    if (item.getOrderOkBotttomInfo().getCouponInfo()!=null){
-                       helper.setText(R.id.order_ok_bto_child_money, "￥" + (money1 + Double.valueOf(item.getOrderOkBotttomInfo().getFrigthInfo().getFreight().toString())-item.getOrderOkBotttomInfo().getCouponInfo().getPromotionItem().getGradientFullCut().getCutPrice()));
+                       helper.setText(R.id.order_ok_bto_child_money, "￥" + (money1 + Double.valueOf(item.getOrderOkBotttomInfo().getFrigthInfo().getFreight().toString())/100-item.getOrderOkBotttomInfo().getCouponInfo().getPromotionItem().getGradientFullCut().getCutPrice())/100);
                    }else {
-                       helper.setText(R.id.order_ok_bto_child_money, "￥" + (money1 + Double.valueOf(item.getOrderOkBotttomInfo().getFrigthInfo().getFreight().toString())));
+                       helper.setText(R.id.order_ok_bto_child_money, "￥" + (money1 + Double.valueOf(item.getOrderOkBotttomInfo().getFrigthInfo().getFreight().toString())/100));
                    }
-                    helper.setText(R.id.order_ok_frgit,"￥"+item.getOrderOkBotttomInfo().getFrigthInfo().getFreight().toString());
+                    helper.setText(R.id.order_ok_frgit,"￥"+(Double.valueOf(item.getOrderOkBotttomInfo().getFrigthInfo().getFreight().toString())/100));
                 } else {
                     if (item.getOrderOkBotttomInfo().getCouponInfo()!=null){
-                        helper.setText(R.id.order_ok_bto_child_money, "￥" + (money1-((double)(item.getOrderOkBotttomInfo().getCouponInfo().getPromotionItem().getGradientFullCut().getCutPrice()))));
+                        helper.setText(R.id.order_ok_bto_child_money, "￥" + (money1-((double)(item.getOrderOkBotttomInfo().getCouponInfo().getPromotionItem().getGradientFullCut().getCutPrice())/100)));
                     }else {
                         helper.setText(R.id.order_ok_bto_child_money, "￥"+money1);
                     }

@@ -29,7 +29,7 @@ public class OrderInfoAdapter extends BaseQuickAdapter<OrderBaseInfo.ContentBean
         helper.setText(R.id.order_ok_body_title,item.getGoodsInfo().getName());
         helper.setText(R.id.order_ok_body_companay,item.getGoodsInfo().getManufacturer());
         String url = item.getGoodsInfo().getImageUrl().split(",")[0];
-        Picasso.with(mContexts).load(url).resize(withResult,heightResult).into((ImageView) helper.getView(R.id.order_body_imageview));
+        Picasso.get().load(url).resize(withResult,heightResult).into((ImageView) helper.getView(R.id.order_body_imageview));
         helper.setText(R.id.order_ok_goods_base_type,item.getGoodsInfo().getSpec());
         helper.setText(R.id.order_ok_numbers,"x"+item.getQuantity());
         double a = (double) item.getRealPrice();

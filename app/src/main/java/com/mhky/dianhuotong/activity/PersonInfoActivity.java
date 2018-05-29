@@ -65,8 +65,8 @@ public class PersonInfoActivity extends BaseActivity implements PersonIF {
 
     @OnClick(R.id.person_info_image)
     void showBigImage() {
-        if (BaseApplication.getInstansApp().getLoginRequestInfo().getImage() != null) {
-            avatarScanHelperDialog = new AvatarScanHelperDialog(this, BaseApplication.getInstansApp().getLoginRequestInfo().getImage().toString());
+        if (BaseApplication.getInstansApp().getPersonInfo() != null&&BaseApplication.getInstansApp().getPersonInfo().getImage() != null) {
+            avatarScanHelperDialog = new AvatarScanHelperDialog(this, BaseApplication.getInstansApp().getPersonInfo().getImage().toString());
             avatarScanHelperDialog.show();
         }
     }
@@ -75,7 +75,7 @@ public class PersonInfoActivity extends BaseActivity implements PersonIF {
     public void getUserInfoSucess(PersonInfo personInfo) {
         if (personInfo != null) {
             if (personInfo.getImage() != null) {
-                Picasso.with(this).load(personInfo.getImage().toString()).into(imageView);
+                Picasso.get().load(personInfo.getImage().toString()).into(imageView);
 
             }
             if (personInfo.getTruename() != null) {

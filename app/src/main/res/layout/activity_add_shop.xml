@@ -39,8 +39,8 @@
                 android:layout_marginTop="@dimen/x10"
                 android:background="@color/colorWhite">
 
-                <ListView
-                    android:id="@+id/addshop_listview"
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/addshop_rv"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="@dimen/x19"
@@ -79,7 +79,7 @@
                 android:layout_width="@dimen/x297"
                 android:layout_height="@dimen/x33"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="@dimen/x88"
+                android:layout_marginTop="@dimen/x50"
                 android:background="@drawable/shape_login_button"
                 android:gravity="center"
                 android:text="添加店铺" />

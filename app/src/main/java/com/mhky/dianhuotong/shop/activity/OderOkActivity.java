@@ -73,7 +73,6 @@ public class OderOkActivity extends BaseActivity implements OrderOkAdapter.GetEd
     private String shopIDs;
     private String goodsIDs;
     private Bundle bundle;
-    private double devYh = 0;//平台优惠
     private double allMoney = 0;//总价
     private double allMoney1 = 0;//总价含运费
     private double shopYh = 0;//店铺优惠
@@ -104,7 +103,7 @@ public class OderOkActivity extends BaseActivity implements OrderOkAdapter.GetEd
     }
 
     private void inIt() {
-        stringBuilder1=new StringBuilder();
+        stringBuilder1 = new StringBuilder();
         couponInfoListPT = new ArrayList<>();
         loadingDialog = new LoadingDialog(this);
         shopAdressPresenter = new ShopAdressPresenter(this);
@@ -112,7 +111,11 @@ public class OderOkActivity extends BaseActivity implements OrderOkAdapter.GetEd
         couponPresenter = new CouponPresenter().setCounponGetIF(this);
         banlancePresenter = new BanlancePresenter(this);
         orderOkPresenter = new OrderOkPresenter(this);
-        textViewName.setText("收货人：" + BaseApplication.getInstansApp().getPersonInfo().getTruename().toString());
+        if (BaseApplication.getInstansApp().getPersonInfo() != null && BaseApplication.getInstansApp().getPersonInfo().getTruename() != null) {
+            textViewName.setText("收货人：" + BaseApplication.getInstansApp().getPersonInfo().getTruename().toString());
+        } else {
+
+        }
         textViewPhone.setText("联系方式：" + BaseApplication.getInstansApp().getPersonInfo().getMobile());
         dianHuoTongBaseTitleBar.setLeftImage(R.drawable.icon_back);
         dianHuoTongBaseTitleBar.setLeftOnclickListener(new View.OnClickListener() {
@@ -153,18 +156,23 @@ public class OderOkActivity extends BaseActivity implements OrderOkAdapter.GetEd
 
     @Override
     public void getOrderFrightSucess(int code, String result) {
-        if (code == 200) {
-            List<FrigthInfo> list = JSON.parseArray(result, FrigthInfo.class);
-            for (int a = 0; a < list.size(); a++) {
-                if (hashMapInteger.containsKey(list.get(a).getCompanyId().toString())) {
-                    Log.d(TAG, "getOrderFrightSucess: ----asdffff");
-                    List<CartBaseInfo.GoodsItemsBean> list1 = hashMapInteger.get(list.get(a).getCompanyId().toString());
-                    list1.get(0).setFrigthInfo(list.get(a));
-                    hashMapInteger.put(list.get(a).getCompanyId().toString(), list1);
+        try {
+            if (code == 200) {
+                List<FrigthInfo> list = JSON.parseArray(result, FrigthInfo.class);
+                for (int a = 0; a < list.size(); a++) {
+                    if (hashMapInteger.containsKey(list.get(a).getCompanyId().toString())) {
+                        Log.d(TAG, "getOrderFrightSucess: ----asdffff");
+                        List<CartBaseInfo.GoodsItemsBean> list1 = hashMapInteger.get(list.get(a).getCompanyId().toString());
+                        list1.get(0).setFrigthInfo(list.get(a));
+                        hashMapInteger.put(list.get(a).getCompanyId().toString(), list1);
+                    }
                 }
+                couponPresenter.getCoupon();
             }
-            couponPresenter.getCoupon();
+        } catch (Exception e) {
+            PgyCrashManager.reportCaughtException(this, e);
         }
+
     }
 
     private void sumData() {
@@ -219,7 +227,7 @@ public class OderOkActivity extends BaseActivity implements OrderOkAdapter.GetEd
                 orderOkInfoList.add(orderOkInfo2);
             }
             goodsIDs = stringBuilder.toString().substring(0, stringBuilder.toString().length() - 1);
-            Log.d(TAG, "sumData: ----goods"+goodsIDs);
+            Log.d(TAG, "sumData: ----goods" + goodsIDs);
             if (orderOkInfoList != null) {
                 orderOkAdapter = new OrderOkAdapter(orderOkInfoList, this, this);
                 orderOkAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
@@ -257,19 +265,21 @@ public class OderOkActivity extends BaseActivity implements OrderOkAdapter.GetEd
 
     @OnClick(R.id.order_ok_submit)
     void sumOrder() {
-        Log.d(TAG, "sumOrder: ------"+goodsIDs);
+        Log.d(TAG, "sumOrder: ------" + goodsIDs);
         try {
             if (goodsIDs != null && !"".equals(goodsIDs)) {
                 loadingDialog.show();
                 HashMap<String, String> m = new HashMap();
                 m.put("skuIds", goodsIDs);
-                if (couponInfo!=null){
+                if (couponInfo != null) {
                     stringBuilder1.append(couponInfo.getId());
                     stringBuilder1.append(",");
                 }
-                m.put("couponIds",stringBuilder1.toString().substring(0,stringBuilder1.length()-1));
+                if (stringBuilder1.length() > 0) {
+                    m.put("couponIds", stringBuilder1.toString().substring(0, stringBuilder1.length() - 1));
+                }
                 banlancePresenter.doBanlance(m);
-            }else {
+            } else {
                 ToastUtil.makeText(mContext, "商品信息错误", Toast.LENGTH_SHORT).show();
             }
         } catch (Exception e) {
@@ -309,9 +319,9 @@ public class OderOkActivity extends BaseActivity implements OrderOkAdapter.GetEd
             allMoney = allMoney + money;
         }
         for (int a = 0; a < couponInfoList.size(); a++) {
-            if ("PING_TAI_YOU_HUI_QUAN".equals(couponInfoList.get(a).getPromotionItem().getPromotionType()) && (allMoney/100) > couponInfoList.get(a).getPromotionItem().getGradientFullCut().getFullAmount()) {
+            if ("PING_TAI_YOU_HUI_QUAN".equals(couponInfoList.get(a).getPromotionItem().getPromotionType()) && allMoney >= couponInfoList.get(a).getPromotionItem().getGradientFullCut().getFullAmount()) {
                 couponInfoListPT.add(couponInfoList.get(a));
-                Log.d(TAG, "sumInitMoney: -----all"+allMoney+"------"+ couponInfoList.get(a).getPromotionItem().getGradientFullCut().getFullAmount());
+                Log.d(TAG, "sumInitMoney: -----all" + allMoney + "------" + couponInfoList.get(a).getPromotionItem().getGradientFullCut().getFullAmount());
             }
         }
         sumInitYh();
@@ -320,25 +330,25 @@ public class OderOkActivity extends BaseActivity implements OrderOkAdapter.GetEd
     private void sumInitYh() {
         shopYh = 0;
         shopFright = 0;
-        stringBuilder1.delete(0,stringBuilder1.length());
+        stringBuilder1.delete(0, stringBuilder1.length());
         for (int a = 0; a < orderOkInfoList.size(); a++) {
             if (orderOkInfoList.get(a).getItemType() == 3 && orderOkInfoList.get(a).getOrderOkBotttomInfo().getFrigthInfo() != null && orderOkInfoList.get(a).getOrderOkBotttomInfo().getFrigthInfo().getSendAccount() != null) {
                 double b = (double) orderOkInfoList.get(a).getOrderOkBotttomInfo().getMoney();
                 double money1 = b / 100;
-                if (money1 < Double.valueOf(orderOkInfoList.get(a).getOrderOkBotttomInfo().getFrigthInfo().getSendAccount().toString())) {
-                    shopFright = shopFright + Double.valueOf(orderOkInfoList.get(a).getOrderOkBotttomInfo().getFrigthInfo().getFreight().toString());
+                if (money1 < (Double.valueOf(orderOkInfoList.get(a).getOrderOkBotttomInfo().getFrigthInfo().getSendAccount().toString())/100)) {
+                    shopFright = shopFright +  (Double.valueOf(orderOkInfoList.get(a).getOrderOkBotttomInfo().getFrigthInfo().getFreight().toString())/100);
                 }
             }
             if (orderOkInfoList.get(a).getItemType() == 3 && orderOkInfoList.get(a).getOrderOkBotttomInfo().getCouponInfo() != null) {
                 shopYh = shopYh + orderOkInfoList.get(a).getOrderOkBotttomInfo().getCouponInfo().getPromotionItem().getGradientFullCut().getCutPrice();
-                stringBuilder1.append( orderOkInfoList.get(a).getOrderOkBotttomInfo().getCouponInfo().getId());
+                stringBuilder1.append(orderOkInfoList.get(a).getOrderOkBotttomInfo().getCouponInfo().getId());
                 stringBuilder1.append(",");
             }
 
         }
         if (couponInfo != null) {
-            allMoney1 = allMoney / 100 + shopFright - shopYh - couponInfo.getPromotionItem().getGradientFullCut().getCutPrice();
-            textViewAll.setText("满"+couponInfo.getPromotionItem().getGradientFullCut().getFullAmount()+"减"+couponInfo.getPromotionItem().getGradientFullCut().getCutPrice());
+            allMoney1 = allMoney / 100 + shopFright - shopYh - (couponInfo.getPromotionItem().getGradientFullCut().getCutPrice() / 100);
+            textViewAll.setText("满" + couponInfo.getPromotionItem().getGradientFullCut().getFullAmount() / 100 + "减" + couponInfo.getPromotionItem().getGradientFullCut().getCutPrice() / 100);
         } else {
             allMoney1 = allMoney / 100 + shopFright - shopYh;
             textViewAll.setText("");
@@ -362,11 +372,14 @@ public class OderOkActivity extends BaseActivity implements OrderOkAdapter.GetEd
             BaseApplication.getInstansApp().setUpdateCart(true);
             StringBuffer stringBuffer = new StringBuffer();
             // OrderBaseInfo orderBaseInfo = JSON.parseObject(result, OrderBaseInfo.class);
+            double mon=0;
             List<OrderBaseInfo.ContentBean> contentBeanList = JSON.parseArray(result, OrderBaseInfo.ContentBean.class);
             if (contentBeanList.size() == 1) {
                 stringBuffer.append(contentBeanList.get(0).getId());
+                mon=contentBeanList.get(0).getPayment();
             } else {
                 for (int a = 0; a < contentBeanList.size(); a++) {
+                    mon=mon+contentBeanList.get(0).getPayment();
                     stringBuffer.append(contentBeanList.get(a).getId());
                     if (a != contentBeanList.size() - 1) {
                         stringBuffer.append(",");
@@ -376,7 +389,8 @@ public class OderOkActivity extends BaseActivity implements OrderOkAdapter.GetEd
             String orderIDs = stringBuffer.toString();
             Bundle bundle = new Bundle();
             bundle.putString("order", orderIDs);
-            bundle.putString("money", String.valueOf(allMoney1));
+//            bundle.putString("money", String.valueOf(allMoney1));
+            bundle.putString("money", String.valueOf(mon/100));
             BaseTool.goActivityWithData(this, BalanceActivity.class, bundle);
             finish();
         }
@@ -401,21 +415,25 @@ public class OderOkActivity extends BaseActivity implements OrderOkAdapter.GetEd
 
     @Override
     public void getShopAdressSuccess(int code, String result) {
-        if (code == 200) {
-            ShopAdressInfo shopAdressInfo = JSON.parseObject(result, ShopAdressInfo.class);
-            StringBuilder stringBuilder = new StringBuilder();
-            stringBuilder.append(shopAdressInfo.getAddress().getProvince());
-            stringBuilder.append(shopAdressInfo.getAddress().getCity());
-            stringBuilder.append(shopAdressInfo.getAddress().getDistrict());
-            stringBuilder.append(shopAdressInfo.getAddress().getTown());
-            stringBuilder.append(shopAdressInfo.getAddress().getRoad());
-            textViewAdress.setText(stringBuilder.toString());
+        try {
+            if (code == 200) {
+                ShopAdressInfo shopAdressInfo = JSON.parseObject(result, ShopAdressInfo.class);
+                StringBuilder stringBuilder = new StringBuilder();
+                stringBuilder.append(shopAdressInfo.getAddress().getProvince());
+                stringBuilder.append(shopAdressInfo.getAddress().getCity());
+                stringBuilder.append(shopAdressInfo.getAddress().getDistrict());
+                stringBuilder.append(shopAdressInfo.getAddress().getTown());
+                stringBuilder.append(shopAdressInfo.getAddress().getRoad());
+                textViewAdress.setText(stringBuilder.toString());
+            }
+        } catch (Exception e) {
+            PgyCrashManager.reportCaughtException(this, e);
         }
+
     }
 
     @Override
     public void getShopAdressFailed(int code, String result) {
-
     }
 
     @Override

@@ -77,7 +77,6 @@ public class AlterPasswordActivity extends BaseActivity implements AlterPwdIF {
             AlterPwdInfo alterPwdInfo = new AlterPwdInfo();
             alterPwdInfo.setPassword(MD5Util.md5(editTextNewPwd1.getText().toString().trim()));
             alterPWDPersenter.alterPwd(JSON.toJSONString(alterPwdInfo));
-
         }
     }
 

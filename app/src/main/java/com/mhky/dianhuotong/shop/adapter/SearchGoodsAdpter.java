@@ -30,7 +30,7 @@ public class SearchGoodsAdpter extends BaseQuickAdapter<SearchSGoodsBean.Content
     protected void convert(BaseViewHolder helper, SearchSGoodsBean.ContentBean item) {
         if (item.getPicture() != null) {
             String[] imageDate = item.getPicture().split(",");
-            Picasso.with(context).load(imageDate[0]).into((ImageView) helper.getView(R.id.goods_base_imageview));
+            Picasso.get().load(imageDate[0]).into((ImageView) helper.getView(R.id.goods_base_imageview));
         }
         if (item.getTitle() != null) {
             helper.setText(R.id.goods_base_title, item.getTitle());
@@ -41,7 +41,8 @@ public class SearchGoodsAdpter extends BaseQuickAdapter<SearchSGoodsBean.Content
         if (item.getShopInfo() != null && item.getShopInfo().getShopName() != null) {
             helper.setText(R.id.goods_base_shop_name, item.getShopInfo().getShopName());
         }
-        helper.setText(R.id.goods_base_money, "￥"+(item.getPrice() / 100) );
+        double a=item.getPrice();
+        helper.setText(R.id.goods_base_money, "￥"+(a / 100) );
         helper.addOnClickListener(R.id.goods_base_addcart_button);
 
     }

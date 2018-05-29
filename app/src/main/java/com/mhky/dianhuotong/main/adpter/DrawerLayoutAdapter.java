@@ -50,8 +50,8 @@ public class DrawerLayoutAdapter extends BaseAdapter {
         if (convertView == null) {
             convertView = View.inflate(context, R.layout.item_drawerlayout_list, null);
             viewHolder = new ViewHolder();
-            viewHolder.leftImage = (ImageView) convertView.findViewById(R.id.drawer_item_image);
-            viewHolder.rightText = (TextView) convertView.findViewById(R.id.drawer_item_text);
+            viewHolder.leftImage = convertView.findViewById(R.id.drawer_item_image);
+            viewHolder.rightText = convertView.findViewById(R.id.drawer_item_text);
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) convertView.getTag();

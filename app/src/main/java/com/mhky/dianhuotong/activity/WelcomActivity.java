@@ -13,6 +13,7 @@ import com.mhky.dianhuotong.base.BaseTool;
 import com.mhky.dianhuotong.base.view.BaseActivity;
 import com.mhky.dianhuotong.shop.activity.CouponActivity;
 import com.mhky.dianhuotong.shop.activity.OderOkActivity;
+import com.mhky.dianhuotong.shop.activity.SearchActivity;
 import com.stone.countdownprogress.CountDownProgress;
 
 
@@ -69,11 +70,11 @@ public class WelcomActivity extends BaseActivity {
             BaseTool.goActivityNoData(context, MainActivity.class);
             finish();
         } else if (a == 3) {
-            //aBoolean = false;
-            //countDownProgress.cancel();
-//            BaseTool.goActivityNoData(this, CouponActivity.class);
+            aBoolean = false;
+            countDownProgress.cancel();
+            BaseTool.goActivityNoData(this, SearchActivity.class);
            // BaseTool.goActivityNoData(this, OderOkActivity.class);
-           // finish();
+            finish();
         }
 
     }

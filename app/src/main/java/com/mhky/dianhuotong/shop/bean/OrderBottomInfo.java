@@ -5,6 +5,15 @@ package com.mhky.dianhuotong.shop.bean;
  */
 
 public class OrderBottomInfo {
+    public OrderBaseInfo.ContentBean getContentBean() {
+        return contentBean;
+    }
+
+    public void setContentBean(OrderBaseInfo.ContentBean contentBean) {
+        this.contentBean = contentBean;
+    }
+
+    private OrderBaseInfo.ContentBean contentBean;
     public int getChildNumbers() {
         return childNumbers;
     }

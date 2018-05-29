@@ -1,5 +1,6 @@
 package com.mhky.dianhuotong.shop.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -66,6 +67,7 @@ public class OrderInfoActivity extends BaseActivity implements OrderInfoIF {
     private OrderInfoPresenter orderInfoPresenter;
     private OrderBaseInfo orderBaseInfo;
     private LoadingDialog loadingDialog;
+    private Context mContext;
     private static final String TAG = "OrderInfoActivity";
 
     @Override
@@ -91,6 +93,7 @@ public class OrderInfoActivity extends BaseActivity implements OrderInfoIF {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order_info);
+        mContext=this;
         ButterKnife.bind(this);
         init();
     }
@@ -125,7 +128,7 @@ public class OrderInfoActivity extends BaseActivity implements OrderInfoIF {
             }
             double b = contentBean.getPayment();
             textViewAllMoney.setText("￥" + b / 100);
-            textViewOrderNumber.setText(contentBean.getOrderCirculations().get(0).getOrderCirculationId().getOrderNo());
+            textViewOrderNumber.setText(contentBean.getId());
             if (contentBean.getPaymentInfo() != null) {
                 linearLayoutPaidNumber.setVisibility(View.VISIBLE);
                 linearLayoutPaidTime.setVisibility(View.VISIBLE);
@@ -135,7 +138,7 @@ public class OrderInfoActivity extends BaseActivity implements OrderInfoIF {
                 }
             }
 
-            textViewCreatTime.setText(contentBean.getOrderCirculations().get(0).getCreateTime());
+            textViewCreatTime.setText(contentBean.getCreateTime());
             switch (contentBean.getStatus()) {
                 case "ORDERED":
                     //ToastUtil.makeText(getActivity(), "待付款" + position, Toast.LENGTH_SHORT).show();
@@ -160,7 +163,7 @@ public class OrderInfoActivity extends BaseActivity implements OrderInfoIF {
             recyclerView.setNestedScrollingEnabled(false);
             recyclerView.setHasFixedSize(true);
             recyclerView.setLayoutManager(linearLayoutManager);
-            orderInfoAdapter = new OrderInfoAdapter(contentBean.getItems(), this);
+            orderInfoAdapter = new OrderInfoAdapter(contentBean.getItems(), mContext);
             recyclerView.setAdapter(orderInfoAdapter);
 
         }
@@ -183,15 +186,20 @@ public class OrderInfoActivity extends BaseActivity implements OrderInfoIF {
 
     @OnClick(R.id.order_ok_submit)
     void goPay() {
-        Bundle bundle = new Bundle();
-        bundle.putString("order", contentBean.getOrderCirculations().get(0).getOrderCirculationId().getOrderNo());
-        double a = contentBean.getPayment();
-        bundle.putString("money", String.valueOf(a / 100));
-        bundle.putInt("state",1);
-        Intent intent = new Intent();
-        intent.setClass(this, BalanceActivity.class);
-        intent.putExtras(bundle);
-        startActivityForResult(intent, 1020);
+        try {
+            Bundle bundle = new Bundle();
+            bundle.putString("order", contentBean.getId());
+            double a = contentBean.getPayment();
+            bundle.putString("money", String.valueOf(a / 100));
+            bundle.putInt("state",1);
+            Intent intent = new Intent();
+            intent.setClass(this, BalanceActivity.class);
+            intent.putExtras(bundle);
+            startActivityForResult(intent, 1020);
+        }catch (Exception e){
+            PgyCrashManager.reportCaughtException(this,e);
+        }
+
 //        BaseTool.goActivityWithData(this, BalanceActivity.class, bundle);
     }
 

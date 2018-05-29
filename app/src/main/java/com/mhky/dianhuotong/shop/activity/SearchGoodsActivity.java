@@ -165,9 +165,13 @@ public class SearchGoodsActivity extends BaseActivity implements SearchGoodsIF, 
             childrenBeanX = (GoodsBaseInfo.ChildrenBeanX) bundle.getSerializable("data");
             if (childrenBeanX != null) {
                 getData(getChildId(childrenBeanX.getChildren()), true, 0);
+                type106GoodsId = getChildId(childrenBeanX.getChildren());
+                type107GoodsId = type106GoodsId;
             }
         } else if (type != null && type.equals("103")) {
             type3 = bundle.getString("data");
+            type106GoodsId = type3;
+            type107GoodsId = type106GoodsId;
             if (type3 != null && !type3.equals("")) {
                 getData(type3, true, 0);
             }
@@ -209,7 +213,7 @@ public class SearchGoodsActivity extends BaseActivity implements SearchGoodsIF, 
                     getSortData(type106GoodsId, false, 1, type106TypeId);
                 } else if (type != null && type.equals("107")) {
                     //商家选择
-                    getCompanyData(type107GoodsId,false,1,type107Company);
+                    getCompanyData(type107GoodsId, false, 1, type107Company);
                 } else if (type != null && type.equals("108")) {
                     //筛选
                 }
@@ -236,7 +240,7 @@ public class SearchGoodsActivity extends BaseActivity implements SearchGoodsIF, 
                     getSortData(type106GoodsId, false, 2, type106TypeId);
                 } else if (type != null && type.equals("107")) {
                     //商家选择
-                    getCompanyData(type107GoodsId,false,2,type107Company);
+                    getCompanyData(type107GoodsId, false, 2, type107Company);
                 } else if (type != null && type.equals("108")) {
                     //筛选
                 }
@@ -599,6 +603,8 @@ public class SearchGoodsActivity extends BaseActivity implements SearchGoodsIF, 
             type = "105";
             number = 0;
             type105GoodsId = stringBuilder.toString().substring(0, stringBuilder.toString().length() - 1);
+            type106GoodsId = type105GoodsId;
+            type107GoodsId = type106GoodsId;
             getTypeData(type105GoodsId, false, 1);
             Log.d(TAG, "onclick: ---a-a-a-a-" + stringBuilder.toString().substring(0, stringBuilder.toString().length() - 1));
 
@@ -611,7 +617,10 @@ public class SearchGoodsActivity extends BaseActivity implements SearchGoodsIF, 
             }
             type = "105";
             number = 0;
-            getTypeData(stringBuilder.toString().substring(0, stringBuilder.toString().length() - 1), false, 1);
+            type105GoodsId = stringBuilder.toString().substring(0, stringBuilder.toString().length() - 1);
+            type106GoodsId = type105GoodsId;
+            type107GoodsId = type106GoodsId;
+            getTypeData(type105GoodsId, false, 1);
             Log.d(TAG, "onclick: ---b-b-b-b-" + stringBuilder.toString().substring(0, stringBuilder.toString().length() - 1));
         }
         textViewChoose1.setText(text);
@@ -624,11 +633,6 @@ public class SearchGoodsActivity extends BaseActivity implements SearchGoodsIF, 
         sortPopupwindow.setSelectState(number);
         this.number = 0;
         type = "106";
-        if (type105GoodsId != null) {
-            type106GoodsId = type105GoodsId;
-        } else {
-            type106GoodsId = type3;
-        }
         if (number == 0) {
             text = "默认排序";
             type106TypeId = 0;
@@ -663,12 +667,8 @@ public class SearchGoodsActivity extends BaseActivity implements SearchGoodsIF, 
         textViewChoose3.setText(contentBean.getName());
         setTabStateFalse(3);
         type = "107";
+        number = 0;
         type107Company = String.valueOf(contentBean.getId());
-        if (type106GoodsId != null) {
-            type107GoodsId = type106GoodsId;
-        } else {
-            type107GoodsId = type3;
-        }
         getCompanyData(type107GoodsId, false, 1, type107Company);
     }
 

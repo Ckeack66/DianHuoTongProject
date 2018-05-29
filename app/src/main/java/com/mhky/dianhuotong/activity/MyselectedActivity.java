@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
 import com.mhky.dianhuotong.R;
@@ -63,6 +64,8 @@ public class MyselectedActivity extends BaseActivity implements RadioGroup.OnChe
     View view31;
     @BindView(R.id.myselected_tab_view41)
     View view41;
+    @BindView(R.id.myselect_shop_name)
+    TextView textViewName;
     @BindView(R.id.myselected_fragment)
     FrameLayout frameLayout;
 
@@ -92,15 +95,24 @@ public class MyselectedActivity extends BaseActivity implements RadioGroup.OnChe
     protected void onResume() {
         super.onResume();
         if (isFirst){
-            orderPrecenter.getOrder(BaseApplication.getInstansApp().getLoginRequestInfo().getId());
+            if (BaseApplication.getInstansApp().getPersonInfo().getShopId()!=null){
+                orderPrecenter.getOrder(BaseApplication.getInstansApp().getPersonInfo().getShopId().toString());
+            }
+
         }
     }
 
     private void inIt() {
         orderPrecenter = new OrderPrecenter(this);
-        orderPrecenter.getOrder(BaseApplication.getInstansApp().getLoginRequestInfo().getId());
+        if (BaseApplication.getInstansApp().getPersonInfo().getShopId()!=null){
+            orderPrecenter.getOrder(BaseApplication.getInstansApp().getPersonInfo().getShopId().toString());
+        }
         dianHuoTongBaseTitleBar.setLeftImage(R.drawable.icon_back);
         dianHuoTongBaseTitleBar.setCenterTextView(getString(R.string.myselect_title));
+        if (BaseApplication.getInstansApp().getPersonInfo()!=null&&BaseApplication.getInstansApp().getPersonInfo().getShopName()!=null){
+            textViewName.setText(BaseApplication.getInstansApp().getPersonInfo().getShopName().toString());
+        }
+
 //        dianHuoTongBaseTitleBar.setRightText(getString(R.string.myselected_right));
         dianHuoTongBaseTitleBar.setLeftOnclickListener(new View.OnClickListener() {
             @Override

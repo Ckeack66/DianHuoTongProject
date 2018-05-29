@@ -211,47 +211,52 @@ public class CartOpratePresenter {
     }
 
     public void getSku(String goodsId) {
-        OkGo.<String>get(BaseUrlTool.getSkuInfo(goodsId)).execute(new Callback<String>() {
-            @Override
-            public void onStart(Request<String, ? extends Request> request) {
+        if (BaseApplication.getInstansApp().getShopInfoByUserID().getRegionCode()!=null&&!"".equals(BaseApplication.getInstansApp().getShopInfoByUserID().getRegionCode())){
+            HashMap hashMap = new HashMap();
+            hashMap.put("regionCode", BaseApplication.getInstansApp().getShopInfoByUserID().getRegionCode());
+            OkGo.<String>get(BaseUrlTool.getSkuInfo(goodsId) + BaseTool.getUrlParamsByMap(hashMap, false)).execute(new Callback<String>() {
+                @Override
+                public void onStart(Request<String, ? extends Request> request) {
 
-            }
+                }
 
-            @Override
-            public void onSuccess(Response<String> response) {
-                cartOprateIF.getSkuSucess(response.code(), BaseTool.getResponsBody(response));
-            }
+                @Override
+                public void onSuccess(Response<String> response) {
+                    cartOprateIF.getSkuSucess(response.code(), BaseTool.getResponsBody(response));
+                }
 
-            @Override
-            public void onCacheSuccess(Response<String> response) {
+                @Override
+                public void onCacheSuccess(Response<String> response) {
 
-            }
+                }
 
-            @Override
-            public void onError(Response<String> response) {
-                cartOprateIF.getSkuFaild(response.code(), BaseTool.getResponsBody(response));
-            }
+                @Override
+                public void onError(Response<String> response) {
+                    cartOprateIF.getSkuFaild(response.code(), BaseTool.getResponsBody(response));
+                }
 
-            @Override
-            public void onFinish() {
+                @Override
+                public void onFinish() {
 
-            }
+                }
 
-            @Override
-            public void uploadProgress(Progress progress) {
+                @Override
+                public void uploadProgress(Progress progress) {
 
-            }
+                }
 
-            @Override
-            public void downloadProgress(Progress progress) {
+                @Override
+                public void downloadProgress(Progress progress) {
 
-            }
+                }
 
-            @Override
-            public String convertResponse(okhttp3.Response response) throws Throwable {
-                return null;
-            }
-        });
+                @Override
+                public String convertResponse(okhttp3.Response response) throws Throwable {
+                    return null;
+                }
+            });
+        }
+
     }
 
 

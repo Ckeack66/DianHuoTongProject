@@ -26,6 +26,7 @@ public class BanlancePresenter {
     public void doBanlance(HashMap hashMap) {
         hashMap.put("buyerId", BaseApplication.getInstansApp().getLoginRequestInfo().getId());
         hashMap.put("source", "MOBILE");
+        hashMap.put("invoiced",false);
         String param = BaseTool.getUrlParamsByMap(hashMap, false);
         OkGo.<String>post(BaseUrlTool.DO_BANLANCE_URL + param).execute(new Callback<String>() {
             @Override

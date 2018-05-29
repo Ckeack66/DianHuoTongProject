@@ -170,7 +170,6 @@
         <activity android:name=".shop.activity.GoodsInfoActivity" />
         <activity android:name=".shop.activity.ShopActivity" />
         <activity android:name=".shop.activity.CardActivity" />
-        <activity android:name=".test.TestActivity" />
         <activity android:name=".shop.activity.BalanceActivity" />
         <activity android:name=".shop.activity.VipShopActivity" />
         <activity
@@ -189,7 +188,15 @@
             android:name=".wxapi.WXPayEntryActivity"
             android:exported="true"
             android:launchMode="singleTop" />
-        <activity android:name=".shop.activity.OderOkActivity" android:windowSoftInputMode="stateHidden|adjustPan"/>
+        <activity
+            android:name=".shop.activity.OderOkActivity"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity android:name=".activity.MyWalletActivity" />
+        <activity android:name=".shop.activity.SearchActivity" />
+        <activity android:name=".shop.activity.SearchCompanyActivity" />
+        <activity android:name=".activity.SelelctAdressActivity" />
+        <activity android:name=".activity.SelelctAdress1Activity" />
+        <activity android:name=".activity.SelelctAdress2Activity"></activity>
     </application>
 
 </manifest>

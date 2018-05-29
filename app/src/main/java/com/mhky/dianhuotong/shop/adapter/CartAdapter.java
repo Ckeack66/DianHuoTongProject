@@ -67,7 +67,7 @@ public class CartAdapter extends BaseSectionQuickAdapter<CartInfo, BaseViewHolde
         helper.setText(R.id.goods_base_money, "￥" + money);
         helper.setText(R.id.cart_popup_numbers, item.getCartBodyBaseInfo().getGoodsItemsBean().getAmount() + "");
         String url = item.getCartBodyBaseInfo().getGoodsItemsBean().getPicture().split(",")[0];
-        Picasso.with(mContext).load(url).resize(withResult, heightResult).into((ImageView) helper.getView(R.id.goods_base_imageview));
+        Picasso.get().load(url).resize(withResult, heightResult).into((ImageView) helper.getView(R.id.goods_base_imageview));
         if (item.getCartBodyBaseInfo().getGoodsItemsBean().getSkuDTO().getSalePropertyOptions().size() == 1) {
             helper.setText(R.id.goods_base_type, item.getCartBodyBaseInfo().getGoodsItemsBean().getSkuDTO().getSalePropertyOptions().get(0).getValue());
         } else {

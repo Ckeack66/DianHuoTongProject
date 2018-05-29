@@ -61,7 +61,7 @@ public class VoiceGridviewAdapter extends BaseAdapter {
             convertView = View.inflate(context, R.layout.item_invoice_fragment1_gridview, null);
             ImageView imageView = convertView.findViewById(R.id.voice_gridview_item_image);
             TextView textView1 = convertView.findViewById(R.id.voice_gridview_item_txt1);
-            Picasso.with(context).load(qualicationInfoArrayList.get(position).getUrl()).into(imageView);
+            Picasso.get().load(qualicationInfoArrayList.get(position).getUrl()).into(imageView);
             textView1.setText(qualicationInfoArrayList.get(position).getName());
         } else {
             convertView = View.inflate(context, R.layout.item_uploade_invoice_2, null);

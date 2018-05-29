@@ -91,7 +91,7 @@ dependencies {
     compile 'com.youth.banner:banner:1.4.10'
 
     //picasso图片加载
-    compile 'com.squareup.picasso:picasso:2.5.2'
+    compile 'com.squareup.picasso:picasso:2.71828'
 
     //freso
     compile 'com.facebook.fresco:fresco:0.12.0'
@@ -163,6 +163,7 @@ dependencies {
     implementation project(':stickscrollview')
 
     //蒲公英
-    compile 'com.pgyersdk:sdk:2.8.1'
-    compile 'com.google.zxing:core:3.3.2'
+    implementation 'com.pgyersdk:sdk:2.8.1'
+    implementation 'com.google.zxing:core:3.3.2'
+
 }

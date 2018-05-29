@@ -499,17 +499,23 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@color/colorWhite">
-
-            <TextView
-                android:id="@+id/go_cart"
+            <RelativeLayout
+                android:id="@+id/go_cart_ll"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginStart="@dimen/x30"
-                android:drawableTop="@drawable/icon_shop_good_car"
-                android:text="购物车"
-                android:textColor="@color/color707070"
-                android:textSize="@dimen/t12" />
+                android:layout_height="match_parent">
+                <TextView
+                    android:id="@+id/go_cart"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="@dimen/x30"
+                    android:drawableTop="@drawable/icon_shop_good_car"
+                    android:text="购物车"
+                    android:layout_centerHorizontal="true"
+                    android:textColor="@color/color707070"
+                    android:textSize="@dimen/t12" />
+            </RelativeLayout>
+
 
             <TextView
                 android:layout_width="wrap_content"
@@ -520,7 +526,8 @@
                 android:drawableTop="@drawable/icon_shop_good_love"
                 android:text="收藏"
                 android:textColor="@color/color707070"
-                android:textSize="@dimen/t12" />
+                android:textSize="@dimen/t12"
+                android:visibility="gone"/>
         </RelativeLayout>
 
         <TextView

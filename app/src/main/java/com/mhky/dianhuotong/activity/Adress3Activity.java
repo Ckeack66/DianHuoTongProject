@@ -73,6 +73,7 @@ public class Adress3Activity extends AppCompatActivity implements AdressIF {
             @Override
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
                 CreatShopActivity.returnAdress = list.get(groupPosition).getRegion().get(childPosition).getName();
+                CreatShopActivity.reigonCode=list.get(groupPosition).getRegion().get(childPosition).getCode();
                 CreatShopActivity.activities.add(Adress3Activity.this);
                 BaseActivityManager.getInstance().finnishArrayActivity(CreatShopActivity.activities);
                 return false;

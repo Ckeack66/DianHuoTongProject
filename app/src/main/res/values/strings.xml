@@ -39,6 +39,7 @@
     <!--DrawerListView文字资源-->
     <string name="drawer_list_caigou">我的采购单</string>
     <string name="drawer_list_info_update">资料修改</string>
+    <string name="drawer_list_wallet">我的钱包</string>
     <string name="drawer_list_kefu">服务专员</string>
     <string name="drawer_list_mianze">免责声明</string>
     <string name="drawer_list_about">关于我们</string>

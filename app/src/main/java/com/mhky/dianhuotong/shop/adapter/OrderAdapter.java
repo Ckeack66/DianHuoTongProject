@@ -50,7 +50,7 @@ public class OrderAdapter extends BaseMultiItemQuickAdapter<OrderInfo, BaseViewH
             case OrderInfo.BODY:
                 if (item.getOrderBodyInfo().getGoodsInfo().getImageUrl() != null) {
                     String url = item.getOrderBodyInfo().getGoodsInfo().getImageUrl().split(",")[0];
-                    Picasso.with(mContexts).load(url).resize(withResult, heightResult).into((ImageView) helper.getView(R.id.order_body_imageview));
+                    Picasso.get().load(url).resize(withResult, heightResult).into((ImageView) helper.getView(R.id.order_body_imageview));
                 }
                 helper.setText(R.id.order_body_title, item.getOrderBodyInfo().getGoodsInfo().getName());
                 //helper.setText(R.id.order_body_companay,item.getOrderBodyInfo().getGoodsInfo().)

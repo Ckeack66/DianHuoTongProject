@@ -3,6 +3,8 @@ package com.mhky.dianhuotong.activity;
 import android.Manifest;
 import android.support.annotation.NonNull;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -13,12 +15,14 @@ import com.alibaba.fastjson.JSON;
 import com.baidu.location.BDLocation;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.joker.annotation.PermissionsDenied;
 import com.joker.annotation.PermissionsGranted;
 import com.joker.annotation.PermissionsRequestSync;
 import com.joker.api.Permissions4M;
 import com.lzy.okgo.model.HttpParams;
 import com.mhky.dianhuotong.R;
+import com.mhky.dianhuotong.addshop.adapter.AddShopNewAdapter;
 import com.mhky.dianhuotong.addshop.bean.QualicationInfo;
 import com.mhky.dianhuotong.addshop.bean.ShopBaseInfo;
 import com.mhky.dianhuotong.addshop.adapter.AddShopAdapter;
@@ -32,7 +36,10 @@ import com.mhky.dianhuotong.base.BaseTool;
 import com.mhky.dianhuotong.base.view.BaseActivity;
 import com.mhky.dianhuotong.custom.ToastUtil;
 import com.mhky.dianhuotong.custom.viewgroup.DianHuoTongBaseTitleBar;
+import com.mhky.dianhuotong.shop.activity.SearchCompanyActivity;
+import com.pgyersdk.crash.PgyCrashManager;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -40,12 +47,11 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 @PermissionsRequestSync(permission = {Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE}, value = {101, 102, 103, 104})
-public class AddShopActivity extends BaseActivity implements AdapterView.OnItemClickListener, AddShopIF, GetLocattionListener {
+public class AddShopActivity extends BaseActivity implements AddShopIF, GetLocattionListener {
     @BindView(R.id.addshop_title)
     DianHuoTongBaseTitleBar dianHuoTongBaseTitleBar;
-    @BindView(R.id.addshop_listview)
-    ListView listView;
-    private AddShopAdapter addShopAdapter;
+    @BindView(R.id.addshop_rv)
+    RecyclerView recyclerView;
     private AddShopPrecenter addShopPrecenter;
     private boolean a = false;
     private boolean b = false;
@@ -53,11 +59,12 @@ public class AddShopActivity extends BaseActivity implements AdapterView.OnItemC
     private MyLocationListener myLocationListener;
     private List<ShopBaseInfo> shopBaseInfoList;
     private static final String TAG = "AddShopActivity";
-    private String cityArea;
     private Bundle showMoreBundle;
     private Bundle creatShopBundle;
     private QualicationInfo qualicationInfo;
-
+    private LinearLayoutManager linearLayoutManager;
+    private AddShopNewAdapter addShopNewAdapter;
+    private List<ShopBaseInfo> shopBaseInfoListNew;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,7 +93,11 @@ public class AddShopActivity extends BaseActivity implements AdapterView.OnItemC
                 finish();
             }
         });
-        listView.setOnItemClickListener(this);
+        linearLayoutManager=new LinearLayoutManager(this);
+        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        recyclerView.setLayoutManager(linearLayoutManager);
+        recyclerView.setHasFixedSize(true);
+        shopBaseInfoListNew=new ArrayList<>();
         myLocationListener = new MyLocationListener(this);
         addShopPrecenter = new AddShopPrecenter(this);
         qualicationInfo = new QualicationInfo();
@@ -98,7 +109,6 @@ public class AddShopActivity extends BaseActivity implements AdapterView.OnItemC
         qualicationInfo.setBuyerDTO(buyerDTOBean);
         qualicationInfo.setShopDataDTO(shopDataDTOBean);
         BaseActivityManager.getInstance().addActivity(this);
-        showMoreBundle = new Bundle();
         creatShopBundle = new Bundle();
         creatShopBundle.putSerializable("createInfo", qualicationInfo);
         Permissions4M.get(this).requestSync();
@@ -118,32 +128,44 @@ public class AddShopActivity extends BaseActivity implements AdapterView.OnItemC
 
     @OnClick(R.id.addshop_view_more)
     void goViewShop() {
-        BaseTool.goActivityWithData(this, AddShop1Activity.class, showMoreBundle);
+        if ( showMoreBundle!=null){
+            BaseTool.goActivityWithData(this,SelelctAdressActivity.class, showMoreBundle);
+        }else {
+            ToastUtil.makeText(this, "定位中...", Toast.LENGTH_SHORT).show();
+        }
     }
-
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        Bundle bundle = new Bundle();
-        bundle.putSerializable("shop", shopBaseInfoList.get(position));
-        BaseTool.goActivityWithData(this, AddShop3Activity.class, bundle);
-    }
-
     @Override
     public void getShopInfoSuccess(int code, String result) {
-        if (code == 200 && result != null && !result.equals("")) {
-            shopBaseInfoList = JSON.parseArray(result, ShopBaseInfo.class);
-            if (shopBaseInfoList != null) {
-                Log.d(TAG, "getShopInfoSuccess: --list" + shopBaseInfoList.size());
-                addShopAdapter = new AddShopAdapter(this, shopBaseInfoList,0);
-                listView.setAdapter(addShopAdapter);
-                BaseTool.setListViewHeightBasedOnChildrenCustom(listView);
+        try {
+            if (code == 200 && result != null && !result.equals("")) {
+                shopBaseInfoList = JSON.parseArray(result, ShopBaseInfo.class);
+                if (shopBaseInfoList != null) {
+                    if (shopBaseInfoList.size()<6){
+                        for (int a=0;a<shopBaseInfoList.size();a++){
+                            shopBaseInfoListNew.add(shopBaseInfoList.get(a));
+                        }
+                    }else {
+                        for (int a=0;a<6;a++){
+                            shopBaseInfoListNew.add(shopBaseInfoList.get(a));
+                        }
+                    }
+                    addShopNewAdapter=new AddShopNewAdapter(shopBaseInfoListNew);
+                    addShopNewAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                            Bundle bundle = new Bundle();
+                            bundle.putSerializable("shop", shopBaseInfoListNew.get(position));
+                            bundle.putInt("state",0);
+                            BaseTool.goActivityWithData(AddShopActivity.this, AddShop3Activity.class, bundle);
+                        }
+                    });
+                    recyclerView.setAdapter(addShopNewAdapter);
+                }
             }
-//            String results = "{\"shopinfo\":" + result + "}";
-//            Log.d(TAG, "getShopInfoSuccess: ");
-//            ShopInfo shopInfo = JSON.parseObject(results, ShopInfo.class);
-//            Log.d(TAG, "getShopInfoSuccess: --" + shopInfo.getShopinfo().size());
-//            Log.d(TAG, "getShopInfoSuccess: --");
+        }catch (Exception e){
+            PgyCrashManager.reportCaughtException(this,e);
         }
+
     }
 
     @Override
@@ -237,8 +259,10 @@ public class AddShopActivity extends BaseActivity implements AdapterView.OnItemC
         if (location.getLocType() == 61 || location.getLocType() == 66 || location.getLocType() == 161) {
             HttpParams httpParams = new HttpParams();
             httpParams.put("region", location.getDistrict());
-            showMoreBundle.putString("area", location.getDistrict());
+            showMoreBundle = new Bundle();
+            showMoreBundle.putString("area", location.getCity());
             addShopPrecenter.getShopInfo(httpParams);
+            locationClient.stop();
         } else {
             ToastUtil.makeText(this, "未定位到当前区域", Toast.LENGTH_SHORT).show();
         }

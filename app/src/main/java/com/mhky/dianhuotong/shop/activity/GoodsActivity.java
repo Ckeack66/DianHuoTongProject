@@ -86,6 +86,14 @@ public class GoodsActivity extends BaseActivity implements GoodsIF ,ShopIF{
         inIt();
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (cartPopupwindow!=null&&cartPopupwindow.isShowing()){
+            cartPopupwindow.dismiss();
+        }
+    }
+
     private void inIt() {
         ImmersionBar.with(this).fitsSystemWindows(true).statusBarColor("#ffffff").statusBarDarkFont(true).init();
         goodsPrecenter = new GoodsPrecenter(this);
@@ -144,7 +152,7 @@ public class GoodsActivity extends BaseActivity implements GoodsIF ,ShopIF{
         }
     }
 
-    @OnClick(R.id.go_cart)
+    @OnClick(R.id.go_cart_ll)
     void goCart() {
         BaseTool.goActivityNoData(this,CartActivity.class);
     }
@@ -213,7 +221,7 @@ public class GoodsActivity extends BaseActivity implements GoodsIF ,ShopIF{
             @Override
             public void fillBannerItem(BGABanner banner, View itemView, @Nullable Object model, int position) {
                 Uri uri = Uri.parse((String) model);
-                Picasso.with(mContext).load(uri).fit().into((ImageView) itemView);
+                Picasso.get().load(uri).fit().into((ImageView) itemView);
             }
         });
 
@@ -226,7 +234,7 @@ public class GoodsActivity extends BaseActivity implements GoodsIF ,ShopIF{
         if (code == 200) {
             ShopInfo shopInfo = JSON.parseObject(result, ShopInfo.class);
             if (shopInfo.getLogo() != null) {
-                Picasso.with(this).load(shopInfo.getLogo()).resize(Utils.dp2Px(40),Utils.dp2Px(40)).into(imageViewLogo);
+                Picasso.get().load(shopInfo.getLogo()).resize(Utils.dp2Px(40),Utils.dp2Px(40)).into(imageViewLogo);
             }
             textViewShopName.setText(shopInfo.getName());
         }
