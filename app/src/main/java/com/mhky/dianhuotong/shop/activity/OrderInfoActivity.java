@@ -157,7 +157,7 @@ public class OrderInfoActivity extends BaseActivity implements OrderInfoIF {
                     //ToastUtil.makeText(getActivity(), "已取消" + position, Toast.LENGTH_SHORT).show();
                     break;
             }
-            Log.d(TAG, "init: -----" + contentBean.getItems().size());
+            BaseTool.logPrint(TAG, "init: -----" + contentBean.getItems().size());
             LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
             linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
             recyclerView.setNestedScrollingEnabled(false);

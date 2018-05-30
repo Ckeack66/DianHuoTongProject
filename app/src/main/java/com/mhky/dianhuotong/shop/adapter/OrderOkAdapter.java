@@ -114,7 +114,7 @@ public class OrderOkAdapter extends BaseMultiItemQuickAdapter<OrderOkInfo, BaseV
 
                     @Override
                     public void afterTextChanged(Editable s) {
-                        Log.d(TAG, "afterTextChanged: ------正在输入第" + helper.getLayoutPosition() + "个留言框+" + s.toString());
+                        BaseTool.logPrint(TAG, "afterTextChanged: ------正在输入第" + helper.getLayoutPosition() + "个留言框+" + s.toString());
                         if (getEditWordsListenner != null) {
                             getEditWordsListenner.getEditData(s.toString(), helper.getLayoutPosition());
                         }

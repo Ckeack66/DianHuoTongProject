@@ -131,8 +131,8 @@ public class PersonInfoUpdateActivity extends TakePhotoActivity implements DianH
         super.takeSuccess(result);
         dianHuoTongBottomMenuDialog.dismiss();
         ToastUtil.makeText(this, "选取成功", Toast.LENGTH_SHORT).show();
-        Log.d(TAG, "takeSuccess: " + result.getImages().size());
-        Log.d(TAG, "takeSuccess: " + result.getImages().get(0).getOriginalPath());
+        BaseTool.logPrint(TAG, "takeSuccess: " + result.getImages().size());
+        BaseTool.logPrint(TAG, "takeSuccess: " + result.getImages().get(0).getOriginalPath());
         HttpParams httpParams = new HttpParams();
         httpParams.put("userName", BaseApplication.getInstansApp().getLoginRequestInfo().getUsername());
         httpParams.put("userId", BaseApplication.getInstansApp().getLoginRequestInfo().getId());
@@ -163,7 +163,7 @@ public class PersonInfoUpdateActivity extends TakePhotoActivity implements DianH
 
     @OnClick(R.id.person_info_update_go_add_shop)
     void goAddShop() {
-        if ("1".equals(BaseApplication.getInstansApp().getPersonInfo().getType().toString())){
+        if (BaseApplication.getInstansApp().getPersonInfo()!=null&&BaseApplication.getInstansApp().getPersonInfo().getType()!=null&&"1".equals(BaseApplication.getInstansApp().getPersonInfo().getType().toString())){
             ToastUtil.makeText(this, "店长暂不支持修改店铺~", Toast.LENGTH_SHORT).show();
         }else {
             BaseTool.goActivityNoData(this, AddShopActivity.class);

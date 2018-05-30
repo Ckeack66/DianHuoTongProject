@@ -71,7 +71,7 @@ public class AddShop1Activity extends BaseActivity implements WaveSideBar.OnSele
     private void inIt() {
         setRefresh();
         area = getIntent().getExtras().getString("area");
-        Log.d(TAG, "inIt: ------"+area);
+        BaseTool.logPrint(TAG, "inIt: ------"+area);
         dianHuoTongBaseTitleBar.setLeftImage(R.drawable.icon_back);
         dianHuoTongBaseTitleBar.setCenterTextView("选择店铺");
         dianHuoTongBaseTitleBar.setLeftOnclickListener(new View.OnClickListener() {

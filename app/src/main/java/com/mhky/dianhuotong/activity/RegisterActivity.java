@@ -14,7 +14,11 @@ import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 import com.liqi.utils.encoding.MD5Util;
+import com.mhky.dianhuotong.custom.AlertDialog.DianHuoTongBaseDialog;
 import com.mhky.dianhuotong.custom.AlertDialog.LoadingDialog;
+import com.mhky.dianhuotong.shop.bean.SaleManInfo;
+import com.mhky.dianhuotong.shop.precenter.SaleManPresenter;
+import com.mhky.dianhuotong.shop.shopif.SaleManIF;
 import com.mingle.widget.ShapeLoadingDialog;
 import com.mhky.dianhuotong.R;
 import com.mhky.dianhuotong.base.view.BaseActivity;
@@ -29,7 +33,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class RegisterActivity extends BaseActivity implements TimerMessage.OnTimerListener, RegisterIF {
+public class RegisterActivity extends BaseActivity implements TimerMessage.OnTimerListener, RegisterIF , SaleManIF, DianHuoTongBaseDialog.BaseDialogListener{
     @BindView(R.id.register_titlebar)
     DianHuoTongBaseTitleBar diaHuiTongBaseTitleBar;
     @BindView(R.id.register_getmessage)
@@ -42,14 +46,19 @@ public class RegisterActivity extends BaseActivity implements TimerMessage.OnTim
     EditText editTextPwd;
     @BindView(R.id.register_imageview)
     ImageView imageView;
+    @BindView(R.id.register_myweiter_code)
+    EditText editTextWaiterCode;
     private TimerMessage timerMessage;
     private boolean isTimerStart;
     private boolean imageViewState;
-//    private ShapeLoadingDialog shapeLoadingDialog;
+    //    private ShapeLoadingDialog shapeLoadingDialog;
     private RegisterPrecenter registerPrecenter;
     private RegisterPostDataInfo registerPostDataInfo;
     private boolean isSendSMS = false;
     private LoadingDialog loadingDialog;
+    private SaleManPresenter saleManPresenter;
+    private DianHuoTongBaseDialog dianHuoTongBaseDialog;
+    private SaleManInfo saleManInfo;
     private static final String TAG = "RegisterActivity";
 
     @Override
@@ -78,7 +87,7 @@ public class RegisterActivity extends BaseActivity implements TimerMessage.OnTim
      * 页面初始化
      */
     private void inIt() {
-        loadingDialog=new LoadingDialog(this);
+        loadingDialog = new LoadingDialog(this);
         diaHuiTongBaseTitleBar.setLeftImage(R.drawable.icon_back);
         diaHuiTongBaseTitleBar.setCenterTextView("注册");
         diaHuiTongBaseTitleBar.setLeftOnclickListener(new View.OnClickListener() {
@@ -94,6 +103,7 @@ public class RegisterActivity extends BaseActivity implements TimerMessage.OnTim
 //        shapeLoadingDialog.getWindow().setDimAmount(0);
         registerPrecenter = new RegisterPrecenter(this);
         registerPostDataInfo = new RegisterPostDataInfo();
+        saleManPresenter = new SaleManPresenter(this);
     }
 
     /**
@@ -142,8 +152,19 @@ public class RegisterActivity extends BaseActivity implements TimerMessage.OnTim
 //        if (shapeLoadingDialog != null) {
 //            shapeLoadingDialog.show();
 //        }
-        loadingDialog.show();
-        registerPrecenter.checkSMS(editTextPhone.getText().toString().trim(), editTextPhoneCode.getText().toString().trim());
+
+//        if (!TextUtils.isEmpty(editTextWaiterCode.getText().toString())) {
+////            if (editTextWaiterCode.getText().toString().trim().length() != 4) {
+////                ToastUtil.makeText(this, "请输入四位服务专员工号", Toast.LENGTH_SHORT).show();
+////                return;
+////            } else {
+////                saleManPresenter.getSaleMan(editTextWaiterCode.getText().toString().trim());
+////            }
+//        } else {
+            loadingDialog.show();
+            registerPrecenter.checkSMS(editTextPhone.getText().toString().trim(), editTextPhoneCode.getText().toString().trim());
+//        }
+
     }
 
     /**
@@ -211,7 +232,7 @@ public class RegisterActivity extends BaseActivity implements TimerMessage.OnTim
     @Override
     public void registerSuccess(int code, String result) {
 //        shapeLoadingDialog.dismiss();
-        if (loadingDialog!=null&&loadingDialog.isShowing()){
+        if (loadingDialog != null && loadingDialog.isShowing()) {
             loadingDialog.dismiss();
         }
         if (code == 200) {
@@ -231,7 +252,7 @@ public class RegisterActivity extends BaseActivity implements TimerMessage.OnTim
      */
     @Override
     public void registerFailed(int code, String result) {
-        if (loadingDialog!=null&&loadingDialog.isShowing()){
+        if (loadingDialog != null && loadingDialog.isShowing()) {
             loadingDialog.dismiss();
         }
 //        shapeLoadingDialog.dismiss();
@@ -271,6 +292,7 @@ public class RegisterActivity extends BaseActivity implements TimerMessage.OnTim
     public void getSmsfailed(int code, String result) {
         txtMessage.setText("获取验证码");
         messageButtonOk();
+        ToastUtil.makeText(this, "无法发送验证码！", Toast.LENGTH_SHORT).show();
         Log.d(TAG, "SMSonFailed: " + code + "-----" + result);
     }
 
@@ -285,6 +307,9 @@ public class RegisterActivity extends BaseActivity implements TimerMessage.OnTim
         if (code == 200) {
             registerPostDataInfo.setMobile(editTextPhone.getText().toString());
             registerPostDataInfo.setPassword(String.valueOf(MD5Util.md5(editTextPwd.getText().toString().trim())));
+            if (!TextUtils.isEmpty(editTextWaiterCode.getText().toString())) {
+                registerPostDataInfo.setCode(editTextWaiterCode.getText().toString());
+            }
             Log.d(TAG, "checkSmsSuccess: ----" + String.valueOf(MD5Util.md5(editTextPwd.getText().toString().trim())));
             registerPrecenter.register(JSON.toJSONString(registerPostDataInfo));
         } else {
@@ -303,6 +328,36 @@ public class RegisterActivity extends BaseActivity implements TimerMessage.OnTim
     public void checkSmsFailed(int code, String result) {
 //        shapeLoadingDialog.dismiss();
         ToastUtil.makeText(this, "验证码校验失败", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onClickBaseDialogLeft(String iTag) {
+        if (dianHuoTongBaseDialog != null) {
+            dianHuoTongBaseDialog.dismiss();
+        }
+    }
+
+    @Override
+    public void onClickBaseDialogRight(String iTag) {
+        dianHuoTongBaseDialog.dismiss();
+        loadingDialog.show();
+        registerPrecenter.checkSMS(editTextPhone.getText().toString().trim(), editTextPhoneCode.getText().toString().trim());
+    }
+
+    @Override
+    public void getSaleManSuccess(int code, String result) {
+        if (code == 200) {
+            saleManInfo = JSON.parseObject(result, SaleManInfo.class);
+            dianHuoTongBaseDialog = new DianHuoTongBaseDialog(this, this, "温馨提示", "您确定要让服务专员:" + saleManInfo.getName() + "为您服务吗？", "取消", "确定", "add");
+            dianHuoTongBaseDialog.show();
+        } else {
+            ToastUtil.makeText(this, "没有查询到该服务专员哦~", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    public void getSaleManFailed(int code, String result) {
+        ToastUtil.makeText(this, "系统异常~", Toast.LENGTH_SHORT).show();
     }
 
 

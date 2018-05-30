@@ -22,6 +22,24 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            buildConfigField "boolean","LOG_DEBUG","false"
+            buildConfigField "String","WXAppid",'"wx70a7a6a9571037f7"'
+            buildConfigField "String","BDMapAppid",'"123"'
+            buildConfigField "String","HOSTS",'"http://116.255.150.39:"'
+            buildConfigField "String","HOSTS_CART",'"http://116.255.158.91:"'
+            buildConfigField "String","HOST_IMAGE_URL",'"http://116.255.155.156:9040"'
+            buildConfigField "String","HOSTS_ORDER",'"http://116.255.158.91:"'
+            buildConfigField "String","HOST_URL_COUPON",'"http://116.255.158.91:9060"'
+        }
+        debug{
+            buildConfigField "boolean","LOG_DEBUG","true"
+            buildConfigField "String","WXAppid",'"wx70a7a6a9571037f7"'
+            buildConfigField "String","BDMapAppid",'"123"'
+            buildConfigField "String","HOSTS",'"http://192.168.2.158:"'
+            buildConfigField "String","HOSTS_CART",'"http://192.168.2.158:"'
+            buildConfigField "String","HOST_IMAGE_URL",'"http://192.168.2.158:9040"'
+            buildConfigField "String","HOSTS_ORDER",'"http://192.168.2.158:"'
+            buildConfigField "String","HOST_URL_COUPON",'"http://192.168.2.158:9060"'
         }
     }
     repositories {

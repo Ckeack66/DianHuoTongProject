@@ -13,6 +13,10 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.alibaba.fastjson.JSON;
+import com.mhky.dianhuotong.advert.AdvertInfo;
+import com.mhky.dianhuotong.advert.AdvertMainIF;
+import com.mhky.dianhuotong.advert.AdvertMainPresenter;
 import com.mhky.dianhuotong.shop.activity.AllGoodsActivity;
 import com.mhky.dianhuotong.shop.activity.SearchCompanyActivity;
 import com.mhky.dianhuotong.shop.adapter.ShopListviewAdapter;
@@ -20,6 +24,7 @@ import com.mhky.dianhuotong.shop.adapter.ShopMiaoShaAdapter;
 import com.mhky.dianhuotong.shop.custom.DianHuoTongShopTitleBar;
 import com.mhky.dianhuotong.shop.precenter.ShopInfoPresenter;
 import com.mhky.dianhuotong.shop.tool.TimerMiaoSha;
+import com.pgyersdk.crash.PgyCrashManager;
 import com.squareup.picasso.Picasso;
 import com.mhky.dianhuotong.R;
 import com.mhky.dianhuotong.base.BaseTool;
@@ -38,7 +43,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.bingoogolapple.bgabanner.BGABanner;
 
-public class DianHuoTongShopActivity extends BaseActivity implements ShopBannerIF, OnBannerListener, TimerMiaoSha.TimerMiaoShaListener {
+public class DianHuoTongShopActivity extends BaseActivity implements  OnBannerListener, TimerMiaoSha.TimerMiaoShaListener,AdvertMainIF {
     @BindView(R.id.dht_main)
     DianHuoTongShopTitleBar dianHuoTongShopTitleBar;
     @BindView(R.id.banner_main_accordion)
@@ -53,13 +58,14 @@ public class DianHuoTongShopActivity extends BaseActivity implements ShopBannerI
     TextView textViewMM;
     @BindView(R.id.shop_ss)
     TextView textViewSS;
-    private ShopBannerPresenter shopBannerPresenter;
     private Context mContext;
     private ShopListviewAdapter shopListviewAdapter;
     private ShopMiaoShaAdapter shopMiaoShaAdapter;
     private static final String TAG = "DianHuoTongShopActivity";
     private TimerMiaoSha timerMiaoSha;
     private ShopInfoPresenter shopInfoPresenter;
+    private AdvertMainPresenter advertMainPresenter;
+    private List<AdvertInfo> advertInfoList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,12 +108,12 @@ public class DianHuoTongShopActivity extends BaseActivity implements ShopBannerI
     }
 
     private void inIt() {
+        advertMainPresenter=new AdvertMainPresenter(this);
+        advertMainPresenter.getAdvertMain();
         shopInfoPresenter=new ShopInfoPresenter();
         dianHuoTongShopTitleBar.setActivity(this);
-        shopBannerPresenter = new ShopBannerPresenter(this);
-        shopBannerPresenter.getdata();
         int a = new Random().nextInt(10);
-        Log.d(TAG, "inIt:--------- " + a);
+        BaseTool.logPrint(TAG, "inIt:--------- " + a);
         shopListviewAdapter = new ShopListviewAdapter(mContext, a);
         listView.setAdapter(shopListviewAdapter);
         BaseTool.setListViewHeightBasedOnChildren(listView);
@@ -131,23 +137,23 @@ public class DianHuoTongShopActivity extends BaseActivity implements ShopBannerI
         BaseTool.goActivityNoData(this, SearchCompanyActivity.class);
     }
 
-    @Override
-    public void getDataIF(List<?> stringData) {
-        initImageBaner(stringData);
-    }
-
     //初始化轮播图
     private void initImageBaner(List<?> list) {
-        bgaBanner.setAdapter(new BGABanner.Adapter() {
-            @Override
-            public void fillBannerItem(BGABanner banner, View itemView, @Nullable Object model, int position) {
-                Uri uri = Uri.parse((String) model);
-                Picasso.get().load(uri).fit().into((ImageView) itemView);
-            }
-        });
+        try {
+            bgaBanner.setData(list, new ArrayList<String>());
+            bgaBanner.setAdapter(new BGABanner.Adapter() {
+                @Override
+                public void fillBannerItem(BGABanner banner, View itemView, @Nullable Object model, int position) {
+                    AdvertInfo advertInfo=(AdvertInfo) model;
+                    Uri uri = Uri.parse(advertInfo.getImage());
+                    Picasso.get().load(uri).into((ImageView) itemView);
+                }
+            });
 
-        bgaBanner.setAutoPlayAble(true);
-        bgaBanner.setData(list, new ArrayList<String>());
+            bgaBanner.setAutoPlayAble(true);
+        }catch (Exception e){
+            PgyCrashManager.reportCaughtException(this,e);
+        }
     }
 
     @Override
@@ -170,5 +176,18 @@ public class DianHuoTongShopActivity extends BaseActivity implements ShopBannerI
         textViewHH.setText(h);
         textViewMM.setText(m);
         textViewSS.setText(s);
+    }
+
+    @Override
+    public void getAdvertMainSuccess(int code, String result) {
+        if (code==200){
+            advertInfoList= JSON.parseArray(result,AdvertInfo.class);
+            initImageBaner(advertInfoList);
+        }
+    }
+
+    @Override
+    public void getAdvertMainFailed(int code, String result) {
+
     }
 }

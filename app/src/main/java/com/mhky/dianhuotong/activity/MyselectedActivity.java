@@ -181,19 +181,19 @@ public class MyselectedActivity extends BaseActivity implements RadioGroup.OnChe
 
     private void showFragment(Fragment fragment) {
         if (myselectFragment1 != null && !myselectFragment1.isHidden()) {
-            Log.d(TAG, "showFragment: 关闭第一个页面");
+            BaseTool.logPrint(TAG, "showFragment: 关闭第一个页面");
             fragmentManager.beginTransaction().hide(myselectFragment1).show(fragment).commit();
         }
         if (myselectFragment2 != null && !myselectFragment2.isHidden()) {
-            Log.d(TAG, "showFragment: 关闭第二个页面");
+            BaseTool.logPrint(TAG, "showFragment: 关闭第二个页面");
             fragmentManager.beginTransaction().hide(myselectFragment2).show(fragment).commit();
         }
         if (myselectFragment3 != null && !myselectFragment3.isHidden()) {
-            Log.d(TAG, "showFragment: 关闭第三个页面");
+            BaseTool.logPrint(TAG, "showFragment: 关闭第三个页面");
             fragmentManager.beginTransaction().hide(myselectFragment3).show(fragment).commit();
         }
         if (myselectFragment4 != null && !myselectFragment4.isHidden()) {
-            Log.d(TAG, "showFragment: 关闭第四个页面");
+            BaseTool.logPrint(TAG, "showFragment: 关闭第四个页面");
             fragmentManager.beginTransaction().hide(myselectFragment4).show(fragment).commit();
         }
     }

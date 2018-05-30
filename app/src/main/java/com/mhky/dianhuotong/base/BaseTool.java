@@ -16,6 +16,7 @@ import android.widget.GridView;
 import android.widget.ListView;
 
 import com.lzy.okgo.model.Response;
+import com.mhky.dianhuotong.BuildConfig;
 import com.mhky.dianhuotong.activity.CreatShopActivity;
 import com.mhky.dianhuotong.addshop.adapter.AddShopAdapter;
 import com.mhky.dianhuotong.invoice.VoiceGridviewAdapter;
@@ -325,5 +326,11 @@ public class BaseTool {
         }
         return isBigger;
     }
-
+    public static void logPrint(String ar1,String ar2){
+        if (BuildConfig.LOG_DEBUG){
+            Log.d("log开始打印->","**************************************************************");
+            Log.d(ar1,ar2);
+            Log.d("log打印结束->","**************************************************************");
+        }
+    }
 }

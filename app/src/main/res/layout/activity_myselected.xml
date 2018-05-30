@@ -67,7 +67,7 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="@dimen/x18"
-            android:background="@drawable/icon_go" />
+            android:background="@drawable/icon_go_grey" />
 
 
     </RelativeLayout>

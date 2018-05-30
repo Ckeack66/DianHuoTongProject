@@ -247,7 +247,7 @@ public class AddShopActivity extends BaseActivity implements AddShopIF, GetLocat
 
     @Override
     public void getResultLocation(BDLocation location, String locate) {
-        Log.d(TAG, "getResultLocation: 定位结果---" + location.getLocType());
+        BaseTool.logPrint(TAG, "getResultLocation: 定位结果---" + location.getLocType());
         switch (location.getLocType()) {
             case 62:
                 ToastUtil.makeText(this, "定位失败", Toast.LENGTH_SHORT).show();

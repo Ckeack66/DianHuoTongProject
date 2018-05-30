@@ -22,6 +22,16 @@ public class RegisterPostDataInfo implements Serializable {
     private String password;
     private String username = "";
 
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+    private String code;
+
     public String getAuthorities() {
         return authorities;
     }

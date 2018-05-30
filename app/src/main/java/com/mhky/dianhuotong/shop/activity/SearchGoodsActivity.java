@@ -486,7 +486,7 @@ public class SearchGoodsActivity extends BaseActivity implements SearchGoodsIF, 
                         searchGoodsAdpter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
                             @Override
                             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-                                Log.d(TAG, "onItemChildClick: ---" + position);
+                                BaseTool.logPrint(TAG, "onItemChildClick: ---" + position);
                                 goodsPrecenter.getGoodsInfo(String.valueOf(searchSGoodsBean.getContent().get(position).getId()));
 
                             }
@@ -511,7 +511,7 @@ public class SearchGoodsActivity extends BaseActivity implements SearchGoodsIF, 
                         searchGoodsAdpter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
                             @Override
                             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-                                Log.d(TAG, "onItemChildClick: ---" + position);
+                                BaseTool.logPrint(TAG, "onItemChildClick: ---" + position);
                                 goodsPrecenter.getGoodsInfo(String.valueOf(searchSGoodsBean.getContent().get(position).getId()));
 
                             }
@@ -576,7 +576,7 @@ public class SearchGoodsActivity extends BaseActivity implements SearchGoodsIF, 
 
     @Override
     public void searchGoodsInfoFailed(int code, String result, boolean isfirst, int refreshOrLoadmore) {
-        Log.d(TAG, "searchGoodsInfoFailed: ");
+        BaseTool.logPrint(TAG, "searchGoodsInfoFailed: ");
         relativeLayoutTips.setVisibility(View.VISIBLE);
         if (refreshOrLoadmore == 1) {
             smartRefreshLayout.finishRefresh(1000, false);
@@ -606,7 +606,7 @@ public class SearchGoodsActivity extends BaseActivity implements SearchGoodsIF, 
             type106GoodsId = type105GoodsId;
             type107GoodsId = type106GoodsId;
             getTypeData(type105GoodsId, false, 1);
-            Log.d(TAG, "onclick: ---a-a-a-a-" + stringBuilder.toString().substring(0, stringBuilder.toString().length() - 1));
+            BaseTool.logPrint(TAG, "onclick: ---a-a-a-a-" + stringBuilder.toString().substring(0, stringBuilder.toString().length() - 1));
 
         } else {
             text = popuwindow1Info.t.getName();
@@ -621,7 +621,7 @@ public class SearchGoodsActivity extends BaseActivity implements SearchGoodsIF, 
             type106GoodsId = type105GoodsId;
             type107GoodsId = type106GoodsId;
             getTypeData(type105GoodsId, false, 1);
-            Log.d(TAG, "onclick: ---b-b-b-b-" + stringBuilder.toString().substring(0, stringBuilder.toString().length() - 1));
+            BaseTool.logPrint(TAG, "onclick: ---b-b-b-b-" + stringBuilder.toString().substring(0, stringBuilder.toString().length() - 1));
         }
         textViewChoose1.setText(text);
         setTabStateFalse(1);

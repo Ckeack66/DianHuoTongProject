@@ -158,7 +158,7 @@
 
     <string name="add_shop_finish_name">姓名：</string>
     <string name="add_shop_finish_mywaiter">服务专员：</string>
-    <string name="add_shop_finish_mywaiter_txt">请输入服务专员工号</string>
+    <string name="add_shop_finish_mywaiter_txt">请输入服务专员工号(若无请略过)</string>
     <string name="add_shop_finish_button">确认加入</string>
     <string name="add_shop_search">店铺、药店</string>
     <!-- TODO: Remove or change this placeholder text -->

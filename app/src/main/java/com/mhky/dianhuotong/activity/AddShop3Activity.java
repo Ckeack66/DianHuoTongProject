@@ -18,6 +18,7 @@ import com.mhky.dianhuotong.addshop.bean.ShopBaseInfo;
 import com.mhky.dianhuotong.addshop.precenter.BindShopPrecenter;
 import com.mhky.dianhuotong.base.BaseActivityManager;
 import com.mhky.dianhuotong.base.BaseApplication;
+import com.mhky.dianhuotong.base.BaseTool;
 import com.mhky.dianhuotong.base.view.BaseActivity;
 import com.mhky.dianhuotong.custom.AlertDialog.DianHuoTongBaseDialog;
 import com.mhky.dianhuotong.custom.ToastUtil;
@@ -78,13 +79,14 @@ public class AddShop3Activity extends BaseActivity implements BindShopIF, SaleMa
         });
         shopBaseInfo = (ShopBaseInfo) getIntent().getExtras().getSerializable("shop");
         type=getIntent().getExtras().getInt("state");
+        BaseTool.logPrint("上一页传来的状态",String.valueOf(type));
         if (shopBaseInfo != null) {
             textViewShopName.setText("正在加入：" + shopBaseInfo.getShopname());
         }
         if (type==0){
-            typeId = "1";
-        }else {
             typeId="0";
+        }else {
+            typeId = "1";
         }
         bindShopPrecenter = new BindShopPrecenter(this);
 //        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -119,6 +121,7 @@ public class AddShop3Activity extends BaseActivity implements BindShopIF, SaleMa
             bindShopInfo.setId(BaseApplication.getInstansApp().getLoginRequestInfo().getId());
             bindShopInfo.setShop_id(shopBaseInfo.getId());
             bindShopInfo.setType(typeId);
+            BaseTool.logPrint("aaa",JSON.toJSONString(bindShopInfo));
             bindShopPrecenter.binShop(JSON.toJSONString(bindShopInfo));
         } else {
             if (editTextPhone.getText().toString().trim().length() != 4) {

@@ -53,6 +53,7 @@ import com.mhky.dianhuotong.R;
 import com.mhky.dianhuotong.activity.CreatShopActivity;
 import com.mhky.dianhuotong.baidumap.mapif.GetLocattionListener;
 import com.mhky.dianhuotong.baidumap.mapif.MyLocationListener;
+import com.mhky.dianhuotong.base.BaseTool;
 import com.mhky.dianhuotong.base.view.BaseActivity;
 import com.mhky.dianhuotong.custom.ToastUtil;
 import com.mhky.dianhuotong.custom.viewgroup.DianHuoTongBaseTitleBar;
@@ -185,7 +186,7 @@ public class BaiDuMapActivity extends BaseActivity implements BaiduMap.OnMapClic
         bundle.putString("choosezuobiao", chooseZuobiao);
         bundle.putString("chooseprovance", chooseProvance);
         bundle.putString("chooseroad", chooseRoad);
-        Log.d(TAG, "onClick: ---" + chooseCity + chosseArea + chooseZuobiao);
+        BaseTool.logPrint(TAG, "onClick: ---" + chooseCity + chosseArea + chooseZuobiao);
         Intent intent = new Intent();
         intent.putExtras(bundle);
         setResult(CreatShopActivity.GET_DATA_RESULT_CODE, intent);
@@ -232,8 +233,8 @@ public class BaiDuMapActivity extends BaseActivity implements BaiduMap.OnMapClic
     @Override
     public void onMapClick(LatLng latLng) {
         baiduMap.clear();
-        Log.d(TAG, "onMapClick: 纬度" + latLng.latitude);
-        Log.d(TAG, "onMapClick: 经度" + latLng.longitude);
+        BaseTool.logPrint(TAG, "onMapClick: 纬度" + latLng.latitude);
+        BaseTool.logPrint(TAG, "onMapClick: 经度" + latLng.longitude);
         getLocateinfo(latLng);
         OverlayOptions overlayOptions = new MarkerOptions().position(latLng).icon(bitmapDescriptor).perspective(true);
         baiduMap.addOverlay(overlayOptions);
@@ -243,8 +244,8 @@ public class BaiDuMapActivity extends BaseActivity implements BaiduMap.OnMapClic
     public boolean onMapPoiClick(MapPoi mapPoi) {
         baiduMap.clear();
         getLocateinfo(mapPoi.getPosition());
-        Log.d(TAG, "onMapClick: 纬度" + mapPoi.getPosition().latitude);
-        Log.d(TAG, "onMapClick: 经度" + mapPoi.getPosition().longitude);
+        BaseTool.logPrint(TAG, "onMapClick: 纬度" + mapPoi.getPosition().latitude);
+        BaseTool.logPrint(TAG, "onMapClick: 经度" + mapPoi.getPosition().longitude);
         OverlayOptions overlayOptions = new MarkerOptions().position(mapPoi.getPosition()).icon(bitmapDescriptor).perspective(true);
         baiduMap.addOverlay(overlayOptions);
         return false;
@@ -290,7 +291,7 @@ public class BaiDuMapActivity extends BaseActivity implements BaiduMap.OnMapClic
      */
     @Override
     public void getResultLocation(BDLocation location, String locate) {
-        Log.d(TAG, "getResultLocation: 定位结果---" + location.getLocType());
+        BaseTool.logPrint(TAG, "getResultLocation: 定位结果---" + location.getLocType());
         switch (location.getLocType()) {
             case 62:
                 ToastUtil.makeText(this, "定位失败", Toast.LENGTH_SHORT).show();
@@ -300,8 +301,8 @@ public class BaiDuMapActivity extends BaseActivity implements BaiduMap.OnMapClic
                 break;
         }
         if (location.getLocType() == 61 || location.getLocType() == 66 || location.getLocType() == 161) {
-            Log.d(TAG, "getResultLocation: ---" + location.getRadius());
-            Log.d(TAG, "getResultLocation: ---街道信息" + location.getStreet() + location.getStreetNumber());
+            BaseTool.logPrint(TAG, "getResultLocation: ---" + location.getRadius());
+            BaseTool.logPrint(TAG, "getResultLocation: ---街道信息" + location.getStreet() + location.getStreetNumber());
             baiduMap.setMyLocationEnabled(true);
             MyLocationData myLocationData = new MyLocationData.Builder().accuracy(location.getRadius()).direction(100).latitude(location.getLatitude()).longitude(location.getLongitude()).build();
             baiduMap.setMyLocationData(myLocationData);
@@ -334,24 +335,29 @@ public class BaiDuMapActivity extends BaseActivity implements BaiduMap.OnMapClic
         textViewJingDu.setText(latLng.longitude + "");
         textViewWeiDu.setText(latLng.latitude + "");
         GeoCoder geoCoder = GeoCoder.newInstance();
-        Log.d(TAG, "getLocateinfo: --------------");
+        BaseTool.logPrint(TAG, "getLocateinfo: --------------");
         geoCoder.setOnGetGeoCodeResultListener(new OnGetGeoCoderResultListener() {
             @Override
             public void onGetGeoCodeResult(GeoCodeResult geoCodeResult) {
-                Log.d(TAG, "onGetReverseGeoCodeResult: ");
+                BaseTool.logPrint(TAG, "onGetReverseGeoCodeResult: ");
 
             }
 
             @Override
             public void onGetReverseGeoCodeResult(ReverseGeoCodeResult reverseGeoCodeResult) {
                 textViewName.setText("地点：" + reverseGeoCodeResult.getAddress() + reverseGeoCodeResult.getSematicDescription());
-                Log.d(TAG, "onGetReverseGeoCodeResult: " + reverseGeoCodeResult.getAdcode());
-                Log.d(TAG, "onGetReverseGeoCodeResult: " + reverseGeoCodeResult.getAddress() + reverseGeoCodeResult.getSematicDescription());
-                Log.d(TAG, "onGetReverseGeoCodeResult: " + reverseGeoCodeResult.getAddressDetail().province + reverseGeoCodeResult.getAddressDetail().city + reverseGeoCodeResult.getAddressDetail().street);
+                BaseTool.logPrint(TAG, "onGetReverseGeoCodeResult: " + reverseGeoCodeResult.getAdcode());
+                BaseTool.logPrint(TAG, "onGetReverseGeoCodeResult: " + reverseGeoCodeResult.getAddress() + reverseGeoCodeResult.getSematicDescription());
+                BaseTool.logPrint(TAG, "onGetReverseGeoCodeResult: " + reverseGeoCodeResult.getAddressDetail().province + reverseGeoCodeResult.getAddressDetail().city + reverseGeoCodeResult.getAddressDetail().street);
+                chooseCity = reverseGeoCodeResult.getAddressDetail().city;
+                chosseArea = reverseGeoCodeResult.getAddressDetail().district;
+                chooseProvance = reverseGeoCodeResult.getAddressDetail().province;
+                chooseRoad = reverseGeoCodeResult.getAddressDetail().street;
 
             }
         });
         geoCoder.reverseGeoCode(new ReverseGeoCodeOption().location(latLng));
+
     }
 
     /**
@@ -366,7 +372,7 @@ public class BaiDuMapActivity extends BaseActivity implements BaiduMap.OnMapClic
             @Override
             public void onGetGeoCodeResult(GeoCodeResult geoCodeResult) {
                 if (geoCodeResult != null && geoCodeResult.getLocation() != null) {
-                    Log.d(TAG, "onGetGeoCodeResult: " + geoCodeResult.getAddress());
+                    BaseTool.logPrint(TAG, "onGetGeoCodeResult: " + geoCodeResult.getAddress());
                     LatLng newcenpt = geoCodeResult.getLocation();
                     MapStatusUpdate u = MapStatusUpdateFactory.newLatLngZoom(newcenpt, 16.0f);
                     baiduMap.animateMapStatus(u);
@@ -397,14 +403,14 @@ public class BaiDuMapActivity extends BaseActivity implements BaiduMap.OnMapClic
         poiSearch.setOnGetPoiSearchResultListener(new OnGetPoiSearchResultListener() {
             @Override
             public void onGetPoiResult(PoiResult poiResult) {
-                Log.d(TAG, "onGetPoiResult: ----检索返回" + poiResult.getAllAddr());
-                Log.d(TAG, "onGetPoiResult: ----检索返回" + poiResult.getAllPoi());
-                Log.d(TAG, "onGetPoiResult: ----检索返回" + poiResult.getSuggestCityList());
+                BaseTool.logPrint(TAG, "onGetPoiResult: ----检索返回" + poiResult.getAllAddr());
+                BaseTool.logPrint(TAG, "onGetPoiResult: ----检索返回" + poiResult.getAllPoi());
+                BaseTool.logPrint(TAG, "onGetPoiResult: ----检索返回" + poiResult.getSuggestCityList());
 
                 if (poiResult.getAllPoi() != null && poiResult.getAllPoi().size() > 0) {
                     for (int a = 0; a < poiResult.getAllPoi().size(); a++) {
-                        Log.d(TAG, "onGetPoiResult: ---" + poiResult.getAllPoi().get(a).address);
-                        Log.d(TAG, "onGetPoiResult: ---" + poiResult.getAllPoi().get(a).name);
+                        BaseTool.logPrint(TAG, "onGetPoiResult: ---" + poiResult.getAllPoi().get(a).address);
+                        BaseTool.logPrint(TAG, "onGetPoiResult: ---" + poiResult.getAllPoi().get(a).name);
                         if (a == 0) {
                             LatLng newcenpt = new LatLng(poiResult.getAllPoi().get(a).location.latitude, poiResult.getAllPoi().get(a).location.longitude);
                             MapStatusUpdate u = MapStatusUpdateFactory.newLatLngZoom(newcenpt, 16.0f);
@@ -418,7 +424,7 @@ public class BaiDuMapActivity extends BaseActivity implements BaiduMap.OnMapClic
                 }
                 if (poiResult.getAllAddr() != null && poiResult.getAllAddr().size() > 0) {
                     for (int a = 0; a < poiResult.getAllAddr().size(); a++) {
-                        Log.d(TAG, "onGetPoiResult: ---" + poiResult.getAllAddr().get(0).address);
+                        BaseTool.logPrint(TAG, "onGetPoiResult: ---" + poiResult.getAllAddr().get(0).address);
                     }
                 }
             }
@@ -427,18 +433,18 @@ public class BaiDuMapActivity extends BaseActivity implements BaiduMap.OnMapClic
             public void onGetPoiDetailResult(PoiDetailResult poiDetailResult) {
 //                MyLocationData myLocationData = new MyLocationData.Builder().accuracy(10).direction(100).latitude(poiDetailResult.getLocation().latitude, poiDetailResult.getLocation().longitude).build();
 //                baiduMap.setMyLocationData(myLocationData);
-                Log.d(TAG, "onGetPoiDetailResult: --检索返回");
+                BaseTool.logPrint(TAG, "onGetPoiDetailResult: --检索返回");
                 LatLng newcenpt = new LatLng(poiDetailResult.getLocation().latitude, poiDetailResult.getLocation().longitude);
                 MapStatusUpdate u = MapStatusUpdateFactory.newLatLngZoom(newcenpt, 16.0f);
                 baiduMap.animateMapStatus(u);
-                Log.d(TAG, "onGetPoiDetailResult: -----" + poiDetailResult.getLocation().longitude + "----" + poiDetailResult.getLocation().latitude);
+                BaseTool.logPrint(TAG, "onGetPoiDetailResult: -----" + poiDetailResult.getLocation().longitude + "----" + poiDetailResult.getLocation().latitude);
             }
 
             @Override
             public void onGetPoiIndoorResult(PoiIndoorResult poiIndoorResult) {
-                Log.d(TAG, "onGetPoiIndoorResult: --检索返回");
+                BaseTool.logPrint(TAG, "onGetPoiIndoorResult: --检索返回");
                 if (poiIndoorResult.getmArrayPoiInfo() != null && poiIndoorResult.getmArrayPoiInfo().size() > 0) {
-                    Log.d(TAG, "onGetPoiIndoorResult: " + poiIndoorResult.getmArrayPoiInfo().get(0).address);
+                    BaseTool.logPrint(TAG, "onGetPoiIndoorResult: " + poiIndoorResult.getmArrayPoiInfo().get(0).address);
                 }
 
             }

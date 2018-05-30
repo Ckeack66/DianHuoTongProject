@@ -196,7 +196,8 @@
         <activity android:name=".shop.activity.SearchCompanyActivity" />
         <activity android:name=".activity.SelelctAdressActivity" />
         <activity android:name=".activity.SelelctAdress1Activity" />
-        <activity android:name=".activity.SelelctAdress2Activity"></activity>
+        <activity android:name=".activity.SelelctAdress2Activity" />
+        <activity android:name=".activity.MyIntroduceActivity"></activity>
     </application>
 
 </manifest>

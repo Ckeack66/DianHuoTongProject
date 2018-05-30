@@ -8,6 +8,7 @@ import android.widget.TextView;
 import com.alibaba.fastjson.JSON;
 import com.mhky.dianhuotong.R;
 import com.mhky.dianhuotong.base.BaseApplication;
+import com.mhky.dianhuotong.base.BaseTool;
 import com.mhky.dianhuotong.base.view.BaseActivity;
 import com.mhky.dianhuotong.custom.viewgroup.DianHuoTongBaseTitleBar;
 import com.mhky.dianhuotong.person.bean.PersonInfo;
@@ -69,6 +70,10 @@ public class PersonInfoActivity extends BaseActivity implements PersonIF {
             avatarScanHelperDialog = new AvatarScanHelperDialog(this, BaseApplication.getInstansApp().getPersonInfo().getImage().toString());
             avatarScanHelperDialog.show();
         }
+    }
+    @OnClick(R.id.person_info_go_promote)
+    void goPromote(){
+        BaseTool.goActivityNoData(this, MyIntroduceActivity.class);
     }
 
     @Override

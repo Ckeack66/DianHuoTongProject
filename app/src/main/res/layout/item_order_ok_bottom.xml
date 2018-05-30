@@ -35,7 +35,7 @@
                     android:layout_height="@dimen/x10"
                     android:layout_gravity="center"
                     android:scaleType="center"
-                    android:src="@drawable/icon_go" />
+                    android:src="@drawable/icon_go_grey" />
             </FrameLayout>
 
             <TextView

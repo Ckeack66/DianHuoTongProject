@@ -3,6 +3,7 @@ package com.mhky.dianhuotong.activity;
 import android.Manifest;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.IntentFilter;
 import android.graphics.Color;
 import android.net.Uri;
 import android.support.annotation.NonNull;
@@ -44,6 +45,8 @@ import com.mhky.dianhuotong.main.MainIF;
 import com.mhky.dianhuotong.main.adpter.DrawerLayoutAdapter;
 import com.mhky.dianhuotong.main.adpter.GridViewAdapter;
 import com.mhky.dianhuotong.main.presenter.MainActivityPrecenter;
+import com.mhky.dianhuotong.receiver.UpdateMainViewIF;
+import com.mhky.dianhuotong.receiver.UpdateMainViewReceiver;
 import com.mhky.dianhuotong.shop.adapter.AllGoodsListview1Adapter;
 import com.mhky.dianhuotong.shop.adapter.AllGoodsListview2Adapter;
 import com.mhky.dianhuotong.shop.bean.GoodsBaseInfo;
@@ -69,7 +72,7 @@ import cn.bingoogolapple.bgabanner.BGABanner;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 @PermissionsRequestSync(permission = {Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE}, value = {101, 102, 103, 104})
-public class MainActivity extends BaseActivity implements MainIF, DrawerLayout.DrawerListener, AdapterView.OnItemClickListener, DianHuoTongBaseDialog.BaseDialogListener, AllGoodsIF ,AdvertMainIF{
+public class MainActivity extends BaseActivity implements MainIF, DrawerLayout.DrawerListener, AdapterView.OnItemClickListener, DianHuoTongBaseDialog.BaseDialogListener, AllGoodsIF ,AdvertMainIF,UpdateMainViewIF{
     @BindView(R.id.drawer_listview)
     ListView listView;
     @BindView(R.id.mian_titlebar)
@@ -110,6 +113,8 @@ public class MainActivity extends BaseActivity implements MainIF, DrawerLayout.D
     private boolean isShowUpdate = false;
     private List<AdvertInfo> advertInfoList;
     private AdvertMainPresenter advertMainPresenter;
+    private UpdateMainViewReceiver updateMainViewReceiver;
+    public static String action="com.mhky.dianhuotong.activity.update";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -145,11 +150,14 @@ public class MainActivity extends BaseActivity implements MainIF, DrawerLayout.D
     protected void onDestroy() {
         super.onDestroy();
         PgyUpdateManager.unregister();
+        unregisterReceiver(updateMainViewReceiver);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+        BaseTool.logPrint(TAG,"执行了resume");
+        updateDrawer();
         if (!isShowUpdate) {
             PgyUpdateManager.setIsForced(false);
             PgyUpdateManager.register(this, new UpdateManagerListener() {
@@ -190,7 +198,7 @@ public class MainActivity extends BaseActivity implements MainIF, DrawerLayout.D
                 drawerLayout.closeDrawers();
             }
         }
-        updateDrawer();
+
     }
 
     @Override
@@ -244,6 +252,10 @@ public class MainActivity extends BaseActivity implements MainIF, DrawerLayout.D
     }
 
     private void inIt() {
+        updateMainViewReceiver=new UpdateMainViewReceiver(this);
+        IntentFilter intentFilter=new IntentFilter();
+        intentFilter.addAction(action);
+        registerReceiver(updateMainViewReceiver,intentFilter);
         advertMainPresenter=new AdvertMainPresenter(this);
         advertMainPresenter.getAdvertMain();
         if (BaseApplication.getInstansApp().getAllGoodsBaseInfos() == null) {
@@ -520,11 +532,14 @@ public class MainActivity extends BaseActivity implements MainIF, DrawerLayout.D
      * 更新抽屉界面信息
      */
     private void updateDrawer() {
-        Log.d(TAG, "updateDrawer: ---更新界面");
         if (BaseApplication.getInstansApp().getPersonInfo() != null) {
             if (BaseApplication.getInstansApp().getPersonInfo().getImage() != null) {
                 //Log.d(TAG, "updateDrawer: --------" + BaseApplication.getInstansApp().getLoginRequestInfo().getImage().toString());
                 Picasso.get().load(BaseApplication.getInstansApp().getPersonInfo().getImage().toString()).into(imageViewUser);
+                BaseTool.logPrint(TAG,"更新图片");
+            }else {
+                imageViewUser.setImageDrawable(getResources().getDrawable(R.drawable.icon_header_big));
+                BaseTool.logPrint(TAG,"设置成默认图片");
             }
             if (BaseApplication.getInstansApp().getPersonInfo().getUsername() != null) {
                 textViewUserName.setText(BaseApplication.getInstansApp().getPersonInfo().getUsername());
@@ -567,5 +582,10 @@ public class MainActivity extends BaseActivity implements MainIF, DrawerLayout.D
     @Override
     public void getAdvertMainFailed(int code, String result) {
 
+    }
+
+    @Override
+    public void updateview() {
+        drawerLayout.closeDrawers();
     }
 }

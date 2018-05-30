@@ -18,6 +18,7 @@ import com.alipay.sdk.app.EnvUtils;
 import com.alipay.sdk.app.PayTask;
 import com.mhky.dianhuotong.R;
 import com.mhky.dianhuotong.base.BaseApplication;
+import com.mhky.dianhuotong.base.BaseTool;
 import com.mhky.dianhuotong.base.view.BaseActivity;
 import com.mhky.dianhuotong.custom.AlertDialog.LoadingDialog;
 import com.mhky.dianhuotong.custom.ToastUtil;
@@ -87,7 +88,7 @@ public class BalanceActivity extends BaseActivity implements BanlanceIF, ShopAdr
                     String resultInfo = payResult.getResult();// 同步返回需要验证的信息
                     String resultStatus = payResult.getResultStatus();
                     // 判断resultStatus 为9000则代表支付成功
-                    Log.d(TAG, "handleMessage: ----" + resultStatus);
+                    BaseTool.logPrint(TAG, "handleMessage: ----" + resultStatus);
                     if (TextUtils.equals(resultStatus, "9000")) {
                         // 该笔订单是否真实支付成功，需要依赖服务端的异步通知。
                         Toast.makeText(BalanceActivity.this, "支付成功", Toast.LENGTH_SHORT).show();
@@ -214,7 +215,7 @@ public class BalanceActivity extends BaseActivity implements BanlanceIF, ShopAdr
         checkBox3.setChecked(false);
         linearLayout.setVisibility(View.GONE);
         choosePayState.setChecked(true);
-        Log.d(TAG, "setChoosePayState: " + payType);
+        BaseTool.logPrint(TAG, "setChoosePayState: " + payType);
 
     }
 

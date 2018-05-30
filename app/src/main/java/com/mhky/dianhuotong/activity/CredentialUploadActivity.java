@@ -126,7 +126,7 @@ public class CredentialUploadActivity extends TakePhotoActivity implements DianH
             textViewData1.setText(shopCredentialBaseInfo.getStartTime());
             textViewData2.setText(shopCredentialBaseInfo.getEndTime());
             if (shopCredentialBaseInfo.getUrl() != null) {
-                Log.d(TAG, "inIt: ------------" + shopCredentialBaseInfo.getUrl());
+                BaseTool.logPrint(TAG, "inIt: ------------" + shopCredentialBaseInfo.getUrl());
                 Picasso.get().load(shopCredentialBaseInfo.getUrl()).resize(withResult, heightResult).into(imageViewCredentail);
                 imageUrl = shopCredentialBaseInfo.getUrl();
             }
@@ -196,9 +196,9 @@ public class CredentialUploadActivity extends TakePhotoActivity implements DianH
         super.takeSuccess(result);
         dianHuoTongBottomMenuDialog.dismiss();
         //ToastUtil.makeText(this, "选取成功", Toast.LENGTH_SHORT).show();
-        Log.d(TAG, "takeSuccess: " + result.getImages().size());
-        Log.d(TAG, "takeSuccess: " + result.getImages().get(0).getOriginalPath());
-        Log.d(TAG, "takeSuccess: " + result.getImages().get(0).getCompressPath());
+        BaseTool.logPrint(TAG, "takeSuccess: " + result.getImages().size());
+        BaseTool.logPrint(TAG, "takeSuccess: " + result.getImages().get(0).getOriginalPath());
+        BaseTool.logPrint(TAG, "takeSuccess: " + result.getImages().get(0).getCompressPath());
         HttpParams httpParams = new HttpParams();
         httpParams.put("userName", BaseApplication.getInstansApp().getLoginRequestInfo().getUsername());
         httpParams.put("userId", BaseApplication.getInstansApp().getLoginRequestInfo().getId());
@@ -252,9 +252,9 @@ public class CredentialUploadActivity extends TakePhotoActivity implements DianH
                 ToastUtil.makeText(this, "上传成功", Toast.LENGTH_SHORT).show();
                 imageUrl = result;
                 Picasso.get().load(imageUrl).resize(withResult, heightResult).into(imageViewCredentail);
-                Log.d(TAG, "updataCredentialImageSucess: W---" + withResult);
-                Log.d(TAG, "updataCredentialImageSucess: H---" + heightResult);
-                Log.d(TAG, "updataCredentialImageSucess: ------" + result);
+                BaseTool.logPrint(TAG, "updataCredentialImageSucess: W---" + withResult);
+                BaseTool.logPrint(TAG, "updataCredentialImageSucess: H---" + heightResult);
+                BaseTool.logPrint(TAG, "updataCredentialImageSucess: ------" + result);
             }
 
         } else {
@@ -528,7 +528,7 @@ public class CredentialUploadActivity extends TakePhotoActivity implements DianH
     }
 
     private String getTime(Date date) {//可根据需要自行截取数据显示
-        Log.d("getTime()", "choice date millis: " + date.getTime());
+        BaseTool.logPrint("getTime()", "choice date millis: " + date.getTime());
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         return format.format(date);
     }

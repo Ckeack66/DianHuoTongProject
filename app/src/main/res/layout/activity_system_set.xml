@@ -17,7 +17,8 @@
         android:layout_width="wrap_content"
         android:layout_height="@dimen/x49"
         android:layout_marginLeft="@dimen/x15"
-        android:layout_marginRight="@dimen/x15">
+        android:layout_marginRight="@dimen/x15"
+        android:visibility="gone">
 
         <TextView
             android:layout_width="wrap_content"
@@ -67,7 +68,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
-            android:background="@drawable/icon_go" />
+            android:background="@drawable/icon_go_grey" />
     </RelativeLayout>
 
     <View
@@ -81,7 +82,8 @@
         android:layout_width="wrap_content"
         android:layout_height="@dimen/x49"
         android:layout_marginLeft="@dimen/x15"
-        android:layout_marginRight="@dimen/x15">
+        android:layout_marginRight="@dimen/x15"
+        android:visibility="gone">
 
         <TextView
             android:layout_width="wrap_content"
@@ -96,12 +98,12 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
-            android:background="@drawable/icon_go" />
+            android:background="@drawable/icon_go_grey" />
     </RelativeLayout>
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="@dimen/x1"
+        android:layout_height="@dimen/x0.5"
         android:layout_marginLeft="@dimen/x15"
         android:layout_marginRight="@dimen/x15"
         android:background="@color/colorCDCDCD" />

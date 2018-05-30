@@ -125,7 +125,7 @@ public class CredentialsActivity extends BaseActivity implements CredentialIF, C
             BaseTool.goActivityWithData(context, AddShop3Activity.class, bundle);
             BaseActivityManager.getInstance().finishAllActivity();
         }
-        Log.d(TAG, "createShopSucess: ----" + code + result);
+        BaseTool.logPrint(TAG, "createShopSucess: ----" + code + result);
     }
 
     @Override
@@ -159,7 +159,7 @@ public class CredentialsActivity extends BaseActivity implements CredentialIF, C
     public void OnClickCredentialBaseDialogListviewItem(int position) {
         if (list != null) {
             upNumber = position;
-            Log.d(TAG, "OnClickCredentialBaseDialogListviewItem: " + list.get(position).getName());
+            BaseTool.logPrint(TAG, "OnClickCredentialBaseDialogListviewItem: " + list.get(position).getName());
             Intent intent = new Intent(context, CredentialUploadActivity.class);
             Bundle bundle = new Bundle();
             bundle.putSerializable("credentialtype", list.get(position));

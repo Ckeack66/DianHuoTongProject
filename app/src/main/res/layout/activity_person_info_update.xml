@@ -146,7 +146,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
-                android:background="@drawable/icon_go" />
+                android:background="@drawable/icon_go_grey" />
         </RelativeLayout>
 
         <View
@@ -226,7 +226,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
-                android:background="@drawable/icon_go" />
+                android:background="@drawable/icon_go_grey" />
         </RelativeLayout>
 
         <View
@@ -256,7 +256,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
-                android:background="@drawable/icon_go" />
+                android:background="@drawable/icon_go_grey" />
         </RelativeLayout>
     </LinearLayout>
 

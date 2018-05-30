@@ -138,8 +138,8 @@ public class OderOkActivity extends BaseActivity implements OrderOkAdapter.GetEd
             hashMapInteger = new HashMap<>();
 //            hashMapInteger = (HashMap<String, List<CartBaseInfo.GoodsItemsBean>>) JSON.parseObject(baseData, Map.class);
             hashMapInteger = (HashMap<String, List<CartBaseInfo.GoodsItemsBean>>) bundle.getSerializable("data");
-            Log.d(TAG, "inIt: ------" + orderOkInfoList.size());
-            Log.d(TAG, "inIt: -----map" + hashMapInteger.size());
+            BaseTool.logPrint(TAG, "inIt: ------" + orderOkInfoList.size());
+            BaseTool.logPrint(TAG, "inIt: -----map" + hashMapInteger.size());
             if (shopIDs != null) {
                 orderOkPresenter.getFright(shopIDs);
             }
@@ -161,7 +161,7 @@ public class OderOkActivity extends BaseActivity implements OrderOkAdapter.GetEd
                 List<FrigthInfo> list = JSON.parseArray(result, FrigthInfo.class);
                 for (int a = 0; a < list.size(); a++) {
                     if (hashMapInteger.containsKey(list.get(a).getCompanyId().toString())) {
-                        Log.d(TAG, "getOrderFrightSucess: ----asdffff");
+                        BaseTool.logPrint(TAG, "getOrderFrightSucess: ----asdffff");
                         List<CartBaseInfo.GoodsItemsBean> list1 = hashMapInteger.get(list.get(a).getCompanyId().toString());
                         list1.get(0).setFrigthInfo(list.get(a));
                         hashMapInteger.put(list.get(a).getCompanyId().toString(), list1);
@@ -182,18 +182,18 @@ public class OderOkActivity extends BaseActivity implements OrderOkAdapter.GetEd
             while (iter.hasNext()) {
                 Map.Entry<String, List<CartBaseInfo.GoodsItemsBean>> entry = iter.next();
                 String key = entry.getKey();
-                Log.d(TAG, "doBanlance: key" + key);
+                BaseTool.logPrint(TAG, "doBanlance: key" + key);
                 OrderOkInfo orderOkInfo = new OrderOkInfo();
                 orderOkInfo.setType(OrderOkInfo.TOP);
                 OrderOkTitleInfo orderOkTitleInfo = new OrderOkTitleInfo();
-                Log.d(TAG, "sumData: ------" + entry.getValue().toString());
+                BaseTool.logPrint(TAG, "sumData: ------" + entry.getValue().toString());
                 List<CartBaseInfo.GoodsItemsBean> list = entry.getValue();
                 orderOkTitleInfo.setShopDTOBean(list.get(0).getShopDTO());
                 orderOkInfo.setOrderOkTitleInfo(orderOkTitleInfo);
                 orderOkInfoList.add(orderOkInfo);
                 int money = 0;
                 for (int a = 0; a < list.size(); a++) {
-                    Log.d(TAG, "doBanlance: ----goodsID" + list.get(a).getGoodsId());
+                    BaseTool.logPrint(TAG, "doBanlance: ----goodsID" + list.get(a).getGoodsId());
                     stringBuilder.append(list.get(a).getSkuDTO().getId() + ",");
                     OrderOkInfo orderOkInfo1 = new OrderOkInfo();
                     orderOkInfo1.setType(OrderOkInfo.CENTER);
@@ -227,7 +227,7 @@ public class OderOkActivity extends BaseActivity implements OrderOkAdapter.GetEd
                 orderOkInfoList.add(orderOkInfo2);
             }
             goodsIDs = stringBuilder.toString().substring(0, stringBuilder.toString().length() - 1);
-            Log.d(TAG, "sumData: ----goods" + goodsIDs);
+            BaseTool.logPrint(TAG, "sumData: ----goods" + goodsIDs);
             if (orderOkInfoList != null) {
                 orderOkAdapter = new OrderOkAdapter(orderOkInfoList, this, this);
                 orderOkAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
@@ -258,14 +258,14 @@ public class OderOkActivity extends BaseActivity implements OrderOkAdapter.GetEd
             }
             sumInitMoney();
         } catch (Exception e) {
-            Log.d(TAG, "sumData: ---" + e);
+            BaseTool.logPrint(TAG, "sumData: ---" + e);
         }
 
     }
 
     @OnClick(R.id.order_ok_submit)
     void sumOrder() {
-        Log.d(TAG, "sumOrder: ------" + goodsIDs);
+        BaseTool.logPrint(TAG, "sumOrder: ------" + goodsIDs);
         try {
             if (goodsIDs != null && !"".equals(goodsIDs)) {
                 loadingDialog.show();
@@ -310,7 +310,7 @@ public class OderOkActivity extends BaseActivity implements OrderOkAdapter.GetEd
         while (iter.hasNext()) {
             Map.Entry<String, List<CartBaseInfo.GoodsItemsBean>> entry = iter.next();
             String key = entry.getKey();
-            Log.d(TAG, "doBanlance: key" + key);
+            BaseTool.logPrint(TAG, "doBanlance: key" + key);
             List<CartBaseInfo.GoodsItemsBean> list = entry.getValue();
             double money = 0;
             for (int a = 0; a < list.size(); a++) {
@@ -321,7 +321,7 @@ public class OderOkActivity extends BaseActivity implements OrderOkAdapter.GetEd
         for (int a = 0; a < couponInfoList.size(); a++) {
             if ("PING_TAI_YOU_HUI_QUAN".equals(couponInfoList.get(a).getPromotionItem().getPromotionType()) && allMoney >= couponInfoList.get(a).getPromotionItem().getGradientFullCut().getFullAmount()) {
                 couponInfoListPT.add(couponInfoList.get(a));
-                Log.d(TAG, "sumInitMoney: -----all" + allMoney + "------" + couponInfoList.get(a).getPromotionItem().getGradientFullCut().getFullAmount());
+                BaseTool.logPrint(TAG, "sumInitMoney: -----all" + allMoney + "------" + couponInfoList.get(a).getPromotionItem().getGradientFullCut().getFullAmount());
             }
         }
         sumInitYh();

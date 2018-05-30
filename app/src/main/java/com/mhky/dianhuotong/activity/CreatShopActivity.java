@@ -70,7 +70,7 @@ public class CreatShopActivity extends BaseActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Log.d(TAG, "onActivityResult: ----回调了" + requestCode);
+        BaseTool.logPrint(TAG, "onActivityResult: ----回调了" + requestCode);
         if (requestCode == GET_DATA_RESULT_CODE && data != null) {
             Bundle bundle = data.getExtras();
             provance1 = bundle.getString("chooseprovance");
@@ -79,7 +79,7 @@ public class CreatShopActivity extends BaseActivity {
             road1 = bundle.getString("chooseroad");
             textViewZuoBiao.setText(bundle.getString("choosezuobiao"));
             qualicationInfo.getShopDataDTO().setMapPoint(bundle.getString("choosezuobiao"));
-            Log.d(TAG, "onActivityResult: " + provance1 + city1 + area1);
+            BaseTool.logPrint(TAG, "onActivityResult: " + provance1 + city1 + area1);
         }
     }
 
@@ -95,7 +95,7 @@ public class CreatShopActivity extends BaseActivity {
     protected void onResume() {
         super.onResume();
         if (returnAdress != null || returnCity != null || returnArea != null) {
-            Log.d(TAG, "onResume: ----" + returnCity + returnArea + returnAdress);
+            BaseTool.logPrint(TAG, "onResume: ----" + returnCity + returnArea + returnAdress);
             textViewAdress.setText(returnCity + returnArea + returnAdress);
         }
     }
@@ -135,8 +135,8 @@ public class CreatShopActivity extends BaseActivity {
 
     @OnClick(R.id.creatshop_next)
     void goInvoiceUpload() {
-        Log.d(TAG, "goInvoiceUpload: " + returnCity + returnArea);
-        Log.d(TAG, "goInvoiceUpload: " + city1 + area1);
+        BaseTool.logPrint(TAG, "goInvoiceUpload: " + returnCity + returnArea);
+        BaseTool.logPrint(TAG, "goInvoiceUpload: " + city1 + area1);
         if (TextUtils.isEmpty(editTextCompenay.getText())) {
             ToastUtil.makeText(this, "请输入公司名称", Toast.LENGTH_SHORT).show();
             return;
@@ -155,7 +155,7 @@ public class CreatShopActivity extends BaseActivity {
         } else if (city1 == null && area1 == null) {
             ToastUtil.makeText(this, "请选择坐标点", Toast.LENGTH_SHORT).show();
             return;
-        } else if (city1.indexOf(returnCity) == -1 || !returnArea.equals(area1)) {
+        } else if (!city1.contains(returnCity) || !returnArea.equals(area1)) {
             ToastUtil.makeText(this, "您选择的地点不属于" + returnCity + returnArea + returnAdress + "，请重新选择市区街道", Toast.LENGTH_SHORT).show();
             return;
         } else if (TextUtils.isEmpty(editTextCompenayAdress.getText())) {

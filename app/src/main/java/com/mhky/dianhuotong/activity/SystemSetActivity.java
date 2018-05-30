@@ -1,6 +1,7 @@
 package com.mhky.dianhuotong.activity;
 
 import android.Manifest;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.view.View;
@@ -56,6 +57,7 @@ public class SystemSetActivity extends BaseActivity {
     void logoutUser() {
         BaseApplication.getInstansApp().clearToaken();
         BaseTool.goActivityNoData(this, LoginActivity.class);
+        sendBroadcast(new Intent(MainActivity.action));
         finish();
     }
     @OnClick(R.id.system_set_up)

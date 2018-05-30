@@ -113,7 +113,7 @@
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
                     android:layout_marginEnd="@dimen/x12"
-                    android:src="@drawable/icon_go" />
+                    android:src="@drawable/icon_go_grey" />
             </RelativeLayout>
 
             <View
