@@ -73,7 +73,7 @@ public class WelcomActivity extends BaseActivity {
             aBoolean = false;
             countDownProgress.cancel();
             BaseTool.goActivityNoData(this, SearchActivity.class);
-           // BaseTool.goActivityNoData(this, OderOkActivity.class);
+//           // BaseTool.goActivityNoData(this, OderOkActivity.class);
             finish();
         }
 

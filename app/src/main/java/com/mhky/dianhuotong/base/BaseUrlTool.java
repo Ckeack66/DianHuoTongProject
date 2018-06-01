@@ -13,17 +13,17 @@ public class BaseUrlTool {
      * 主机
      */
 //release
-    private final static String HOSTS = "http://116.255.150.39:";//release
-    private final static String HOSTS_CART = "http://116.255.158.91:";//release
-    private final static String HOST_IMAGE_URL = "http://116.255.155.156:9040";//release  Imge
-    private final static String HOSTS_ORDER="http://116.255.158.91:";
-    private final static String HOST_URL_COUPON="http://116.255.158.91:"+"9060";
+//    private final static String HOSTS = "http://116.255.150.39:";//release
+//    private final static String HOSTS_CART = "http://116.255.158.91:";//release
+//    private final static String HOST_IMAGE_URL = "http://116.255.155.156:9040";//release  Imge
+//    private final static String HOSTS_ORDER="http://116.255.158.91:";
+//    private final static String HOST_URL_COUPON="http://116.255.158.91:"+"9060";
     //debug
-//    private final static String HOSTS = "http://192.168.2.158:";//debug
-//    private final static String HOSTS_CART = "http://192.168.2.158:";
-//    private final static String HOST_IMAGE_URL = HOSTS + "9040";//debug  Imge
-//    private final static String HOSTS_ORDER = "http://192.168.2.158:";
-//    private final static String HOST_URL_COUPON = "http://192.168.2.158:" + "9060";
+    private final static String HOSTS = "http://192.168.2.158:";//debug
+    private final static String HOSTS_CART = "http://192.168.2.158:";
+    private final static String HOST_IMAGE_URL = HOSTS + "9040";//debug  Imge
+    private final static String HOSTS_ORDER = "http://192.168.2.158:";
+    private final static String HOST_URL_COUPON = "http://192.168.2.158:" + "9060";
 
     /**
      * 上传图片地址

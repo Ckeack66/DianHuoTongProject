@@ -3,6 +3,7 @@ package com.mhky.dianhuotong.shop.precenter;
 import android.util.Log;
 
 import com.alibaba.fastjson.JSON;
+import com.mhky.dianhuotong.base.BaseTool;
 import com.mhky.dianhuotong.shop.bean.OrderBaseInfo;
 import com.mhky.dianhuotong.shop.bean.OrderBottomInfo;
 import com.mhky.dianhuotong.shop.bean.OrderInfo;
@@ -21,7 +22,7 @@ public class OrderDataPresenter {
     public List<OrderInfo> getOrderList(OrderBaseInfo orderBaseInfo) {
         List<OrderInfo> orderInfoList = new ArrayList<>();
         for (int a = 0; a < orderBaseInfo.getContent().size(); a++) {
-            Log.d(TAG, "getOrderList: ---a" + a);
+            BaseTool.logPrint(TAG, "getOrderList: ---a" + a);
             OrderInfo orderInfoTop = new OrderInfo(1);
             OrderTopInfo orderTopInfo = new OrderTopInfo();
             orderTopInfo.setName(orderBaseInfo.getContent().get(a).getSellerInfo().getName());
@@ -30,7 +31,7 @@ public class OrderDataPresenter {
             orderInfoList.add(orderInfoTop);
             int goodsNumber = 0;
             for (int b = 0; b < orderBaseInfo.getContent().get(a).getItems().size(); b++) {
-                Log.d(TAG, "getOrderList: ------b" + b);
+                BaseTool.logPrint(TAG, "getOrderList: ------b" + b);
                 goodsNumber = goodsNumber + orderBaseInfo.getContent().get(a).getItems().get(b).getQuantity();
                 OrderInfo orderInfoBody = new OrderInfo(2);
                 orderInfoBody.setOrderBodyInfo(orderBaseInfo.getContent().get(a).getItems().get(b));
@@ -55,7 +56,7 @@ public class OrderDataPresenter {
         List<OrderInfo> orderInfoList = new ArrayList<>();
         for (int a = 0; a < orderBaseInfo.getContent().size(); a++) {
             if ("ORDERED".equals(orderBaseInfo.getContent().get(a).getStatus())){
-                Log.d(TAG, "getOrderList: ---a" + a);
+                BaseTool.logPrint(TAG, "getOrderList: ---a" + a);
                 OrderInfo orderInfoTop = new OrderInfo(1);
                 OrderTopInfo orderTopInfo = new OrderTopInfo();
                 orderTopInfo.setName(orderBaseInfo.getContent().get(a).getSellerInfo().getName());
@@ -64,7 +65,7 @@ public class OrderDataPresenter {
                 orderInfoList.add(orderInfoTop);
                 int goodsNumber = 0;
                 for (int b = 0; b < orderBaseInfo.getContent().get(a).getItems().size(); b++) {
-                    Log.d(TAG, "getOrderList: ------b" + b);
+                    BaseTool.logPrint(TAG, "getOrderList: ------b" + b);
                     goodsNumber = goodsNumber + orderBaseInfo.getContent().get(a).getItems().get(b).getQuantity();
                     OrderInfo orderInfoBody = new OrderInfo(2);
                     orderInfoBody.setOrderBodyInfo(orderBaseInfo.getContent().get(a).getItems().get(b));
@@ -89,7 +90,7 @@ public class OrderDataPresenter {
         List<OrderInfo> orderInfoList = new ArrayList<>();
         for (int a = 0; a < orderBaseInfo.getContent().size(); a++) {
             if ("SHIPPED".equals(orderBaseInfo.getContent().get(a).getStatus())) {
-                Log.d(TAG, "getOrderList: ---a" + a);
+                BaseTool.logPrint(TAG, "getOrderList: ---a" + a);
                 OrderInfo orderInfoTop = new OrderInfo(1);
                 OrderTopInfo orderTopInfo = new OrderTopInfo();
                 orderTopInfo.setName(orderBaseInfo.getContent().get(a).getSellerInfo().getName());
@@ -98,7 +99,7 @@ public class OrderDataPresenter {
                 orderInfoList.add(orderInfoTop);
                 int goodsNumber = 0;
                 for (int b = 0; b < orderBaseInfo.getContent().get(a).getItems().size(); b++) {
-                    Log.d(TAG, "getOrderList: ------b" + b);
+                    BaseTool.logPrint(TAG, "getOrderList: ------b" + b);
                     goodsNumber = goodsNumber + orderBaseInfo.getContent().get(a).getItems().get(b).getQuantity();
                     OrderInfo orderInfoBody = new OrderInfo(2);
                     orderInfoBody.setOrderBodyInfo(orderBaseInfo.getContent().get(a).getItems().get(b));
@@ -121,7 +122,7 @@ public class OrderDataPresenter {
         List<OrderInfo> orderInfoList = new ArrayList<>();
         for (int a = 0; a < orderBaseInfo.getContent().size(); a++) {
             if ("COMPLETED".equals(orderBaseInfo.getContent().get(a).getStatus())) {
-                Log.d(TAG, "getOrderList: ---a" + a);
+                BaseTool.logPrint(TAG, "getOrderList: ---a" + a);
                 OrderInfo orderInfoTop = new OrderInfo(1);
                 OrderTopInfo orderTopInfo = new OrderTopInfo();
                 orderTopInfo.setName(orderBaseInfo.getContent().get(a).getSellerInfo().getName());
@@ -130,7 +131,7 @@ public class OrderDataPresenter {
                 orderInfoList.add(orderInfoTop);
                 int goodsNumber = 0;
                 for (int b = 0; b < orderBaseInfo.getContent().get(a).getItems().size(); b++) {
-                    Log.d(TAG, "getOrderList: ------b" + b);
+                    BaseTool.logPrint(TAG, "getOrderList: ------b" + b);
                     goodsNumber = goodsNumber + orderBaseInfo.getContent().get(a).getItems().get(b).getQuantity();
                     OrderInfo orderInfoBody = new OrderInfo(2);
                     orderInfoBody.setOrderBodyInfo(orderBaseInfo.getContent().get(a).getItems().get(b));

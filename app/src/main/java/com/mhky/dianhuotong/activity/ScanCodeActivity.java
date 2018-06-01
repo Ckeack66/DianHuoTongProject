@@ -21,6 +21,7 @@ import com.joker.annotation.PermissionsGranted;
 import com.joker.annotation.PermissionsRequestSync;
 import com.joker.api.Permissions4M;
 import com.mhky.dianhuotong.R;
+import com.mhky.dianhuotong.base.BaseTool;
 import com.mhky.dianhuotong.base.view.BaseActivity;
 import com.mhky.dianhuotong.custom.ToastUtil;
 import com.mhky.dianhuotong.custom.viewgroup.DianHuoTongBaseTitleBar;
@@ -141,7 +142,7 @@ public class ScanCodeActivity extends BaseActivity implements QRCodeView.Delegat
                 isReadExtorge = true;
                 break;
             case 103:
-                Log.d(TAG, "getGrantSucess: " + "授权成功！");
+                BaseTool.logPrint(TAG, "getGrantSucess: " + "授权成功！");
                 isUseCamera = true;
                 xingView.startCamera();
                 xingView.showScanRect();
@@ -170,7 +171,7 @@ public class ScanCodeActivity extends BaseActivity implements QRCodeView.Delegat
     public void onScanQRCodeSuccess(String result) {
         vibrate();
         ToastUtil.makeText(this, "扫描结果:" + result, Toast.LENGTH_SHORT).show();
-        Log.d(TAG, "onScanQRCodeSuccess: --------" + result);
+        BaseTool.logPrint(TAG, "onScanQRCodeSuccess: --------" + result);
         xingView.startSpot();//延迟1.5秒进行扫描
     }
 

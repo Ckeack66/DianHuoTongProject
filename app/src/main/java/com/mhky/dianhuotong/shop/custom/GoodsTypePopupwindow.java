@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.mhky.dianhuotong.R;
+import com.mhky.dianhuotong.base.BaseTool;
 import com.mhky.dianhuotong.custom.ToastUtil;
 import com.mhky.dianhuotong.shop.adapter.Popupwindow1Adapter;
 import com.mhky.dianhuotong.shop.bean.Popuwindow1Info;
@@ -54,9 +55,9 @@ public class GoodsTypePopupwindow extends PopupWindow {
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                 if (popuwindow1InfoList.get(position).isHeader) {
-                    Log.d(TAG, "onItemChildClick: 点击了头部" + position);
+                    BaseTool.logPrint(TAG, "onItemChildClick: 点击了头部" + position);
                 } else {
-                    Log.d(TAG, "onItemChildClick: 点击了item" + position);
+                    BaseTool.logPrint(TAG, "onItemChildClick: 点击了item" + position);
                 }
                 if (onClickPopupwindow1ItemListener != null) {
                     onClickPopupwindow1ItemListener.onclick(popuwindow1InfoList.get(position));

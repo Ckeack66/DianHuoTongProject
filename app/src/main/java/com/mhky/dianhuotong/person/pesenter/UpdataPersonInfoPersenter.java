@@ -44,7 +44,7 @@ public class UpdataPersonInfoPersenter {
                 if (updataPersonIF != null) {
                     updataPersonIF.updataUserInfoSucess(response.code(), BaseTool.getResponsBody(response),result);
                 } else {
-                    Log.d(TAG, "onSuccess: --请求成功-回调异常");
+                    BaseTool.logPrint(TAG, "onSuccess: --请求成功-回调异常");
                 }
 
             }
@@ -110,7 +110,7 @@ public class UpdataPersonInfoPersenter {
 
             @Override
             public void uploadProgress(Progress progress) {
-                Log.d(TAG, "uploadProgress: --");
+                BaseTool.logPrint(TAG, "uploadProgress: --");
             }
 
             @Override

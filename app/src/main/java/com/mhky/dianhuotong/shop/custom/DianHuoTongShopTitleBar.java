@@ -16,6 +16,7 @@ import com.mhky.dianhuotong.activity.ScanCodeActivity;
 import com.mhky.dianhuotong.base.BaseTool;
 import com.mhky.dianhuotong.custom.ToastUtil;
 import com.mhky.dianhuotong.shop.activity.CartActivity;
+import com.mhky.dianhuotong.shop.activity.SearchActivity;
 
 /**
  * Created by Administrator on 2018/4/24.
@@ -65,6 +66,9 @@ public class DianHuoTongShopTitleBar extends RelativeLayout implements View.OnCl
         imageViewShopOrder.setOnClickListener(this);
         imageViewShopCart.setOnClickListener(this);
     }
+    public void setCenterText(String text){
+        textViewCenter.setText(text);
+    }
 
     @Override
     public void onClick(View v) {
@@ -77,6 +81,7 @@ public class DianHuoTongShopTitleBar extends RelativeLayout implements View.OnCl
                 break;
             case R.id.shop_input:
                 //ToastUtil.makeText(mContext, "跳转到搜索界面", Toast.LENGTH_SHORT).show();
+                BaseTool.goActivityNoData(mContext, SearchActivity.class);
                 break;
             case R.id.shop_car:
                 //ToastUtil.makeText(mContext, "跳转到购物车界面", Toast.LENGTH_SHORT).show();

@@ -21,6 +21,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.lzy.okgo.model.HttpParams;
 import com.mhky.dianhuotong.R;
 import com.mhky.dianhuotong.base.BaseApplication;
+import com.mhky.dianhuotong.base.BaseTool;
 import com.mhky.dianhuotong.custom.ToastUtil;
 import com.mhky.dianhuotong.shop.adapter.Popupwindow3Adapter;
 import com.mhky.dianhuotong.shop.bean.AllCompanyInfo;
@@ -101,7 +102,7 @@ public class CartPopupwindow extends PopupWindow implements View.OnClickListener
         });
         cartOpratePresenter = new CartOpratePresenter(this);
         cartOpratePresenter.getSku(String.valueOf(goodsInfo.getId()));
-        Log.d(TAG, "CartPopupwindow: ");
+        BaseTool.logPrint(TAG, "CartPopupwindow: ");
         //setTagFlowLayout(new String[]{"到鞥", "aaaa", "bbbbbb", "ssddccfvg", "hisiksjihjsihai", "ssskdjdjiiooo", "到鞥", "aaaa", "bbbbbb", "ssddccfvg", "hisiksjihjsihai", "ssskdjdjiiooo", "到鞥", "aaaa", "bbbbbb", "ssddccfvg", "hisiksjihjsihai", "ssskdjdjiiooo"});
     }
 
@@ -259,7 +260,7 @@ public class CartPopupwindow extends PopupWindow implements View.OnClickListener
     @Override
     public void getSkuSucess(int code, String result) {
         if (code == 200) {
-            Log.d(TAG, "getSkuSucess: ------"+result);
+            BaseTool.logPrint(TAG, "getSkuSucess: ------"+result);
             if (result != null && !"".equals(result)) {
                 goodsSkuInfoList = JSON.parseArray(result, GoodsSkuInfo.class);
                 ArrayList<String> arrayList = new ArrayList();

@@ -209,7 +209,7 @@ public class BaseTool {
             imageFilePath = context.getContentResolver().insert(
                     MediaStore.Images.Media.INTERNAL_CONTENT_URI, values);
         }
-        Log.d(TAG, "生成的照片输出路径：" + imageFilePath.toString());
+        BaseTool.logPrint(TAG, "生成的照片输出路径：" + imageFilePath.toString());
         return imageFilePath;
     }
 
@@ -220,7 +220,7 @@ public class BaseTool {
     public static String[] simpledateFommet(long times) {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("hh:mm:ss");
         String time = simpleDateFormat.format(times);
-        Log.d(TAG, "simpledateFommet: ---" + time);
+        BaseTool.logPrint(TAG, "simpledateFommet: ---" + time);
         String time1[] = time.split(":");
         return time1;
     }

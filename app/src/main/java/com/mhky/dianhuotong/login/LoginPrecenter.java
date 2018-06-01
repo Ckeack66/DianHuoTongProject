@@ -58,7 +58,7 @@ public class LoginPrecenter implements PersonIF, ShopInfoIF {
 
             @Override
             public void onCacheSuccess(Response<String> response) {
-                Log.d(TAG, "onSuccess: " + response.code() + "-----" + response.body() + "----" + response.message());
+                BaseTool.logPrint(TAG, "onSuccess: " + response.code() + "-----" + response.body() + "----" + response.message());
             }
 
             @Override

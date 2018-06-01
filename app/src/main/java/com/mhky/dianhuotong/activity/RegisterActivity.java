@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 import com.liqi.utils.encoding.MD5Util;
+import com.mhky.dianhuotong.base.BaseTool;
 import com.mhky.dianhuotong.custom.AlertDialog.DianHuoTongBaseDialog;
 import com.mhky.dianhuotong.custom.AlertDialog.LoadingDialog;
 import com.mhky.dianhuotong.shop.bean.SaleManInfo;
@@ -241,7 +242,7 @@ public class RegisterActivity extends BaseActivity implements TimerMessage.OnTim
         } else {
             ToastUtil.makeText(this, "发生未知错误-" + code, Toast.LENGTH_SHORT).show();
         }
-        Log.d(TAG, "onSuccess: " + code + "-----" + result);
+        BaseTool.logPrint(TAG, "onSuccess: " + code + "-----" + result);
     }
 
     /**
@@ -257,7 +258,7 @@ public class RegisterActivity extends BaseActivity implements TimerMessage.OnTim
         }
 //        shapeLoadingDialog.dismiss();
         ToastUtil.makeText(this, "注册失败！", Toast.LENGTH_SHORT).show();
-        Log.d(TAG, "onFailed: " + code + "-----" + result);
+        BaseTool.logPrint(TAG, "onFailed: " + code + "-----" + result);
     }
 
     /**
@@ -279,7 +280,7 @@ public class RegisterActivity extends BaseActivity implements TimerMessage.OnTim
         } else {
             ToastUtil.makeText(this, "无法发送验证码！", Toast.LENGTH_SHORT).show();
         }
-        Log.d(TAG, "SMSonSuccess: " + code + "-----" + result);
+        BaseTool.logPrint(TAG, "SMSonSuccess: " + code + "-----" + result);
     }
 
     /**
@@ -293,7 +294,7 @@ public class RegisterActivity extends BaseActivity implements TimerMessage.OnTim
         txtMessage.setText("获取验证码");
         messageButtonOk();
         ToastUtil.makeText(this, "无法发送验证码！", Toast.LENGTH_SHORT).show();
-        Log.d(TAG, "SMSonFailed: " + code + "-----" + result);
+        BaseTool.logPrint(TAG, "SMSonFailed: " + code + "-----" + result);
     }
 
     /**
@@ -310,7 +311,7 @@ public class RegisterActivity extends BaseActivity implements TimerMessage.OnTim
             if (!TextUtils.isEmpty(editTextWaiterCode.getText().toString())) {
                 registerPostDataInfo.setCode(editTextWaiterCode.getText().toString());
             }
-            Log.d(TAG, "checkSmsSuccess: ----" + String.valueOf(MD5Util.md5(editTextPwd.getText().toString().trim())));
+            BaseTool.logPrint(TAG, "checkSmsSuccess: ----" + String.valueOf(MD5Util.md5(editTextPwd.getText().toString().trim())));
             registerPrecenter.register(JSON.toJSONString(registerPostDataInfo));
         } else {
 //            shapeLoadingDialog.dismiss();
@@ -366,7 +367,7 @@ public class RegisterActivity extends BaseActivity implements TimerMessage.OnTim
 //// 获取状态栏高度
 //        int statusBarHeight = getResources().getDimensionPixelSize(resourceId);
 //
-//        Log.d("测试", "onCreate: "+resourceId+"=====+"+statusBarHeight);
+//        BaseTool.logPrint("测试", "onCreate: "+resourceId+"=====+"+statusBarHeight);
     //         StatusBarUtil.setTranslucent(this);
 //        StatusBarUtil.setColor(this, Color.parseColor("#04c1ab"));
 //        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {

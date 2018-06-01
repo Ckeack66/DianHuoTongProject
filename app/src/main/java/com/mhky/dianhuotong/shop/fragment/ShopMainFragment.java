@@ -422,8 +422,8 @@ public class ShopMainFragment extends Fragment implements ShopIF, SortPopupwindo
             if (isfirst) {
                 //初始页面
                 searchSGoodsBean = searchSGoodsBeans;
-                Log.d(TAG, "searchGoodsInfoSuccess1: " + searchSGoodsBean.getContent().size());
-                Log.d(TAG, "searchGoodsInfoSuccess2: " + searchSGoodsBeans.getContent().size());
+                BaseTool.logPrint(TAG, "searchGoodsInfoSuccess1: " + searchSGoodsBean.getContent().size());
+                BaseTool.logPrint(TAG, "searchGoodsInfoSuccess2: " + searchSGoodsBeans.getContent().size());
                 if (searchSGoodsBeans.getContent() != null) {
                     searchGoodsAdpter = new SearchGoodsAdpter(searchSGoodsBean.getContent(), getActivity());
                     searchGoodsAdpter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {

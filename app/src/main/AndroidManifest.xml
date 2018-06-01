@@ -9,14 +9,12 @@
         android:protectionLevel="signature" />
     <!-- if you want to load images from a file OR from the internet -->
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     //获取设备网络状态，禁用后无法获取网络状态
     <uses-permission android:name="android.permission.INTERNET" />
     //网络权限，当禁用后，无法进行检索等相关业务
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     //读取设备硬件信息，统计数据
     <uses-permission android:name="com.android.launcher.permission.READ_SETTINGS" />
     //读取系统信息，包含系统版本等信息，用作统计
@@ -52,7 +50,6 @@
         tools:ignore="ProtectedPermissions" />
     <uses-permission android:name="android.permission.RECEIVE_USER_PRESENT" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission
         android:name="android.permission.WRITE_SETTINGS"
         tools:ignore="ProtectedPermissions" />
@@ -96,7 +93,7 @@
             android:name=".activity.LoginActivity"
             android:label="@string/title_activity_login"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize" />
+            android:windowSoftInputMode="adjustPan|stateHidden" />
         <activity
             android:name=".activity.RegisterActivity"
             android:screenOrientation="portrait" />
@@ -192,7 +189,11 @@
             android:name=".shop.activity.OderOkActivity"
             android:windowSoftInputMode="stateHidden|adjustPan" />
         <activity android:name=".activity.MyWalletActivity" />
-        <activity android:name=".shop.activity.SearchActivity" />
+        <activity
+            android:name=".shop.activity.SearchActivity"
+            android:configChanges="keyboardHidden"
+            android:launchMode="singleTask"
+            android:windowSoftInputMode="stateAlwaysHidden" />
         <activity android:name=".shop.activity.SearchCompanyActivity" />
         <activity android:name=".activity.SelelctAdressActivity" />
         <activity android:name=".activity.SelelctAdress1Activity" />

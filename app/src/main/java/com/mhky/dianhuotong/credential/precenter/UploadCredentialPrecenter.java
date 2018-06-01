@@ -53,7 +53,7 @@ public class UploadCredentialPrecenter {
 
             @Override
             public void uploadProgress(Progress progress) {
-                Log.d(TAG, "uploadProgress: --");
+                BaseTool.logPrint(TAG, "uploadProgress: --");
             }
 
             @Override

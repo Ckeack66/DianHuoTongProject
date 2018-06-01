@@ -59,7 +59,7 @@ public class SelelctAdressActivity extends BaseActivity  implements AdressIF {
         BaseActivityManager.getInstance().addActivity(this);
         mLocation=getIntent().getExtras().getString("area");
         textViewLocation.setText(mLocation);
-        Log.d(TAG, "inIt: ------"+mLocation);
+        BaseTool.logPrint(TAG, "inIt: ------"+mLocation);
         dianHuoTongBaseTitleBar.setLeftImage(R.drawable.icon_back);
         dianHuoTongBaseTitleBar.setLeftOnclickListener(new View.OnClickListener() {
             @Override
@@ -94,7 +94,7 @@ public class SelelctAdressActivity extends BaseActivity  implements AdressIF {
         if (code == 200 && result != null && result.length() > 0) {
             list = JSON.parseArray(result, AdressBaseInfo.class);
             if (list != null) {
-                Log.d(TAG, "getCityInfoSuccess: ----" + list.size());
+                BaseTool.logPrint(TAG, "getCityInfoSuccess: ----" + list.size());
                 adressExpandbleListviewAdapter = new AdressExpandbleListviewAdapter(this, list);
                 expandableListView.setAdapter(adressExpandbleListviewAdapter);
                 for (int a = 0; a < list.size(); a++) {
@@ -106,7 +106,7 @@ public class SelelctAdressActivity extends BaseActivity  implements AdressIF {
                     }
 
                 }
-                Log.d(TAG, "getCityInfoSuccess: ----" + stringList.size());
+                BaseTool.logPrint(TAG, "getCityInfoSuccess: ----" + stringList.size());
                 mIndexString = stringList.toArray(new String[0]);
                 adressPrecenter.getSlidData(mIndexString);
 
@@ -116,8 +116,8 @@ public class SelelctAdressActivity extends BaseActivity  implements AdressIF {
 
     @Override
     public void getCityInfoFailed(int code, String result) {
-        Log.d(TAG, "getCityInfoFailed: " + code);
-        Log.d(TAG, "getCityInfoFailed: " + result);
+        BaseTool.logPrint(TAG, "getCityInfoFailed: " + code);
+        BaseTool.logPrint(TAG, "getCityInfoFailed: " + result);
     }
 
     @Override
@@ -148,8 +148,8 @@ public class SelelctAdressActivity extends BaseActivity  implements AdressIF {
             @Override
             public void onSelectIndexItem(String index) {
                 expandableListView.setSelectedGroup(Integer.parseInt(hashMap.get(index).toString()));
-                Log.d(TAG, "onSelectIndexItem: " + hashMap.get(index));
-                Log.d(TAG, "onSelectIndexItem: ----" + index);
+                BaseTool.logPrint(TAG, "onSelectIndexItem: " + hashMap.get(index));
+                BaseTool.logPrint(TAG, "onSelectIndexItem: ----" + index);
             }
         });
     }

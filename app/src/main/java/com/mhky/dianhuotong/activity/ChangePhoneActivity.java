@@ -13,6 +13,7 @@ import com.alibaba.fastjson.JSON;
 import com.liqi.utils.encoding.MD5Util;
 import com.mhky.dianhuotong.R;
 import com.mhky.dianhuotong.base.BaseApplication;
+import com.mhky.dianhuotong.base.BaseTool;
 import com.mhky.dianhuotong.base.view.BaseActivity;
 import com.mhky.dianhuotong.custom.ToastUtil;
 import com.mhky.dianhuotong.custom.tool.TimerMessage;
@@ -124,20 +125,20 @@ public class ChangePhoneActivity extends BaseActivity implements ChangePhoneIF, 
         } else {
             ToastUtil.makeText(this, "无法发送验证码！", Toast.LENGTH_SHORT).show();
         }
-        Log.d(TAG, "SMSonSuccess: " + code + "-----" + result);
+        BaseTool.logPrint(TAG, "SMSonSuccess: " + code + "-----" + result);
     }
 
     @Override
     public void getchangePhoneSmsfailed(int code, String result) {
         textViewSendSMS.setText("获取验证码");
         messageButtonOk();
-        Log.d(TAG, "SMSonFailed: " + code + "-----" + result);
+        BaseTool.logPrint(TAG, "SMSonFailed: " + code + "-----" + result);
     }
 
     @Override
     public void checkchangePhoneSmsSuccess(int code, String result) {
         if (code == 200) {
-            Log.d(TAG, "checkSmsSuccess: ----");
+            BaseTool.logPrint(TAG, "checkSmsSuccess: ----");
             ChangeMobilePhoneInfo changeMobilePhoneInfo = new ChangeMobilePhoneInfo();
             changeMobilePhoneInfo.setMobile(editTextChangePhone.getText().toString());
             changePhonePrecenter.changePhone(BaseApplication.getInstansApp().getLoginRequestInfo().getId(), JSON.toJSONString(changeMobilePhoneInfo));

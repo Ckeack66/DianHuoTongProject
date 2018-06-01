@@ -54,13 +54,13 @@ public class SearchGoodsPresenter {
 
             @Override
             public void onError(Response<String> response) {
-                Log.d(TAG, "onError: ---------");
+                BaseTool.logPrint(TAG, "onError: ---------");
                 searchGoodsIF.searchGoodsInfoFailed(response.code(), BaseTool.getResponsBody(response), isfirst, refreshOrLoadmore);
             }
 
             @Override
             public void onFinish() {
-                Log.d(TAG, "onFinish: ");
+                BaseTool.logPrint(TAG, "onFinish: ");
             }
 
             @Override
@@ -75,7 +75,7 @@ public class SearchGoodsPresenter {
 
             @Override
             public String convertResponse(okhttp3.Response response) throws Throwable {
-                Log.d(TAG, "convertResponse: ");
+                BaseTool.logPrint(TAG, "convertResponse: ");
                 return response.message();
             }
         });

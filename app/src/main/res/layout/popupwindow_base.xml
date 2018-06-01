@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/x1"
+        android:background="@color/colorF7F7F7"/>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/popupwindow_base_recycleview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingStart="@dimen/x10"
+        android:paddingEnd="@dimen/x10"
+        android:paddingBottom="@dimen/x10"
+        android:background="@color/color04c1ab" />
+</LinearLayout>

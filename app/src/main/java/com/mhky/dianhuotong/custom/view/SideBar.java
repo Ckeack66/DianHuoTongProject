@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewConfiguration;
 
 import com.mhky.dianhuotong.R;
+import com.mhky.dianhuotong.base.BaseTool;
 
 import static android.support.v4.widget.ViewDragHelper.INVALID_POINTER;
 
@@ -115,7 +116,7 @@ public class SideBar extends View {
                     if (mChoose != characterIndex) {
                         if (characterIndex >= 0 && characterIndex < mLetters.length) {
                             mChoose = characterIndex;
-                            Log.d(TAG, "mChoose " + mChoose + " mLetterHeight " + mLetterHeight);
+                            BaseTool.logPrint(TAG, "mChoose " + mChoose + " mLetterHeight " + mLetterHeight);
 //                            mOnTouchingLetterChangedListener.onTouchingLetterChanged(mLetters[characterIndex]);
                         }
                     }

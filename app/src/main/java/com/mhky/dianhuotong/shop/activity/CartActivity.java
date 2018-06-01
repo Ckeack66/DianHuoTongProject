@@ -150,14 +150,14 @@ public class CartActivity extends BaseActivity implements CartOprateIF, CartData
     void doBanlance() {
         getGoodsIdList();
         if (!"".equals(selelctGoodsId)) {
-            Log.d(TAG, "doBanlance: map-" + hashMapInteger.size());
+            BaseTool.logPrint(TAG, "doBanlance: map-" + hashMapInteger.size());
             StringBuffer s2 = new StringBuffer();
             try {
                 Iterator iter = hashMapInteger.entrySet().iterator();
                 while (iter.hasNext()) {
                     Map.Entry entry = (Map.Entry) iter.next();
                     String key = (String) entry.getKey();
-                    Log.d(TAG, "doBanlance: key" + key);
+                    BaseTool.logPrint(TAG, "doBanlance: key" + key);
                     s2.append(key + ",");
                 }
             } catch (Exception e) {
@@ -166,7 +166,7 @@ public class CartActivity extends BaseActivity implements CartOprateIF, CartData
 
             String s1 = JSON.toJSONString(hashMapInteger);
             String s3 = s2.toString().substring(0, s2.length() - 1);
-            Log.d(TAG, "doBanlance: ------map" + s1);
+            BaseTool.logPrint(TAG, "doBanlance: ------map" + s1);
             Bundle bundle = new Bundle();
 //            bundle.putString("goodsIds", selelctGoodsId);
 //            bundle.putString("money", Double.toString(integerMoney));
@@ -336,27 +336,27 @@ public class CartActivity extends BaseActivity implements CartOprateIF, CartData
                                         cartInfoList1.get(position).getCartBodyBaseInfo().setSelectChild(false);
                                     }
                                     int a = position - (cartInfoList1.get(position).getCartBodyBaseInfo().getChildIndex() + 1) + 1;//减一是因为index从0开始
-                                    Log.d(TAG, "onItemChildClick: ----" + a);
+                                    BaseTool.logPrint(TAG, "onItemChildClick: ----" + a);
                                     int mTemp = 0;
                                     for (int b = a; b < cartInfoList1.size(); b++) {
                                         if (b != cartInfoList1.size()) {
                                             if (!cartInfoList1.get(b).isHeader && cartInfoList1.get(b).getCartBodyBaseInfo().isSelectChild()) {
                                                 mTemp++;
-                                                Log.d(TAG, "onItemChildClick: temp_number" + mTemp);
+                                                BaseTool.logPrint(TAG, "onItemChildClick: temp_number" + mTemp);
                                             } else {
                                                 break;
                                             }
                                         }
 
                                     }
-                                    Log.d(TAG, "onItemChildClick:所有子商品数量 ----" + cartInfoList1.get(position).getCartBodyBaseInfo().getChildNumber());
-                                    Log.d(TAG, "onItemChildClick: a==" + a);
+                                    BaseTool.logPrint(TAG, "onItemChildClick:所有子商品数量 ----" + cartInfoList1.get(position).getCartBodyBaseInfo().getChildNumber());
+                                    BaseTool.logPrint(TAG, "onItemChildClick: a==" + a);
                                     if (mTemp == cartInfoList1.get(position).getCartBodyBaseInfo().getChildNumber()) {
                                         cartInfoList1.get(a - 1).getCartTitleInfo().setSelectTitle(true);
-                                        Log.d(TAG, "onItemChildClick: 设置父店铺设置为全选状态");
+                                        BaseTool.logPrint(TAG, "onItemChildClick: 设置父店铺设置为全选状态");
                                     } else {
                                         cartInfoList1.get(a - 1).getCartTitleInfo().setSelectTitle(false);
-                                        Log.d(TAG, "onItemChildClick: 设置父店铺设置为未全选状态");
+                                        BaseTool.logPrint(TAG, "onItemChildClick: 设置父店铺设置为未全选状态");
                                     }
                                     adapter.notifyDataSetChanged();
                                     break;
@@ -398,7 +398,7 @@ public class CartActivity extends BaseActivity implements CartOprateIF, CartData
                 getGoodsIdList();
                 checkBoxAll.setChecked(false);
                 BaseApplication.getInstansApp().setUpdateCart(false);
-                Log.d(TAG, "getCartSucess: ----" + cartInfoList.size());
+                BaseTool.logPrint(TAG, "getCartSucess: ----" + cartInfoList.size());
                 //cartAdapter.notifyDataSetChanged();
             }
 
@@ -514,7 +514,7 @@ public class CartActivity extends BaseActivity implements CartOprateIF, CartData
 
             }
         }
-        Log.d(TAG, "doBanlance: -------" + stringBuilder.toString());
+        BaseTool.logPrint(TAG, "doBanlance: -------" + stringBuilder.toString());
         integerMoney = integer.doubleValue() / 100;
         selelctGoodsId = stringBuilder.toString();
         textViewMoney.setText("合计：￥" + integer.doubleValue() / 100);

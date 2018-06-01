@@ -3,12 +3,76 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorWhite">
-
-    <android.support.v7.widget.SearchView
+    android:background="@color/colorWhite"
+    android:orientation="vertical">
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/x50"
-        android:background="@color/color04c1ab"
-        app:queryHint="请输入药品名称"
-        app:goIcon="@drawable/icon_search" />
+        android:orientation="horizontal"
+        android:background="@color/color04c1ab">
+        <LinearLayout
+            android:id="@+id/search_spinner"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:paddingStart="@dimen/x10">
+            <TextView
+                android:id="@+id/search_spinner_text"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="商品"
+                android:textStyle="bold"
+                android:textSize="@dimen/t16"
+                android:gravity="center"
+                android:textColor="@color/white"/>
+            <ImageView
+                android:layout_width="@dimen/x6"
+                android:layout_height="@dimen/x6"
+                android:src="@drawable/icon_right_down"
+                android:layout_gravity="bottom"
+                android:layout_marginStart="@dimen/x10"
+                android:layout_marginBottom="@dimen/x4"/>
+        </LinearLayout>
+        <android.support.v7.widget.SearchView
+            android:id="@+id/search_view"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/x50"
+            android:background="@color/color04c1ab"
+            app:queryHint="请输入药品名称"
+            app:goIcon="@drawable/icon_search" />
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/base_body"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/search_history"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+    </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/base_tips"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/search_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:text="没有任何搜索记录"
+            android:textColor="@color/color333333" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/search_text"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="@dimen/x30"
+            android:src="@drawable/icon_nothing" />
+    </RelativeLayout>
 </LinearLayout>

@@ -137,7 +137,7 @@
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentStart="true"
                 android:gravity="center_vertical"
-                android:text="@string/person_shop_name"
+                android:text="更换店铺"
                 android:textColor="@color/color333333"
                 android:textSize="@dimen/t14" />
 

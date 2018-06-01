@@ -33,12 +33,12 @@ public class BaseActivityManager implements Serializable {
 
     public void addActivity(Activity activity) {
         activityList.add(activity);
-        Log.d(TAG, "addActivity:页面管理器添加页面 " + activityList.size());
+        BaseTool.logPrint(TAG, "addActivity:页面管理器添加页面 " + activityList.size());
     }
 
     public void removeActivity(Activity activity) {
         activityList.remove(activity.getComponentName().getClassName());
-        Log.d(TAG, "addActivity:页面管理器移除页面 " + activityList.size());
+        BaseTool.logPrint(TAG, "addActivity:页面管理器移除页面 " + activityList.size());
     }
 
     public void finishAllActivity() {
@@ -63,6 +63,6 @@ public class BaseActivityManager implements Serializable {
 
     public void clearAllActivity() {
         activityList.clear();
-        Log.d(TAG, "clearAllActivity: 页面管理器已清空");
+        BaseTool.logPrint(TAG, "clearAllActivity: 页面管理器已清空");
     }
 }

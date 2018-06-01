@@ -101,7 +101,7 @@ public class SelelctAdress1Activity extends BaseActivity implements AdressIF {
         if (code == 200 && result != null && result.length() > 0) {
             list = JSON.parseArray(result, AdressBaseInfo.class);
             if (list != null) {
-                Log.d(TAG, "getCityInfoSuccess: ----" + list.size());
+                BaseTool.logPrint(TAG, "getCityInfoSuccess: ----" + list.size());
                 adressExpandbleListviewAdapter = new AdressExpandbleListviewAdapter(this, list);
                 expandableListView.setAdapter(adressExpandbleListviewAdapter);
                 for (int a = 0; a < list.size(); a++) {
@@ -109,7 +109,7 @@ public class SelelctAdress1Activity extends BaseActivity implements AdressIF {
                     stringList.add(list.get(a).getFirstName());
 
                 }
-                Log.d(TAG, "getCityInfoSuccess: ----" + stringList.size());
+                BaseTool.logPrint(TAG, "getCityInfoSuccess: ----" + stringList.size());
                 mIndexString = stringList.toArray(new String[0]);
                 adressPrecenter.getSlidData(mIndexString);
 
@@ -140,8 +140,8 @@ public class SelelctAdress1Activity extends BaseActivity implements AdressIF {
             @Override
             public void onSelectIndexItem(String index) {
                 expandableListView.setSelectedGroup(Integer.parseInt(hashMap.get(index).toString()));
-                Log.d(TAG, "onSelectIndexItem: " + hashMap.get(index));
-                Log.d(TAG, "onSelectIndexItem: ----" + index);
+                BaseTool.logPrint(TAG, "onSelectIndexItem: " + hashMap.get(index));
+                BaseTool.logPrint(TAG, "onSelectIndexItem: ----" + index);
             }
         });
     }

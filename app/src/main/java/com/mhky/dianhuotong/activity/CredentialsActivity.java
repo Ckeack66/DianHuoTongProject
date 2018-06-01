@@ -124,13 +124,15 @@ public class CredentialsActivity extends BaseActivity implements CredentialIF, C
             bundle.putInt("state",1);
             BaseTool.goActivityWithData(context, AddShop3Activity.class, bundle);
             BaseActivityManager.getInstance().finishAllActivity();
+        }else {
+            ToastUtil.makeText(context, "创建店铺失败"+code, Toast.LENGTH_SHORT).show();
         }
         BaseTool.logPrint(TAG, "createShopSucess: ----" + code + result);
     }
 
     @Override
     public void createShopFailed(int code, String result) {
-
+        ToastUtil.makeText(context, "创建店铺失败"+code, Toast.LENGTH_SHORT).show();
     }
 
     @Override

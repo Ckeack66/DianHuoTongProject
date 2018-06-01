@@ -258,7 +258,7 @@ public class InvoiceFragment1 extends Fragment implements ShopCredentialIF, Cred
     public void OnClickCredentialBaseDialogListviewItem(int position) {
         if (credentialBaseTypeInfoList != null) {
             upNumber = position;
-            Log.d(TAG, "OnClickCredentialBaseDialogListviewItem: " + credentialBaseTypeInfoList.get(position).getName());
+            BaseTool.logPrint(TAG, "OnClickCredentialBaseDialogListviewItem: " + credentialBaseTypeInfoList.get(position).getName());
             Intent intent = new Intent(getActivity(), CredentialUploadActivity.class);
             Bundle bundle = new Bundle();
             bundle.putSerializable("credentialtype", credentialBaseTypeInfoList.get(position));

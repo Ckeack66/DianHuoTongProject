@@ -18,6 +18,9 @@ import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.tencent.smtt.sdk.QbSdk;
 
+import org.litepal.LitePal;
+import org.litepal.LitePalApplication;
+
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
@@ -25,7 +28,7 @@ import java.util.List;
  * Created by Administrator on 2018/3/31.
  */
 
-public class BaseApplication extends Application {
+public class BaseApplication extends LitePalApplication {
     private static final String TAG = "BaseApplication";
     private volatile static BaseApplication baseApplication;
     private static final String MY_SHARE_NAME = "mydata";
@@ -125,16 +128,16 @@ public class BaseApplication extends Application {
         QbSdk.initX5Environment(this, new QbSdk.PreInitCallback() {
             @Override
             public void onCoreInitFinished() {
-                Log.d(TAG, "onCoreInitFinished: -----腾讯x5内核初始化完成");
+                BaseTool.logPrint(TAG, "onCoreInitFinished: -----腾讯x5内核初始化完成");
             }
 
             @Override
             public void onViewInitFinished(boolean b) {
-                Log.d(TAG, "onCoreInitFinished: -----腾讯x5内核初始化" + b);
+                BaseTool.logPrint(TAG, "onCoreInitFinished: -----腾讯x5内核初始化" + b);
             }
         });
         PgyCrashManager.register(this);
-
+        LitePal.initialize(this);
     }
 
     public static BaseApplication getInstansApp() {

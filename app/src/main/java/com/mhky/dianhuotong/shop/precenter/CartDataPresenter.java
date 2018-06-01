@@ -3,6 +3,7 @@ package com.mhky.dianhuotong.shop.precenter;
 import android.util.Log;
 
 import com.alibaba.fastjson.JSON;
+import com.mhky.dianhuotong.base.BaseTool;
 import com.mhky.dianhuotong.shop.bean.CartBaseInfo;
 import com.mhky.dianhuotong.shop.bean.CartBodyInfo;
 import com.mhky.dianhuotong.shop.bean.CartInfo;
@@ -30,7 +31,7 @@ public class CartDataPresenter {
 
     private void getCartData(String cartdata) {
         cartBaseInfo = JSON.parseObject(cartdata, CartBaseInfo.class);
-        Log.d(TAG, "getCartData: -------" + cartBaseInfo.getGoodsItems().size());
+        BaseTool.logPrint(TAG, "getCartData: -------" + cartBaseInfo.getGoodsItems().size());
         for (int a = 0; a < cartBaseInfo.getGoodsItems().size(); a++) {
             CartTitleInfo cartTitleInfo = new CartTitleInfo();
             List<CartBaseInfo.GoodsItemsBean> cartItemInfoList = new ArrayList<>();

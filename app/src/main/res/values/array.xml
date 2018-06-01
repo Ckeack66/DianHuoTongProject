@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    
-     <string-array name="letter_list">
+
+    <string-array name="letter_list">
         <item>\#</item>
         <item>A</item>
         <item>B</item>
@@ -30,5 +30,8 @@
         <item>Y</item>
         <item>Z</item>
     </string-array>
-
+    <string-array name="search_arr">
+        <item>商品</item>
+        <item>店铺</item>
+    </string-array>
 </resources>

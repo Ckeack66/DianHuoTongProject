@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.baidu.location.BDAbstractLocationListener;
 import com.baidu.location.BDLocation;
+import com.mhky.dianhuotong.base.BaseTool;
 
 /**
  * Created by Administrator on 2018/4/11.
@@ -38,11 +39,11 @@ public class MyLocationListener extends BDAbstractLocationListener {
             stringBuffer.append("-"+location.getLocationDescribe());
         }
         getLocattionListener.getResultLocation(location, stringBuffer.toString());
-        Log.d(TAG, "onReceiveLocation: ----------------" + location.getProvince());
-        Log.d(TAG, "onReceiveLocation: ----------------" + location.getCity());
-        Log.d(TAG, "onReceiveLocation: ----------------" + location.getCountry());
-        Log.d(TAG, "onReceiveLocation: ----------------" + location.getStreet());
-        Log.d(TAG, "onReceiveLocation: ----------------" + location.getLocationDescribe());
+        BaseTool.logPrint(TAG, "onReceiveLocation: ----------------" + location.getProvince());
+        BaseTool.logPrint(TAG, "onReceiveLocation: ----------------" + location.getCity());
+        BaseTool.logPrint(TAG, "onReceiveLocation: ----------------" + location.getCountry());
+        BaseTool.logPrint(TAG, "onReceiveLocation: ----------------" + location.getStreet());
+        BaseTool.logPrint(TAG, "onReceiveLocation: ----------------" + location.getLocationDescribe());
 
     }
 }

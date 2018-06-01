@@ -12,6 +12,7 @@ import android.widget.ImageView;
 
 import com.alibaba.fastjson.JSON;
 import com.mhky.dianhuotong.R;
+import com.mhky.dianhuotong.base.BaseTool;
 import com.mhky.dianhuotong.base.view.BaseActivity;
 import com.mhky.dianhuotong.custom.viewgroup.DianHuoTongBaseTitleBar;
 import com.mhky.dianhuotong.promote.PromoteIF;
@@ -92,7 +93,7 @@ public class MyIntroduceActivity extends BaseActivity implements PromoteIF {
         }
         req.transaction = CARD_TAG;
         boolean b = api.sendReq(req);
-        Log.d(TAG, "share: ---" + b);
+        BaseTool.logPrint(TAG, "share: ---" + b);
     }
 
     private void getCode(final String code) {
@@ -118,7 +119,7 @@ public class MyIntroduceActivity extends BaseActivity implements PromoteIF {
     }
 
     private byte[] bitmap2ByteArray(Bitmap bitmap1) {
-        Log.d(TAG, "bitmap2ByteArray: " + bitmap1.getRowBytes() * bitmap1.getHeight());
+        BaseTool.logPrint(TAG, "bitmap2ByteArray: " + bitmap1.getRowBytes() * bitmap1.getHeight());
 //        int bytes = bitmap1.getByteCount();
 //        ByteBuffer buf = ByteBuffer.allocate(bytes);
 //        bitmap1.copyPixelsToBuffer(buf);

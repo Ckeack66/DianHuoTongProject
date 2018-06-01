@@ -183,5 +183,7 @@ dependencies {
     //蒲公英
     implementation 'com.pgyersdk:sdk:2.8.1'
     implementation 'com.google.zxing:core:3.3.2'
+    //数据库
+    implementation 'org.litepal.android:core:1.6.1'
 
 }

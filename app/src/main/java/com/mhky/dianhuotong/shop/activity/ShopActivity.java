@@ -12,6 +12,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.mhky.dianhuotong.R;
+import com.mhky.dianhuotong.base.BaseTool;
 import com.mhky.dianhuotong.base.view.BaseActivity;
 import com.mhky.dianhuotong.custom.viewgroup.DianHuoTongBaseTitleBar;
 import com.mhky.dianhuotong.shop.custom.DianHuoTongShopTitleBar;
@@ -126,15 +127,15 @@ public class ShopActivity extends BaseActivity implements ShopIF {
 
     private void showFragment(Fragment fragment) {
         if (!shopMainFragment.isHidden()) {
-            Log.d(TAG, "showFragment: 关闭第一个页面");
+            BaseTool.logPrint(TAG, "showFragment: 关闭第一个页面");
             fragmentManager.beginTransaction().hide(shopMainFragment).show(fragment).commit();
         }
         if (!shopAllGoodsFragment.isHidden()) {
-            Log.d(TAG, "showFragment: 关闭第二个页面");
+            BaseTool.logPrint(TAG, "showFragment: 关闭第二个页面");
             fragmentManager.beginTransaction().hide(shopAllGoodsFragment).show(fragment).commit();
         }
         if (!shopTransferFragment.isHidden()) {
-            Log.d(TAG, "showFragment: 关闭第三个页面");
+            BaseTool.logPrint(TAG, "showFragment: 关闭第三个页面");
             fragmentManager.beginTransaction().hide(shopTransferFragment).show(fragment).commit();
         }
 

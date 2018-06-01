@@ -2,16 +2,23 @@ package com.mhky.dianhuotong.activity;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 import com.gyf.barlibrary.BarHide;
 import com.gyf.barlibrary.ImmersionBar;
+import com.gyf.barlibrary.OnKeyboardListener;
 import com.liqi.utils.encoding.MD5Util;
 import com.mhky.dianhuotong.R;
 import com.mhky.dianhuotong.base.BaseApplication;
@@ -37,8 +44,11 @@ public class LoginActivity extends BaseActivity implements LoginIF {
     EditText editTextPwd;
     @BindView(R.id.login_login)
     TextView textViewLogin;
+    @BindView(R.id.login_imageview)
+    ImageView imageView;
     private LoadingDialog loadingDialog;
     private LoginPrecenter loginPrecenter;
+    private boolean imageViewState;
     private static final String TAG = "LoginActivity";
 
     @Override
@@ -50,8 +60,14 @@ public class LoginActivity extends BaseActivity implements LoginIF {
     }
 
     private void inIt() {
-        ImmersionBar.with(this).titleBar(diaHuiTongBaseTitleBar).transparentStatusBar().init();
-        loadingDialog=new LoadingDialog(this);
+        ImmersionBar.with(this).titleBar(diaHuiTongBaseTitleBar).transparentStatusBar().keyboardEnable(true,WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN).setOnKeyboardListener(new OnKeyboardListener() {
+            @Override
+            public void onKeyboardChange(boolean isPopup, int keyboardHeight) {
+                BaseTool.logPrint("键盘",String.valueOf(isPopup)+keyboardHeight);
+            }
+        }).init();
+        imageViewState = false;
+        loadingDialog = new LoadingDialog(this);
         diaHuiTongBaseTitleBar.setLeftImage(R.drawable.icon_back);
         diaHuiTongBaseTitleBar.setCenterTextView("登录");
         diaHuiTongBaseTitleBar.setBackGround(Color.parseColor("#00ffffff"));
@@ -62,6 +78,46 @@ public class LoginActivity extends BaseActivity implements LoginIF {
             }
         });
         loginPrecenter = new LoginPrecenter(this);
+        editTextPhone.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (!TextUtils.isEmpty(editTextPwd.getText())&&s.length()>0){
+                    textViewLogin.setEnabled(true);
+                }else {
+                    textViewLogin.setEnabled(false);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+        editTextPwd.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (!TextUtils.isEmpty(editTextPhone.getText())&&s.length()>0){
+                    textViewLogin.setEnabled(true);
+                }else {
+                    textViewLogin.setEnabled(false);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
     }
 
     @OnClick(R.id.login_login)
@@ -83,6 +139,20 @@ public class LoginActivity extends BaseActivity implements LoginIF {
         loginPrecenter.Login(editTextPhone.getText().toString(), String.valueOf(MD5Util.md5(editTextPwd.getText().toString().trim())));
     }
 
+    @OnClick(R.id.login_imageview)
+    void setImageView() {
+        if (!imageViewState) {
+            imageView.setImageResource(R.drawable.icon_view_pwd);
+            editTextPwd.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+            imageViewState = true;
+        } else {
+            imageView.setImageResource(R.drawable.icon_hide_pwd);
+            editTextPwd.setTransformationMethod(PasswordTransformationMethod.getInstance());
+            imageViewState = false;
+        }
+        editTextPwd.setSelection(editTextPwd.getText().length());
+    }
+
     @OnClick(R.id.login_go_register)
     void goRegisterActivity() {
         BaseTool.goActivityNoData(this, RegisterActivity.class);
@@ -95,7 +165,7 @@ public class LoginActivity extends BaseActivity implements LoginIF {
 
     @Override
     public void LoginSucess(int code, String result) {
-        if (loadingDialog!=null&&loadingDialog.isShowing()){
+        if (loadingDialog != null && loadingDialog.isShowing()) {
             loadingDialog.dismiss();
         }
         if (code == 200) {
@@ -109,7 +179,7 @@ public class LoginActivity extends BaseActivity implements LoginIF {
 
     @Override
     public void LoginFailed(int code, String result) {
-        if (loadingDialog!=null&&loadingDialog.isShowing()){
+        if (loadingDialog != null && loadingDialog.isShowing()) {
             loadingDialog.dismiss();
         }
         ToastUtil.makeText(this, "无法连接服务器..", Toast.LENGTH_SHORT).show();

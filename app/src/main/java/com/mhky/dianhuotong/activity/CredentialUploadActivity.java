@@ -273,31 +273,19 @@ public class CredentialUploadActivity extends TakePhotoActivity implements DianH
             ToastUtil.makeText(this, "请上传证件", Toast.LENGTH_SHORT).show();
             return;
         }
-//        } else if (TextUtils.isEmpty(textViewData1.getText())) {
-//            ToastUtil.makeText(this, "请填写营业期限开始时间", Toast.LENGTH_SHORT).show();
-//            return;
-//        } else if (TextUtils.isEmpty(textViewData2.getText())) {
-//            ToastUtil.makeText(this, "请填写营业期限结束时间", Toast.LENGTH_SHORT).show();
-//            return;
-//        } else if (TextUtils.isEmpty(editTextCardNumber.getText())) {
-//            ToastUtil.makeText(this, "请填写证件编号", Toast.LENGTH_SHORT).show();
-//            return;
-//        } else if (TextUtils.isEmpty(editTextBody.getText())) {
-//            ToastUtil.makeText(this, "请填写经营范围", Toast.LENGTH_SHORT).show();
-//            return;
-//        } else if (TextUtils.isEmpty(editTextNume.getText())) {
-//            ToastUtil.makeText(this, "请填写法人姓名", Toast.LENGTH_SHORT).show();
-//            return;
-//        }
         qulationBaseInfo.setUrl(imageUrl);
-        if (!TextUtils.isEmpty(textViewData1.getText())) {
+        if (TextUtils.isEmpty(textViewData1.getText())) {
+            if (!TextUtils.isEmpty(textViewData2.getText())){
+                ToastUtil.makeText(this, "请选择开始时间", Toast.LENGTH_SHORT).show();
+                return;
+            }
+        }else {
             qulationBaseInfo.setStartTime(textViewData1.getText().toString());
             if (!TextUtils.isEmpty(textViewData2.getText())){
                 qulationBaseInfo.setEndTime(textViewData2.getText().toString());
             }else {
                 qulationBaseInfo.setEndTime("");
             }
-
         }
         if (!TextUtils.isEmpty(editTextCardNumber.getText())) {
             qulationBaseInfo.setNumber(editTextCardNumber.getText().toString());
@@ -346,12 +334,12 @@ public class CredentialUploadActivity extends TakePhotoActivity implements DianH
 
     }
 
-    @OnClick(R.id.upload_credrntial_data1)
+    @OnClick(R.id.time_1)
     void selecteDate1() {
         pvCustomTime1.show();
     }
 
-    @OnClick(R.id.upload_credrntial_data2)
+    @OnClick(R.id.time_2)
     void selecteDate2() {
         pvCustomTime2.show();
     }
@@ -463,8 +451,8 @@ public class CredentialUploadActivity extends TakePhotoActivity implements DianH
             public void onTimeSelect(Date date, View v) {
                 //选中事件回调
                 if (!TextUtils.isEmpty(textViewData1.getText())) {
-                    if (!BaseTool.isDateOneBigger(getTime(date), textViewData1.getText().toString())) {
-                        ToastUtil.makeText(mContext, "结束时间不能小于开始时间", Toast.LENGTH_SHORT).show();
+                    if (BaseTool.isDateOneBigger(textViewData1.getText().toString(),getTime(date))) {
+                        ToastUtil.makeText(mContext, "开始时间不能大于结束时间", Toast.LENGTH_SHORT).show();
                     } else {
                         textView.setText(getTime(date));
                         imageViewStop.setVisibility(View.VISIBLE);
@@ -545,14 +533,19 @@ public class CredentialUploadActivity extends TakePhotoActivity implements DianH
 
     @Override
     public void updateShopCredentialSucess(int code, String result) {
-        Intent intent = new Intent();
-        Bundle bundle = new Bundle();
-        bundle.putSerializable("qulation", qulationBaseInfo);
-        bundle.putString("state", state);
-        bundle.putString("result", "ok");
-        intent.putExtras(bundle);
-        setResult(1002, intent);
-        finish();
+        if (code==200){
+            Intent intent = new Intent();
+            Bundle bundle = new Bundle();
+            bundle.putSerializable("qulation", qulationBaseInfo);
+            bundle.putString("state", state);
+            bundle.putString("result", "ok");
+            intent.putExtras(bundle);
+            setResult(1002, intent);
+            finish();
+        }else {
+            ToastUtil.makeText(mContext, "上传失败"+code, Toast.LENGTH_SHORT).show();
+        }
+
     }
 
     @Override
@@ -562,14 +555,19 @@ public class CredentialUploadActivity extends TakePhotoActivity implements DianH
 
     @Override
     public void uploadShopCredentialSucess(int code, String result) {
-        Intent intent = new Intent();
-        Bundle bundle = new Bundle();
-        bundle.putSerializable("qulation", qulationBaseInfo);
-        bundle.putString("state", state);
-        bundle.putString("result", "ok");
-        intent.putExtras(bundle);
-        setResult(1002, intent);
-        finish();
+        if (code==200){
+            Intent intent = new Intent();
+            Bundle bundle = new Bundle();
+            bundle.putSerializable("qulation", qulationBaseInfo);
+            bundle.putString("state", state);
+            bundle.putString("result", "ok");
+            intent.putExtras(bundle);
+            setResult(1002, intent);
+            finish();
+        }else {
+            ToastUtil.makeText(mContext, "上传失败"+code, Toast.LENGTH_SHORT).show();
+        }
+
     }
 
     @Override

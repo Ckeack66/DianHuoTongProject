@@ -94,7 +94,7 @@ public class CardActivity extends AppCompatActivity {
         }
         req.transaction = CARD_TAG;
         boolean b = api.sendReq(req);
-        Log.d(TAG, "share: ---" + b);
+        BaseTool.logPrint(TAG, "share: ---" + b);
     }
 
     private void share1() {
@@ -133,7 +133,7 @@ public class CardActivity extends AppCompatActivity {
     }
 
     private byte[] bitmap2ByteArray(Bitmap bitmap1) {
-        Log.d(TAG, "bitmap2ByteArray: " + bitmap1.getRowBytes() * bitmap1.getHeight());
+        BaseTool.logPrint(TAG, "bitmap2ByteArray: " + bitmap1.getRowBytes() * bitmap1.getHeight());
 //        int bytes = bitmap1.getByteCount();
 //        ByteBuffer buf = ByteBuffer.allocate(bytes);
 //        bitmap1.copyPixelsToBuffer(buf);

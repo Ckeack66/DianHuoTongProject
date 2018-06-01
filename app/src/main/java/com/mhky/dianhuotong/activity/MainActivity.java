@@ -156,7 +156,6 @@ public class MainActivity extends BaseActivity implements MainIF, DrawerLayout.D
     @Override
     protected void onResume() {
         super.onResume();
-        BaseTool.logPrint(TAG,"执行了resume");
         updateDrawer();
         if (!isShowUpdate) {
             PgyUpdateManager.setIsForced(false);
@@ -368,7 +367,7 @@ public class MainActivity extends BaseActivity implements MainIF, DrawerLayout.D
      */
     @Override
     public void onDrawerSlide(View drawerView, float slideOffset) {
-//        Log.d(TAG, "onDrawerSlide: " + slideOffset);
+//        BaseTool.logPrint(TAG, "onDrawerSlide: " + slideOffset);
 //        getWindowManager().getDefaultDisplay().getMetrics(display);
 //        relativeLayoutBody.layout(relativeLayoutLeft.getRight(), 0, relativeLayoutLeft.getRight() + display.widthPixels, display.heightPixels);
     }
@@ -534,7 +533,7 @@ public class MainActivity extends BaseActivity implements MainIF, DrawerLayout.D
     private void updateDrawer() {
         if (BaseApplication.getInstansApp().getPersonInfo() != null) {
             if (BaseApplication.getInstansApp().getPersonInfo().getImage() != null) {
-                //Log.d(TAG, "updateDrawer: --------" + BaseApplication.getInstansApp().getLoginRequestInfo().getImage().toString());
+                //BaseTool.logPrint(TAG, "updateDrawer: --------" + BaseApplication.getInstansApp().getLoginRequestInfo().getImage().toString());
                 Picasso.get().load(BaseApplication.getInstansApp().getPersonInfo().getImage().toString()).into(imageViewUser);
                 BaseTool.logPrint(TAG,"更新图片");
             }else {

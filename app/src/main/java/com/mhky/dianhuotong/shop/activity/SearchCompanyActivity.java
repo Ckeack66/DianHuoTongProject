@@ -44,9 +44,10 @@ public class SearchCompanyActivity extends BaseActivity implements SearchCompany
     @BindView(R.id.base_tips)
     RelativeLayout relativeLayoutTips;
     private SearchCompanyAdapter searchCompanyAdapter;
-    private int type = 0;
     private int pageNumber = 0;
     private int isNew = -1;
+    private String type;
+    private String companyType100;
     private SearchCompanyPresenter searchCompanyPresenter;
     private SearchCompanyInfo searchCompanyInfo;
     private Context context;
@@ -56,18 +57,28 @@ public class SearchCompanyActivity extends BaseActivity implements SearchCompany
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_company);
         ButterKnife.bind(this);
-        context=this;
+        context = this;
         init();
     }
 
     private void init() {
+        type = getIntent().getExtras().getString("type");
+        if ("100".equals(type)) {
+            //搜索店铺名
+            companyType100 = getIntent().getExtras().getString("shopnm");
+        }
         searchCompanyPresenter = new SearchCompanyPresenter(this);
         dianHuoTongShopTitleBar.setActivity(this);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(linearLayoutManager);
         setRefesh();
-        getInfo();
+        if ("100".equals(type)) {
+            getNameInfo();
+        } else {
+            getInfo();
+        }
+
     }
 
     private void setRefesh() {
@@ -79,14 +90,22 @@ public class SearchCompanyActivity extends BaseActivity implements SearchCompany
                 smartRefreshLayout.setEnableLoadMore(true);
                 pageNumber = 0;
                 isNew = 0;
-                getInfo();
+                if ("100".equals(type)) {
+                    getNameInfo();
+                } else {
+                    getInfo();
+                }
             }
         });
         smartRefreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
             public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
                 isNew = 1;
-                getInfo();
+                if ("100".equals(type)) {
+                    getNameInfo();
+                } else {
+                    getInfo();
+                }
             }
         });
     }
@@ -94,6 +113,13 @@ public class SearchCompanyActivity extends BaseActivity implements SearchCompany
     private void getInfo() {
         HttpParams httpParams = new HttpParams();
         httpParams.put("page", pageNumber);
+        searchCompanyPresenter.getCompany(httpParams);
+    }
+
+    private void getNameInfo() {
+        HttpParams httpParams = new HttpParams();
+        httpParams.put("page", pageNumber);
+        httpParams.put("name",companyType100);
         searchCompanyPresenter.getCompany(httpParams);
     }
 
@@ -106,7 +132,7 @@ public class SearchCompanyActivity extends BaseActivity implements SearchCompany
                     relativeLayoutTips.setVisibility(View.VISIBLE);
                 }
                 searchCompanyInfo = searchCompanyInfo1;
-                searchCompanyAdapter = new SearchCompanyAdapter(searchCompanyInfo.getContent(),context);
+                searchCompanyAdapter = new SearchCompanyAdapter(searchCompanyInfo.getContent(), context);
                 recyclerView.setAdapter(searchCompanyAdapter);
                 pageNumber = 1;
             } else if (isNew == 0) {
@@ -136,13 +162,13 @@ public class SearchCompanyActivity extends BaseActivity implements SearchCompany
             }
 
 
-        }else {
+        } else {
             ToastUtil.makeText(this, "获取数据异常~", Toast.LENGTH_SHORT).show();
         }
     }
 
     @Override
     public void getCompanyListFailed(int code, String result) {
-        ToastUtil.makeText(this, "服务器异常~"+code, Toast.LENGTH_SHORT).show();
+        ToastUtil.makeText(this, "服务器异常~" + code, Toast.LENGTH_SHORT).show();
     }
 }

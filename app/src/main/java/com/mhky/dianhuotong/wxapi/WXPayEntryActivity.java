@@ -7,6 +7,7 @@ package com.mhky.dianhuotong.wxapi;
 
 
 
+import com.mhky.dianhuotong.base.BaseTool;
 import com.mhky.dianhuotong.base.view.BaseActivity;
 import com.tencent.mm.opensdk.constants.ConstantsAPI;
 import com.tencent.mm.opensdk.modelbase.BaseReq;
@@ -42,13 +43,13 @@ public class WXPayEntryActivity extends BaseActivity implements IWXAPIEventHandl
 
 	@Override
 	public void onReq(BaseReq req) {
-		Log.d(TAG, "onPayFinish, errCode = " + req.openId);
+		BaseTool.logPrint(TAG, "onPayFinish, errCode = " + req.openId);
 	}
 
 
 	@Override
 	public void onResp(BaseResp resp) {
-		Log.d(TAG, "onPayFinish, errCode = " + resp.errCode);
+		BaseTool.logPrint(TAG, "onPayFinish, errCode = " + resp.errCode);
 		if (resp.getType() == ConstantsAPI.COMMAND_PAY_BY_WX) {
 			AlertDialog.Builder builder = new AlertDialog.Builder(this);
 			//builder.setTitle(R.string.app_tip);

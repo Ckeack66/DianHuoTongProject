@@ -65,7 +65,7 @@ public class AllGoodsActivity extends BaseActivity implements AdapterView.OnItem
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        //Log.d(TAG, "点击了onItemClick: -------" + position);
+        //BaseTool.logPrint(TAG, "点击了onItemClick: -------" + position);
         switch (parent.getId()) {
             case R.id.all_goods_listview1:
                 //ToastUtil.makeText(this, "点击了" + position, Toast.LENGTH_SHORT).show();
@@ -87,7 +87,7 @@ public class AllGoodsActivity extends BaseActivity implements AdapterView.OnItem
                 BaseTool.goActivityWithData(this, SearchGoodsActivity.class, bundle);
                 break;
             default:
-                Log.d(TAG, "onItemClick: " + parent);
+                BaseTool.logPrint(TAG, "onItemClick: " + parent);
         }
     }
 
@@ -119,7 +119,7 @@ public class AllGoodsActivity extends BaseActivity implements AdapterView.OnItem
 
     @Override
     public void onclickItem(int positionParent, int positionChild) {
-        Log.d(TAG, "onclickItem: ----" + positionParent + "------" + positionChild);
+        BaseTool.logPrint(TAG, "onclickItem: ----" + positionParent + "------" + positionChild);
         IItype = positionParent;
         IIItype = positionChild;
         Bundle bundle = new Bundle();

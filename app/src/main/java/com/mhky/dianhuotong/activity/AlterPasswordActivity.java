@@ -10,6 +10,7 @@ import android.widget.Toast;
 import com.alibaba.fastjson.JSON;
 import com.liqi.utils.encoding.MD5Util;
 import com.mhky.dianhuotong.R;
+import com.mhky.dianhuotong.base.BaseTool;
 import com.mhky.dianhuotong.person.pesenter.AlterPWDPersenter;
 import com.mhky.dianhuotong.person.personif.AlterPwdIF;
 import com.mhky.dianhuotong.person.bean.AlterPwdInfo;
@@ -73,7 +74,7 @@ public class AlterPasswordActivity extends BaseActivity implements AlterPwdIF {
         } else if (!editTextNewPwd.getText().toString().trim().equals(editTextNewPwd1.getText().toString().trim())) {
             ToastUtil.makeText(this, "新密码不一致", Toast.LENGTH_SHORT).show();
         } else {
-            Log.d(TAG, "sureAlterPwd: ---修改密码验证通过");
+            BaseTool.logPrint(TAG, "sureAlterPwd: ---修改密码验证通过");
             AlterPwdInfo alterPwdInfo = new AlterPwdInfo();
             alterPwdInfo.setPassword(MD5Util.md5(editTextNewPwd1.getText().toString().trim()));
             alterPWDPersenter.alterPwd(JSON.toJSONString(alterPwdInfo));
@@ -82,8 +83,8 @@ public class AlterPasswordActivity extends BaseActivity implements AlterPwdIF {
 
     @Override
     public void alterPwdSucess(int code, String result) {
-        Log.d(TAG, "alterPwdSucess: ---" + code);
-        Log.d(TAG, "alterPwdSucess: ---" + result);
+        BaseTool.logPrint(TAG, "alterPwdSucess: ---" + code);
+        BaseTool.logPrint(TAG, "alterPwdSucess: ---" + result);
         if (code == 200) {
             BaseApplication.getInstansApp().setMypswsds(MD5Util.md5(editTextNewPwd1.getText().toString().trim()));
             ToastUtil.makeText(this, "修改成功", Toast.LENGTH_SHORT).show();
@@ -93,7 +94,7 @@ public class AlterPasswordActivity extends BaseActivity implements AlterPwdIF {
 
     @Override
     public void alterPwdFailed(int code, String result) {
-        Log.d(TAG, "alterPwdFailed: " + code);
-        Log.d(TAG, "alterPwdFailed: " + result);
+        BaseTool.logPrint(TAG, "alterPwdFailed: " + code);
+        BaseTool.logPrint(TAG, "alterPwdFailed: " + result);
     }
 }

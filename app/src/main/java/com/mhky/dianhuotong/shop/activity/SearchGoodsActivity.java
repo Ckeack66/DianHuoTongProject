@@ -120,6 +120,7 @@ public class SearchGoodsActivity extends BaseActivity implements SearchGoodsIF, 
     private int type106TypeId;
     private String type107Company;
     private String type107GoodsId;
+    private String type104GoodName;
 
     private static final String TAG = "SearchGoodsActivity";
 
@@ -177,6 +178,9 @@ public class SearchGoodsActivity extends BaseActivity implements SearchGoodsIF, 
             }
         } else if (type != null && type.equals("104")) {
             //搜索
+            type104GoodName=bundle.getString("goodsnm");
+            dianHuoTongShopTitleBar.setCenterText(type104GoodName);
+            getSrarchData(true,0);
         }
         popuwindow1InfoList = searchGoodsPresenter.getPopupwindowData();
         goodsTypePopupwindow = new GoodsTypePopupwindow(this, popuwindow1InfoList);
@@ -205,6 +209,7 @@ public class SearchGoodsActivity extends BaseActivity implements SearchGoodsIF, 
                     }
                 } else if (type != null && type.equals("104")) {
                     //搜索
+                    getSrarchData(false,1);
                 } else if (type != null && type.equals("105")) {
                     //新的商家分类
                     getTypeData(type105GoodsId, false, 1);
@@ -232,6 +237,7 @@ public class SearchGoodsActivity extends BaseActivity implements SearchGoodsIF, 
                     }
                 } else if (type != null && type.equals("104")) {
                     //搜索
+                    getSrarchData(false,2);
                 } else if (type != null && type.equals("105")) {
                     //新的商家分类
                     getTypeData(type105GoodsId, false, 2);
@@ -255,6 +261,9 @@ public class SearchGoodsActivity extends BaseActivity implements SearchGoodsIF, 
         if (childID != null && !childID.equals("")) {
             httpParams.put("categoryIds", childID);
         }
+        if (type104GoodName!=null){
+            httpParams.put("search", type104GoodName);
+        }
         searchGoodsPresenter.searchGoods(httpParams, isFirst, refreshOrLoadmore);
     }
 
@@ -263,6 +272,9 @@ public class SearchGoodsActivity extends BaseActivity implements SearchGoodsIF, 
         httpParams.put("page", number);
         if (childID != null && !childID.equals("")) {
             httpParams.put("categoryIds", childID);
+        }
+        if (type104GoodName!=null){
+            httpParams.put("search", type104GoodName);
         }
         searchGoodsPresenter.searchGoods(httpParams, isFirst, refreshOrLoadmore);
     }
@@ -281,9 +293,20 @@ public class SearchGoodsActivity extends BaseActivity implements SearchGoodsIF, 
         if (type107Company != null) {
             httpParams.put("shopId", type107Company);
         }
+        if (type104GoodName!=null){
+            httpParams.put("search", type104GoodName);
+        }
         searchGoodsPresenter.searchGoods(httpParams, isFirst, refreshOrLoadmore);
     }
 
+    private void getSrarchData( boolean isFirst, int refreshOrLoadmore){
+        HttpParams httpParams = new HttpParams();
+        httpParams.put("page", number);
+        if (type104GoodName!=null){
+            httpParams.put("search", type104GoodName);
+        }
+        searchGoodsPresenter.searchGoods(httpParams, isFirst, refreshOrLoadmore);
+    }
     private void getCompanyData(String childID, boolean isFirst, int refreshOrLoadmore, String shopid) {
         HttpParams httpParams = new HttpParams();
         httpParams.put("page", number);
@@ -417,11 +440,11 @@ public class SearchGoodsActivity extends BaseActivity implements SearchGoodsIF, 
             case 3:
                 textViewChoose3.setTextColor(getResources().getColor(R.color.color04c1ab));
                 imageViewChoose3.setImageResource(R.drawable.icon_choose_selecte);
-                if (companyPopupwindow == null) {
+                if (companyPopupwindow == null&&allCompanyInfo!=null) {
                     companyPopupwindow = new CompanyPopupwindow(this, allCompanyInfo.getContent());
                     companyPopupwindow.setOnClickPopupwindowItemListener(this);
                     PopupWindowCompat.showAsDropDown(companyPopupwindow, tabI, 0, 0, Gravity.LEFT);
-                } else {
+                } else if (allCompanyInfo!=null){
                     PopupWindowCompat.showAsDropDown(companyPopupwindow, tabI, 0, 0, Gravity.LEFT);
                 }
                 tabIsOpen = true;
@@ -459,7 +482,7 @@ public class SearchGoodsActivity extends BaseActivity implements SearchGoodsIF, 
 
     @Override
     public void searchGoodsInfoSuccess(int code, String result, boolean isfirst, int refreshOrLoadmore) {
-        //Log.d(TAG, "searchGoodsInfoSuccess: " + code);
+        //BaseTool.logPrint(TAG, "searchGoodsInfoSuccess: " + code);
         try {
             if (code == 200) {
                 SearchSGoodsBean searchSGoodsBeans = JSON.parseObject(result, SearchSGoodsBean.class);
