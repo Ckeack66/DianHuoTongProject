@@ -7,10 +7,12 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,6 +39,7 @@ import com.mhky.dianhuotong.shop.precenter.CartDataPresenter;
 import com.mhky.dianhuotong.shop.precenter.CartOpratePresenter;
 import com.mhky.dianhuotong.shop.shopif.CartDataIF;
 import com.mhky.dianhuotong.shop.shopif.CartOprateIF;
+import com.pgyersdk.crash.PgyCrashManager;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -63,6 +66,8 @@ public class CartActivity extends BaseActivity implements CartOprateIF, CartData
     TextView textViewMoney;
     @BindView(R.id.cart_all_check)
     CheckBox checkBoxAll;
+    @BindView(R.id.base_tips)
+    RelativeLayout relativeLayoutTips;
     private CartAdapter cartAdapter;
     private List<CartInfo> cartInfoList;
     private Context mContext;
@@ -89,7 +94,11 @@ public class CartActivity extends BaseActivity implements CartOprateIF, CartData
         setContentView(R.layout.activity_cart);
         ButterKnife.bind(this);
         mContext = this;
-        init();
+        try {
+            init();
+        } catch (Exception e) {
+            PgyCrashManager.reportCaughtException(this, e);
+        }
     }
 
     @Override
@@ -148,11 +157,12 @@ public class CartActivity extends BaseActivity implements CartOprateIF, CartData
 
     @OnClick(R.id.cart_sum_button)
     void doBanlance() {
-        getGoodsIdList();
-        if (!"".equals(selelctGoodsId)) {
-            BaseTool.logPrint(TAG, "doBanlance: map-" + hashMapInteger.size());
-            StringBuffer s2 = new StringBuffer();
-            try {
+        try {
+            getGoodsIdList();
+            if (!"".equals(selelctGoodsId)) {
+                BaseTool.logPrint(TAG, "doBanlance: map-" + hashMapInteger.size());
+                StringBuffer s2 = new StringBuffer();
+
                 Iterator iter = hashMapInteger.entrySet().iterator();
                 while (iter.hasNext()) {
                     Map.Entry entry = (Map.Entry) iter.next();
@@ -160,23 +170,23 @@ public class CartActivity extends BaseActivity implements CartOprateIF, CartData
                     BaseTool.logPrint(TAG, "doBanlance: key" + key);
                     s2.append(key + ",");
                 }
-            } catch (Exception e) {
 
-            }
-
-            String s1 = JSON.toJSONString(hashMapInteger);
-            String s3 = s2.toString().substring(0, s2.length() - 1);
-            BaseTool.logPrint(TAG, "doBanlance: ------map" + s1);
-            Bundle bundle = new Bundle();
+                String s1 = JSON.toJSONString(hashMapInteger);
+                String s3 = s2.toString().substring(0, s2.length() - 1);
+                BaseTool.logPrint(TAG, "doBanlance: ------map" + s1);
+                Bundle bundle = new Bundle();
 //            bundle.putString("goodsIds", selelctGoodsId);
 //            bundle.putString("money", Double.toString(integerMoney));
-            bundle.putString("basedata", s1);
-            bundle.putString("sids", s3);
-            bundle.putSerializable("data", hashMapInteger);
-            BaseTool.goActivityWithData(this, OderOkActivity.class, bundle);
-            //BaseTool.goActivityWithData(mContext, BalanceActivity.class, bundle);
-        } else {
-            ToastUtil.makeText(this, "请下单商品", Toast.LENGTH_SHORT).show();
+                bundle.putString("basedata", s1);
+                bundle.putString("sids", s3);
+                bundle.putSerializable("data", hashMapInteger);
+                BaseTool.goActivityWithData(this, OderOkActivity.class, bundle);
+                //BaseTool.goActivityWithData(mContext, BalanceActivity.class, bundle);
+            } else {
+                ToastUtil.makeText(this, "请下单商品", Toast.LENGTH_SHORT).show();
+            }
+        } catch (Exception e) {
+            PgyCrashManager.reportCaughtException(this, e);
         }
 
     }
@@ -192,18 +202,23 @@ public class CartActivity extends BaseActivity implements CartOprateIF, CartData
 
     @OnClick(R.id.cart_all_selelct)
     void setAllSelect() {
-        if (cartAdapter == null) {
-            return;
+        try {
+            if (cartAdapter == null) {
+                return;
+            }
+            if (checkBoxAll.isChecked()) {
+                checkBoxAll.setChecked(false);
+                //设置商品取消全部
+                setAllData(0);
+            } else {
+                checkBoxAll.setChecked(true);
+                setAllData(1);
+                //设置商品全部选择
+            }
+        } catch (Exception e) {
+            PgyCrashManager.reportCaughtException(this, e);
         }
-        if (checkBoxAll.isChecked()) {
-            checkBoxAll.setChecked(false);
-            //设置商品取消全部
-            setAllData(0);
-        } else {
-            checkBoxAll.setChecked(true);
-            setAllData(1);
-            //设置商品全部选择
-        }
+
     }
 
     @OnClick(R.id.cart_love_button)
@@ -254,9 +269,14 @@ public class CartActivity extends BaseActivity implements CartOprateIF, CartData
     public void deleteCartSucess(int code, String result) {
         dianHuoTongBaseDialog.dismiss();
         ToastUtil.makeText(this, "删除成功", Toast.LENGTH_SHORT).show();
-        if (cartAdapter != null) {
-            cartOpratePresenter.getCart(BaseApplication.getInstansApp().getLoginRequestInfo().getId(), 1);
+        try {
+            if (cartAdapter != null && !TextUtils.isEmpty(BaseApplication.getInstansApp().getPersonInfo().getId())) {
+                cartOpratePresenter.getCart(BaseApplication.getInstansApp().getPersonInfo().getId(), 1);
+            }
+        } catch (Exception e) {
+            PgyCrashManager.reportCaughtException(this, e);
         }
+
     }
 
     @Override
@@ -266,143 +286,156 @@ public class CartActivity extends BaseActivity implements CartOprateIF, CartData
 
     @Override
     public void getCartSucess(int code, String result, int type) {
-        cartDataPresenter = null;
-        cartDataPresenter = new CartDataPresenter(this);
-        if (code == 200) {
-            if (type == 0) {
-                cartInfoList = cartDataPresenter.getCartInfoList(result);
-                cartAdapter = new CartAdapter(R.layout.item_cart_body, R.layout.item_cart_head, cartInfoList, mContext);
-                cartAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                        List<CartInfo> cartInfoListChild = (List<CartInfo>) adapter.getData();
-                        if (!cartInfoListChild.get(position).isHeader) {
-                            Bundle bundle = new Bundle();
-                            bundle.putString("id", cartInfoList.get(position).getCartBodyBaseInfo().getGoodsItemsBean().getGoodsId());
-                            BaseTool.goActivityWithData(mContext, GoodsActivity.class, bundle);
-                        }
-                    }
-                });
-                cartAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
-                    @Override
-                    public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-                        List<CartInfo> cartInfoList1 = (List<CartInfo>) adapter.getData();
-                        if (cartInfoList1.get(position).isHeader) {
-                            switch (view.getId()) {
-                                case R.id.cart_head_check:
-                                    int a = position + 1;
-                                    if (!cartInfoList1.get(position).getCartTitleInfo().isSelectTitle()) {//父按钮没被选中
-                                        cartInfoList1.get(position).getCartTitleInfo().setSelectTitle(true);//设置父按钮选中
-                                        for (int b = a; b < cartInfoList1.size(); b++) {
-                                            if (b != cartInfoList1.size()) {
-                                                if (!cartInfoList1.get(b).isHeader) {
-                                                    cartInfoList1.get(b).getCartBodyBaseInfo().setSelectChild(true);
-                                                } else {
-                                                    break;
-                                                }
-                                            }
-
-                                        }
-                                    } else {//父按钮没选中
-                                        cartInfoList1.get(position).getCartTitleInfo().setSelectTitle(false);
-                                        for (int b = a; b < cartInfoList1.size(); b++) {
-                                            if (b != cartInfoList1.size()) {
-                                                if (!cartInfoList1.get(b).isHeader) {
-                                                    if (cartInfoList1.get(b).getCartBodyBaseInfo().isSelectChild()) {
-                                                        cartInfoList1.get(b).getCartBodyBaseInfo().setSelectChild(false);
-                                                    }
-                                                } else {
-                                                    break;
-                                                }
-                                            }
-                                        }
-                                    }
-                                    adapter.notifyDataSetChanged();
-                                    break;
-                                case R.id.cart_head_go:
+        try {
+            cartDataPresenter = null;
+            cartDataPresenter = new CartDataPresenter(this);
+            if (code == 200) {
+                if (type == 0) {
+                    cartInfoList = cartDataPresenter.getCartInfoList(result);
+                    if (cartInfoList.size() <= 0) {
+                        relativeLayoutTips.setVisibility(View.VISIBLE);
+                    } else {
+                        relativeLayoutTips.setVisibility(View.GONE);
+                        cartAdapter = new CartAdapter(R.layout.item_cart_body, R.layout.item_cart_head, cartInfoList, mContext);
+                        cartAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                                List<CartInfo> cartInfoListChild = (List<CartInfo>) adapter.getData();
+                                if (!cartInfoListChild.get(position).isHeader) {
                                     Bundle bundle = new Bundle();
-                                    bundle.putString("shopid", cartInfoList1.get(position).getCartTitleInfo().getShopDTOBean().getId());
-                                    BaseTool.goActivityWithData(mContext, ShopActivity.class, bundle);
-                                    //ToastUtil.makeText(mContext, "进入店铺" + position, Toast.LENGTH_SHORT).show();
-                                    break;
+                                    bundle.putString("id", cartInfoList.get(position).getCartBodyBaseInfo().getGoodsItemsBean().getGoodsId());
+                                    BaseTool.goActivityWithData(mContext, GoodsActivity.class, bundle);
+                                }
                             }
-                        } else {
-                            switch (view.getId()) {
-                                case R.id.cart_body_check:
-//                            ToastUtil.makeText(mContext, "选中了商品" + position + "上一级是" + cartInfoList1.get(position).getCartBodyBaseInfo().getParentNumber() + "数量是" + cartInfoList1.get(position).getCartBodyBaseInfo().getChildNumber(), Toast.LENGTH_SHORT).show();
-                                    if (!cartInfoList1.get(position).getCartBodyBaseInfo().isSelectChild()) {
-                                        cartInfoList1.get(position).getCartBodyBaseInfo().setSelectChild(true);
-                                    } else {
-                                        cartInfoList1.get(position).getCartBodyBaseInfo().setSelectChild(false);
-                                    }
-                                    int a = position - (cartInfoList1.get(position).getCartBodyBaseInfo().getChildIndex() + 1) + 1;//减一是因为index从0开始
-                                    BaseTool.logPrint(TAG, "onItemChildClick: ----" + a);
-                                    int mTemp = 0;
-                                    for (int b = a; b < cartInfoList1.size(); b++) {
-                                        if (b != cartInfoList1.size()) {
-                                            if (!cartInfoList1.get(b).isHeader && cartInfoList1.get(b).getCartBodyBaseInfo().isSelectChild()) {
-                                                mTemp++;
-                                                BaseTool.logPrint(TAG, "onItemChildClick: temp_number" + mTemp);
-                                            } else {
-                                                break;
+                        });
+                        cartAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+                            @Override
+                            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                                List<CartInfo> cartInfoList1 = (List<CartInfo>) adapter.getData();
+                                if (cartInfoList1.get(position).isHeader) {
+                                    switch (view.getId()) {
+                                        case R.id.cart_head_check:
+                                            int a = position + 1;
+                                            if (!cartInfoList1.get(position).getCartTitleInfo().isSelectTitle()) {//父按钮没被选中
+                                                cartInfoList1.get(position).getCartTitleInfo().setSelectTitle(true);//设置父按钮选中
+                                                for (int b = a; b < cartInfoList1.size(); b++) {
+                                                    if (b != cartInfoList1.size()) {
+                                                        if (!cartInfoList1.get(b).isHeader) {
+                                                            cartInfoList1.get(b).getCartBodyBaseInfo().setSelectChild(true);
+                                                        } else {
+                                                            break;
+                                                        }
+                                                    }
+
+                                                }
+                                            } else {//父按钮没选中
+                                                cartInfoList1.get(position).getCartTitleInfo().setSelectTitle(false);
+                                                for (int b = a; b < cartInfoList1.size(); b++) {
+                                                    if (b != cartInfoList1.size()) {
+                                                        if (!cartInfoList1.get(b).isHeader) {
+                                                            if (cartInfoList1.get(b).getCartBodyBaseInfo().isSelectChild()) {
+                                                                cartInfoList1.get(b).getCartBodyBaseInfo().setSelectChild(false);
+                                                            }
+                                                        } else {
+                                                            break;
+                                                        }
+                                                    }
+                                                }
                                             }
-                                        }
+                                            adapter.notifyDataSetChanged();
+                                            break;
+                                        case R.id.cart_head_go:
+                                            Bundle bundle = new Bundle();
+                                            bundle.putString("shopid", cartInfoList1.get(position).getCartTitleInfo().getShopDTOBean().getId());
+                                            BaseTool.goActivityWithData(mContext, ShopActivity.class, bundle);
+                                            //ToastUtil.makeText(mContext, "进入店铺" + position, Toast.LENGTH_SHORT).show();
+                                            break;
+                                    }
+                                } else {
+                                    switch (view.getId()) {
+                                        case R.id.cart_body_check:
+//                            ToastUtil.makeText(mContext, "选中了商品" + position + "上一级是" + cartInfoList1.get(position).getCartBodyBaseInfo().getParentNumber() + "数量是" + cartInfoList1.get(position).getCartBodyBaseInfo().getChildNumber(), Toast.LENGTH_SHORT).show();
+                                            if (!cartInfoList1.get(position).getCartBodyBaseInfo().isSelectChild()) {
+                                                cartInfoList1.get(position).getCartBodyBaseInfo().setSelectChild(true);
+                                            } else {
+                                                cartInfoList1.get(position).getCartBodyBaseInfo().setSelectChild(false);
+                                            }
+                                            int a = position - (cartInfoList1.get(position).getCartBodyBaseInfo().getChildIndex() + 1) + 1;//减一是因为index从0开始
+                                            BaseTool.logPrint(TAG, "onItemChildClick: ----" + a);
+                                            int mTemp = 0;
+                                            for (int b = a; b < cartInfoList1.size(); b++) {
+                                                if (b != cartInfoList1.size()) {
+                                                    if (!cartInfoList1.get(b).isHeader && cartInfoList1.get(b).getCartBodyBaseInfo().isSelectChild()) {
+                                                        mTemp++;
+                                                        BaseTool.logPrint(TAG, "onItemChildClick: temp_number" + mTemp);
+                                                    } else {
+                                                        break;
+                                                    }
+                                                }
 
+                                            }
+                                            BaseTool.logPrint(TAG, "onItemChildClick:所有子商品数量 ----" + cartInfoList1.get(position).getCartBodyBaseInfo().getChildNumber());
+                                            BaseTool.logPrint(TAG, "onItemChildClick: a==" + a);
+                                            if (mTemp == cartInfoList1.get(position).getCartBodyBaseInfo().getChildNumber()) {
+                                                cartInfoList1.get(a - 1).getCartTitleInfo().setSelectTitle(true);
+                                                BaseTool.logPrint(TAG, "onItemChildClick: 设置父店铺设置为全选状态");
+                                            } else {
+                                                cartInfoList1.get(a - 1).getCartTitleInfo().setSelectTitle(false);
+                                                BaseTool.logPrint(TAG, "onItemChildClick: 设置父店铺设置为未全选状态");
+                                            }
+                                            adapter.notifyDataSetChanged();
+                                            break;
+                                        case R.id.cart_popup_plus:
+                                            if (cartInfoList1.get(position).getCartBodyBaseInfo().getGoodsItemsBean().getAmount() < cartInfoList1.get(position).getCartBodyBaseInfo().getGoodsItemsBean().getSkuDTO().getStock()) {
+                                                HashMap hashMap = new HashMap();
+                                                hashMap.put("skuId", cartInfoList1.get(position).getCartBodyBaseInfo().getGoodsItemsBean().getSkuDTO().getId());
+                                                hashMap.put("amount", cartInfoList1.get(position).getCartBodyBaseInfo().getGoodsItemsBean().getAmount() + 1);
+                                                cartOpratePresenter.alterCart(hashMap, 0);
+                                                alterGoodsNumber = position;
+                                            }
+                                            //ToastUtil.makeText(mContext, "增加了商品" + position, Toast.LENGTH_SHORT).show();
+                                            break;
+                                        case R.id.cart_popup_reduce:
+                                            if (cartInfoList1.get(position).getCartBodyBaseInfo().getGoodsItemsBean().getAmount() > 0) {
+                                                HashMap hashMap = new HashMap();
+                                                hashMap.put("skuId", cartInfoList1.get(position).getCartBodyBaseInfo().getGoodsItemsBean().getSkuDTO().getId());
+                                                hashMap.put("amount", cartInfoList1.get(position).getCartBodyBaseInfo().getGoodsItemsBean().getAmount() - 1);
+                                                cartOpratePresenter.alterCart(hashMap, 1);
+                                                alterGoodsNumber = position;
+                                            }
+                                            //ToastUtil.makeText(mContext, "减少了商品" + position, Toast.LENGTH_SHORT).show();
+                                            break;
                                     }
-                                    BaseTool.logPrint(TAG, "onItemChildClick:所有子商品数量 ----" + cartInfoList1.get(position).getCartBodyBaseInfo().getChildNumber());
-                                    BaseTool.logPrint(TAG, "onItemChildClick: a==" + a);
-                                    if (mTemp == cartInfoList1.get(position).getCartBodyBaseInfo().getChildNumber()) {
-                                        cartInfoList1.get(a - 1).getCartTitleInfo().setSelectTitle(true);
-                                        BaseTool.logPrint(TAG, "onItemChildClick: 设置父店铺设置为全选状态");
-                                    } else {
-                                        cartInfoList1.get(a - 1).getCartTitleInfo().setSelectTitle(false);
-                                        BaseTool.logPrint(TAG, "onItemChildClick: 设置父店铺设置为未全选状态");
-                                    }
-                                    adapter.notifyDataSetChanged();
-                                    break;
-                                case R.id.cart_popup_plus:
-                                    if (cartInfoList1.get(position).getCartBodyBaseInfo().getGoodsItemsBean().getAmount() < cartInfoList1.get(position).getCartBodyBaseInfo().getGoodsItemsBean().getSkuDTO().getStock()) {
-                                        HashMap hashMap = new HashMap();
-                                        hashMap.put("skuId", cartInfoList1.get(position).getCartBodyBaseInfo().getGoodsItemsBean().getSkuDTO().getId());
-                                        hashMap.put("amount", cartInfoList1.get(position).getCartBodyBaseInfo().getGoodsItemsBean().getAmount() + 1);
-                                        cartOpratePresenter.alterCart(hashMap, 0);
-                                        alterGoodsNumber = position;
-                                    }
-                                    //ToastUtil.makeText(mContext, "增加了商品" + position, Toast.LENGTH_SHORT).show();
-                                    break;
-                                case R.id.cart_popup_reduce:
-                                    if (cartInfoList1.get(position).getCartBodyBaseInfo().getGoodsItemsBean().getAmount() > 0) {
-                                        HashMap hashMap = new HashMap();
-                                        hashMap.put("skuId", cartInfoList1.get(position).getCartBodyBaseInfo().getGoodsItemsBean().getSkuDTO().getId());
-                                        hashMap.put("amount", cartInfoList1.get(position).getCartBodyBaseInfo().getGoodsItemsBean().getAmount() - 1);
-                                        cartOpratePresenter.alterCart(hashMap, 1);
-                                        alterGoodsNumber = position;
-                                    }
-                                    //ToastUtil.makeText(mContext, "减少了商品" + position, Toast.LENGTH_SHORT).show();
-                                    break;
+                                }
+                                cartInfoList = cartInfoList1;
+                                sumSelelct(cartInfoList1);
+                                getGoodsIdList();
                             }
-                        }
-                        cartInfoList = cartInfoList1;
-                        sumSelelct(cartInfoList1);
-                        getGoodsIdList();
+                        });
+                        recyclerView.setAdapter(cartAdapter);
                     }
-                });
-                recyclerView.setAdapter(cartAdapter);
-            } else {
-                List<CartInfo> cartInfoListNew = cartDataPresenter.getCartInfoList(result);
-                cartAdapter.setNewData(cartInfoListNew);
-                cartInfoList = cartInfoListNew;
-//                selelctGoodsId = "";
-//                integerMoney = 0;
-//                alterGoodsNumber = -1;
-                getGoodsIdList();
-                checkBoxAll.setChecked(false);
-                BaseApplication.getInstansApp().setUpdateCart(false);
-                BaseTool.logPrint(TAG, "getCartSucess: ----" + cartInfoList.size());
-                //cartAdapter.notifyDataSetChanged();
-            }
 
+                } else {
+                    List<CartInfo> cartInfoListNew = cartDataPresenter.getCartInfoList(result);
+                    if (cartInfoListNew.size() <= 0) {
+                        relativeLayoutTips.setVisibility(View.VISIBLE);
+                    } else {
+                        relativeLayoutTips.setVisibility(View.GONE);
+                    }
+                    cartAdapter.setNewData(cartInfoListNew);
+                    cartInfoList = cartInfoListNew;
+                    getGoodsIdList();
+                    checkBoxAll.setChecked(false);
+                    BaseApplication.getInstansApp().setUpdateCart(false);
+                    BaseTool.logPrint(TAG, "getCartSucess: ----" + cartInfoList.size());
+                    //cartAdapter.notifyDataSetChanged();
+                }
+
+            }
+        } catch (Exception e) {
+            PgyCrashManager.reportCaughtException(this, e);
         }
+
     }
 
     @Override
@@ -412,19 +445,24 @@ public class CartActivity extends BaseActivity implements CartOprateIF, CartData
 
     @Override
     public void alterCartSucess(int code, String result, int type) {
-        if (code == 204) {
-            //修改成功
-            int number = cartAdapter.getData().get(alterGoodsNumber).getCartBodyBaseInfo().getGoodsItemsBean().getAmount();
-            if (type == 0) {
-                number = number + 1;
-            } else if (type == 1) {
-                number = number - 1;
+        try {
+            if (code == 204) {
+                //修改成功
+                int number = cartAdapter.getData().get(alterGoodsNumber).getCartBodyBaseInfo().getGoodsItemsBean().getAmount();
+                if (type == 0) {
+                    number = number + 1;
+                } else if (type == 1) {
+                    number = number - 1;
+                }
+                cartAdapter.getData().get(alterGoodsNumber).getCartBodyBaseInfo().getGoodsItemsBean().setAmount(number);
+                cartInfoList = cartAdapter.getData();
+                cartAdapter.notifyDataSetChanged();
+                getGoodsIdList();
             }
-            cartAdapter.getData().get(alterGoodsNumber).getCartBodyBaseInfo().getGoodsItemsBean().setAmount(number);
-            cartInfoList = cartAdapter.getData();
-            cartAdapter.notifyDataSetChanged();
-            getGoodsIdList();
+        }catch (Exception e){
+            PgyCrashManager.reportCaughtException(this,e);
         }
+
     }
 
     @Override
@@ -474,50 +512,54 @@ public class CartActivity extends BaseActivity implements CartOprateIF, CartData
      * @return
      */
     private String getGoodsIdList() {
-        listID.clear();
-        hashMapInteger.clear();
         StringBuilder stringBuilder = new StringBuilder("");
-        Integer integer = new Integer(0);
-        List<String> nameList = new ArrayList<>();
-        List<Integer> integerList = new ArrayList<>();
-        if (cartAdapter != null) {
-            List<CartInfo> cartInfoListResult = cartAdapter.getData();
-            if (cartInfoListResult != null) {
-                for (int i = 0; i < cartInfoListResult.size(); i++) {
-                    if (!cartInfoListResult.get(i).isHeader && cartInfoListResult.get(i).getCartBodyBaseInfo().isSelectChild()) {
-                        listID.add(i);
-                        if (!hashMapInteger.containsKey(cartInfoListResult.get(i).getCartBodyBaseInfo().getGoodsItemsBean().getShopDTO().getId())) {
-                            List<CartBaseInfo.GoodsItemsBean> list = new ArrayList();
-                            list.add(cartInfoListResult.get(i).getCartBodyBaseInfo().getGoodsItemsBean());
-                            hashMapInteger.put(cartInfoListResult.get(i).getCartBodyBaseInfo().getGoodsItemsBean().getShopDTO().getId(), list);
-                        } else {
-                            hashMapInteger.get(cartInfoListResult.get(i).getCartBodyBaseInfo().getGoodsItemsBean().getShopDTO().getId()).add(cartInfoListResult.get(i).getCartBodyBaseInfo().getGoodsItemsBean());
+        try {
+            listID.clear();
+            hashMapInteger.clear();
+            Integer integer = new Integer(0);
+            List<String> nameList = new ArrayList<>();
+            List<Integer> integerList = new ArrayList<>();
+            if (cartAdapter != null) {
+                List<CartInfo> cartInfoListResult = cartAdapter.getData();
+                if (cartInfoListResult != null) {
+                    for (int i = 0; i < cartInfoListResult.size(); i++) {
+                        if (!cartInfoListResult.get(i).isHeader && cartInfoListResult.get(i).getCartBodyBaseInfo().isSelectChild()) {
+                            listID.add(i);
+                            if (!hashMapInteger.containsKey(cartInfoListResult.get(i).getCartBodyBaseInfo().getGoodsItemsBean().getShopDTO().getId())) {
+                                List<CartBaseInfo.GoodsItemsBean> list = new ArrayList();
+                                list.add(cartInfoListResult.get(i).getCartBodyBaseInfo().getGoodsItemsBean());
+                                hashMapInteger.put(cartInfoListResult.get(i).getCartBodyBaseInfo().getGoodsItemsBean().getShopDTO().getId(), list);
+                            } else {
+                                hashMapInteger.get(cartInfoListResult.get(i).getCartBodyBaseInfo().getGoodsItemsBean().getShopDTO().getId()).add(cartInfoListResult.get(i).getCartBodyBaseInfo().getGoodsItemsBean());
+                            }
+                            nameList.add(cartInfoListResult.get(i).getCartBodyBaseInfo().getGoodsItemsBean().getSkuDTO().getId() + "");
+                            integerList.add(cartInfoListResult.get(i).getCartBodyBaseInfo().getGoodsItemsBean().getInPrice() * cartInfoListResult.get(i).getCartBodyBaseInfo().getGoodsItemsBean().getAmount());
                         }
-                        nameList.add(cartInfoListResult.get(i).getCartBodyBaseInfo().getGoodsItemsBean().getSkuDTO().getId() + "");
-                        integerList.add(cartInfoListResult.get(i).getCartBodyBaseInfo().getGoodsItemsBean().getInPrice() * cartInfoListResult.get(i).getCartBodyBaseInfo().getGoodsItemsBean().getAmount());
                     }
                 }
             }
-        }
-        if (nameList.size() == 1) {
-            stringBuilder.append(nameList.get(0));
-            integer = integerList.get(0);
-        } else {
-            for (int j = 0; j < nameList.size(); j++) {
-                //下面处理选中项金额
-                integer = integer + integerList.get(j);
-                //下面处理选中项id
-                stringBuilder.append(nameList.get(j));
-                if (j != nameList.size() - 1) {
-                    stringBuilder.append(",");
-                }
+            if (nameList.size() == 1) {
+                stringBuilder.append(nameList.get(0));
+                integer = integerList.get(0);
+            } else {
+                for (int j = 0; j < nameList.size(); j++) {
+                    //下面处理选中项金额
+                    integer = integer + integerList.get(j);
+                    //下面处理选中项id
+                    stringBuilder.append(nameList.get(j));
+                    if (j != nameList.size() - 1) {
+                        stringBuilder.append(",");
+                    }
 
+                }
             }
+            BaseTool.logPrint(TAG, "doBanlance: -------" + stringBuilder.toString());
+            integerMoney = integer.doubleValue() / 100;
+            selelctGoodsId = stringBuilder.toString();
+            textViewMoney.setText("合计：￥" + integer.doubleValue() / 100);
+        }catch (Exception e) {
+            PgyCrashManager.reportCaughtException(this, e);
         }
-        BaseTool.logPrint(TAG, "doBanlance: -------" + stringBuilder.toString());
-        integerMoney = integer.doubleValue() / 100;
-        selelctGoodsId = stringBuilder.toString();
-        textViewMoney.setText("合计：￥" + integer.doubleValue() / 100);
         return stringBuilder.toString();
 //        if (cartInfoList != null && cartInfoList.size() > 0) {
 //            for (int i = 0; i < cartInfoList.size(); i++) {

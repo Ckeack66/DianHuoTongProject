@@ -76,7 +76,7 @@
         android:layout_height="@dimen/x1"
         android:layout_marginLeft="@dimen/x15"
         android:layout_marginRight="@dimen/x15"
-        android:background="@color/colorCDCDCD" />
+        android:background="@color/colorF7F7F7" />
     <RelativeLayout
         android:id="@+id/system_set_help"
         android:layout_width="wrap_content"
@@ -103,10 +103,11 @@
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="@dimen/x0.5"
+        android:layout_height="@dimen/x1"
         android:layout_marginLeft="@dimen/x15"
         android:layout_marginRight="@dimen/x15"
-        android:background="@color/colorCDCDCD" />
+        android:background="@color/colorF7F7F7"
+        android:visibility="gone" />
 
     <TextView
         android:id="@+id/system_logout"

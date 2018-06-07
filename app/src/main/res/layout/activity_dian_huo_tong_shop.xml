@@ -58,7 +58,7 @@
                     android:textSize="@dimen/t12" />
 
                 <TextView
-                    android:id="@+id/shop_area_best_goods"
+                    android:id="@+id/shop_brand_area"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"

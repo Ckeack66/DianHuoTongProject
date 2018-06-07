@@ -4,24 +4,28 @@
     android:layout_height="@dimen/x40"
     android:background="@color/color04c1ab">
 
-    <ImageView
-        android:id="@+id/shop_title_left_image"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_marginStart="@dimen/x16"
-        android:scaleType="fitCenter"
-        android:background="@color/colorTransp"
-        android:src="@drawable/icon_back" />
+    <FrameLayout
+        android:id="@+id/shop_title_back"
+        android:layout_width="@dimen/x50"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/shop_title_left_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@color/colorTransp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/icon_back" />
+    </FrameLayout>
 
     <RelativeLayout
         android:layout_width="@dimen/x210"
         android:layout_height="@dimen/x30"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="@dimen/x6"
-        android:layout_marginStart="@dimen/x30"
         android:layout_centerVertical="true"
-        android:layout_toRightOf="@id/shop_title_left_image"
+        android:layout_marginBottom="@dimen/x6"
+        android:layout_toEndOf="@id/shop_title_back"
         android:background="@drawable/shape_shop_title">
 
         <ImageView
@@ -47,25 +51,37 @@
             android:textSize="@dimen/t12" />
     </RelativeLayout>
 
-    <ImageView
-        android:id="@+id/shop_order"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <FrameLayout
+        android:id="@+id/shop_order_fl"
+        android:layout_width="@dimen/x40"
+        android:layout_height="match_parent"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_marginBottom="@dimen/x12"
-        android:layout_marginEnd="@dimen/x20"
-        android:background="@color/colorTransp"
-        android:src="@drawable/icon_order" />
+        android:layout_alignParentEnd="true">
 
-    <ImageView
-        android:id="@+id/shop_car"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        <ImageView
+            android:id="@+id/shop_order"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@color/colorTransp"
+            android:src="@drawable/icon_order" />
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/shop_car_fl"
+        android:layout_width="@dimen/x40"
+        android:layout_height="match_parent"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="@dimen/x12"
-        android:layout_marginEnd="@dimen/x20"
-        android:layout_toStartOf="@id/shop_order"
-        android:background="@color/colorTransp"
-        android:src="@drawable/icon_shop_car" />
+        android:layout_marginEnd="@dimen/x6"
+        android:layout_toStartOf="@id/shop_order_fl">
+
+        <ImageView
+            android:id="@+id/shop_car"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@color/colorTransp"
+            android:src="@drawable/icon_shop_car" />
+    </FrameLayout>
+
 </RelativeLayout>

@@ -120,8 +120,8 @@
       \n\t\t\t3.债权人的过错：《合同法》第311条规定、第370条规定：寄存人交付的保管物有瑕疵或者按照保管物的性质需要采取特殊保管措施的，寄存人应当将有关情况告知保管人。寄存人未告知，致使保管物受损失的，保管人不承担损害赔偿责任；保管人因此受损失的，除保管人知道或者应当知道并且未采取补救措施的以外，寄存人应当承担损害赔偿责任。</string>
     <!--联系我们界面-->
     <string name="connect_phone">客服：</string>
-    <string name="connect_wechat">微信：</string>
-    <string name="connect_QQ">QQ：</string>
+    <string name="connect_wechat">微信公众号：</string>
+    <string name="connect_QQ">招商电话：</string>
     <string name="connect_email">邮箱：</string>
 
     <!--服务专员页面-->

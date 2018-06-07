@@ -10,6 +10,8 @@ import com.mhky.dianhuotong.base.BaseApplication;
 import com.mhky.dianhuotong.base.BaseTool;
 import com.mhky.dianhuotong.base.BaseUrlTool;
 import com.mhky.dianhuotong.shop.shopif.CartOprateIF;
+import com.mhky.dianhuotong.shop.shopif.ShopIF;
+import com.mhky.dianhuotong.shop.shopif.ShopInfoIF;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -18,11 +20,14 @@ import java.util.Map;
  * Created by Administrator on 2018/4/23.
  */
 
-public class CartOpratePresenter {
+public class CartOpratePresenter implements ShopInfoIF {
     private CartOprateIF cartOprateIF;
+    private ShopInfoPresenter shopInfoPresenter;
+    private String goodsID;
 
     public CartOpratePresenter(CartOprateIF cartOprateIF) {
         this.cartOprateIF = cartOprateIF;
+        shopInfoPresenter = new ShopInfoPresenter();
     }
 
     public void addCart(Map map) {
@@ -211,7 +216,8 @@ public class CartOpratePresenter {
     }
 
     public void getSku(String goodsId) {
-        if (BaseApplication.getInstansApp().getShopInfoByUserID().getRegionCode()!=null&&!"".equals(BaseApplication.getInstansApp().getShopInfoByUserID().getRegionCode())){
+        goodsID = goodsId;
+        if (BaseApplication.getInstansApp().getShopInfoByUserID() != null && BaseApplication.getInstansApp().getShopInfoByUserID().getRegionCode() != null && !"".equals(BaseApplication.getInstansApp().getShopInfoByUserID().getRegionCode())) {
             HashMap hashMap = new HashMap();
             hashMap.put("regionCode", BaseApplication.getInstansApp().getShopInfoByUserID().getRegionCode());
             OkGo.<String>get(BaseUrlTool.getSkuInfo(goodsId) + BaseTool.getUrlParamsByMap(hashMap, false)).execute(new Callback<String>() {
@@ -255,9 +261,24 @@ public class CartOpratePresenter {
                     return null;
                 }
             });
+        } else {
+            shopInfoPresenter.getShopInfo();
         }
 
     }
 
 
+    @Override
+    public void getShopInfoSuccess(int code, String result) {
+        if (code==200){
+            if (BaseApplication.getInstansApp().getShopInfoByUserID() != null && BaseApplication.getInstansApp().getShopInfoByUserID().getRegionCode() != null ){
+                getSku(goodsID);
+            }
+        }
+    }
+
+    @Override
+    public void getShopInfoFailed(int code, String result) {
+
+    }
 }

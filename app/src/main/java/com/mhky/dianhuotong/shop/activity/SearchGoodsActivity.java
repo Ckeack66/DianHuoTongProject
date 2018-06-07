@@ -46,6 +46,7 @@ import com.mhky.dianhuotong.shop.precenter.SearchGoodsPresenter;
 import com.mhky.dianhuotong.shop.shopif.GetAllCompanyIF;
 import com.mhky.dianhuotong.shop.shopif.GoodsIF;
 import com.mhky.dianhuotong.shop.shopif.SearchGoodsIF;
+import com.pgyersdk.crash.PgyCrashManager;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.constant.SpinnerStyle;
@@ -178,9 +179,9 @@ public class SearchGoodsActivity extends BaseActivity implements SearchGoodsIF, 
             }
         } else if (type != null && type.equals("104")) {
             //搜索
-            type104GoodName=bundle.getString("goodsnm");
+            type104GoodName = bundle.getString("goodsnm");
             dianHuoTongShopTitleBar.setCenterText(type104GoodName);
-            getSrarchData(true,0);
+            getSrarchData(true, 0);
         }
         popuwindow1InfoList = searchGoodsPresenter.getPopupwindowData();
         goodsTypePopupwindow = new GoodsTypePopupwindow(this, popuwindow1InfoList);
@@ -209,7 +210,7 @@ public class SearchGoodsActivity extends BaseActivity implements SearchGoodsIF, 
                     }
                 } else if (type != null && type.equals("104")) {
                     //搜索
-                    getSrarchData(false,1);
+                    getSrarchData(false, 1);
                 } else if (type != null && type.equals("105")) {
                     //新的商家分类
                     getTypeData(type105GoodsId, false, 1);
@@ -237,7 +238,7 @@ public class SearchGoodsActivity extends BaseActivity implements SearchGoodsIF, 
                     }
                 } else if (type != null && type.equals("104")) {
                     //搜索
-                    getSrarchData(false,2);
+                    getSrarchData(false, 2);
                 } else if (type != null && type.equals("105")) {
                     //新的商家分类
                     getTypeData(type105GoodsId, false, 2);
@@ -261,7 +262,7 @@ public class SearchGoodsActivity extends BaseActivity implements SearchGoodsIF, 
         if (childID != null && !childID.equals("")) {
             httpParams.put("categoryIds", childID);
         }
-        if (type104GoodName!=null){
+        if (type104GoodName != null) {
             httpParams.put("search", type104GoodName);
         }
         searchGoodsPresenter.searchGoods(httpParams, isFirst, refreshOrLoadmore);
@@ -273,7 +274,7 @@ public class SearchGoodsActivity extends BaseActivity implements SearchGoodsIF, 
         if (childID != null && !childID.equals("")) {
             httpParams.put("categoryIds", childID);
         }
-        if (type104GoodName!=null){
+        if (type104GoodName != null) {
             httpParams.put("search", type104GoodName);
         }
         searchGoodsPresenter.searchGoods(httpParams, isFirst, refreshOrLoadmore);
@@ -293,20 +294,21 @@ public class SearchGoodsActivity extends BaseActivity implements SearchGoodsIF, 
         if (type107Company != null) {
             httpParams.put("shopId", type107Company);
         }
-        if (type104GoodName!=null){
+        if (type104GoodName != null) {
             httpParams.put("search", type104GoodName);
         }
         searchGoodsPresenter.searchGoods(httpParams, isFirst, refreshOrLoadmore);
     }
 
-    private void getSrarchData( boolean isFirst, int refreshOrLoadmore){
+    private void getSrarchData(boolean isFirst, int refreshOrLoadmore) {
         HttpParams httpParams = new HttpParams();
         httpParams.put("page", number);
-        if (type104GoodName!=null){
+        if (type104GoodName != null) {
             httpParams.put("search", type104GoodName);
         }
         searchGoodsPresenter.searchGoods(httpParams, isFirst, refreshOrLoadmore);
     }
+
     private void getCompanyData(String childID, boolean isFirst, int refreshOrLoadmore, String shopid) {
         HttpParams httpParams = new HttpParams();
         httpParams.put("page", number);
@@ -350,17 +352,32 @@ public class SearchGoodsActivity extends BaseActivity implements SearchGoodsIF, 
 
     @OnClick(R.id.goods_base_choose_tab1)
     void selectTab1() {
-        setTabStateTrue(1);
+        try {
+            setTabStateTrue(1);
+        } catch (Exception e) {
+            PgyCrashManager.reportCaughtException(this, e);
+        }
+
     }
 
     @OnClick(R.id.goods_base_choose_tab2)
     void selectTab2() {
-        setTabStateTrue(2);
+        try {
+            setTabStateTrue(2);
+        } catch (Exception e) {
+            PgyCrashManager.reportCaughtException(this, e);
+        }
+
     }
 
     @OnClick(R.id.goods_base_choose_tab3)
     void selectTab3() {
-        setTabStateTrue(3);
+        try {
+            setTabStateTrue(3);
+        } catch (Exception e) {
+            PgyCrashManager.reportCaughtException(this, e);
+        }
+
     }
 
     @OnClick(R.id.goods_base_choose_tab4)
@@ -440,11 +457,11 @@ public class SearchGoodsActivity extends BaseActivity implements SearchGoodsIF, 
             case 3:
                 textViewChoose3.setTextColor(getResources().getColor(R.color.color04c1ab));
                 imageViewChoose3.setImageResource(R.drawable.icon_choose_selecte);
-                if (companyPopupwindow == null&&allCompanyInfo!=null) {
+                if (companyPopupwindow == null && allCompanyInfo != null) {
                     companyPopupwindow = new CompanyPopupwindow(this, allCompanyInfo.getContent());
                     companyPopupwindow.setOnClickPopupwindowItemListener(this);
                     PopupWindowCompat.showAsDropDown(companyPopupwindow, tabI, 0, 0, Gravity.LEFT);
-                } else if (allCompanyInfo!=null){
+                } else if (allCompanyInfo != null) {
                     PopupWindowCompat.showAsDropDown(companyPopupwindow, tabI, 0, 0, Gravity.LEFT);
                 }
                 tabIsOpen = true;
@@ -500,17 +517,27 @@ public class SearchGoodsActivity extends BaseActivity implements SearchGoodsIF, 
                         searchGoodsAdpter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
                             @Override
                             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                                Bundle bundle = new Bundle();
-                                bundle.putSerializable("id", searchSGoodsBean.getContent().get(position).getId() + "");
-                                BaseTool.goActivityWithData(mContext, GoodsActivity.class, bundle);
+                                try {
+                                    Bundle bundle = new Bundle();
+                                    bundle.putSerializable("id", searchSGoodsBean.getContent().get(position).getId() + "");
+                                    BaseTool.goActivityWithData(mContext, GoodsActivity.class, bundle);
+                                } catch (Exception e) {
+                                    PgyCrashManager.reportCaughtException(mContext, e);
+                                }
+
                                 //ToastUtil.makeText(mContext, "点击了父控件", Toast.LENGTH_SHORT).show();
                             }
                         });
                         searchGoodsAdpter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
                             @Override
                             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-                                BaseTool.logPrint(TAG, "onItemChildClick: ---" + position);
-                                goodsPrecenter.getGoodsInfo(String.valueOf(searchSGoodsBean.getContent().get(position).getId()));
+                                try {
+                                    BaseTool.logPrint(TAG, "onItemChildClick: ---" + position);
+                                    goodsPrecenter.getGoodsInfo(String.valueOf(searchSGoodsBean.getContent().get(position).getId()));
+                                } catch (Exception e) {
+                                    PgyCrashManager.reportCaughtException(mContext, e);
+                                }
+
 
                             }
                         });
@@ -593,6 +620,7 @@ public class SearchGoodsActivity extends BaseActivity implements SearchGoodsIF, 
                 }
             }
         } catch (Exception e) {
+            PgyCrashManager.reportCaughtException(this, e);
             ToastUtil.makeText(this, "系统异常~", Toast.LENGTH_SHORT).show();
         }
     }
@@ -670,13 +698,18 @@ public class SearchGoodsActivity extends BaseActivity implements SearchGoodsIF, 
 
     @Override
     public void getAllCompanyInfoSuccess(int code, String result) {
-        if (code == 200) {
-            allCompanyInfo = JSON.parseObject(result, AllCompanyInfo.class);
-            companyPopupwindow = new CompanyPopupwindow(this, allCompanyInfo.getContent());
-            companyPopupwindow.setOnClickPopupwindowItemListener(this);
-            companyPopupwindow.setTouchable(true);
-            companyPopupwindow.setOutsideTouchable(false);
+        try {
+            if (code == 200) {
+                allCompanyInfo = JSON.parseObject(result, AllCompanyInfo.class);
+                companyPopupwindow = new CompanyPopupwindow(this, allCompanyInfo.getContent());
+                companyPopupwindow.setOnClickPopupwindowItemListener(this);
+                companyPopupwindow.setTouchable(true);
+                companyPopupwindow.setOutsideTouchable(false);
+            }
+        }catch (Exception e){
+            PgyCrashManager.reportCaughtException(this,e);
         }
+
     }
 
     @Override
@@ -698,17 +731,21 @@ public class SearchGoodsActivity extends BaseActivity implements SearchGoodsIF, 
 
     @Override
     public void getGoodsInfoSuccess(int code, String result) {
-        if (code == 200) {
-            if (result != null && !result.equals("")) {
-                hideWindow();
-                goodsInfo = JSON.parseObject(result, GoodsInfo.class);
-                cartPopupwindow = new CartPopupwindow(this, goodsInfo);
-                cartPopupwindow.showAtLocation(dianHuoTongShopTitleBar, Gravity.BOTTOM, 0, 0);
-                //ToastUtil.makeText(mContext, searchSGoodsBean.getContent().get(position).getName(), Toast.LENGTH_SHORT).show();
-            } else {
-                ToastUtil.makeText(mContext, "获取信息失败！", Toast.LENGTH_SHORT).show();
+        try {
+            if (code == 200) {
+                if (result != null && !result.equals("")) {
+                    hideWindow();
+                    goodsInfo = JSON.parseObject(result, GoodsInfo.class);
+                    cartPopupwindow = new CartPopupwindow(this, goodsInfo);
+                    cartPopupwindow.showAtLocation(dianHuoTongShopTitleBar, Gravity.BOTTOM, 0, 0);
+                    //ToastUtil.makeText(mContext, searchSGoodsBean.getContent().get(position).getName(), Toast.LENGTH_SHORT).show();
+                } else {
+                    ToastUtil.makeText(mContext, "获取信息失败！", Toast.LENGTH_SHORT).show();
+                }
+                //textViewUseTime.setText(goodsInfo.getExpiryDate());
             }
-            //textViewUseTime.setText(goodsInfo.getExpiryDate());
+        } catch (Exception e) {
+            PgyCrashManager.reportCaughtException(this, e);
         }
     }
 

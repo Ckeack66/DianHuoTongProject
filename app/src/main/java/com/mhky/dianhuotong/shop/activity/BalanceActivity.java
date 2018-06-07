@@ -2,6 +2,7 @@ package com.mhky.dianhuotong.shop.activity;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Handler;
 import android.os.Message;
 import android.os.Bundle;
@@ -16,6 +17,7 @@ import android.widget.Toast;
 import com.alibaba.fastjson.JSON;
 import com.alipay.sdk.app.EnvUtils;
 import com.alipay.sdk.app.PayTask;
+import com.liqi.utils.encoding.MD5Util;
 import com.mhky.dianhuotong.R;
 import com.mhky.dianhuotong.base.BaseApplication;
 import com.mhky.dianhuotong.base.BaseTool;
@@ -23,22 +25,32 @@ import com.mhky.dianhuotong.base.view.BaseActivity;
 import com.mhky.dianhuotong.custom.AlertDialog.LoadingDialog;
 import com.mhky.dianhuotong.custom.ToastUtil;
 import com.mhky.dianhuotong.custom.viewgroup.DianHuoTongBaseTitleBar;
+import com.mhky.dianhuotong.pay.WXPayInfo;
 import com.mhky.dianhuotong.pay.alipay.AuthResult;
+import com.mhky.dianhuotong.pay.alipay.PayBasicInfo;
 import com.mhky.dianhuotong.pay.alipay.PayResult;
 import com.mhky.dianhuotong.shop.bean.OrderBaseInfo;
 import com.mhky.dianhuotong.shop.bean.ShopAdressInfo;
 import com.mhky.dianhuotong.shop.precenter.BanlancePresenter;
 import com.mhky.dianhuotong.shop.precenter.ShopAdressPresenter;
+import com.mhky.dianhuotong.shop.receiver.BanlanceReciver;
+import com.mhky.dianhuotong.shop.receiver.BanlanceReciverIF;
 import com.mhky.dianhuotong.shop.shopif.BanlanceIF;
 import com.mhky.dianhuotong.shop.shopif.ShopAdressIF;
+import com.mhky.dianhuotong.wxapi.Constants;
+import com.mhky.dianhuotong.wxapi.MD5;
+import com.pgyersdk.crash.PgyCrashManager;
 import com.tencent.mm.opensdk.modelbiz.WXPayInsurance;
 import com.tencent.mm.opensdk.modelpay.PayReq;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -46,7 +58,7 @@ import butterknife.OnClick;
 
 import static com.mhky.dianhuotong.wxapi.Constants.APP_ID;
 
-public class BalanceActivity extends BaseActivity implements BanlanceIF, ShopAdressIF {
+public class BalanceActivity extends BaseActivity implements BanlanceIF, ShopAdressIF ,BanlanceReciverIF{
     @BindView(R.id.balance_title)
     DianHuoTongBaseTitleBar dianHuoTongBaseTitleBar;
     @BindView(R.id.balance_pay11)
@@ -73,6 +85,7 @@ public class BalanceActivity extends BaseActivity implements BanlanceIF, ShopAdr
     private ShopAdressPresenter shopAdressPresenter;
     private LoadingDialog loadingDialog;
     private int state;
+    private BanlanceReciver banlanceReciver;
     private final IWXAPI msgApi = WXAPIFactory.createWXAPI(this, null);
     @SuppressLint("HandlerLeak")
     private Handler mHandler = new Handler() {
@@ -92,8 +105,12 @@ public class BalanceActivity extends BaseActivity implements BanlanceIF, ShopAdr
                     if (TextUtils.equals(resultStatus, "9000")) {
                         // 该笔订单是否真实支付成功，需要依赖服务端的异步通知。
                         Toast.makeText(BalanceActivity.this, "支付成功", Toast.LENGTH_SHORT).show();
-                        if (state==1){
+                        if (state == 1) {
                             setResult(1020);
+                            Intent intent=new Intent();
+                            intent.putExtra("result",0);
+                            intent.setAction(BaseApplication.wxAction);
+                            sendBroadcast(intent);
                         }
                         finish();
                     } else {
@@ -143,8 +160,18 @@ public class BalanceActivity extends BaseActivity implements BanlanceIF, ShopAdr
 
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(banlanceReciver);
+    }
+
     private void init() {
-        loadingDialog=new LoadingDialog(this);
+        banlanceReciver=new BanlanceReciver().setBanlanceReciverIF(this);
+        IntentFilter intentFilter=new IntentFilter();
+        intentFilter.addAction(BaseApplication.wxAction);
+        registerReceiver(banlanceReciver,intentFilter);
+        loadingDialog = new LoadingDialog(this);
         shopAdressPresenter = new ShopAdressPresenter(this);
         shopAdressPresenter.getShopAdress();
         dianHuoTongBaseTitleBar.setLeftImage(R.drawable.icon_back);
@@ -156,9 +183,9 @@ public class BalanceActivity extends BaseActivity implements BanlanceIF, ShopAdr
         });
         dianHuoTongBaseTitleBar.setCenterTextView("结算");
         Bundle bundle = getIntent().getExtras();
-        orderID= bundle.getString("order");
+        orderID = bundle.getString("order");
         money = bundle.getString("money");
-        state=bundle.getInt("state");
+        state = bundle.getInt("state");
         textViewMoney.setText(money + "元");
         banlancePresenter = new BanlancePresenter(this);
         //ToastUtil.makeText(this, goodsId, Toast.LENGTH_SHORT).show();
@@ -194,14 +221,14 @@ public class BalanceActivity extends BaseActivity implements BanlanceIF, ShopAdr
             hashMap.put("paymentType", "ALIPAY");
             banlancePresenter.getPayID(hashMap);
             loadingDialog.show();
-           // ToastUtil.makeText(this, "支付宝结账中...请等待", Toast.LENGTH_SHORT).show();
+            // ToastUtil.makeText(this, "支付宝结账中...请等待", Toast.LENGTH_SHORT).show();
         } else if (payType == 2) {
-            ToastUtil.makeText(this, "微信支付暂未开通", Toast.LENGTH_SHORT).show();
-//            HashMap hashMap = new HashMap();
-//            hashMap.put("orderIds", orderID);
-//            hashMap.put("paymentType", "WECHATPAY");
-//            banlancePresenter.getPayID(hashMap);
-//            loadingDialog.show();
+//            ToastUtil.makeText(this, "微信支付暂未开通", Toast.LENGTH_SHORT).show();
+            HashMap hashMap = new HashMap();
+            hashMap.put("orderIds", orderID);
+            hashMap.put("paymentType", "WECHATPAY");
+            banlancePresenter.getPayID(hashMap);
+            loadingDialog.show();
             //ToastUtil.makeText(this, "微信结账中...请等待", Toast.LENGTH_SHORT).show();
         } else if (payType == 3) {
             ToastUtil.makeText(this, "线下支付暂未开通", Toast.LENGTH_SHORT).show();
@@ -231,59 +258,63 @@ public class BalanceActivity extends BaseActivity implements BanlanceIF, ShopAdr
 
     @Override
     public void getPayCodeSucess(int code, String result) {
-        if (loadingDialog!=null&&loadingDialog.isShowing()){
+        if (loadingDialog != null && loadingDialog.isShowing()) {
             loadingDialog.dismiss();
         }
-        final String orderInfo = result;
-        if (code == 200) {
-            if (payType == 1) {
-                Runnable payRunnable = new Runnable() {
+        try {
+            final String orderInfo = result;
+            if (code == 200) {
+                if (payType == 1) {
+                    Runnable payRunnable = new Runnable() {
+                        @Override
+                        public void run() {
+                            PayTask alipay = new PayTask(BalanceActivity.this);
+                            Map<String, String> result = alipay.payV2(orderInfo, true);
+                            Log.i("msp", result.toString());
+                            Message msg = new Message();
+                            msg.what = SDK_PAY_FLAG;
+                            msg.obj = result;
+                            mHandler.sendMessage(msg);
+                        }
+                    };
 
-                    @Override
-                    public void run() {
-                        PayTask alipay = new PayTask(BalanceActivity.this);
-                        Map<String, String> result = alipay.payV2(orderInfo, true);
-                        Log.i("msp", result.toString());
+                    Thread payThread = new Thread(payRunnable);
+                    payThread.start();
+                } else if (payType == 2) {
+                    // ToastUtil.makeText(this, "微信结账中...请等待", Toast.LENGTH_SHORT).show();
+                    final WXPayInfo wxPayInfo = JSON.parseObject(result, WXPayInfo.class);
+                    Runnable payRunnable1 = new Runnable() {
+                        @Override
+                        public void run() {
+                            PayReq req = new PayReq();
+                            req.appId = wxPayInfo.getAppid();
+                            req.partnerId = Constants.PARTNER_ID;
+                            req.prepayId = wxPayInfo.getPrepay_id();
+                            req.nonceStr = wxPayInfo.getNonce_str();
+                            req.timeStamp = wxPayInfo.getTimestamp();
+                            req.packageValue = "Sign=WXPay";
+                            req.sign = wxPayInfo.getSign();
+                            BaseTool.logPrint("sign", req.sign);
+                            msgApi.sendReq(req);
+                        }
+                    };
+                    Thread payThread1 = new Thread(payRunnable1);
+                    payThread1.start();
 
-                        Message msg = new Message();
-                        msg.what = SDK_PAY_FLAG;
-                        msg.obj = result;
-                        mHandler.sendMessage(msg);
-                    }
-                };
 
-                Thread payThread = new Thread(payRunnable);
-                payThread.start();
-            } else if (payType == 2) {
-                ToastUtil.makeText(this, "微信结账中...请等待", Toast.LENGTH_SHORT).show();
-                Runnable payRunnable1 = new Runnable() {
-                    @Override
-                    public void run() {
-                        PayReq req = new PayReq();
-                        req.appId = "wxf8b4f85f3a794e77";  // 测试用appId
-//                        req.appId			= json.getString("appid");
-//                        req.partnerId		= json.getString("partnerid");
-//                        req.prepayId		= json.getString("prepayid");
-//                        req.nonceStr		= json.getString("noncestr");
-//                        req.timeStamp		= json.getString("timestamp");
-//                        req.packageValue	= json.getString("package");
-//                        req.sign			= json.getString("sign");
-                        req.extData			= "app data"; // optional
-                        msgApi.sendReq(req);
-                    }
-                };
-                Thread payThread1 = new Thread(payRunnable1);
-                payThread1.start();
-
-            } else if (payType == 3) {
-                ToastUtil.makeText(this, "此订单将进行线下结账...请仔细核对商家信息", Toast.LENGTH_SHORT).show();
+                } else if (payType == 3) {
+                    ToastUtil.makeText(this, "此订单将进行线下结账...请仔细核对商家信息", Toast.LENGTH_SHORT).show();
+                }
             }
+        } catch (Exception e) {
+            PgyCrashManager.reportCaughtException(this, e);
         }
+
     }
 
     @Override
     public void getPayCodeFaild(int code, String result) {
-        if (loadingDialog!=null&&loadingDialog.isShowing()){
+        if (loadingDialog != null && loadingDialog.isShowing()) {
             loadingDialog.dismiss();
         }
     }
@@ -306,5 +337,33 @@ public class BalanceActivity extends BaseActivity implements BanlanceIF, ShopAdr
     @Override
     public void getShopAdressFailed(int code, String result) {
 
+    }
+
+    public String getSign(Map<String, String> map) {
+        String[] keys = map.keySet().toArray(new String[0]);
+        Arrays.sort(keys);
+        StringBuffer reqStr = new StringBuffer();
+        for (String key : keys) {
+            String v = map.get(key);
+            if (v != null && !v.equals("")) {
+                reqStr.append(key).append("=").append(v).append("&");
+            }
+        }
+        reqStr.append("key").append("=").append(Constants.APP_SEARCRIT);
+
+        //MD5加密
+        return MD5.md5(reqStr.toString()).toUpperCase();
+    }
+
+    @Override
+    public void doBanlance(int code) {
+        if (code == 0) {
+            ToastUtil.makeText(this, "支付成功", Toast.LENGTH_SHORT).show();
+            finish();
+        } else if (code == 1) {
+            ToastUtil.makeText(this, "取消支付", Toast.LENGTH_SHORT).show();
+        } else if (code == -1) {
+            ToastUtil.makeText(this, "支付失败", Toast.LENGTH_SHORT).show();
+        }
     }
 }

@@ -285,13 +285,20 @@ public class ShopMainFragment extends Fragment implements ShopIF, SortPopupwindo
 
     @OnClick(R.id.shop_star)
     void startShop() {
-        if (shopInfo.isFollowStatus()) {
-            //取消关注
-            starShopPrecenter.getStarShop();
-        } else {
-            //关注店铺
-            starShopPrecenter.addStarShop(shopInfo.getId());
+        try {
+            if (shopInfo!=null){
+                if (shopInfo.isFollowStatus()) {
+                    //取消关注
+                    starShopPrecenter.getStarShop();
+                } else {
+                    //关注店铺
+                    starShopPrecenter.addStarShop(shopInfo.getId());
+                }
+            }
+        } catch (Exception e) {
+            PgyCrashManager.reportCaughtException(getActivity(), e);
         }
+
     }
 
     private void hideWindow() {
@@ -359,19 +366,26 @@ public class ShopMainFragment extends Fragment implements ShopIF, SortPopupwindo
 
     @Override
     public void getShopInfoSuccess(int code, String result) {
-        if (code == 200) {
-            shopInfo = JSON.parseObject(result, ShopInfo.class);
-            if (shopInfo.getLogo() != null) {
-                Picasso.get().load(shopInfo.getLogo()).into(imageViewLogo);
-            }
-            textViewShopName.setText(shopInfo.getName());
-            if (shopInfo.isFollowStatus()) {
-                textViewShopStar.setText("已关注");
-            } else {
-                textViewShopStar.setText("关注");
-            }
+        try {
+            if (code == 200) {
+                shopInfo = JSON.parseObject(result, ShopInfo.class);
+                if (shopInfo!=null){
+                    if (shopInfo.getLogo() != null) {
+                        Picasso.get().load(shopInfo.getLogo()).into(imageViewLogo);
+                    }
+                    textViewShopName.setText(shopInfo.getName());
+                    if (shopInfo.isFollowStatus()) {
+                        textViewShopStar.setText("已关注");
+                    } else {
+                        textViewShopStar.setText("关注");
+                    }
+                }
 
+            }
+        } catch (Exception e) {
+            PgyCrashManager.reportCaughtException(getActivity(), e);
         }
+
     }
 
     @Override
@@ -381,11 +395,16 @@ public class ShopMainFragment extends Fragment implements ShopIF, SortPopupwindo
 
     @Override
     public void getShopTypeSuccess(int code, String result) {
-        if (code == 200) {
-            shopTransferInfoList = JSON.parseArray(result, ShopTypeInfo.class);
-            shopTypePopupwindow = new ShopTypePopupwindow(getActivity(), shopTransferInfoList);
-            shopTypePopupwindow.setOnClickPopupwindowItemListener(this);
+        try {
+            if (code == 200) {
+                shopTransferInfoList = JSON.parseArray(result, ShopTypeInfo.class);
+                shopTypePopupwindow = new ShopTypePopupwindow(getActivity(), shopTransferInfoList);
+                shopTypePopupwindow.setOnClickPopupwindowItemListener(this);
+            }
+        } catch (Exception e) {
+            PgyCrashManager.reportCaughtException(getActivity(), e);
         }
+
     }
 
     @Override
@@ -399,73 +418,78 @@ public class ShopMainFragment extends Fragment implements ShopIF, SortPopupwindo
         sortPopupwindow.setSelectState(number);
         if (number == 0) {
             text = "默认排序";
-            ToastUtil.makeText(getActivity(), "默认排序", Toast.LENGTH_SHORT).show();
+            //ToastUtil.makeText(getActivity(), "默认排序", Toast.LENGTH_SHORT).show();
         } else if (number == 1) {
-            text = "价格排序";
-            ToastUtil.makeText(getActivity(), "价格排序", Toast.LENGTH_SHORT).show();
+            text = "时间排序";
+            //ToastUtil.makeText(getActivity(), "时间排序", Toast.LENGTH_SHORT).show();
         }
         textViewTab2.setText(text);
         setTabStateFalse(2);
-        ToastUtil.makeText(getActivity(), "点击---" + number, Toast.LENGTH_SHORT).show();
+        //ToastUtil.makeText(getActivity(), "点击---" + number, Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onclickType(ShopTypeInfo contentBean) {
         setTabStateFalse(1);
-        ToastUtil.makeText(getActivity(), "点击---" + contentBean.getName(), Toast.LENGTH_SHORT).show();
+        // ToastUtil.makeText(getActivity(), "点击---" + contentBean.getName(), Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void searchGoodsInfoSuccess(int code, String result, boolean isfirst, int refreshOrLoadmore) {
-        if (code == 200) {
-            SearchSGoodsBean searchSGoodsBeans = JSON.parseObject(result, SearchSGoodsBean.class);
-            if (isfirst) {
-                //初始页面
-                searchSGoodsBean = searchSGoodsBeans;
-                BaseTool.logPrint(TAG, "searchGoodsInfoSuccess1: " + searchSGoodsBean.getContent().size());
-                BaseTool.logPrint(TAG, "searchGoodsInfoSuccess2: " + searchSGoodsBeans.getContent().size());
-                if (searchSGoodsBeans.getContent() != null) {
-                    searchGoodsAdpter = new SearchGoodsAdpter(searchSGoodsBean.getContent(), getActivity());
-                    searchGoodsAdpter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-                        @Override
-                        public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                            Bundle bundle = new Bundle();
-                            bundle.putSerializable("id", searchSGoodsBean.getContent().get(position).getId() + "");
-                            BaseTool.goActivityWithData(getActivity(), GoodsActivity.class, bundle);
-                        }
-                    });
-                    searchGoodsAdpter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
-                        @Override
-                        public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-                            goodsPrecenter.getGoodsInfo(String.valueOf(searchSGoodsBean.getContent().get(position).getId()));
-                        }
-                    });
-                    LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
-                    linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-                    linearLayoutManager.setAutoMeasureEnabled(true);
-                    recyclerView.setLayoutManager(linearLayoutManager);
-                    searchGoodsAdpter.openLoadAnimation();
-                    recyclerView.setAdapter(searchGoodsAdpter);
-                }
-
-
-            } else {
-                //刷新或者加载更多界面
-                if (refreshOrLoadmore == 0) {
-                    searchSGoodsBean = null;
+        try {
+            if (code == 200) {
+                SearchSGoodsBean searchSGoodsBeans = JSON.parseObject(result, SearchSGoodsBean.class);
+                if (isfirst) {
+                    //初始页面
                     searchSGoodsBean = searchSGoodsBeans;
-                } else if (refreshOrLoadmore == 1) {
-                    number++;
-                    smartRefreshLayout.finishLoadMore(true);
-                    if (searchSGoodsBeans.getContent().size() < 10) {
-                        searchSGoodsBean.getContent().addAll(searchSGoodsBeans.getContent());
-                        searchGoodsAdpter.addData(searchSGoodsBeans.getContent());
-                    } else if (searchSGoodsBeans.getContent().size() == 0) {
-                        ToastUtil.makeText(getActivity(), "没有更多数据了", Toast.LENGTH_SHORT).show();
+                    BaseTool.logPrint(TAG, "searchGoodsInfoSuccess1: " + searchSGoodsBean.getContent().size());
+                    BaseTool.logPrint(TAG, "searchGoodsInfoSuccess2: " + searchSGoodsBeans.getContent().size());
+                    if (searchSGoodsBeans.getContent() != null) {
+                        searchGoodsAdpter = new SearchGoodsAdpter(searchSGoodsBean.getContent(), getActivity());
+                        searchGoodsAdpter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                                Bundle bundle = new Bundle();
+                                bundle.putSerializable("id", searchSGoodsBean.getContent().get(position).getId() + "");
+                                BaseTool.goActivityWithData(getActivity(), GoodsActivity.class, bundle);
+                            }
+                        });
+                        searchGoodsAdpter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+                            @Override
+                            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                                goodsPrecenter.getGoodsInfo(String.valueOf(searchSGoodsBean.getContent().get(position).getId()));
+                            }
+                        });
+                        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
+                        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+                        linearLayoutManager.setAutoMeasureEnabled(true);
+                        recyclerView.setLayoutManager(linearLayoutManager);
+                        searchGoodsAdpter.openLoadAnimation();
+                        recyclerView.setAdapter(searchGoodsAdpter);
                     }
 
+
+                } else {
+                    //刷新或者加载更多界面
+                    if (refreshOrLoadmore == 0) {
+                        searchSGoodsBean = null;
+                        searchSGoodsBean = searchSGoodsBeans;
+                    } else if (refreshOrLoadmore == 1) {
+                        number++;
+                        smartRefreshLayout.finishLoadMore(true);
+                        if (searchSGoodsBeans.getContent().size() < 10) {
+                            searchSGoodsBean.getContent().addAll(searchSGoodsBeans.getContent());
+                            searchGoodsAdpter.addData(searchSGoodsBeans.getContent());
+                        } else if (searchSGoodsBeans.getContent().size() == 0) {
+                            ToastUtil.makeText(getActivity(), "没有更多数据了", Toast.LENGTH_SHORT).show();
+                        }
+
+                    }
                 }
             }
+
+        } catch (Exception e) {
+            PgyCrashManager.reportCaughtException(getActivity(), e);
         }
 
     }
@@ -487,14 +511,19 @@ public class ShopMainFragment extends Fragment implements ShopIF, SortPopupwindo
 
     @Override
     public void getCompanyTansferSucess(int code, String result) {
-        if (code == 200) {
-            ShopTransferInfo shopTransferInfo = JSON.parseObject(result, ShopTransferInfo.class);
-            if (shopTransferInfo != null) {
-                if (shopTransferInfo.getNotice() != null) {
-                    textViewNotice.setText(shopTransferInfo.getNotice().toString());
+        try {
+            if (code == 200) {
+                ShopTransferInfo shopTransferInfo = JSON.parseObject(result, ShopTransferInfo.class);
+                if (shopTransferInfo != null) {
+                    if (shopTransferInfo.getNotice() != null) {
+                        textViewNotice.setText(shopTransferInfo.getNotice().toString());
+                    }
                 }
             }
+        } catch (Exception e) {
+            PgyCrashManager.reportCaughtException(getActivity(), e);
         }
+
     }
 
     @Override
@@ -504,15 +533,20 @@ public class ShopMainFragment extends Fragment implements ShopIF, SortPopupwindo
 
     @Override
     public void getGoodsInfoSuccess(int code, String result) {
-        if (code == 200) {
-            if (result != null && !result.equals("")) {
-                goodsInfo = JSON.parseObject(result, GoodsInfo.class);
-                cartPopupwindow = new CartPopupwindow(getActivity(), goodsInfo);
-                cartPopupwindow.showAtLocation(linearLayoutHead, Gravity.BOTTOM, 0, 0);
-                //ToastUtil.makeText(mContext, searchSGoodsBean.getContent().get(position).getName(), Toast.LENGTH_SHORT).show();
+        try {
+            if (code == 200) {
+                if (result != null && !result.equals("")) {
+                    goodsInfo = JSON.parseObject(result, GoodsInfo.class);
+                    cartPopupwindow = new CartPopupwindow(getActivity(), goodsInfo);
+                    cartPopupwindow.showAtLocation(linearLayoutHead, Gravity.BOTTOM, 0, 0);
+                    //ToastUtil.makeText(mContext, searchSGoodsBean.getContent().get(position).getName(), Toast.LENGTH_SHORT).show();
+                }
+                //textViewUseTime.setText(goodsInfo.getExpiryDate());
             }
-            //textViewUseTime.setText(goodsInfo.getExpiryDate());
+        } catch (Exception e) {
+            PgyCrashManager.reportCaughtException(getActivity(), e);
         }
+
     }
 
     @Override
@@ -526,8 +560,8 @@ public class ShopMainFragment extends Fragment implements ShopIF, SortPopupwindo
             if (code == 200) {
                 List<StarShopInfo> starShopInfoList = JSON.parseArray(result, StarShopInfo.class);
                 for (int a = 0; a < starShopInfoList.size(); a++) {
-                    if (shopInfo.getId().equals(starShopInfoList.get(a).getCompanyId())) {
-                        starID = starShopInfoList.get(a).getId();
+                    if (shopInfo.getId().equals(starShopInfoList.get(a).getId())) {
+                        starID = starShopInfoList.get(a).getFollowupstreamId();
                         break;
                     }
                 }
@@ -551,6 +585,8 @@ public class ShopMainFragment extends Fragment implements ShopIF, SortPopupwindo
         if (code == 200) {
             shopInfo.setFollowStatus(true);
             textViewShopStar.setText("已关注");
+        } else {
+            ToastUtil.makeText(getActivity(), "关注失败！", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -592,6 +628,10 @@ public class ShopMainFragment extends Fragment implements ShopIF, SortPopupwindo
 
     @Override
     public void onClickBaseDialogRight(String iTag) {
-        starShopPrecenter.delete(starID);
+        try {
+            starShopPrecenter.delete(starID);
+        } catch (Exception e) {
+            PgyCrashManager.reportCaughtException(getActivity(), e);
+        }
     }
 }

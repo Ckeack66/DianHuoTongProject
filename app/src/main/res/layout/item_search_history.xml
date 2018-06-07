@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/x30"
+    android:layout_height="@dimen/x40"
     android:background="@color/white">
     <RelativeLayout
         android:id="@+id/item_click"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:paddingTop="@dimen/x6">
         <TextView
             android:id="@+id/item_search_his_1"
             android:layout_width="wrap_content"
@@ -31,6 +32,7 @@
             android:id="@+id/item_search_delete"
             android:layout_width="@dimen/x30"
             android:layout_height="@dimen/x30"
+            android:layout_marginEnd="@dimen/x10"
             android:layout_alignParentEnd="true">
             <ImageView
                 android:layout_width="@dimen/x20"

@@ -274,6 +274,8 @@ public class CartPopupwindow extends PopupWindow implements View.OnClickListener
                     }
                     typeName = arrayList.toArray(new String[0]);
                     setTagFlowLayout(typeName);
+                }else {
+                    textViewOk.setText("此商品暂不支持您所在地区购买~");
                 }
             } else {
                 ToastUtil.makeText(mContext, "获取信息失败！", Toast.LENGTH_SHORT).show();

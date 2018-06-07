@@ -1,6 +1,7 @@
 package com.mhky.dianhuotong.activity;
 
 import android.content.Context;
+import android.content.IntentFilter;
 import android.graphics.Color;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -26,6 +27,8 @@ import com.mhky.dianhuotong.dingdan.fragment.MyselectFragment4;
 import com.mhky.dianhuotong.shop.bean.OrderBaseInfo;
 import com.mhky.dianhuotong.shop.bean.OrderInfo;
 import com.mhky.dianhuotong.shop.precenter.OrderPrecenter;
+import com.mhky.dianhuotong.shop.receiver.BanlanceReciver;
+import com.mhky.dianhuotong.shop.receiver.BanlanceReciverIF;
 import com.mhky.dianhuotong.shop.shopif.OrderIF;
 
 import java.util.ArrayList;
@@ -35,7 +38,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class MyselectedActivity extends BaseActivity implements RadioGroup.OnCheckedChangeListener, OrderIF {
+public class MyselectedActivity extends BaseActivity implements RadioGroup.OnCheckedChangeListener, OrderIF, BanlanceReciverIF {
     @BindView(R.id.myselect_title)
     DianHuoTongBaseTitleBar dianHuoTongBaseTitleBar;
     @BindView(R.id.myselected_tab)
@@ -80,6 +83,7 @@ public class MyselectedActivity extends BaseActivity implements RadioGroup.OnChe
     private OrderBaseInfo orderBaseInfo;
     private Context mContext;
     private boolean isFirst = false;
+    private BanlanceReciver banlanceReciver;
     private static final String TAG = "MyselectedActivity";
 
     @Override
@@ -92,24 +96,28 @@ public class MyselectedActivity extends BaseActivity implements RadioGroup.OnChe
     }
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(banlanceReciver);
+    }
+
+    @Override
     protected void onResume() {
         super.onResume();
-        if (isFirst){
-            if (BaseApplication.getInstansApp().getPersonInfo().getShopId()!=null){
-                orderPrecenter.getOrder(BaseApplication.getInstansApp().getPersonInfo().getShopId().toString());
-            }
-
-        }
     }
 
     private void inIt() {
+        banlanceReciver = new BanlanceReciver().setBanlanceReciverIF(this);
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(BaseApplication.wxAction);
+        registerReceiver(banlanceReciver, intentFilter);
         orderPrecenter = new OrderPrecenter(this);
-        if (BaseApplication.getInstansApp().getPersonInfo().getShopId()!=null){
+        if (BaseApplication.getInstansApp().getPersonInfo().getShopId() != null) {
             orderPrecenter.getOrder(BaseApplication.getInstansApp().getPersonInfo().getShopId().toString());
         }
         dianHuoTongBaseTitleBar.setLeftImage(R.drawable.icon_back);
         dianHuoTongBaseTitleBar.setCenterTextView(getString(R.string.myselect_title));
-        if (BaseApplication.getInstansApp().getPersonInfo()!=null&&BaseApplication.getInstansApp().getPersonInfo().getShopName()!=null){
+        if (BaseApplication.getInstansApp().getPersonInfo() != null && BaseApplication.getInstansApp().getPersonInfo().getShopName() != null) {
             textViewName.setText(BaseApplication.getInstansApp().getPersonInfo().getShopName().toString());
         }
 
@@ -228,5 +236,14 @@ public class MyselectedActivity extends BaseActivity implements RadioGroup.OnChe
     @Override
     public void getOrderFaild(int code, String result) {
 
+    }
+
+    @Override
+    public void doBanlance(int code) {
+        if (code == 0) {
+            if (BaseApplication.getInstansApp().getPersonInfo().getShopId() != null) {
+                orderPrecenter.getOrder(BaseApplication.getInstansApp().getPersonInfo().getShopId().toString());
+            }
+        }
     }
 }

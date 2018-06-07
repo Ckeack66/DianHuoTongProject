@@ -1,27 +1,27 @@
 package com.mhky.dianhuotong.base;
 
-import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.database.sqlite.SQLiteDatabase;
 import android.support.multidex.MultiDex;
-import android.util.Log;
 
 import com.baidu.mapapi.SDKInitializer;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.lzy.okgo.OkGo;
+import com.mhky.dianhuotong.greendao.DaoMaster;
+import com.mhky.dianhuotong.greendao.DaoSession;
 import com.mhky.dianhuotong.login.LoginRequestInfo;
 import com.mhky.dianhuotong.person.bean.PersonInfo;
 import com.mhky.dianhuotong.shop.bean.GoodsBaseInfo;
 import com.mhky.dianhuotong.shop.bean.ShopInfoByUserID;
 import com.pgyersdk.crash.PgyCrashManager;
-import com.tencent.mm.opensdk.openapi.IWXAPI;
-import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.tencent.smtt.sdk.QbSdk;
 
+import org.greenrobot.greendao.database.Database;
+import org.greenrobot.greendao.query.QueryBuilder;
 import org.litepal.LitePal;
 import org.litepal.LitePalApplication;
 
-import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 /**
@@ -33,9 +33,14 @@ public class BaseApplication extends LitePalApplication {
     private volatile static BaseApplication baseApplication;
     private static final String MY_SHARE_NAME = "mydata";
     private static final String MY_TOAKEN = "mytoaken";
+    private static final String MY_USER_NAME="myusername";
+    private static final String MY_USER_PWD="mypwd";
+    private static final String DAO_SESSION="search-data";
+    public static final String wxAction="com.mhky.dianhuotong.balance";
     private static SharedPreferences mSharedPreferences;
     private Context mContext;
-
+    private String userPhone;
+    private String userPwd;
     public String getMypswsds() {
         return mypswsds;
     }
@@ -65,16 +70,6 @@ public class BaseApplication extends LitePalApplication {
     }
 
     private boolean isUpdata = true;
-
-    public boolean isAddShop() {
-        return isAddShop;
-    }
-
-    public void setAddShop(boolean addShop) {
-        isAddShop = addShop;
-    }
-
-    private boolean isAddShop = true;
 
     public LoginRequestInfo getLoginRequestInfo() {
         return loginRequestInfo;
@@ -137,7 +132,8 @@ public class BaseApplication extends LitePalApplication {
             }
         });
         PgyCrashManager.register(this);
-        LitePal.initialize(this);
+        QueryBuilder.LOG_SQL=true;
+        QueryBuilder.LOG_SQL=true;
     }
 
     public static BaseApplication getInstansApp() {
@@ -159,7 +155,16 @@ public class BaseApplication extends LitePalApplication {
     public boolean setToakens(String toaken) {
         return mSharedPreferences.edit().putString(MY_TOAKEN, toaken).commit();
     }
-
+    public void setUserLoginInfo(String phone,String pwd){
+        mSharedPreferences.edit().putString(MY_USER_NAME, phone).apply();
+        mSharedPreferences.edit().putString(MY_USER_PWD, pwd).apply();
+    }
+    public String getUserPhone(){
+        return mSharedPreferences.getString(MY_USER_NAME, null);
+    }
+    public String getUserPwd(){
+        return mSharedPreferences.getString(MY_USER_PWD, null);
+    }
     public boolean clearToaken() {
         BaseApplication.getInstansApp().setLoginRequestInfo(null);
         BaseApplication.getInstansApp().setPersonInfo(null);

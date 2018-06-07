@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
@@ -20,6 +21,7 @@ import com.mhky.dianhuotong.shop.bean.SearchCompanyInfo;
 import com.mhky.dianhuotong.shop.custom.DianHuoTongShopTitleBar;
 import com.mhky.dianhuotong.shop.precenter.SearchCompanyPresenter;
 import com.mhky.dianhuotong.shop.shopif.SearchCompanyIF;
+import com.pgyersdk.crash.PgyCrashManager;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.constant.SpinnerStyle;
@@ -51,6 +53,7 @@ public class SearchCompanyActivity extends BaseActivity implements SearchCompany
     private SearchCompanyPresenter searchCompanyPresenter;
     private SearchCompanyInfo searchCompanyInfo;
     private Context context;
+    private Bundle bundle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,26 +61,36 @@ public class SearchCompanyActivity extends BaseActivity implements SearchCompany
         setContentView(R.layout.activity_search_company);
         ButterKnife.bind(this);
         context = this;
-        init();
+        try {
+            init();
+        } catch (Exception e) {
+            PgyCrashManager.reportCaughtException(this, e);
+        }
     }
 
     private void init() {
-        type = getIntent().getExtras().getString("type");
-        if ("100".equals(type)) {
-            //搜索店铺名
-            companyType100 = getIntent().getExtras().getString("shopnm");
-        }
+        bundle = getIntent().getExtras();
         searchCompanyPresenter = new SearchCompanyPresenter(this);
         dianHuoTongShopTitleBar.setActivity(this);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(linearLayoutManager);
         setRefesh();
-        if ("100".equals(type)) {
-            getNameInfo();
-        } else {
+        if (bundle != null) {
+            type = bundle.getString("type");
+        }
+        if (!TextUtils.isEmpty(type)) {
+            if ("100".equals(type)) {
+                //搜索店铺名
+                companyType100 = getIntent().getExtras().getString("shopnm");
+                getNameInfo();
+            } else {
+                getInfo();
+            }
+        }else {
             getInfo();
         }
+
 
     }
 
@@ -119,7 +132,7 @@ public class SearchCompanyActivity extends BaseActivity implements SearchCompany
     private void getNameInfo() {
         HttpParams httpParams = new HttpParams();
         httpParams.put("page", pageNumber);
-        httpParams.put("name",companyType100);
+        httpParams.put("name", companyType100);
         searchCompanyPresenter.getCompany(httpParams);
     }
 

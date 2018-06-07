@@ -112,9 +112,7 @@ public class OderOkActivity extends BaseActivity implements OrderOkAdapter.GetEd
         banlancePresenter = new BanlancePresenter(this);
         orderOkPresenter = new OrderOkPresenter(this);
         if (BaseApplication.getInstansApp().getPersonInfo() != null && BaseApplication.getInstansApp().getPersonInfo().getTruename() != null) {
-            textViewName.setText("收货人：" + BaseApplication.getInstansApp().getPersonInfo().getTruename().toString());
-        } else {
-
+            textViewName.setText("收货人：" + BaseApplication.getInstansApp().getPersonInfo().getShopName().toString());
         }
         textViewPhone.setText("联系方式：" + BaseApplication.getInstansApp().getPersonInfo().getMobile());
         dianHuoTongBaseTitleBar.setLeftImage(R.drawable.icon_back);
@@ -367,6 +365,7 @@ public class OderOkActivity extends BaseActivity implements OrderOkAdapter.GetEd
         if (loadingDialog != null && loadingDialog.isShowing()) {
             loadingDialog.dismiss();
         }
+        BaseTool.logPrint("订单",code+result);
         if (code == 201) {
             ToastUtil.makeText(this, "订单提交成功！", Toast.LENGTH_SHORT).show();
             BaseApplication.getInstansApp().setUpdateCart(true);
@@ -422,7 +421,7 @@ public class OderOkActivity extends BaseActivity implements OrderOkAdapter.GetEd
                 stringBuilder.append(shopAdressInfo.getAddress().getProvince());
                 stringBuilder.append(shopAdressInfo.getAddress().getCity());
                 stringBuilder.append(shopAdressInfo.getAddress().getDistrict());
-                stringBuilder.append(shopAdressInfo.getAddress().getTown());
+//                stringBuilder.append(shopAdressInfo.getAddress().getTown());
                 stringBuilder.append(shopAdressInfo.getAddress().getRoad());
                 textViewAdress.setText(stringBuilder.toString());
             }

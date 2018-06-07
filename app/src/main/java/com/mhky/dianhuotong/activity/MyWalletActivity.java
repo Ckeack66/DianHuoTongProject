@@ -1,5 +1,6 @@
 package com.mhky.dianhuotong.activity;
 
+import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -27,6 +28,7 @@ public class MyWalletActivity extends AppCompatActivity {
         ImmersionBar.with(this).titleBar(dianHuoTongBaseTitleBar).transparentStatusBar().init();
         dianHuoTongBaseTitleBar.setLeftImage(R.drawable.icon_back);
         dianHuoTongBaseTitleBar.setCenterTextView("我的钱包");
+        dianHuoTongBaseTitleBar.setBackGround(Color.parseColor("#00ffffff"));
         dianHuoTongBaseTitleBar.setLeftOnclickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

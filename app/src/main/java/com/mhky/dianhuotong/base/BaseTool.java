@@ -327,10 +327,10 @@ public class BaseTool {
         return isBigger;
     }
     public static void logPrint(String ar1,String ar2){
-        if (BuildConfig.LOG_DEBUG){
+//        if (BuildConfig.LOG_DEBUG){
             Log.d("log开始打印->","**************************************************************");
             Log.d(ar1,ar2);
             Log.d("log打印结束->","**************************************************************");
-        }
+//        }
     }
 }

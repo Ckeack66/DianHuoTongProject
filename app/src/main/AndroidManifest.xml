@@ -198,7 +198,9 @@
         <activity android:name=".activity.SelelctAdressActivity" />
         <activity android:name=".activity.SelelctAdress1Activity" />
         <activity android:name=".activity.SelelctAdress2Activity" />
-        <activity android:name=".activity.MyIntroduceActivity"></activity>
+        <activity android:name=".activity.MyIntroduceActivity" />
+        <activity android:name=".shop.activity.StarCompanyActivity" />
+        <activity android:name=".shop.activity.BrandActivity"></activity>
     </application>
 
 </manifest>

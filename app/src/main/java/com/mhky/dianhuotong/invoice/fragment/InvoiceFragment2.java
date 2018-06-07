@@ -14,6 +14,7 @@ import android.widget.Toast;
 import com.alibaba.fastjson.JSON;
 import com.lzy.okgo.model.HttpParams;
 import com.mhky.dianhuotong.R;
+import com.mhky.dianhuotong.base.BaseApplication;
 import com.mhky.dianhuotong.custom.ToastUtil;
 import com.mhky.dianhuotong.shop.bean.BillInfo;
 import com.mhky.dianhuotong.shop.precenter.BillPresenter;
@@ -120,6 +121,7 @@ public class InvoiceFragment2 extends Fragment implements BillIF {
             billInfo.setAccountNumber(editTextBillBankNumber.getText().toString());
             billInfo.setBankName(editTextBillBank.getText().toString());
             billInfo.setTaxNumber(editTextBillNumber.getText().toString());
+            billInfo.setCompositeid(Integer.valueOf(BaseApplication.getInstansApp().getLoginRequestInfo().getShopId().toString()));
             if (radioButton1.isChecked()) {
                 billInfo.setTicketType("UNIVERSAL");
             } else if (radioButton2.isChecked()) {

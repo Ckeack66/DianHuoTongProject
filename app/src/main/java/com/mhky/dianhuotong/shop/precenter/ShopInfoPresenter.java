@@ -40,8 +40,14 @@ public class ShopInfoPresenter {
                     if (response.code() == 200) {
                         ShopInfoByUserID shopInfoByUserID = JSON.parseObject(BaseTool.getResponsBody(response), ShopInfoByUserID.class);
                         BaseApplication.getInstansApp().setShopInfoByUserID(shopInfoByUserID);
+                        if (shopInfoIF!=null){
+                            shopInfoIF.getShopInfoSuccess(response.code(),BaseTool.getResponsBody(response));
+                        }
                     }else {
                         BaseApplication.getInstansApp().setShopInfoByUserID(null);
+                        if (shopInfoIF!=null){
+                            shopInfoIF.getShopInfoFailed(response.code(),BaseTool.getResponsBody(response));
+                        }
                     }
                 }
 
@@ -53,6 +59,9 @@ public class ShopInfoPresenter {
                 @Override
                 public void onError(Response<String> response) {
                     BaseApplication.getInstansApp().setShopInfoByUserID(null);
+                    if (shopInfoIF!=null){
+                        shopInfoIF.getShopInfoFailed(response.code(),BaseTool.getResponsBody(response));
+                    }
                 }
 
                 @Override

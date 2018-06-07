@@ -16,7 +16,6 @@
             android:id="@+id/goodsinfo_back"
             android:layout_width="@dimen/x40"
             android:layout_height="match_parent"
-            android:layout_marginStart="@dimen/x12"
             android:scaleType="center"
             android:src="@drawable/icon_back" />
 

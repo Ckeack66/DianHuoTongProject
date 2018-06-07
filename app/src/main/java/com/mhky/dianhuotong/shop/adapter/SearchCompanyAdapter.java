@@ -33,6 +33,7 @@ public class SearchCompanyAdapter extends BaseQuickAdapter<SearchCompanyInfo.Con
         }else {
             helper.setText(R.id.item_search_shop_transfer,"全场免邮");
         }
+        helper.addOnClickListener(R.id.go_company);
 
     }
 }

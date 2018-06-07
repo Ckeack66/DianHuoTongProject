@@ -1,9 +1,4 @@
 package com.mhky.dianhuotong.base;
-
-import android.util.Log;
-
-import com.mhky.dianhuotong.BuildConfig;
-
 /**
  * Created by Administrator on 2018/4/2.
  */
@@ -13,17 +8,17 @@ public class BaseUrlTool {
      * 主机
      */
 //release
-//    private final static String HOSTS = "http://116.255.150.39:";//release
-//    private final static String HOSTS_CART = "http://116.255.158.91:";//release
-//    private final static String HOST_IMAGE_URL = "http://116.255.155.156:9040";//release  Imge
-//    private final static String HOSTS_ORDER="http://116.255.158.91:";
-//    private final static String HOST_URL_COUPON="http://116.255.158.91:"+"9060";
+    private final static String HOSTS = "http://116.255.150.39:";//release
+    private final static String HOSTS_CART = "http://116.255.158.91:";//release
+    private final static String HOST_IMAGE_URL = "http://116.255.155.156:9040";//release  Imge
+    private final static String HOSTS_ORDER="http://116.255.158.91:";
+    private final static String HOST_URL_COUPON="http://116.255.158.91:"+"9060";
     //debug
-    private final static String HOSTS = "http://192.168.2.158:";//debug
-    private final static String HOSTS_CART = "http://192.168.2.158:";
-    private final static String HOST_IMAGE_URL = HOSTS + "9040";//debug  Imge
-    private final static String HOSTS_ORDER = "http://192.168.2.158:";
-    private final static String HOST_URL_COUPON = "http://192.168.2.158:" + "9060";
+//    private final static String HOSTS = "http://192.168.2.158:";//debug
+//    private final static String HOSTS_CART = "http://192.168.2.158:";
+//    private final static String HOST_IMAGE_URL = HOSTS + "9040";//debug  Imge
+//    private final static String HOSTS_ORDER = "http://192.168.2.158:";
+//    private final static String HOST_URL_COUPON = "http://192.168.2.158:" + "9060";
 
     /**
      * 上传图片地址
@@ -33,9 +28,15 @@ public class BaseUrlTool {
     private final static String HOST_ADRESS_URL = HOSTS + "8018";
     private final static String HOST_GOODS_URL = HOSTS + "9000";
     private final static String HOST_CART_URL = HOSTS_CART + "9050";
+
+
     private final static String HOST_BANLANCE_URL = HOSTS_ORDER + "9030";
+
+
+
+
     private final static String HOST_ADVERT_URL = HOSTS_CART + "9070";
-    private final static String HOST_PROMOTE_URL = HOSTS + "8889";
+    private final static String HOST_PROMOTE_URL = HOSTS_ORDER + "8889";
 //    private final static String HOST_ACTIVITY_URL=HOSTS+"9060";
 //    private final static String HOST_ADRESS_URL = "http://192.168.2.235:8088";
     //        private final static String HOST_URL = "http://192.168.2.235:9088";
@@ -313,12 +314,17 @@ public class BaseUrlTool {
      */
     public static final String GET_COMPANY_LIST = HOST_URL + "/user/seller/company/list";
     /**
-     * 获取http://192.168.2.158:8889/extension/user/15012341221/mobile
+     * 获取推广
      */
     private static final String GET_PROMOTE = HOST_PROMOTE_URL + "/extension/user/";
 
     public static String getPromote(String phone) {
         return GET_PROMOTE + phone + "/mobile";
     }
+
+    /**
+     * 分页获取品牌信息
+     */
+    public static final String GET_BRAND=HOST_GOODS_URL+"/brand";
 
 }

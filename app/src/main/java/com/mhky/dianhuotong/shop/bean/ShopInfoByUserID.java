@@ -8,15 +8,19 @@ import java.util.List;
  */
 
 public class ShopInfoByUserID implements Serializable {
+
     /**
-     * id : 17
-     * shopname : 惠民大药房
-     * mapPoint : 116.901971,36.682196
-     * address : {"province":"山东省","city":"济南市","district":"槐荫区","town":"腊山街道办事处","road":"大柏树235号"}
+     * id : 57
+     * shopname : 济南平民药店
+     * mapPoint : 116.902086,36.682308
+     * address : {"province":"山东省","city":"济南市","district":"槐荫区","town":"道德街街道办事处","road":"齐州路1850"}
      * shopType : DRUGSTORE
-     * status : UNAUDITED
-     * buyers : [{"id":45,"username":"药大仙7398","password":"$2a$10$i5RMCbc5xuXmWLUJjemjrehqFDw8zRSILdZwe6bEFn5v2ZBV3aNFm","mobile":"15043214322","createTime":"2018-05-11 14:34:12","truename":null,"type":1,"image":null,"new":false},{"id":19,"username":"孙大香","password":"$2a$10$O4DSr5thmt1hJpbXtZnpOuio7TpUAthKQuBS3oxSX7sUI6jut./ea","mobile":"15043214321","createTime":"2018-04-14 16:23:52","truename":"大张伟","type":1,"image":"http://192.168.2.158:9040/20180415\\USER\\15237715444861528.jpg","new":false}]
-     * createTime : null
+     * status : APPROVED
+     * regionCode : 370104003000
+     * postalcode : 024000
+     * phone : 02188923367
+     * buyers : [{"id":76,"username":"药大仙2748","password":"$2a$10$LieH5O9VppLDaP4GNKdBt.Yap43y0TMXIYN/1EeDlOHL2CD91WRDW","mobile":"15012341234","createTime":"2018-06-05 10:07:07","truename":null,"type":1,"image":null,"salesmanCode":null,"auditStatus":"APPROVED","new":false}]
+     * createTime : 2018-06-05 10:09:25
      */
 
     private int id;
@@ -25,17 +29,10 @@ public class ShopInfoByUserID implements Serializable {
     private AddressBean address;
     private String shopType;
     private String status;
-    private Object createTime;
-
-    public String getRegionCode() {
-        return regionCode;
-    }
-
-    public void setRegionCode(String regionCode) {
-        this.regionCode = regionCode;
-    }
-
     private String regionCode;
+    private String postalcode;
+    private String phone;
+    private String createTime;
     private List<BuyersBean> buyers;
 
     public int getId() {
@@ -86,11 +83,35 @@ public class ShopInfoByUserID implements Serializable {
         this.status = status;
     }
 
-    public Object getCreateTime() {
+    public String getRegionCode() {
+        return regionCode;
+    }
+
+    public void setRegionCode(String regionCode) {
+        this.regionCode = regionCode;
+    }
+
+    public String getPostalcode() {
+        return postalcode;
+    }
+
+    public void setPostalcode(String postalcode) {
+        this.postalcode = postalcode;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(Object createTime) {
+    public void setCreateTime(String createTime) {
         this.createTime = createTime;
     }
 
@@ -107,8 +128,8 @@ public class ShopInfoByUserID implements Serializable {
          * province : 山东省
          * city : 济南市
          * district : 槐荫区
-         * town : 腊山街道办事处
-         * road : 大柏树235号
+         * town : 道德街街道办事处
+         * road : 齐州路1850
          */
 
         private String province;
@@ -160,14 +181,16 @@ public class ShopInfoByUserID implements Serializable {
 
     public static class BuyersBean {
         /**
-         * id : 45
-         * username : 药大仙7398
-         * password : $2a$10$i5RMCbc5xuXmWLUJjemjrehqFDw8zRSILdZwe6bEFn5v2ZBV3aNFm
-         * mobile : 15043214322
-         * createTime : 2018-05-11 14:34:12
+         * id : 76
+         * username : 药大仙2748
+         * password : $2a$10$LieH5O9VppLDaP4GNKdBt.Yap43y0TMXIYN/1EeDlOHL2CD91WRDW
+         * mobile : 15012341234
+         * createTime : 2018-06-05 10:07:07
          * truename : null
          * type : 1
          * image : null
+         * salesmanCode : null
+         * auditStatus : APPROVED
          * new : false
          */
 
@@ -176,9 +199,11 @@ public class ShopInfoByUserID implements Serializable {
         private String password;
         private String mobile;
         private String createTime;
-        private Object truename;
+        private String truename;
         private int type;
-        private Object image;
+        private String image;
+        private String salesmanCode;
+        private String auditStatus;
         private boolean newX;
 
         public int getId() {
@@ -221,11 +246,11 @@ public class ShopInfoByUserID implements Serializable {
             this.createTime = createTime;
         }
 
-        public Object getTruename() {
+        public String getTruename() {
             return truename;
         }
 
-        public void setTruename(Object truename) {
+        public void setTruename(String truename) {
             this.truename = truename;
         }
 
@@ -237,12 +262,28 @@ public class ShopInfoByUserID implements Serializable {
             this.type = type;
         }
 
-        public Object getImage() {
+        public String getImage() {
             return image;
         }
 
-        public void setImage(Object image) {
+        public void setImage(String image) {
             this.image = image;
+        }
+
+        public String getSalesmanCode() {
+            return salesmanCode;
+        }
+
+        public void setSalesmanCode(String salesmanCode) {
+            this.salesmanCode = salesmanCode;
+        }
+
+        public String getAuditStatus() {
+            return auditStatus;
+        }
+
+        public void setAuditStatus(String auditStatus) {
+            this.auditStatus = auditStatus;
         }
 
         public boolean isNewX() {

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical"
+    tools:context=".shop.activity.StarCompanyActivity">
+
+    <com.mhky.dianhuotong.custom.viewgroup.DianHuoTongBaseTitleBar
+        android:id="@+id/star_shop_title"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/x40" />
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:id="@+id/star_shop_res"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/star_shop_rv"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+            <RelativeLayout
+                android:id="@+id/star_shop_tips"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/white"
+                android:visibility="gone">
+
+                <TextView
+                    android:id="@+id/search_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:text="没有搜索到任何内容哦"
+                    android:textColor="@color/color333333" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_above="@id/search_text"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginBottom="@dimen/x30"
+                    android:src="@drawable/icon_nothing" />
+            </RelativeLayout>
+        </FrameLayout>
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+</LinearLayout>

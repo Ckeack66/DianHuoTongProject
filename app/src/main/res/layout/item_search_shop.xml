@@ -41,6 +41,7 @@
         android:textColor="@color/colorB23700"
         android:textSize="@dimen/t12" />
     <TextView
+        android:id="@+id/go_company"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="@dimen/t14"

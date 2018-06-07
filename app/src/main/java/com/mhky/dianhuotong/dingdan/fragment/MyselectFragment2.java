@@ -201,7 +201,7 @@ public class MyselectFragment2 extends Fragment {
 
         } else if (type == 1) {
             if (orderBaseInfo != null) {
-                orderInfoList = orderDataPresenter.getOrderList(orderBaseInfo);
+                orderInfoList = orderDataPresenter.getOrderListFragment2(orderBaseInfo);
                 orderAdapter.setNewData(orderInfoList);
             }
         }

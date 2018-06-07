@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/x50"
+    android:background="@color/white">
+    <RelativeLayout
+        android:id="@+id/brand_go_search"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <TextView
+            android:id="@+id/brand_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="修正"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="@dimen/x10"
+            android:textSize="@dimen/t16"
+            android:textColor="@color/color333333" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="品牌商品"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="@dimen/x10"
+            android:textSize="@dimen/t14"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="@dimen/x10"
+            android:background="@drawable/shape_search_shop"
+            android:paddingTop="@dimen/x4"
+            android:paddingBottom="@dimen/x4"
+            android:paddingStart="@dimen/x6"
+            android:paddingEnd="@dimen/x6"
+            android:textColor="@color/colorWhite" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/x1"
+            android:background="@color/colorF7F7F7"/>
+    </RelativeLayout>
+</FrameLayout>

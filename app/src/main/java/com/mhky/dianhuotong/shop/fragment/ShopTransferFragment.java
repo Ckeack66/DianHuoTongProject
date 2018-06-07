@@ -101,6 +101,7 @@ public class ShopTransferFragment extends Fragment implements CompanyIF {
         unbinder = ButterKnife.bind(this, view);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 2);
         recyclerView.setLayoutManager(gridLayoutManager);
+        recyclerView.setNestedScrollingEnabled(false);
         companyPrecenter = new CompanyPrecenter(this);
         shopCredentialBaseInfoList = new ArrayList<>();
         companyPrecenter.getCompanyTansferInfo(mParam1);

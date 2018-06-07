@@ -1,41 +1,41 @@
 package com.mhky.dianhuotong.shop.activity;
 
-import android.content.Context;
+import android.Manifest;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Rect;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
+import com.joker.annotation.PermissionsDenied;
+import com.joker.annotation.PermissionsGranted;
+import com.joker.annotation.PermissionsRequestSync;
+import com.joker.api.Permissions4M;
 import com.mhky.dianhuotong.R;
 import com.mhky.dianhuotong.base.BaseTool;
+import com.mhky.dianhuotong.base.view.BaseActivity;
+import com.mhky.dianhuotong.custom.ToastUtil;
 import com.mhky.dianhuotong.custom.viewgroup.DianHuoTongBaseTitleBar;
 import com.mhky.dianhuotong.shop.tool.QRCodeUtil;
-import com.tencent.mm.opensdk.modelmsg.SendAuth;
+import com.pgyersdk.crash.PgyCrashManager;
 import com.tencent.mm.opensdk.modelmsg.SendMessageToWX;
 import com.tencent.mm.opensdk.modelmsg.WXImageObject;
 import com.tencent.mm.opensdk.modelmsg.WXMediaMessage;
 import com.tencent.mm.opensdk.modelmsg.WXTextObject;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
-
 import java.io.ByteArrayOutputStream;
-import java.nio.ByteBuffer;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import cn.bingoogolapple.qrcode.core.BGAQRCodeUtil;
-import cn.bingoogolapple.qrcode.zxing.QRCodeDecoder;
-import cn.bingoogolapple.qrcode.zxing.QRCodeEncoder;
-
 import static com.mhky.dianhuotong.wxapi.Constants.APP_ID;
-
-public class CardActivity extends AppCompatActivity {
+@PermissionsRequestSync(permission = {Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE}, value = {101, 102})
+public class CardActivity extends BaseActivity {
     @BindView(R.id.shop_code_title)
     DianHuoTongBaseTitleBar dianHuoTongBaseTitleBar;
     @BindView(R.id.shop_code_img)
@@ -43,6 +43,8 @@ public class CardActivity extends AppCompatActivity {
     private IWXAPI api;
     private Bitmap bitmap;
     private Bitmap bitmap1;
+    private boolean a;
+    private boolean b;
     public static final String CARD_TAG = "card101";
     private static final String TAG = "CardActivity";
 
@@ -51,7 +53,7 @@ public class CardActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_card);
         ButterKnife.bind(this);
-        init();
+        Permissions4M.get(this).requestSync();
     }
 
     private void init() {
@@ -67,7 +69,11 @@ public class CardActivity extends AppCompatActivity {
         api.registerApp(APP_ID);
         getCode();
     }
-
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        Permissions4M.onRequestPermissionsResult(this, requestCode, grantResults);
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
     @OnClick(R.id.card_wx)
     void shareWx() {
         share(0);
@@ -168,6 +174,44 @@ public class CardActivity extends AppCompatActivity {
             }
             i = bitmap1.getHeight();
             j = bitmap1.getHeight();
+        }
+    }
+
+    @PermissionsGranted({101, 102})
+    void getLocationGrantsucess(int code) {
+        switch (code) {
+            case 101:
+                a = true;
+                if (b) {
+                    try {
+                        init();
+                    } catch (Exception e) {
+                        PgyCrashManager.reportCaughtException(this, e);
+                    }
+                }
+                break;
+            case 102:
+                b = true;
+                if (a) {
+                    try {
+                        init();
+                    } catch (Exception e) {
+                        PgyCrashManager.reportCaughtException(this, e);
+                    }
+                }
+                break;
+        }
+    }
+
+    @PermissionsDenied({101, 102})
+    void getLocationGrantFaile(int code) {
+        switch (code) {
+            case 101:
+                ToastUtil.makeText(this, "请打开存储权限", Toast.LENGTH_SHORT).show();
+                break;
+            case 102:
+                ToastUtil.makeText(this, "请打开存储权限", Toast.LENGTH_SHORT).show();
+                break;
         }
     }
 }

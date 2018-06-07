@@ -22,24 +22,25 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            buildConfigField "boolean","LOG_DEBUG","false"
-            buildConfigField "String","WXAppid",'"wx70a7a6a9571037f7"'
-            buildConfigField "String","BDMapAppid",'"123"'
-            buildConfigField "String","HOSTS",'"http://116.255.150.39:"'
-            buildConfigField "String","HOSTS_CART",'"http://116.255.158.91:"'
-            buildConfigField "String","HOST_IMAGE_URL",'"http://116.255.155.156:9040"'
-            buildConfigField "String","HOSTS_ORDER",'"http://116.255.158.91:"'
-            buildConfigField "String","HOST_URL_COUPON",'"http://116.255.158.91:9060"'
+            buildConfigField "boolean", "LOG_DEBUG", "false"
+            buildConfigField "String", "WXAppid", '"wx1aa6ee31b052846b"'
+            buildConfigField "String", "BDMapAppid", '"123"'
+            buildConfigField "String", "HOSTS", '"http://116.255.150.39:"'
+            buildConfigField "String", "HOSTS_CART", '"http://116.255.158.91:"'
+            buildConfigField "String", "HOST_IMAGE_URL", '"http://116.255.155.156:9040"'
+            buildConfigField "String", "HOSTS_ORDER", '"http://116.255.158.91:"'
+            buildConfigField "String", "HOST_URL_COUPON", '"http://116.255.158.91:9060"'
         }
-        debug{
-            buildConfigField "boolean","LOG_DEBUG","true"
-            buildConfigField "String","WXAppid",'"wx70a7a6a9571037f7"'
-            buildConfigField "String","BDMapAppid",'"123"'
-            buildConfigField "String","HOSTS",'"http://192.168.2.158:"'
-            buildConfigField "String","HOSTS_CART",'"http://192.168.2.158:"'
-            buildConfigField "String","HOST_IMAGE_URL",'"http://192.168.2.158:9040"'
-            buildConfigField "String","HOSTS_ORDER",'"http://192.168.2.158:"'
-            buildConfigField "String","HOST_URL_COUPON",'"http://192.168.2.158:9060"'
+        debug {
+            buildConfigField "boolean", "LOG_DEBUG", "true"
+            buildConfigField "String", "WXAppid", '"wx1aa6ee31b052846b"'
+            buildConfigField "String", "BDMapAppid", '"123"'
+            buildConfigField "String", "HOSTS", '"http://192.168.2.158:"'
+            buildConfigField "String", "HOSTS_CART", '"http://192.168.2.158:"'
+            buildConfigField "String", "HOST_IMAGE_URL", '"http://192.168.2.158:9040"'
+            buildConfigField "String", "HOSTS_ORDER", '"http://192.168.2.158:"'
+            buildConfigField "String", "HOST_URL_COUPON", '"http://192.168.2.158:9060"'
+            signingConfig signingConfigs.config
         }
     }
     repositories {
@@ -47,7 +48,7 @@ android {
             url "https://jitpack.io"
         }
     }
-    buildToolsVersion '27.0.3'
+    buildToolsVersion '26.0.1'
     productFlavors {
     }
     allprojects {
@@ -65,18 +66,36 @@ android {
         multiDexEnabled true
     }
 }
-
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'org.greenrobot:greendao-gradle-plugin:3.2.2'
+    }
+}
+apply plugin: 'org.greenrobot.greendao'
+greendao {
+    schemaVersion 1  //版本
+    daoPackage 'com.mhky.dianhuotong.greendao' // 一般为app包名+生成文件的文件夹名
+    targetGenDir 'src/main/java' //生成文件路径
+}
+sourceSets {
+    main {
+        java.srcDirs = ['src/main/java']
+    }
+}
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
 
     //noinspection GradleCompatible
     implementation 'com.android.support:appcompat-v7:26.1.0'
-    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
+    implementation 'com.android.support.constraint:constraint-layout:1.1.0'
     implementation 'com.android.support:design:26.1.0'
     implementation 'com.android.support:support-v4:26.1.0'
     testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'com.android.support.test:runner:1.0.1'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
+    androidTestImplementation 'com.android.support.test:runner:1.0.2'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 
     //butterknife
     compile 'com.jakewharton:butterknife:8.8.1'
@@ -183,7 +202,11 @@ dependencies {
     //蒲公英
     implementation 'com.pgyersdk:sdk:2.8.1'
     implementation 'com.google.zxing:core:3.3.2'
+
     //数据库
     implementation 'org.litepal.android:core:1.6.1'
+    implementation 'org.greenrobot:greendao:3.2.2'
 
+    //implementation 'org.greenrobot:greendao-generator:3.2.2'
+    implementation project(':shiyaolibrary')
 }

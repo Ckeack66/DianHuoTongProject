@@ -14,11 +14,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
+import com.lzy.okgo.model.HttpParams;
 import com.mhky.dianhuotong.advert.AdvertInfo;
 import com.mhky.dianhuotong.advert.AdvertMainIF;
 import com.mhky.dianhuotong.advert.AdvertMainPresenter;
 import com.mhky.dianhuotong.shop.activity.AllGoodsActivity;
+import com.mhky.dianhuotong.shop.activity.BrandActivity;
 import com.mhky.dianhuotong.shop.activity.SearchCompanyActivity;
+import com.mhky.dianhuotong.shop.activity.VipShopActivity;
 import com.mhky.dianhuotong.shop.adapter.ShopListviewAdapter;
 import com.mhky.dianhuotong.shop.adapter.ShopMiaoShaAdapter;
 import com.mhky.dianhuotong.shop.custom.DianHuoTongShopTitleBar;
@@ -109,7 +112,7 @@ public class DianHuoTongShopActivity extends BaseActivity implements  OnBannerLi
 
     private void inIt() {
         advertMainPresenter=new AdvertMainPresenter(this);
-        advertMainPresenter.getAdvertMain();
+        advertMainPresenter.getAdvertShopMain();
         shopInfoPresenter=new ShopInfoPresenter();
         dianHuoTongShopTitleBar.setActivity(this);
         int a = new Random().nextInt(10);
@@ -134,7 +137,11 @@ public class DianHuoTongShopActivity extends BaseActivity implements  OnBannerLi
     }
     @OnClick(R.id.shop_area_vipshop)
     void goAllCompany(){
-        BaseTool.goActivityNoData(this, SearchCompanyActivity.class);
+        BaseTool.goActivityNoData(this, VipShopActivity.class);
+    }
+    @OnClick(R.id.shop_brand_area)
+    void goBrand(){
+        BaseTool.goActivityNoData(this, BrandActivity.class);
     }
 
     //初始化轮播图

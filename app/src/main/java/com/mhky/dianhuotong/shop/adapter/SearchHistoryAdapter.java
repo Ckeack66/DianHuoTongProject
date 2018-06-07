@@ -6,20 +6,21 @@ import android.support.annotation.Nullable;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.mhky.dianhuotong.R;
+import com.mhky.dianhuotong.database.SearchBaseInfo;
 import com.mhky.dianhuotong.database.SearchHistoryTable;
 
 import java.util.List;
 
-public class SearchHistoryAdapter extends BaseQuickAdapter<SearchHistoryTable, BaseViewHolder> {
+public class SearchHistoryAdapter extends BaseQuickAdapter<SearchBaseInfo, BaseViewHolder> {
     private Context contextSearch;
 
-    public SearchHistoryAdapter(@Nullable List<SearchHistoryTable> data, Context context) {
+    public SearchHistoryAdapter(@Nullable List<SearchBaseInfo> data, Context context) {
         super(R.layout.item_search_history, data);
         contextSearch = context;
     }
 
     @Override
-    protected void convert(BaseViewHolder helper, SearchHistoryTable item) {
+    protected void convert(BaseViewHolder helper, SearchBaseInfo item) {
         helper.addOnClickListener(R.id.item_click);
         if (item.getType() == 0) {
             //商品

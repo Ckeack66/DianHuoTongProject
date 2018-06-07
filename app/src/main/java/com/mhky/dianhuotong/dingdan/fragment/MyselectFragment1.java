@@ -156,22 +156,6 @@ public class MyselectFragment1 extends Fragment {
                 linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
                 recyclerView.setLayoutManager(linearLayoutManager);
                 orderAdapter = new OrderAdapter(orderInfoList, getActivity());
-                orderAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-//                        switch (adapter.getItemViewType(position)) {
-//                            case OrderInfo.TOP:
-//                                ToastUtil.makeText(getActivity(),"点击了上部"+position, Toast.LENGTH_SHORT).show();
-//                                break;
-//                            case OrderInfo.BODY:
-//                                ToastUtil.makeText(getActivity(),"点击了中部"+position, Toast.LENGTH_SHORT).show();
-//                                break;
-//                            case OrderInfo.BOTTOM:
-//                                ToastUtil.makeText(getActivity(),"点击了下部"+position, Toast.LENGTH_SHORT).show();
-//                                break;
-//                        }
-                    }
-                });
                 orderAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
                     @Override
                     public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {

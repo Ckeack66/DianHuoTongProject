@@ -37,7 +37,7 @@ import butterknife.OnClick;
 
 public class LoginActivity extends BaseActivity implements LoginIF {
     @BindView(R.id.login_title)
-    DianHuoTongBaseTitleBar diaHuiTongBaseTitleBar;
+    DianHuoTongBaseTitleBar diaHuoTongBaseTitleBar;
     @BindView(R.id.login_phone)
     EditText editTextPhone;
     @BindView(R.id.login_pwd)
@@ -60,7 +60,7 @@ public class LoginActivity extends BaseActivity implements LoginIF {
     }
 
     private void inIt() {
-        ImmersionBar.with(this).titleBar(diaHuiTongBaseTitleBar).transparentStatusBar().keyboardEnable(true,WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN).setOnKeyboardListener(new OnKeyboardListener() {
+        ImmersionBar.with(this).titleBar(diaHuoTongBaseTitleBar).transparentStatusBar().keyboardEnable(true,WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN).setOnKeyboardListener(new OnKeyboardListener() {
             @Override
             public void onKeyboardChange(boolean isPopup, int keyboardHeight) {
                 BaseTool.logPrint("键盘",String.valueOf(isPopup)+keyboardHeight);
@@ -68,10 +68,10 @@ public class LoginActivity extends BaseActivity implements LoginIF {
         }).init();
         imageViewState = false;
         loadingDialog = new LoadingDialog(this);
-        diaHuiTongBaseTitleBar.setLeftImage(R.drawable.icon_back);
-        diaHuiTongBaseTitleBar.setCenterTextView("登录");
-        diaHuiTongBaseTitleBar.setBackGround(Color.parseColor("#00ffffff"));
-        diaHuiTongBaseTitleBar.setLeftOnclickListener(new View.OnClickListener() {
+        diaHuoTongBaseTitleBar.setLeftImage(R.drawable.icon_back);
+        diaHuoTongBaseTitleBar.setCenterTextView("登录");
+        diaHuoTongBaseTitleBar.setBackGround(Color.parseColor("#00ffffff"));
+        diaHuoTongBaseTitleBar.setLeftOnclickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
@@ -170,6 +170,7 @@ public class LoginActivity extends BaseActivity implements LoginIF {
         }
         if (code == 200) {
             ToastUtil.makeText(this, "登陆成功..", Toast.LENGTH_SHORT).show();
+            BaseApplication.getInstansApp().setUserLoginInfo(editTextPhone.getText().toString(), MD5Util.md5(editTextPwd.getText().toString().trim()));
             BaseApplication.getInstansApp().setMypswsds(MD5Util.md5(editTextPwd.getText().toString().trim()));
             finish();
         } else {

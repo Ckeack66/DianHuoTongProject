@@ -1,6 +1,7 @@
 package com.mhky.dianhuotong.shop.activity;
 
 import android.Manifest;
+import android.app.Application;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.annotation.NonNull;
@@ -16,23 +17,29 @@ import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.joker.annotation.PermissionsDenied;
 import com.joker.annotation.PermissionsGranted;
 import com.joker.annotation.PermissionsRequestSync;
 import com.joker.api.Permissions4M;
 import com.mhky.dianhuotong.R;
+import com.mhky.dianhuotong.base.BaseApplication;
 import com.mhky.dianhuotong.base.BaseTool;
 import com.mhky.dianhuotong.base.view.BaseActivity;
 import com.mhky.dianhuotong.custom.AlertDialog.CredentialBaseDialog;
 import com.mhky.dianhuotong.custom.ToastUtil;
 import com.mhky.dianhuotong.custom.viewgroup.DianHuoTongBaseTitleBar;
+import com.mhky.dianhuotong.database.SearchBaseInfo;
 import com.mhky.dianhuotong.database.SearchHistoryTable;
+import com.mhky.dianhuotong.greendao.DaoMaster;
+import com.mhky.dianhuotong.greendao.SearchBaseInfoDao;
 import com.mhky.dianhuotong.shop.adapter.SearchHistoryAdapter;
 import com.mhky.dianhuotong.shop.bean.CouponInfo;
 import com.mhky.dianhuotong.shop.custom.BaseListDialog;
@@ -41,6 +48,8 @@ import com.mhky.dianhuotong.shop.custom.CouponDialog;
 import com.mhky.dianhuotong.shop.custom.DianHuoTongShopTitleBar;
 import com.pgyersdk.crash.PgyCrashManager;
 
+import org.greenrobot.greendao.database.Database;
+import org.greenrobot.greendao.query.QueryBuilder;
 import org.litepal.LitePal;
 import org.litepal.crud.DataSupport;
 
@@ -66,15 +75,17 @@ public class SearchActivity extends BaseActivity implements BaseListDialog.Crede
     RelativeLayout relativeLayoutBody;
     @BindView(R.id.base_tips)
     RelativeLayout relativeLayoutTips;
+    @BindView(R.id.search_history_delete)
+    FrameLayout frameLayoutDelete;
     private String[] stringList;
     private BaseListDialog baseListDialog;
     int type = 0;
     private Context context;
-    private List<SearchHistoryTable> searchHistoryTableList;
+    private List<SearchBaseInfo> searchBaseInfoList;
     private SearchHistoryAdapter searchHistoryAdapter;
-    private SQLiteDatabase sqLiteDatabase;
     private boolean a;
     private boolean b;
+    private SearchBaseInfoDao searchBaseInfoDao;
     private static final String TAG = "SearchActivity";
 
     @Override
@@ -84,11 +95,14 @@ public class SearchActivity extends BaseActivity implements BaseListDialog.Crede
         ButterKnife.bind(this);
         context = this;
         try {
-            init();
+            DaoMaster.DevOpenHelper devOpenHelper = new DaoMaster.DevOpenHelper(this, "search-data", null);
+            Database database = devOpenHelper.getWritableDb();
+            DaoMaster daoMaster = new DaoMaster(database);
+            searchBaseInfoDao = daoMaster.newSession().getSearchBaseInfoDao();
         } catch (Exception e) {
             PgyCrashManager.reportCaughtException(this, e);
         }
-
+        Permissions4M.get(this).requestSync();
 
     }
 
@@ -98,45 +112,67 @@ public class SearchActivity extends BaseActivity implements BaseListDialog.Crede
         searchView.setIconified(false);
         searchView.onActionViewExpanded();
         searchView.setIconifiedByDefault(false);
-        Permissions4M.get(this).requestSync();
+        initDatabase();
     }
 
     private void initDatabase() {
-        sqLiteDatabase = LitePal.getDatabase();
-        BaseTool.logPrint(TAG, sqLiteDatabase.getPath());
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 try {
                     BaseTool.logPrint(TAG, "已提交");
-                    List<SearchHistoryTable> list = DataSupport.where("body=?", query).find(SearchHistoryTable.class);
+                    List<SearchBaseInfo> list = searchBaseInfoDao.queryBuilder().where(SearchBaseInfoDao.Properties.Body.eq(query)).list();
                     BaseTool.logPrint("T----", list.size() + "");
-                    SearchHistoryTable searchHistoryTable = new SearchHistoryTable();
-                    searchHistoryTable.setBody(query);
+                    SearchBaseInfo searchBaseInfo = new SearchBaseInfo();
+                    searchBaseInfo.setBody(query);
                     if (type == 0) {
-                        searchHistoryTable.setType(0);
+                        searchBaseInfo.setType(0);
                         if (list.size() == 0) {
-                            searchHistoryTable.save();
-                            BaseTool.logPrint("存商品搜索数据", String.valueOf(searchHistoryTable.isSaved()));
+                            searchBaseInfoDao.insert(searchBaseInfo);
+                            updateData();
+                            BaseTool.logPrint("存商品搜索数据", "数据库无相同数据");
                         } else {
-                            if (list.get(0).getType() != 0) {
-                                searchHistoryTable.save();
-                                BaseTool.logPrint("存商品搜索数据", String.valueOf(searchHistoryTable.isSaved()));
+                            for (int a = 0; a < list.size(); a++) {
+                                if (list.get(a).getType() == 0) {
+                                    break;
+                                } else {
+                                    if (a == list.size() - 1) {
+                                        if (list.size() >= 20) {
+                                            searchBaseInfoDao.delete(list.get(0));
+                                        }
+                                        searchBaseInfoDao.insert(searchBaseInfo);
+                                        updateData();
+                                        BaseTool.logPrint("存商品搜索数据", "数据库有相同数据");
+                                    }
+                                }
                             }
-
                         }
                         goSearch(0, query);
                     } else if (type == 1) {
-                        searchHistoryTable.setType(1);
-                        if (list.size() > 0) {
-                            if (list.get(0).getType() != 1) {
-                                searchHistoryTable.save();
-                                BaseTool.logPrint("存店铺搜索数据", String.valueOf(searchHistoryTable.isSaved()));
+                        searchBaseInfo.setType(1);
+                        if (list.size() == 0) {
+                            searchBaseInfoDao.insert(searchBaseInfo);
+                            updateData();
+                            BaseTool.logPrint("存店铺搜索数据", "数据库无相同数据");
+                        } else {
+                            for (int a = 0; a < list.size(); a++) {
+                                if (list.get(a).getType() == 1) {
+                                    break;
+                                } else {
+                                    if (a == list.size() - 1) {
+                                        if (list.size() >= 20) {
+                                            searchBaseInfoDao.delete(list.get(0));
+                                        }
+                                        searchBaseInfoDao.insert(searchBaseInfo);
+                                        updateData();
+                                        BaseTool.logPrint("存店铺搜索数据", "数据库有相同数据");
+                                    }
+                                }
                             }
                         }
                         goSearch(1, query);
                     }
-                }catch (Exception e){
+                } catch (Exception e) {
 
                 }
                 return true;
@@ -148,21 +184,52 @@ public class SearchActivity extends BaseActivity implements BaseListDialog.Crede
                 return true;
             }
         });
-        searchHistoryTableList = DataSupport.findAll(SearchHistoryTable.class);
+        searchBaseInfoList = searchBaseInfoDao.queryBuilder().list();
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerViewHistory.setLayoutManager(linearLayoutManager);
-        if (searchHistoryTableList != null) {
+        if (searchBaseInfoList != null&&searchBaseInfoList.size()>0) {
             relativeLayoutTips.setVisibility(View.GONE);
             relativeLayoutBody.setVisibility(View.VISIBLE);
         } else {
             relativeLayoutTips.setVisibility(View.VISIBLE);
             relativeLayoutBody.setVisibility(View.GONE);
-            searchHistoryTableList = new ArrayList<>();
+            searchBaseInfoList = new ArrayList<>();
 
         }
-        searchHistoryAdapter = new SearchHistoryAdapter(searchHistoryTableList, context);
+        searchHistoryAdapter = new SearchHistoryAdapter(searchBaseInfoList, context);
+        searchHistoryAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+            @Override
+            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                switch (view.getId()) {
+                    case R.id.item_search_delete:
+                        searchBaseInfoDao.delete(searchBaseInfoList.get(position));
+                        updateData();
+                        break;
+                    case R.id.item_click:
+                        int tp = searchBaseInfoList.get(position).getType();
+                        if (tp == 0) {
+                            goSearch(0, searchBaseInfoList.get(position).getBody());
+                        } else if (tp == 1) {
+                            goSearch(1, searchBaseInfoList.get(position).getBody());
+                        }
+                        break;
+                }
+            }
+        });
         recyclerViewHistory.setAdapter(searchHistoryAdapter);
+    }
+
+    private void updateData() {
+        searchBaseInfoList = searchBaseInfoDao.queryBuilder().list();
+        if (searchBaseInfoList != null && searchBaseInfoList.size() > 0) {
+            relativeLayoutTips.setVisibility(View.GONE);
+            relativeLayoutBody.setVisibility(View.VISIBLE);
+        } else {
+            relativeLayoutTips.setVisibility(View.VISIBLE);
+            relativeLayoutBody.setVisibility(View.GONE);
+        }
+        searchHistoryAdapter.setNewData(searchBaseInfoList);
     }
 
     private void goSearch(int type, String body) {
@@ -184,6 +251,14 @@ public class SearchActivity extends BaseActivity implements BaseListDialog.Crede
 
     }
 
+    @OnClick(R.id.search_history_delete)
+    void deleteHistory() {
+        if (searchBaseInfoList != null && searchBaseInfoList.size() > 0) {
+            searchBaseInfoDao.deleteAll();
+            updateData();
+        }
+    }
+
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         Permissions4M.onRequestPermissionsResult(this, requestCode, grantResults);
@@ -196,13 +271,21 @@ public class SearchActivity extends BaseActivity implements BaseListDialog.Crede
             case 101:
                 a = true;
                 if (b) {
-                    initDatabase();
+                    try {
+                        init();
+                    } catch (Exception e) {
+                        PgyCrashManager.reportCaughtException(this, e);
+                    }
                 }
                 break;
             case 102:
                 b = true;
                 if (a) {
-                    initDatabase();
+                    try {
+                        init();
+                    } catch (Exception e) {
+                        PgyCrashManager.reportCaughtException(this, e);
+                    }
                 }
                 break;
         }
@@ -212,9 +295,10 @@ public class SearchActivity extends BaseActivity implements BaseListDialog.Crede
     void getLocationGrantFaile(int code) {
         switch (code) {
             case 101:
-                ToastUtil.makeText(this, "请打开定位权限", Toast.LENGTH_SHORT).show();
+                ToastUtil.makeText(this, "请打开存储权限", Toast.LENGTH_SHORT).show();
                 break;
             case 102:
+                ToastUtil.makeText(this, "请打开存储权限", Toast.LENGTH_SHORT).show();
                 break;
         }
     }

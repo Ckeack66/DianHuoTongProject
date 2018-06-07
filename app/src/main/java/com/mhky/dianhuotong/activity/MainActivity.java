@@ -30,6 +30,7 @@ import com.joker.annotation.PermissionsDenied;
 import com.joker.annotation.PermissionsGranted;
 import com.joker.annotation.PermissionsRequestSync;
 import com.joker.api.Permissions4M;
+import com.liqi.utils.encoding.MD5Util;
 import com.mhky.dianhuotong.R;
 import com.mhky.dianhuotong.advert.AdvertInfo;
 import com.mhky.dianhuotong.advert.AdvertMainIF;
@@ -38,8 +39,11 @@ import com.mhky.dianhuotong.base.BaseApplication;
 import com.mhky.dianhuotong.base.BaseTool;
 import com.mhky.dianhuotong.base.view.BaseActivity;
 import com.mhky.dianhuotong.custom.AlertDialog.DianHuoTongBaseDialog;
+import com.mhky.dianhuotong.custom.AlertDialog.LoadingDialog;
 import com.mhky.dianhuotong.custom.ToastUtil;
 import com.mhky.dianhuotong.custom.viewgroup.DianHuoTongBaseTitleBar;
+import com.mhky.dianhuotong.login.LoginIF;
+import com.mhky.dianhuotong.login.LoginPrecenter;
 import com.mhky.dianhuotong.main.GlideImageLoader;
 import com.mhky.dianhuotong.main.MainIF;
 import com.mhky.dianhuotong.main.adpter.DrawerLayoutAdapter;
@@ -71,8 +75,7 @@ import butterknife.OnClick;
 import cn.bingoogolapple.bgabanner.BGABanner;
 import de.hdodenhof.circleimageview.CircleImageView;
 
-@PermissionsRequestSync(permission = {Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE}, value = {101, 102, 103, 104})
-public class MainActivity extends BaseActivity implements MainIF, DrawerLayout.DrawerListener, AdapterView.OnItemClickListener, DianHuoTongBaseDialog.BaseDialogListener, AllGoodsIF ,AdvertMainIF,UpdateMainViewIF{
+public class MainActivity extends BaseActivity implements MainIF, DrawerLayout.DrawerListener, AdapterView.OnItemClickListener, DianHuoTongBaseDialog.BaseDialogListener, AllGoodsIF ,AdvertMainIF,UpdateMainViewIF,LoginIF{
     @BindView(R.id.drawer_listview)
     ListView listView;
     @BindView(R.id.mian_titlebar)
@@ -114,6 +117,8 @@ public class MainActivity extends BaseActivity implements MainIF, DrawerLayout.D
     private List<AdvertInfo> advertInfoList;
     private AdvertMainPresenter advertMainPresenter;
     private UpdateMainViewReceiver updateMainViewReceiver;
+    private LoginPrecenter loginPrecenter;
+    private LoadingDialog loadingDialog;
     public static String action="com.mhky.dianhuotong.activity.update";
 
     @Override
@@ -151,6 +156,9 @@ public class MainActivity extends BaseActivity implements MainIF, DrawerLayout.D
         super.onDestroy();
         PgyUpdateManager.unregister();
         unregisterReceiver(updateMainViewReceiver);
+        if (loadingDialog!=null&&loadingDialog.isShowing()){
+            loadingDialog.dismiss();
+        }
     }
 
     @Override
@@ -215,42 +223,16 @@ public class MainActivity extends BaseActivity implements MainIF, DrawerLayout.D
         return super.onKeyDown(keyCode, event);
     }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        Permissions4M.onRequestPermissionsResult(this, requestCode, grantResults);
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-    }
-
-    @PermissionsGranted({101, 102, 103, 104})
-    void getLocationGrantsucess(int code) {
-        switch (code) {
-            case 101:
-                break;
-            case 102:
-                break;
-            case 103:
-                break;
-            case 104:
-                break;
-        }
-    }
-
-    @PermissionsDenied({101, 102, 103, 104})
-    void getLocationGrantFaile(int code) {
-        switch (code) {
-            case 101:
-                ToastUtil.makeText(this, "请打开定位权限", Toast.LENGTH_SHORT).show();
-                break;
-            case 102:
-                break;
-            case 103:
-                break;
-            case 104:
-                break;
-        }
-    }
 
     private void inIt() {
+        loadingDialog=new LoadingDialog(this);
+        loginPrecenter = new LoginPrecenter(this);
+        String u=BaseApplication.getInstansApp().getUserPhone();
+        String p=BaseApplication.getInstansApp().getUserPwd();
+        if (u!=null&&p!=null){
+            loadingDialog.show();
+            loginPrecenter.Login(u,p);
+        }
         updateMainViewReceiver=new UpdateMainViewReceiver(this);
         IntentFilter intentFilter=new IntentFilter();
         intentFilter.addAction(action);
@@ -420,7 +402,7 @@ public class MainActivity extends BaseActivity implements MainIF, DrawerLayout.D
 //                        BaseTool.goActivityNoData(this, ShiYaoQianYanActivity.class);
 //                        break;
                     case 1:
-                        if (BaseApplication.getInstansApp().getPersonInfo().getAuditStatus() == null) {
+                        if (BaseApplication.getInstansApp().getPersonInfo()!=null&&BaseApplication.getInstansApp().getPersonInfo().getAuditStatus() == null) {
                             dianHuoTongBaseDialogAddShop.show();
                         } else if ("UNAUDITED".equals(BaseApplication.getInstansApp().getPersonInfo().getAuditStatus().toString())) {
                             ToastUtil.makeText(this, "正在审核中~", Toast.LENGTH_SHORT).show();
@@ -556,6 +538,7 @@ public class MainActivity extends BaseActivity implements MainIF, DrawerLayout.D
         allGoosPrecenter = new AllGoosPrecenter(this);
         allGoosPrecenter.getAllGoodsType();
         shopInfoPresenter = new ShopInfoPresenter();
+        shopInfoPresenter.getShopInfo();
     }
 
     @Override
@@ -586,5 +569,24 @@ public class MainActivity extends BaseActivity implements MainIF, DrawerLayout.D
     @Override
     public void updateview() {
         drawerLayout.closeDrawers();
+    }
+
+    @Override
+    public void LoginSucess(int code, String result) {
+        if (loadingDialog!=null&&loadingDialog.isShowing()){
+            loadingDialog.dismiss();
+        }
+        if (code == 200) {
+            drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+            shopInfoPresenter.getShopInfo();
+            BaseApplication.getInstansApp().setMypswsds(BaseApplication.getInstansApp().getUserPwd());
+        }
+    }
+
+    @Override
+    public void LoginFailed(int code, String result) {
+        if (loadingDialog!=null&&loadingDialog.isShowing()){
+            loadingDialog.dismiss();
+        }
     }
 }
