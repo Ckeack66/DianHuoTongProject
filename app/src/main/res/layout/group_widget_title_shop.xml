@@ -18,44 +18,50 @@
             android:scaleType="fitCenter"
             android:src="@drawable/icon_back" />
     </FrameLayout>
-
     <RelativeLayout
-        android:layout_width="@dimen/x210"
-        android:layout_height="@dimen/x30"
-        android:layout_alignParentBottom="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_marginBottom="@dimen/x6"
         android:layout_toEndOf="@id/shop_title_back"
         android:background="@drawable/shape_shop_title">
+        <RelativeLayout
+            android:layout_width="@dimen/x210"
+            android:layout_height="@dimen/x30"
+            android:layout_toEndOf="@id/shop_title_back"
+            android:background="@drawable/shape_shop_title">
 
-        <ImageView
-            android:id="@+id/shop_scan_code"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="@dimen/x15"
-            android:background="@color/colorTransp"
-            android:src="@drawable/icon_scan_code" />
+            <ImageView
+                android:id="@+id/shop_scan_code"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="@dimen/x15"
+                android:background="@color/colorTransp"
+                android:src="@drawable/icon_scan_code" />
 
-        <TextView
-            android:id="@+id/shop_input"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginEnd="@dimen/x15"
-            android:layout_marginStart="@dimen/x12"
-            android:layout_toEndOf="@id/shop_scan_code"
-            android:background="@color/colorTransp"
-            android:gravity="center_vertical"
-            android:text="商品、商家、厂家"
-            android:textColor="@color/colorBFBFBF"
-            android:textSize="@dimen/t12" />
+            <TextView
+                android:id="@+id/shop_input"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="@dimen/x15"
+                android:layout_marginStart="@dimen/x12"
+                android:layout_toEndOf="@id/shop_scan_code"
+                android:background="@color/colorTransp"
+                android:gravity="center_vertical"
+                android:text="商品、商家、厂家"
+                android:textColor="@color/colorBFBFBF"
+                android:textSize="@dimen/t12" />
+        </RelativeLayout>
     </RelativeLayout>
+
 
     <FrameLayout
         android:id="@+id/shop_order_fl"
         android:layout_width="@dimen/x40"
         android:layout_height="match_parent"
         android:layout_alignParentBottom="true"
+        android:layout_marginEnd="@dimen/x10"
         android:layout_alignParentEnd="true">
 
         <ImageView

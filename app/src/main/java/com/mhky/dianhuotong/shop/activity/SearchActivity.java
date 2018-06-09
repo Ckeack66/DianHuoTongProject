@@ -173,7 +173,7 @@ public class SearchActivity extends BaseActivity implements BaseListDialog.Crede
                         goSearch(1, query);
                     }
                 } catch (Exception e) {
-
+                    PgyCrashManager.reportCaughtException(context,e);
                 }
                 return true;
             }

@@ -12,8 +12,10 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.lzy.okgo.model.HttpParams;
 import com.mhky.dianhuotong.R;
+import com.mhky.dianhuotong.base.BaseTool;
 import com.mhky.dianhuotong.base.view.BaseActivity;
 import com.mhky.dianhuotong.custom.ToastUtil;
 import com.mhky.dianhuotong.shop.adapter.SearchCompanyAdapter;
@@ -87,7 +89,7 @@ public class SearchCompanyActivity extends BaseActivity implements SearchCompany
             } else {
                 getInfo();
             }
-        }else {
+        } else {
             getInfo();
         }
 
@@ -146,6 +148,18 @@ public class SearchCompanyActivity extends BaseActivity implements SearchCompany
                 }
                 searchCompanyInfo = searchCompanyInfo1;
                 searchCompanyAdapter = new SearchCompanyAdapter(searchCompanyInfo.getContent(), context);
+                searchCompanyAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+                    @Override
+                    public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                        switch (view.getId()) {
+                            case R.id.go_company:
+                                Bundle bundle=new Bundle();
+                                bundle.putString("shopid", String.valueOf(searchCompanyInfo.getContent().get(position).getId()));
+                                BaseTool.goActivityWithData(context,ShopActivity.class,bundle);
+                                break;
+                        }
+                    }
+                });
                 recyclerView.setAdapter(searchCompanyAdapter);
                 pageNumber = 1;
             } else if (isNew == 0) {

@@ -27,8 +27,8 @@ public class GoodsSkuInfo implements Serializable {
     private String skuNo;
     private int goodsId;
     private String batchNo;
-    private float retailPrice;
-    private Object wholesalePrice;
+    private double retailPrice;
+    private double wholesalePrice;
     private int stock;
     private int batchNums;
     private boolean enable;
@@ -68,19 +68,19 @@ public class GoodsSkuInfo implements Serializable {
         this.batchNo = batchNo;
     }
 
-    public float getRetailPrice() {
+    public double getRetailPrice() {
         return retailPrice;
     }
 
-    public void setRetailPrice(float retailPrice) {
+    public void setRetailPrice(double retailPrice) {
         this.retailPrice = retailPrice;
     }
 
-    public Object getWholesalePrice() {
+    public double getWholesalePrice() {
         return wholesalePrice;
     }
 
-    public void setWholesalePrice(Object wholesalePrice) {
+    public void setWholesalePrice(double wholesalePrice) {
         this.wholesalePrice = wholesalePrice;
     }
 

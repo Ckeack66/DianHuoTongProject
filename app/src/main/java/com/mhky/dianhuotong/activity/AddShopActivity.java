@@ -65,6 +65,7 @@ public class AddShopActivity extends BaseActivity implements AddShopIF, GetLocat
     private LinearLayoutManager linearLayoutManager;
     private AddShopNewAdapter addShopNewAdapter;
     private List<ShopBaseInfo> shopBaseInfoListNew;
+    private String loacation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -123,7 +124,11 @@ public class AddShopActivity extends BaseActivity implements AddShopIF, GetLocat
 
     @OnClick(R.id.addshop_to_creatshop)
     void goCreatShop() {
-        BaseTool.goActivityWithData(this, CreatShopActivity.class, creatShopBundle);
+        try {
+            BaseTool.goActivityWithData(this, CreatShopActivity.class, creatShopBundle);
+        }catch (Exception e){
+            PgyCrashManager.reportCaughtException(this,e);
+        }
     }
 
     @OnClick(R.id.addshop_view_more)
@@ -261,6 +266,8 @@ public class AddShopActivity extends BaseActivity implements AddShopIF, GetLocat
             httpParams.put("region", location.getDistrict());
             showMoreBundle = new Bundle();
             showMoreBundle.putString("area", location.getCity());
+            loacation=location.getCity();
+            creatShopBundle.putString("location",location.getCity());
             addShopPrecenter.getShopInfo(httpParams);
             locationClient.stop();
         } else {

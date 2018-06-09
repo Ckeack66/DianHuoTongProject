@@ -296,7 +296,7 @@ public class CartBaseInfo implements Serializable {
             private String skuNo;
             private String batchNo;
             private int retailPrice;
-            private Object wholesalePrice;
+            private int wholesalePrice;
             private int stock;
             private int batchNums;
             private boolean enable;
@@ -335,11 +335,11 @@ public class CartBaseInfo implements Serializable {
                 this.retailPrice = retailPrice;
             }
 
-            public Object getWholesalePrice() {
+            public int getWholesalePrice() {
                 return wholesalePrice;
             }
 
-            public void setWholesalePrice(Object wholesalePrice) {
+            public void setWholesalePrice(int wholesalePrice) {
                 this.wholesalePrice = wholesalePrice;
             }
 

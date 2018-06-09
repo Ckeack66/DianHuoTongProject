@@ -81,11 +81,7 @@
             android:value="guEle2R0kMZVXMg3Zu5h4RkuW1ueKS8f" />
 
         <activity android:name=".activity.WelcomActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity android:name=".base.view.BaseActivity" />
         <activity android:name=".activity.MainActivity" />
@@ -172,7 +168,13 @@
         <activity
             android:name=".shop.activity.CartActivity"
             android:launchMode="singleTask" />
-        <activity android:name=".activity.InitActivity" />
+        <activity android:name=".activity.InitActivity" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity android:name=".shop.activity.CouponActivity" />
         <!-- 蒲公英 -->
         <meta-data
@@ -200,7 +202,8 @@
         <activity android:name=".activity.SelelctAdress2Activity" />
         <activity android:name=".activity.MyIntroduceActivity" />
         <activity android:name=".shop.activity.StarCompanyActivity" />
-        <activity android:name=".shop.activity.BrandActivity"></activity>
+        <activity android:name=".shop.activity.BrandActivity" />
+        <activity android:name=".activity.BootPageActivity"></activity>
     </application>
 
 </manifest>

@@ -62,8 +62,13 @@ public class CartAdapter extends BaseSectionQuickAdapter<CartInfo, BaseViewHolde
         }
         helper.setText(R.id.goods_base_title, item.getCartBodyBaseInfo().getGoodsItemsBean().getTitle());
         helper.setText(R.id.goods_base__companay, item.getCartBodyBaseInfo().getGoodsItemsBean().getManufacturer());
-        double a = (double)item.getCartBodyBaseInfo().getGoodsItemsBean().getSkuDTO().getRetailPrice();
-        double money=a/100;
+        double a = 0;
+        if (item.getCartBodyBaseInfo().getGoodsItemsBean().getAmount() > item.getCartBodyBaseInfo().getGoodsItemsBean().getSkuDTO().getBatchNums()) {
+            a = (double) item.getCartBodyBaseInfo().getGoodsItemsBean().getSkuDTO().getWholesalePrice();
+        } else {
+            a = (double) item.getCartBodyBaseInfo().getGoodsItemsBean().getSkuDTO().getRetailPrice();
+        }
+        double money = a / 100;
         helper.setText(R.id.goods_base_money, "￥" + money);
         helper.setText(R.id.cart_popup_numbers, item.getCartBodyBaseInfo().getGoodsItemsBean().getAmount() + "");
         String url = item.getCartBodyBaseInfo().getGoodsItemsBean().getPicture().split(",")[0];

@@ -160,7 +160,11 @@ public class CartPopupwindow extends PopupWindow implements View.OnClickListener
                     selectNUmber = position;
                     goodsNumberMax = goodsSkuInfoList.get(position).getStock();
                     textViewGoodsNumber.setText("库存：" + goodsNumberMax);
-                    textViewPrice.setText("￥" + goodsSkuInfoList.get(position).getRetailPrice() / 100);
+                    if (goodsNumber>goodsSkuInfoList.get(selectNUmber).getBatchNums()){
+                        textViewPrice.setText("￥" + goodsSkuInfoList.get(selectNUmber).getWholesalePrice() / 100);
+                    }else {
+                        textViewPrice.setText("￥" + goodsSkuInfoList.get(selectNUmber).getRetailPrice() / 100);
+                    }
                 }
                 //ToastUtil.makeText(mContext, "选择了" + position + "-----" + selectNUmber, Toast.LENGTH_SHORT).show();
                 return true;
@@ -172,13 +176,23 @@ public class CartPopupwindow extends PopupWindow implements View.OnClickListener
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.cart_popup_reduce:
-                if (goodsNumber > 0 && selectNUmber != -1) {
+                if (goodsNumber > 1 && selectNUmber != -1) {
                     goodsNumber--;
+                }
+                if (goodsNumber>goodsSkuInfoList.get(selectNUmber).getBatchNums()){
+                    textViewPrice.setText("￥" + goodsSkuInfoList.get(selectNUmber).getWholesalePrice() / 100);
+                }else {
+                    textViewPrice.setText("￥" + goodsSkuInfoList.get(selectNUmber).getRetailPrice() / 100);
                 }
                 break;
             case R.id.cart_popup_plus:
                 if (goodsNumber < goodsNumberMax && selectNUmber != -1) {
                     goodsNumber++;
+                }
+                if (goodsNumber>goodsSkuInfoList.get(selectNUmber).getBatchNums()){
+                    textViewPrice.setText("￥" + goodsSkuInfoList.get(selectNUmber).getWholesalePrice() / 100);
+                }else {
+                    textViewPrice.setText("￥" + goodsSkuInfoList.get(selectNUmber).getRetailPrice() / 100);
                 }
                 break;
             case R.id.cart_popup_ok:

@@ -168,6 +168,50 @@ public class ShopMainFragment extends Fragment implements ShopIF, SortPopupwindo
         }
     }
 
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        View view = inflater.inflate(R.layout.fragment_shop_main, container, false);
+        unbinder = ButterKnife.bind(this, view);
+        try {
+            init();
+        } catch (Exception e) {
+            PgyCrashManager.reportCaughtException(getActivity(), e);
+        }
+
+        return view;
+    }
+    private void init() {
+        recyclerView.setNestedScrollingEnabled(false);
+        goodsPrecenter = new GoodsPrecenter(this);
+        shopPresenter = new ShopPresenter(this);
+        shopTransferInfoList = new ArrayList<>();
+        sortPopupwindow = new SortPopupwindow(getActivity(), -1);
+        sortPopupwindow.setClickPopupwindow2ItemListener(this);
+        shopPresenter.getShopInfo(mParam1);
+        shopPresenter.getShopType(mParam1);
+        searchGoodsPresenter = new SearchGoodsPresenter(this);
+        HttpParams httpParams = new HttpParams();
+        httpParams.put("shopId", mParam1);
+        httpParams.put("page", number);
+        searchGoodsPresenter.searchGoods(httpParams, true, 0);
+        smartRefreshLayout.setEnableRefresh(false);
+        companyPrecenter = new CompanyPrecenter(this);
+        companyPrecenter.getCompanyTansferInfo(mParam1);
+        nestedScrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
+            @Override
+            public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+                hideWindow();
+                setTabStateFalse(chooseOldNumber);
+            }
+        });
+        starShopPrecenter = new StarShopPrecenter();
+        starShopPrecenter.setStarShopIF(this);
+        dianHuoTongBaseDialog = new DianHuoTongBaseDialog(getActivity(), this, "温馨提示", "请问客官确定要取消收藏店铺吗？", "取消", "确定", "fg");
+        setRefresh();
+    }
     private void setRefresh() {
         smartRefreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
@@ -217,51 +261,6 @@ public class ShopMainFragment extends Fragment implements ShopIF, SortPopupwindo
         }
         searchGoodsPresenter.searchGoods(httpParams, true, 0);
     }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_shop_main, container, false);
-        unbinder = ButterKnife.bind(this, view);
-        try {
-            init();
-        } catch (Exception e) {
-            PgyCrashManager.reportCaughtException(getActivity(), e);
-        }
-
-        return view;
-    }
-
-    private void init() {
-        recyclerView.setNestedScrollingEnabled(false);
-        goodsPrecenter = new GoodsPrecenter(this);
-        shopPresenter = new ShopPresenter(this);
-        shopTransferInfoList = new ArrayList<>();
-        sortPopupwindow = new SortPopupwindow(getActivity(), -1);
-        sortPopupwindow.setClickPopupwindow2ItemListener(this);
-        shopPresenter.getShopInfo(mParam1);
-        shopPresenter.getShopType(mParam1);
-        searchGoodsPresenter = new SearchGoodsPresenter(this);
-        HttpParams httpParams = new HttpParams();
-        httpParams.put("shopId", mParam1);
-        httpParams.put("page", number);
-        searchGoodsPresenter.searchGoods(httpParams, true, 0);
-        smartRefreshLayout.setEnableRefresh(false);
-        companyPrecenter = new CompanyPrecenter(this);
-        companyPrecenter.getCompanyTansferInfo(mParam1);
-        nestedScrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
-            @Override
-            public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
-                hideWindow();
-                setTabStateFalse(chooseOldNumber);
-            }
-        });
-        starShopPrecenter = new StarShopPrecenter();
-        starShopPrecenter.setStarShopIF(this);
-        dianHuoTongBaseDialog = new DianHuoTongBaseDialog(getActivity(), this, "温馨提示", "请问客官确定要取消收藏店铺吗？", "取消", "确定", "fg");
-    }
-
     @Override
     public void onDestroyView() {
         super.onDestroyView();
@@ -282,6 +281,7 @@ public class ShopMainFragment extends Fragment implements ShopIF, SortPopupwindo
     void selectTab2() {
         setTabStateTrue(2);
     }
+
 
     @OnClick(R.id.shop_star)
     void startShop() {

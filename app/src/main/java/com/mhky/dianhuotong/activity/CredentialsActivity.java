@@ -110,6 +110,14 @@ public class CredentialsActivity extends BaseActivity implements CredentialIF, C
 
     @OnClick(R.id.credentials_next)
     void goAddShopFinishActivity() {
+        if (list!=null){
+            for (int a=0;a<list.size();a++){
+                if ("营业执照".equals(list.get(a).getName())){
+                    ToastUtil.makeText(context, "请上传营业执照", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+            }
+        }
         qualicationInfo.setQualificationList(qualicationInfoArrayList);
         credentialPrecenter.createShop(JSON.toJSONString(qualicationInfo));
         //BaseTool.goActivityNoData(this, AddShop3Activity.class);

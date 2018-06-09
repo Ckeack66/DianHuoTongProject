@@ -41,7 +41,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 import static com.mhky.dianhuotong.wxapi.Constants.APP_ID;
-@PermissionsRequestSync(permission = {Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE}, value = {101, 102})
+@PermissionsRequestSync(permission = {Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission.READ_PHONE_STATE}, value = {101, 102,103})
 public class MyIntroduceActivity extends BaseActivity implements PromoteIF {
     @BindView(R.id.shop_code_title)
     DianHuoTongBaseTitleBar dianHuoTongBaseTitleBar;
@@ -52,6 +52,7 @@ public class MyIntroduceActivity extends BaseActivity implements PromoteIF {
     private Bitmap bitmap1;
     private boolean a;
     private boolean b;
+    private boolean c;
     private PromotePresenter promotePresenter;
     public static final String CARD_TAG = "card100";
     private static final String TAG = "CardActivity";
@@ -187,12 +188,12 @@ public class MyIntroduceActivity extends BaseActivity implements PromoteIF {
 
     }
 
-    @PermissionsGranted({101, 102})
+    @PermissionsGranted({101, 102,103})
     void getLocationGrantsucess(int code) {
         switch (code) {
             case 101:
                 a = true;
-                if (b) {
+                if (b&&c) {
                     try {
                         init();
                     } catch (Exception e) {
@@ -202,7 +203,17 @@ public class MyIntroduceActivity extends BaseActivity implements PromoteIF {
                 break;
             case 102:
                 b = true;
-                if (a) {
+                if (a&&c) {
+                    try {
+                        init();
+                    } catch (Exception e) {
+                        PgyCrashManager.reportCaughtException(this, e);
+                    }
+                }
+                break;
+            case 103:
+                c = true;
+                if (a&&b) {
                     try {
                         init();
                     } catch (Exception e) {
@@ -213,13 +224,16 @@ public class MyIntroduceActivity extends BaseActivity implements PromoteIF {
         }
     }
 
-    @PermissionsDenied({101, 102})
+    @PermissionsDenied({101, 102,103})
     void getLocationGrantFaile(int code) {
         switch (code) {
             case 101:
                 ToastUtil.makeText(this, "请打开存储权限", Toast.LENGTH_SHORT).show();
                 break;
             case 102:
+                ToastUtil.makeText(this, "请打开存储权限", Toast.LENGTH_SHORT).show();
+                break;
+            case 103:
                 ToastUtil.makeText(this, "请打开存储权限", Toast.LENGTH_SHORT).show();
                 break;
         }

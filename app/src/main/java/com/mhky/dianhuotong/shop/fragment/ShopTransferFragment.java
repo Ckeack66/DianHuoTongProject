@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
@@ -59,6 +60,8 @@ public class ShopTransferFragment extends Fragment implements CompanyIF {
     TextView textViewSel;
     @BindView(R.id.shop_transfer_card)
     RecyclerView recyclerView;
+    @BindView(R.id.shop_transfer_title)
+    RelativeLayout relativeLayoutTitle;
     private List<ShopCredentialBaseInfo> shopCredentialBaseInfoList;
     private CredentialRecycleView1Adapter credentialRecycleView1Adapter;
 
@@ -106,6 +109,8 @@ public class ShopTransferFragment extends Fragment implements CompanyIF {
         shopCredentialBaseInfoList = new ArrayList<>();
         companyPrecenter.getCompanyTansferInfo(mParam1);
         companyPrecenter.getCompenayCredential(mParam1);
+        relativeLayoutTitle.setFocusableInTouchMode(true);
+        relativeLayoutTitle.requestFocus();
         return view;
     }
 

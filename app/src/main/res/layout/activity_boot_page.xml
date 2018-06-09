@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorWhite"
+    tools:context=".activity.BootPageActivity">
+
+    <cn.bingoogolapple.bgabanner.BGABanner
+        android:id="@+id/boot_page_vp"
+        style="@style/BannerDefaultStyle2"
+        app:banner_numberIndicatorBackground="@color/colorTransp"
+        app:banner_numberIndicatorTextColor="@color/colorTransp"
+        app:banner_pointDrawable="@drawable/selector_banner_unequal"
+        app:banner_transitionEffect="accordion" />
+
+    <TextView
+        android:id="@+id/boot_page_skip"
+        android:layout_width="@dimen/x50"
+        android:layout_height="@dimen/x20"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="@dimen/x10"
+        android:layout_marginTop="@dimen/x10"
+        android:background="@drawable/shape_search_shop"
+        android:gravity="center"
+        android:text="跳过"
+        android:textSize="@dimen/t12" />
+
+    <TextView
+        android:id="@+id/boot_page_go"
+        android:layout_width="@dimen/x120"
+        android:layout_height="@dimen/x30"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="@dimen/x40"
+        android:background="@drawable/shape_search_shop"
+        android:gravity="center"
+        android:text="立即体验"
+        android:textSize="@dimen/t12" />
+</RelativeLayout>

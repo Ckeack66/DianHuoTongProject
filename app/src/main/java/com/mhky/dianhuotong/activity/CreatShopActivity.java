@@ -20,6 +20,7 @@ import com.mhky.dianhuotong.base.BaseTool;
 import com.mhky.dianhuotong.base.view.BaseActivity;
 import com.mhky.dianhuotong.custom.ToastUtil;
 import com.mhky.dianhuotong.custom.viewgroup.DianHuoTongBaseTitleBar;
+import com.pgyersdk.crash.PgyCrashManager;
 
 import java.util.ArrayList;
 
@@ -66,6 +67,7 @@ public class CreatShopActivity extends BaseActivity {
     public static String reigonCode = null;
     public static ArrayList<Activity> activities;
     private String shopType;
+    private String location;
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -88,16 +90,28 @@ public class CreatShopActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_creat_shop);
         ButterKnife.bind(this);
-        inIt();
+        try {
+            inIt();
+        } catch (Exception e) {
+            PgyCrashManager.reportCaughtException(this, e);
+        }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        if (returnAdress != null || returnCity != null || returnArea != null) {
-            BaseTool.logPrint(TAG, "onResume: ----" + returnCity + returnArea + returnAdress);
-            textViewAdress.setText(returnCity + returnArea + returnAdress);
+        try {
+            if (returnAdress != null || returnCity != null || returnArea != null) {
+                BaseTool.logPrint(TAG, "onResume: ----" + returnCity + returnArea + returnAdress);
+                if (returnCity!=null&&returnArea!=null&&returnAdress!=null){
+                    textViewAdress.setText(returnCity + returnArea + returnAdress);
+                }
+
+            }
+        }catch (Exception e){
+            PgyCrashManager.reportCaughtException(this,e);
         }
+
     }
 
     private void inIt() {
@@ -113,6 +127,7 @@ public class CreatShopActivity extends BaseActivity {
         BaseActivityManager.getInstance().addActivity(this);
         bundle = getIntent().getExtras();
         qualicationInfo = (QualicationInfo) bundle.getSerializable("createInfo");
+        location = bundle.getString("location");
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
@@ -130,71 +145,86 @@ public class CreatShopActivity extends BaseActivity {
 
     @OnClick(R.id.create_shop_txt1)
     void goAdress1Activity() {
-        BaseTool.goActivityNoData(this, Adress1Activity.class);
+        try {
+            BaseTool.goActivityWithData(this, Adress1Activity.class,bundle);
+        }catch (Exception e){
+            PgyCrashManager.reportCaughtException(this,e);
+        }
+
     }
 
     @OnClick(R.id.creatshop_next)
     void goInvoiceUpload() {
-        BaseTool.logPrint(TAG, "goInvoiceUpload: " + returnCity + returnArea);
-        BaseTool.logPrint(TAG, "goInvoiceUpload: " + city1 + area1);
-        if (TextUtils.isEmpty(editTextCompenay.getText())) {
-            ToastUtil.makeText(this, "请输入公司名称", Toast.LENGTH_SHORT).show();
-            return;
-        } else if (TextUtils.isEmpty(editTextAreaCode.getText())) {
-            ToastUtil.makeText(this, "请输入区号", Toast.LENGTH_SHORT).show();
-            return;
-        } else if (TextUtils.isEmpty(editTextPhone.getText())) {
-            ToastUtil.makeText(this, "请输入固话号码", Toast.LENGTH_SHORT).show();
-            return;
-        } else if (shopType == null) {
-            ToastUtil.makeText(this, "请选择店铺类型", Toast.LENGTH_SHORT).show();
-            return;
-        } else if (TextUtils.isEmpty(textViewAdress.getText())) {
-            ToastUtil.makeText(this, "请选择坐地址", Toast.LENGTH_SHORT).show();
-            return;
-        } else if (city1 == null && area1 == null) {
-            ToastUtil.makeText(this, "请选择坐标点", Toast.LENGTH_SHORT).show();
-            return;
-        } else if (!city1.contains(returnCity) || !returnArea.equals(area1)) {
-            ToastUtil.makeText(this, "您选择的地点不属于" + returnCity + returnArea + returnAdress + "，请重新选择市区街道", Toast.LENGTH_SHORT).show();
-            return;
-        } else if (TextUtils.isEmpty(editTextCompenayAdress.getText())) {
-            ToastUtil.makeText(this, "请输入公司详细地址", Toast.LENGTH_SHORT).show();
-            return;
-        } else if (TextUtils.isEmpty(editTextPostCode.getText())) {
-            ToastUtil.makeText(this, "请输入公司所在区域的邮政编码", Toast.LENGTH_SHORT).show();
-            return;
-        } else {
-            qualicationInfo.getShopDataDTO().getAddress().setCity(city1);
-            qualicationInfo.getShopDataDTO().getAddress().setProvince(provance1);
-            qualicationInfo.getShopDataDTO().getAddress().setDistrict(area1);
-            qualicationInfo.getShopDataDTO().getAddress().setTown(returnAdress);
-            qualicationInfo.getShopDataDTO().getAddress().setRoad(editTextCompenayAdress.getText().toString());
-            qualicationInfo.getShopDataDTO().setMapPoint(textViewZuoBiao.getText().toString());
-            qualicationInfo.getShopDataDTO().setShopType(shopType);
-            qualicationInfo.getShopDataDTO().setShopname(editTextCompenay.getText().toString());
-            qualicationInfo.getShopDataDTO().setPhone(editTextAreaCode.getText().toString() + editTextPhone.getText().toString());
-            qualicationInfo.getShopDataDTO().setPostalcode(editTextPostCode.getText().toString());
-            qualicationInfo.getShopDataDTO().setRegionCode(reigonCode);
-            Bundle bundle = new Bundle();
-            bundle.putSerializable("qulication", qualicationInfo);
-            BaseTool.goActivityWithData(this, CredentialsActivity.class, bundle);
+        try {
+            BaseTool.logPrint(TAG, "goInvoiceUpload: " + returnCity + returnArea);
+            BaseTool.logPrint(TAG, "goInvoiceUpload: " + city1 + area1);
+            if (TextUtils.isEmpty(editTextCompenay.getText())) {
+                ToastUtil.makeText(this, "请输入公司名称", Toast.LENGTH_SHORT).show();
+                return;
+            } else if (TextUtils.isEmpty(editTextAreaCode.getText())) {
+                ToastUtil.makeText(this, "请输入区号", Toast.LENGTH_SHORT).show();
+                return;
+            } else if (TextUtils.isEmpty(editTextPhone.getText())) {
+                ToastUtil.makeText(this, "请输入固话号码", Toast.LENGTH_SHORT).show();
+                return;
+            } else if (shopType == null) {
+                ToastUtil.makeText(this, "请选择店铺类型", Toast.LENGTH_SHORT).show();
+                return;
+            } else if (TextUtils.isEmpty(textViewAdress.getText())) {
+                ToastUtil.makeText(this, "请选择坐地址", Toast.LENGTH_SHORT).show();
+                return;
+            } else if (city1 == null && area1 == null) {
+                ToastUtil.makeText(this, "请选择坐标点", Toast.LENGTH_SHORT).show();
+                return;
+            } else if (!city1.contains(returnCity) || !returnArea.equals(area1)) {
+                ToastUtil.makeText(this, "您选择的地点不属于" + returnCity + returnArea + returnAdress + "，请重新选择市区街道", Toast.LENGTH_SHORT).show();
+                return;
+            } else if (TextUtils.isEmpty(editTextCompenayAdress.getText())) {
+                ToastUtil.makeText(this, "请输入公司详细地址", Toast.LENGTH_SHORT).show();
+                return;
+            } else if (TextUtils.isEmpty(editTextPostCode.getText())) {
+                ToastUtil.makeText(this, "请输入公司所在区域的邮政编码", Toast.LENGTH_SHORT).show();
+                return;
+            } else {
+                qualicationInfo.getShopDataDTO().getAddress().setCity(city1);
+                qualicationInfo.getShopDataDTO().getAddress().setProvince(provance1);
+                qualicationInfo.getShopDataDTO().getAddress().setDistrict(area1);
+                qualicationInfo.getShopDataDTO().getAddress().setTown(returnAdress);
+                qualicationInfo.getShopDataDTO().getAddress().setRoad(editTextCompenayAdress.getText().toString());
+                qualicationInfo.getShopDataDTO().setMapPoint(textViewZuoBiao.getText().toString());
+                qualicationInfo.getShopDataDTO().setShopType(shopType);
+                qualicationInfo.getShopDataDTO().setShopname(editTextCompenay.getText().toString());
+                qualicationInfo.getShopDataDTO().setPhone(editTextAreaCode.getText().toString() + editTextPhone.getText().toString());
+                qualicationInfo.getShopDataDTO().setPostalcode(editTextPostCode.getText().toString());
+                qualicationInfo.getShopDataDTO().setRegionCode(reigonCode);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("qulication", qualicationInfo);
+                BaseTool.goActivityWithData(this, CredentialsActivity.class, bundle);
+            }
+        }catch (Exception e){
+            PgyCrashManager.reportCaughtException(this,e);
         }
+
 
     }
 
     @OnClick(R.id.create_shop_txt2)
     void goBaiduMapActivity() {
-        if (returnCity != null && returnAdress != null) {
-            Bundle bundle = new Bundle();
-            bundle.putString("city", returnCity);
-            bundle.putString("name", returnAdress);
-            Intent intent = new Intent(CreatShopActivity.this, BaiDuMapActivity.class);
-            intent.putExtras(bundle);
-            startActivityForResult(intent, CreatShopActivity.GET_DATA_RESULT_CODE);
-        } else {
-            ToastUtil.makeText(this, "请选择地址", Toast.LENGTH_SHORT).show();
+        try {
+            if (returnCity != null && returnAdress != null) {
+                Bundle bundle = new Bundle();
+                bundle.putString("city", returnCity);
+                bundle.putString("name", returnAdress);
+                Intent intent = new Intent(CreatShopActivity.this, BaiDuMapActivity.class);
+                intent.putExtras(bundle);
+                startActivityForResult(intent, CreatShopActivity.GET_DATA_RESULT_CODE);
+            } else {
+                ToastUtil.makeText(this, "请选择地址", Toast.LENGTH_SHORT).show();
+            }
+        }catch (Exception e){
+            PgyCrashManager.reportCaughtException(this,e);
         }
+
 
     }
 }

@@ -67,7 +67,12 @@ public class OrderOkAdapter extends BaseMultiItemQuickAdapter<OrderOkInfo, BaseV
                 String url = item.getOrderOkCenterInfo().getGoodsItemsBean().getPicture().split(",")[0];
                 Picasso.get().load(url).resize(withResult, heightResult).into((ImageView) helper.getView(R.id.order_body_imageview));
                 helper.setText(R.id.order_ok_body_companay, item.getOrderOkCenterInfo().getGoodsItemsBean().getManufacturer());
-                double a = (double) item.getOrderOkCenterInfo().getGoodsItemsBean().getSkuDTO().getRetailPrice();
+                double a = 0;
+                if (item.getOrderOkCenterInfo().getGoodsItemsBean().getAmount() > item.getOrderOkCenterInfo().getGoodsItemsBean().getSkuDTO().getBatchNums()) {
+                    a = (double) item.getOrderOkCenterInfo().getGoodsItemsBean().getSkuDTO().getWholesalePrice();
+                } else {
+                    a = (double) item.getOrderOkCenterInfo().getGoodsItemsBean().getSkuDTO().getRetailPrice();
+                }
                 double money = a / 100;
                 helper.setText(R.id.order_ok_money, "￥" + money);
                 break;

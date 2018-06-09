@@ -64,7 +64,7 @@
                             android:id="@+id/order_info_phone"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
-                            android:layout_weight="2"
+                            android:layout_weight="1"
                             android:gravity="center_vertical"
                             android:text="联系方式："
                             android:textColor="@color/color333333"

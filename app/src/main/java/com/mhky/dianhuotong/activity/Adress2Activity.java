@@ -17,6 +17,7 @@ import com.mhky.dianhuotong.addshop.precenter.AdressPrecenter;
 import com.mhky.dianhuotong.base.BaseActivityManager;
 import com.mhky.dianhuotong.base.BaseTool;
 import com.mhky.dianhuotong.custom.viewgroup.DianHuoTongBaseTitleBar;
+import com.pgyersdk.crash.PgyCrashManager;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -48,7 +49,11 @@ public class Adress2Activity extends AppCompatActivity implements AdressIF {
         setContentView(R.layout.activity_adress2);
         ButterKnife.bind(this);
         context = this;
-        inIt();
+        try {
+            inIt();
+        }catch (Exception e){
+            PgyCrashManager.reportCaughtException(this,e);
+        }
     }
 
     private void inIt() {
