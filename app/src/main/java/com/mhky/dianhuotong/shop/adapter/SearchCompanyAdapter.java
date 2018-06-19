@@ -29,7 +29,7 @@ public class SearchCompanyAdapter extends BaseQuickAdapter<SearchCompanyInfo.Con
         }
         helper.setText(R.id.item_search_shop_name,item.getName());
         if (item.getSendAccount()>0){
-            helper.setText(R.id.item_search_shop_transfer,"满"+item.getSendAccount()/100+"免邮");
+            helper.setText(R.id.item_search_shop_transfer,"满"+item.getSendAccount()/100+"元免邮");
         }else {
             helper.setText(R.id.item_search_shop_transfer,"全场免邮");
         }

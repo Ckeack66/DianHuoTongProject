@@ -29,6 +29,7 @@ import com.mhky.dianhuotong.shop.bean.GoodsInfo;
 import com.mhky.dianhuotong.shop.bean.GoodsSkuInfo;
 import com.mhky.dianhuotong.shop.precenter.CartOpratePresenter;
 import com.mhky.dianhuotong.shop.shopif.CartOprateIF;
+import com.pgyersdk.crash.PgyCrashManager;
 import com.squareup.picasso.Picasso;
 import com.zhy.view.flowlayout.FlowLayout;
 import com.zhy.view.flowlayout.TagAdapter;
@@ -61,6 +62,8 @@ public class CartPopupwindow extends PopupWindow implements View.OnClickListener
     private TextView textViewOk;
     private TextView textViewPrice;
     private TextView textViewTitleText;
+    private TextView textViewNumberTitle;
+    private TextView textViewFloght;
     private CartOpratePresenter cartOpratePresenter;
     private List<GoodsSkuInfo> goodsSkuInfoList;
     private String[] typeName;
@@ -84,6 +87,8 @@ public class CartPopupwindow extends PopupWindow implements View.OnClickListener
         textViewPrice = view.findViewById(R.id.cart_popup_price);
         textViewTitleText = view.findViewById(R.id.cart_popup_title_txt);
         imageViewGoods = view.findViewById(R.id.cart_popup_img);
+        textViewNumberTitle=view.findViewById(R.id.cart_popup_number_title);
+        textViewFloght=view.findViewById(R.id.cart_popup_type);
         setWidth(WindowManager.LayoutParams.MATCH_PARENT);
         setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
         setFocusable(false);
@@ -174,71 +179,92 @@ public class CartPopupwindow extends PopupWindow implements View.OnClickListener
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.cart_popup_reduce:
-                if (goodsNumber > 1 && selectNUmber != -1) {
-                    goodsNumber--;
-                }
-                if (goodsNumber>goodsSkuInfoList.get(selectNUmber).getBatchNums()){
-                    textViewPrice.setText("￥" + goodsSkuInfoList.get(selectNUmber).getWholesalePrice() / 100);
-                }else {
-                    textViewPrice.setText("￥" + goodsSkuInfoList.get(selectNUmber).getRetailPrice() / 100);
-                }
-                break;
-            case R.id.cart_popup_plus:
-                if (goodsNumber < goodsNumberMax && selectNUmber != -1) {
-                    goodsNumber++;
-                }
-                if (goodsNumber>goodsSkuInfoList.get(selectNUmber).getBatchNums()){
-                    textViewPrice.setText("￥" + goodsSkuInfoList.get(selectNUmber).getWholesalePrice() / 100);
-                }else {
-                    textViewPrice.setText("￥" + goodsSkuInfoList.get(selectNUmber).getRetailPrice() / 100);
-                }
-                break;
-            case R.id.cart_popup_ok:
-                if (BaseApplication.getInstansApp().getLoginRequestInfo() != null) {
-                    if (goodsNumber > 0) {
-                        Map map = new HashMap();
-                        map.put("buyerId", BaseApplication.getInstansApp().getLoginRequestInfo().getId());
-                        map.put("goodsId", goodsInfo.getId());
-                        map.put("skuId", goodsSkuInfoList.get(selectNUmber).getId());
-                        map.put("amount", goodsNumber);
-                        map.put("checked", true);
-                        cartOpratePresenter.addCart(map);
-                    } else {
-                        ToastUtil.makeText(mContext, "请选择要加购的商品", Toast.LENGTH_SHORT).show();
+        try {
+            switch (v.getId()) {
+                case R.id.cart_popup_reduce:
+                    if (goodsNumber > 1 && selectNUmber != -1) {
+                        goodsNumber--;
                     }
+                    if (goodsNumber>goodsSkuInfoList.get(selectNUmber).getBatchNums()){
+                        textViewPrice.setText("￥" + goodsSkuInfoList.get(selectNUmber).getWholesalePrice() / 100);
+                    }else {
+                        textViewPrice.setText("￥" + goodsSkuInfoList.get(selectNUmber).getRetailPrice() / 100);
+                    }
+                    if (goodsNumber > 0) {
+                        textViewOk.setBackgroundColor(Color.parseColor("#04c1ab"));
+                        textViewOk.setClickable(true);
+                    } else {
+                        textViewOk.setBackgroundColor(Color.parseColor("#BFBFBF"));
+                        textViewOk.setClickable(false);
+                    }
+                    break;
+                case R.id.cart_popup_plus:
+                    if (goodsNumber < goodsNumberMax && selectNUmber != -1) {
+                        goodsNumber++;
+                    }
+                    if (goodsNumber>goodsSkuInfoList.get(selectNUmber).getBatchNums()){
+                        textViewPrice.setText("￥" + goodsSkuInfoList.get(selectNUmber).getWholesalePrice() / 100);
+                    }else {
+                        textViewPrice.setText("￥" + goodsSkuInfoList.get(selectNUmber).getRetailPrice() / 100);
+                    }
+                    if (goodsNumber > 0) {
+                        textViewOk.setBackgroundColor(Color.parseColor("#04c1ab"));
+                        textViewOk.setClickable(true);
+                    } else {
+                        textViewOk.setBackgroundColor(Color.parseColor("#BFBFBF"));
+                        textViewOk.setClickable(false);
+                    }
+                    break;
+                case R.id.cart_popup_ok:
+                    if (BaseApplication.getInstansApp().getLoginRequestInfo() != null) {
+                        if (goodsNumber > 0) {
+                            Map map = new HashMap();
+                            map.put("buyerId", BaseApplication.getInstansApp().getLoginRequestInfo().getId());
+                            map.put("goodsId", goodsInfo.getId());
+                            map.put("skuId", goodsSkuInfoList.get(selectNUmber).getId());
+                            map.put("amount", goodsNumber);
+                            map.put("checked", true);
+                            cartOpratePresenter.addCart(map);
+                            textViewOk.setBackgroundColor(Color.parseColor("#BFBFBF"));
+                            textViewOk.setClickable(false);
+                        } else {
+                            ToastUtil.makeText(mContext, "请选择要加购的商品", Toast.LENGTH_SHORT).show();
+                        }
 
-                } else {
-
-                }
-
-                break;
+                    }
+                    break;
+            }
+            textViewNumber.setText(goodsNumber + "");
+        }catch (Exception e){
+            PgyCrashManager.reportCaughtException(mContext,e);
         }
-        if (goodsNumber > 0) {
-            textViewOk.setBackgroundColor(Color.parseColor("#04c1ab"));
-            textViewOk.setClickable(true);
-        } else {
-            textViewOk.setBackgroundColor(Color.parseColor("#BFBFBF"));
-            textViewOk.setClickable(false);
-        }
-        textViewNumber.setText(goodsNumber + "");
+
     }
 
     @Override
     public void addCartSucess(int code, String result) {
-        if (code == 204) {
-            ToastUtil.makeText(mContext, "加购成功！", Toast.LENGTH_SHORT).show();
-            BaseApplication.getInstansApp().setUpdateCart(true);
-            dismiss();
-        } else {
-            ToastUtil.makeText(mContext, "加购失败-" + code, Toast.LENGTH_SHORT).show();
+        try {
+            if (code == 204) {
+                ToastUtil.makeText(mContext, "加购成功！", Toast.LENGTH_SHORT).show();
+                BaseApplication.getInstansApp().setUpdateCart(true);
+                dismiss();
+            } else {
+                ToastUtil.makeText(mContext, "加购失败-" + code, Toast.LENGTH_SHORT).show();
+            }
+        }catch (Exception e){
+            PgyCrashManager.reportCaughtException(mContext,e);
+        }finally {
+            textViewOk.setBackgroundColor(Color.parseColor("#04c1ab"));
+            textViewOk.setClickable(true);
         }
+
     }
 
     @Override
     public void addCartFaild(int code, String result) {
         ToastUtil.makeText(mContext, "加购失败-" + code, Toast.LENGTH_SHORT).show();
+        textViewOk.setBackgroundColor(Color.parseColor("#04c1ab"));
+        textViewOk.setClickable(true);
     }
 
     @Override
@@ -290,6 +316,14 @@ public class CartPopupwindow extends PopupWindow implements View.OnClickListener
                     setTagFlowLayout(typeName);
                 }else {
                     textViewOk.setText("此商品暂不支持您所在地区购买~");
+                    textViewPrice.setVisibility(View.GONE);
+                    textViewGoodsNumber.setVisibility(View.GONE);
+                    tagFlowLayout.setVisibility(View.GONE);
+                    textViewNumberTitle.setVisibility(View.GONE);
+                    imageViewReduce.setVisibility(View.GONE);
+                    imageViewPlus.setVisibility(View.GONE);
+                    textViewNumber.setVisibility(View.GONE);
+                    textViewFloght.setVisibility(View.GONE);
                 }
             } else {
                 ToastUtil.makeText(mContext, "获取信息失败！", Toast.LENGTH_SHORT).show();

@@ -24,6 +24,7 @@ import com.mhky.dianhuotong.base.BaseApplication;
 import com.mhky.dianhuotong.base.BaseTool;
 import com.mhky.dianhuotong.base.view.BaseActivity;
 import com.mhky.dianhuotong.custom.AlertDialog.DianHuoTongBaseDialog;
+import com.mhky.dianhuotong.custom.AlertDialog.LoadingDialog;
 import com.mhky.dianhuotong.custom.ToastUtil;
 import com.mhky.dianhuotong.custom.viewgroup.DianHuoTongBaseTitleBar;
 import com.mhky.dianhuotong.shop.adapter.CartAdapter;
@@ -81,6 +82,7 @@ public class CartActivity extends BaseActivity implements CartOprateIF, CartData
     private List<Integer> listID;
     private DianHuoTongBaseDialog dianHuoTongBaseDialog;
     private HashMap<String, List<CartBaseInfo.GoodsItemsBean>> hashMapInteger;
+    private LoadingDialog loadingDialog;
     private static final String TAG = "CartActivity";
 
     @Override
@@ -113,6 +115,7 @@ public class CartActivity extends BaseActivity implements CartOprateIF, CartData
 
 
     private void init() {
+        loadingDialog = new LoadingDialog(this);
         hashMapInteger = new HashMap<>();
         parentId = new ArrayList<>();
         listID = new ArrayList<>();
@@ -149,6 +152,7 @@ public class CartActivity extends BaseActivity implements CartOprateIF, CartData
         });
         cartOpratePresenter = new CartOpratePresenter(this);
         cartOpratePresenter.getCart(BaseApplication.getInstansApp().getLoginRequestInfo().getId(), 0);
+        loadingDialog.show();
         cartInfoList = new ArrayList<>();
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -281,7 +285,9 @@ public class CartActivity extends BaseActivity implements CartOprateIF, CartData
 
     @Override
     public void deleteCartFaild(int code, String result) {
-
+        if (loadingDialog != null && loadingDialog.isShowing()) {
+            loadingDialog.dismiss();
+        }
     }
 
     @Override
@@ -392,6 +398,7 @@ public class CartActivity extends BaseActivity implements CartOprateIF, CartData
                                                 hashMap.put("amount", cartInfoList1.get(position).getCartBodyBaseInfo().getGoodsItemsBean().getAmount() + 1);
                                                 cartOpratePresenter.alterCart(hashMap, 0);
                                                 alterGoodsNumber = position;
+                                                loadingDialog.show();
                                             }
                                             //ToastUtil.makeText(mContext, "增加了商品" + position, Toast.LENGTH_SHORT).show();
                                             break;
@@ -402,6 +409,7 @@ public class CartActivity extends BaseActivity implements CartOprateIF, CartData
                                                 hashMap.put("amount", cartInfoList1.get(position).getCartBodyBaseInfo().getGoodsItemsBean().getAmount() - 1);
                                                 cartOpratePresenter.alterCart(hashMap, 1);
                                                 alterGoodsNumber = position;
+                                                loadingDialog.show();
                                             }
                                             //ToastUtil.makeText(mContext, "减少了商品" + position, Toast.LENGTH_SHORT).show();
                                             break;
@@ -434,13 +442,19 @@ public class CartActivity extends BaseActivity implements CartOprateIF, CartData
             }
         } catch (Exception e) {
             PgyCrashManager.reportCaughtException(this, e);
+        } finally {
+            if (loadingDialog != null && loadingDialog.isShowing()) {
+                loadingDialog.dismiss();
+            }
         }
 
     }
 
     @Override
     public void getCartFaild(int code, String result, int type) {
-
+        if (loadingDialog != null && loadingDialog.isShowing()) {
+            loadingDialog.dismiss();
+        }
     }
 
     @Override
@@ -459,15 +473,22 @@ public class CartActivity extends BaseActivity implements CartOprateIF, CartData
                 cartAdapter.notifyDataSetChanged();
                 getGoodsIdList();
             }
-        }catch (Exception e){
-            PgyCrashManager.reportCaughtException(this,e);
+        } catch (Exception e) {
+            PgyCrashManager.reportCaughtException(this, e);
+        } finally {
+            if (loadingDialog != null && loadingDialog.isShowing()) {
+                loadingDialog.dismiss();
+            }
+
         }
 
     }
 
     @Override
     public void alterCartFaild(int code, String result, int type) {
-
+        if (loadingDialog != null && loadingDialog.isShowing()) {
+            loadingDialog.dismiss();
+        }
     }
 
     @Override
@@ -533,9 +554,9 @@ public class CartActivity extends BaseActivity implements CartOprateIF, CartData
                                 hashMapInteger.get(cartInfoListResult.get(i).getCartBodyBaseInfo().getGoodsItemsBean().getShopDTO().getId()).add(cartInfoListResult.get(i).getCartBodyBaseInfo().getGoodsItemsBean());
                             }
                             nameList.add(cartInfoListResult.get(i).getCartBodyBaseInfo().getGoodsItemsBean().getSkuDTO().getId() + "");
-                            if (cartInfoListResult.get(i).getCartBodyBaseInfo().getGoodsItemsBean().getAmount()>cartInfoListResult.get(i).getCartBodyBaseInfo().getGoodsItemsBean().getSkuDTO().getBatchNums()){
+                            if (cartInfoListResult.get(i).getCartBodyBaseInfo().getGoodsItemsBean().getAmount() > cartInfoListResult.get(i).getCartBodyBaseInfo().getGoodsItemsBean().getSkuDTO().getBatchNums()) {
                                 integerList.add(cartInfoListResult.get(i).getCartBodyBaseInfo().getGoodsItemsBean().getSkuDTO().getWholesalePrice() * cartInfoListResult.get(i).getCartBodyBaseInfo().getGoodsItemsBean().getAmount());
-                            }else {
+                            } else {
                                 integerList.add(cartInfoListResult.get(i).getCartBodyBaseInfo().getGoodsItemsBean().getSkuDTO().getRetailPrice() * cartInfoListResult.get(i).getCartBodyBaseInfo().getGoodsItemsBean().getAmount());
                             }
                         }
@@ -561,7 +582,7 @@ public class CartActivity extends BaseActivity implements CartOprateIF, CartData
             integerMoney = integer.doubleValue() / 100;
             selelctGoodsId = stringBuilder.toString();
             textViewMoney.setText("合计：￥" + integer.doubleValue() / 100);
-        }catch (Exception e) {
+        } catch (Exception e) {
             PgyCrashManager.reportCaughtException(this, e);
         }
         return stringBuilder.toString();
@@ -586,6 +607,12 @@ public class CartActivity extends BaseActivity implements CartOprateIF, CartData
 
     @Override
     public void onClickBaseDialogRight(String iTag) {
-        cartOpratePresenter.deleteCart(selelctGoodsId);
+        try {
+            cartOpratePresenter.deleteCart(selelctGoodsId);
+            loadingDialog.show();
+        } catch (Exception e) {
+            PgyCrashManager.reportCaughtException(this, e);
+        }
+
     }
 }

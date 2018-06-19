@@ -104,6 +104,8 @@ public class ShopMainFragment extends Fragment implements ShopIF, SortPopupwindo
     NestedScrollView nestedScrollView;
     @BindView(R.id.shop_star)
     TextView textViewShopStar;
+    @BindView(R.id.shop_transfer)
+    TextView textViewTransfer;
     private int chooseOldNumber = -1;
     private boolean tabIsOpen = false;
     private Unbinder unbinder;
@@ -211,6 +213,8 @@ public class ShopMainFragment extends Fragment implements ShopIF, SortPopupwindo
         starShopPrecenter.setStarShopIF(this);
         dianHuoTongBaseDialog = new DianHuoTongBaseDialog(getActivity(), this, "温馨提示", "请问客官确定要取消收藏店铺吗？", "取消", "确定", "fg");
         setRefresh();
+        linearLayoutHead.setFocusableInTouchMode(true);
+        linearLayoutHead.requestFocus();
     }
     private void setRefresh() {
         smartRefreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
@@ -517,6 +521,11 @@ public class ShopMainFragment extends Fragment implements ShopIF, SortPopupwindo
                 if (shopTransferInfo != null) {
                     if (shopTransferInfo.getNotice() != null) {
                         textViewNotice.setText(shopTransferInfo.getNotice().toString());
+                    }
+                    if (shopTransferInfo.getSendAccount()==0){
+                        textViewTransfer.setText("全场免邮");
+                    }else {
+                        textViewTransfer.setText("满"+shopTransferInfo.getSendAccount()/100+"元免邮");
                     }
                 }
             }

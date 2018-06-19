@@ -199,7 +199,11 @@ public class OderOkActivity extends BaseActivity implements OrderOkAdapter.GetEd
                     orderOkCenterInfo.setGoodsItemsBean(list.get(a));
                     orderOkInfo1.setOrderOkCenterInfo(orderOkCenterInfo);
                     orderOkInfoList.add(orderOkInfo1);
-                    money = money + (list.get(a).getAmount() * list.get(a).getInPrice());
+                    if (list.get(a).getAmount() > list.get(a).getSkuDTO().getBatchNums()) {
+                        money = money + (list.get(a).getAmount() * list.get(a).getSkuDTO().getWholesalePrice());
+                    } else {
+                        money = money + (list.get(a).getAmount() * list.get(a).getSkuDTO().getRetailPrice());
+                    }
                 }
                 OrderOkInfo orderOkInfo2 = new OrderOkInfo();
                 orderOkInfo2.setType(OrderOkInfo.BOTTOM);
