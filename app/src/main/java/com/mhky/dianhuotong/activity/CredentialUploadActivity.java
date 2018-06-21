@@ -40,6 +40,7 @@ import com.mhky.dianhuotong.shop.bean.CredentialUpdateInfo;
 import com.mhky.dianhuotong.shop.bean.ShopCredentialBaseInfo;
 import com.mhky.dianhuotong.shop.precenter.ShopCredentialPresenter;
 import com.mhky.dianhuotong.shop.shopif.ShopCredentialIF;
+import com.pgyersdk.crash.PgyCrashManager;
 import com.squareup.picasso.Picasso;
 
 import org.devio.takephoto.app.TakePhoto;
@@ -103,7 +104,11 @@ public class CredentialUploadActivity extends TakePhotoActivity implements DianH
         setContentView(R.layout.activity_credential_upload);
         ButterKnife.bind(this);
         mContext = this;
-        inIt();
+        try {
+            inIt();
+        } catch (Exception e) {
+            PgyCrashManager.reportCaughtException(this, e);
+        }
     }
 
     private void inIt() {
@@ -143,16 +148,19 @@ public class CredentialUploadActivity extends TakePhotoActivity implements DianH
         initCustomTimePicker1(textViewData1);
         initCustomTimePicker2(textViewData2);
     }
+
     @OnClick({R.id.upload_credential_img_start})
-    void resetStart(){
+    void resetStart() {
         textViewData1.setText("");
         imageViewStart.setVisibility(View.GONE);
     }
+
     @OnClick({R.id.upload_credential_img_stop})
-    void resetStop(){
+    void resetStop() {
         textViewData2.setText("");
         imageViewStop.setVisibility(View.GONE);
     }
+
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         Permissions4M.onRequestPermissionsResult(this, requestCode, grantResults);
@@ -194,17 +202,30 @@ public class CredentialUploadActivity extends TakePhotoActivity implements DianH
     @Override
     public void takeSuccess(TResult result) {
         super.takeSuccess(result);
-        dianHuoTongBottomMenuDialog.dismiss();
-        //ToastUtil.makeText(this, "选取成功", Toast.LENGTH_SHORT).show();
-        BaseTool.logPrint(TAG, "takeSuccess: " + result.getImages().size());
-        BaseTool.logPrint(TAG, "takeSuccess: " + result.getImages().get(0).getOriginalPath());
-        BaseTool.logPrint(TAG, "takeSuccess: " + result.getImages().get(0).getCompressPath());
-        HttpParams httpParams = new HttpParams();
-        httpParams.put("userName", BaseApplication.getInstansApp().getLoginRequestInfo().getUsername());
-        httpParams.put("userId", BaseApplication.getInstansApp().getLoginRequestInfo().getId());
-        httpParams.put("type", "USER");
-        httpParams.put("file", new File(result.getImages().get(0).getCompressPath()));
-        uploadCredentialPrecenter.getImageUplaodUrl(httpParams);
+        try {
+            //ToastUtil.makeText(this, "选取成功", Toast.LENGTH_SHORT).show();
+            if (BaseApplication.getInstansApp().getPersonInfo() != null) {
+                BaseTool.logPrint(TAG, "takeSuccess: " + result.getImages().size());
+                BaseTool.logPrint(TAG, "takeSuccess: " + result.getImages().get(0).getOriginalPath());
+                BaseTool.logPrint(TAG, "takeSuccess: " + result.getImages().get(0).getCompressPath());
+                HttpParams httpParams = new HttpParams();
+                httpParams.put("userName", BaseApplication.getInstansApp().getPersonInfo().getUsername());
+                httpParams.put("userId", BaseApplication.getInstansApp().getPersonInfo().getId());
+                httpParams.put("type", "USER");
+                httpParams.put("file", new File(result.getImages().get(0).getCompressPath()));
+                uploadCredentialPrecenter.getImageUplaodUrl(httpParams);
+            } else {
+                ToastUtil.makeText(this, "登陆异常", Toast.LENGTH_SHORT).show();
+                BaseTool.goActivityNoData(this, LoginActivity.class);
+            }
+
+        } catch (Exception e) {
+            PgyCrashManager.reportCaughtException(this, e);
+        } finally {
+            dianHuoTongBottomMenuDialog.dismiss();
+        }
+
+
         // Picasso.get().load("file://" + result.getImages().get(0).getOriginalPath()).into(imageView);
 //        if (uri != null) {
 //             Picasso.get().load("file://" + result.getImages().get(0).getOriginalPath()).into(imageView);
@@ -247,19 +268,24 @@ public class CredentialUploadActivity extends TakePhotoActivity implements DianH
 
     @Override
     public void updataCredentialImageSucess(int code, String result) {
-        if (code == 201) {
-            if (result != null && !"".equals(result)) {
-                ToastUtil.makeText(this, "上传成功", Toast.LENGTH_SHORT).show();
-                imageUrl = result;
-                Picasso.get().load(imageUrl).resize(withResult, heightResult).into(imageViewCredentail);
-                BaseTool.logPrint(TAG, "updataCredentialImageSucess: W---" + withResult);
-                BaseTool.logPrint(TAG, "updataCredentialImageSucess: H---" + heightResult);
-                BaseTool.logPrint(TAG, "updataCredentialImageSucess: ------" + result);
-            }
+        try {
+            if (code == 201) {
+                if (result != null && !"".equals(result)) {
+                    ToastUtil.makeText(this, "上传成功", Toast.LENGTH_SHORT).show();
+                    imageUrl = result;
+                    Picasso.get().load(imageUrl).resize(withResult, heightResult).into(imageViewCredentail);
+                    BaseTool.logPrint(TAG, "updataCredentialImageSucess: W---" + withResult);
+                    BaseTool.logPrint(TAG, "updataCredentialImageSucess: H---" + heightResult);
+                    BaseTool.logPrint(TAG, "updataCredentialImageSucess: ------" + result);
+                }
 
-        } else {
-            ToastUtil.makeText(this, "上传失败", Toast.LENGTH_SHORT).show();
+            } else {
+                ToastUtil.makeText(this, "上传失败", Toast.LENGTH_SHORT).show();
+            }
+        } catch (Exception e) {
+            PgyCrashManager.reportCaughtException(this, e);
         }
+
     }
 
     @Override
@@ -269,68 +295,73 @@ public class CredentialUploadActivity extends TakePhotoActivity implements DianH
 
     @OnClick(R.id.upload_credrntial_ok)
     void finishCreateCredential() {
-        if (imageUrl == null) {
-            ToastUtil.makeText(this, "请上传证件", Toast.LENGTH_SHORT).show();
-            return;
-        }
-        qulationBaseInfo.setUrl(imageUrl);
-        if (TextUtils.isEmpty(textViewData1.getText())) {
-            if (!TextUtils.isEmpty(textViewData2.getText())){
-                ToastUtil.makeText(this, "请选择开始时间", Toast.LENGTH_SHORT).show();
+        try {
+            if (imageUrl == null) {
+                ToastUtil.makeText(this, "请上传证件", Toast.LENGTH_SHORT).show();
                 return;
             }
-        }else {
-            qulationBaseInfo.setStartTime(textViewData1.getText().toString());
-            if (!TextUtils.isEmpty(textViewData2.getText())){
-                qulationBaseInfo.setEndTime(textViewData2.getText().toString());
-            }else {
-                qulationBaseInfo.setEndTime("");
+            qulationBaseInfo.setUrl(imageUrl);
+            if (TextUtils.isEmpty(textViewData1.getText())) {
+                if (!TextUtils.isEmpty(textViewData2.getText())) {
+                    ToastUtil.makeText(this, "请选择开始时间", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+            } else {
+                qulationBaseInfo.setStartTime(textViewData1.getText().toString());
+                if (!TextUtils.isEmpty(textViewData2.getText())) {
+                    qulationBaseInfo.setEndTime(textViewData2.getText().toString());
+                } else {
+                    qulationBaseInfo.setEndTime("");
+                }
             }
+            if (!TextUtils.isEmpty(editTextCardNumber.getText())) {
+                qulationBaseInfo.setNumber(editTextCardNumber.getText().toString());
+            }
+            if (!TextUtils.isEmpty(editTextBody.getText())) {
+                qulationBaseInfo.setScope(editTextBody.getText().toString());
+            }
+            if (!TextUtils.isEmpty(editTextNume.getText())) {
+                qulationBaseInfo.setCorporation(editTextNume.getText().toString());
+            }
+            if (credentialBaseTypeInfo != null) {
+                qulationBaseInfo.setId(credentialBaseTypeInfo.getId());
+                qulationBaseInfo.setName(credentialBaseTypeInfo.getName());
+            }
+            if ("0".equals(state)) {
+                CredentialUpdateInfo credentialUpdateInfo = new CredentialUpdateInfo();
+                credentialUpdateInfo.setUrl(imageUrl);
+                credentialUpdateInfo.setStartTime(textViewData1.getText().toString());
+                credentialUpdateInfo.setEndTime(textViewData2.getText().toString());
+                credentialUpdateInfo.setCorporation(editTextNume.getText().toString());
+                credentialUpdateInfo.setScope(editTextBody.getText().toString());
+                credentialUpdateInfo.setNumber(editTextCardNumber.getText().toString());
+                credentialUpdateInfo.setName(shopCredentialBaseInfo.getName());
+                credentialUpdateInfo.setCompositeid(BaseApplication.getInstansApp().getLoginRequestInfo().getShopId().toString());
+                shopCredentialPresenter.updateCredential(shopCredentialBaseInfo.getId(), JSON.toJSONString(credentialUpdateInfo));
+            } else if ("1".equals(state)) {
+                CredentialUpdateInfo credentialUpdateInfo = new CredentialUpdateInfo();
+                credentialUpdateInfo.setUrl(imageUrl);
+                credentialUpdateInfo.setStartTime(textViewData1.getText().toString());
+                credentialUpdateInfo.setEndTime(textViewData2.getText().toString());
+                credentialUpdateInfo.setCorporation(editTextNume.getText().toString());
+                credentialUpdateInfo.setScope(editTextBody.getText().toString());
+                credentialUpdateInfo.setNumber(editTextCardNumber.getText().toString());
+                credentialUpdateInfo.setName(qulationBaseInfo.getName());
+                credentialUpdateInfo.setCompositeid(BaseApplication.getInstansApp().getLoginRequestInfo().getShopId().toString());
+                shopCredentialPresenter.uploadNewCredential(JSON.toJSONString(credentialUpdateInfo));
+            } else {
+                Intent intent = new Intent();
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("qulation", qulationBaseInfo);
+                bundle.putString("state", state);
+                intent.putExtras(bundle);
+                setResult(1002, intent);
+                finish();
+            }
+        } catch (Exception e) {
+            PgyCrashManager.reportCaughtException(this, e);
         }
-        if (!TextUtils.isEmpty(editTextCardNumber.getText())) {
-            qulationBaseInfo.setNumber(editTextCardNumber.getText().toString());
-        }
-        if (!TextUtils.isEmpty(editTextBody.getText())) {
-            qulationBaseInfo.setScope(editTextBody.getText().toString());
-        }
-        if (!TextUtils.isEmpty(editTextNume.getText())) {
-            qulationBaseInfo.setCorporation(editTextNume.getText().toString());
-        }
-        if (credentialBaseTypeInfo != null) {
-            qulationBaseInfo.setId(credentialBaseTypeInfo.getId());
-            qulationBaseInfo.setName(credentialBaseTypeInfo.getName());
-        }
-        if ("0".equals(state)) {
-            CredentialUpdateInfo credentialUpdateInfo = new CredentialUpdateInfo();
-            credentialUpdateInfo.setUrl(imageUrl);
-            credentialUpdateInfo.setStartTime(textViewData1.getText().toString());
-            credentialUpdateInfo.setEndTime(textViewData2.getText().toString());
-            credentialUpdateInfo.setCorporation(editTextNume.getText().toString());
-            credentialUpdateInfo.setScope(editTextBody.getText().toString());
-            credentialUpdateInfo.setNumber(editTextCardNumber.getText().toString());
-            credentialUpdateInfo.setName(shopCredentialBaseInfo.getName());
-            credentialUpdateInfo.setCompositeid(BaseApplication.getInstansApp().getLoginRequestInfo().getShopId().toString());
-            shopCredentialPresenter.updateCredential(shopCredentialBaseInfo.getId(), JSON.toJSONString(credentialUpdateInfo));
-        } else if ("1".equals(state)) {
-            CredentialUpdateInfo credentialUpdateInfo = new CredentialUpdateInfo();
-            credentialUpdateInfo.setUrl(imageUrl);
-            credentialUpdateInfo.setStartTime(textViewData1.getText().toString());
-            credentialUpdateInfo.setEndTime(textViewData2.getText().toString());
-            credentialUpdateInfo.setCorporation(editTextNume.getText().toString());
-            credentialUpdateInfo.setScope(editTextBody.getText().toString());
-            credentialUpdateInfo.setNumber(editTextCardNumber.getText().toString());
-            credentialUpdateInfo.setName(qulationBaseInfo.getName());
-            credentialUpdateInfo.setCompositeid(BaseApplication.getInstansApp().getLoginRequestInfo().getShopId().toString());
-            shopCredentialPresenter.uploadNewCredential(JSON.toJSONString(credentialUpdateInfo));
-        } else {
-            Intent intent = new Intent();
-            Bundle bundle = new Bundle();
-            bundle.putSerializable("qulation", qulationBaseInfo);
-            bundle.putString("state", state);
-            intent.putExtras(bundle);
-            setResult(1002, intent);
-            finish();
-        }
+
 
     }
 
@@ -369,7 +400,7 @@ public class CredentialUploadActivity extends TakePhotoActivity implements DianH
                 if (!TextUtils.isEmpty(textViewData2.getText())) {
                     if (BaseTool.isDateOneBigger(getTime(date), textViewData2.getText().toString())) {
                         ToastUtil.makeText(mContext, "开始时间不能大于结束时间", Toast.LENGTH_SHORT).show();
-                    }else {
+                    } else {
                         textView.setText(getTime(date));
                         imageViewStart.setVisibility(View.VISIBLE);
                     }
@@ -451,7 +482,7 @@ public class CredentialUploadActivity extends TakePhotoActivity implements DianH
             public void onTimeSelect(Date date, View v) {
                 //选中事件回调
                 if (!TextUtils.isEmpty(textViewData1.getText())) {
-                    if (BaseTool.isDateOneBigger(textViewData1.getText().toString(),getTime(date))) {
+                    if (BaseTool.isDateOneBigger(textViewData1.getText().toString(), getTime(date))) {
                         ToastUtil.makeText(mContext, "开始时间不能大于结束时间", Toast.LENGTH_SHORT).show();
                     } else {
                         textView.setText(getTime(date));
@@ -533,45 +564,55 @@ public class CredentialUploadActivity extends TakePhotoActivity implements DianH
 
     @Override
     public void updateShopCredentialSucess(int code, String result) {
-        if (code==200){
-            Intent intent = new Intent();
-            Bundle bundle = new Bundle();
-            bundle.putSerializable("qulation", qulationBaseInfo);
-            bundle.putString("state", state);
-            bundle.putString("result", "ok");
-            intent.putExtras(bundle);
-            setResult(1002, intent);
-            finish();
-        }else {
-            ToastUtil.makeText(mContext, "上传失败"+code, Toast.LENGTH_SHORT).show();
+        try {
+            if (code == 200) {
+                Intent intent = new Intent();
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("qulation", qulationBaseInfo);
+                bundle.putString("state", state);
+                bundle.putString("result", "ok");
+                intent.putExtras(bundle);
+                setResult(1002, intent);
+                finish();
+            } else {
+                ToastUtil.makeText(mContext, "上传失败" + code, Toast.LENGTH_SHORT).show();
+            }
+        } catch (Exception e) {
+            PgyCrashManager.reportCaughtException(this, e);
         }
+
 
     }
 
     @Override
     public void updateShopCredentialFaild(int code, String result) {
-
+        ToastUtil.makeText(mContext, "更新异常" + code, Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void uploadShopCredentialSucess(int code, String result) {
-        if (code==200){
-            Intent intent = new Intent();
-            Bundle bundle = new Bundle();
-            bundle.putSerializable("qulation", qulationBaseInfo);
-            bundle.putString("state", state);
-            bundle.putString("result", "ok");
-            intent.putExtras(bundle);
-            setResult(1002, intent);
-            finish();
-        }else {
-            ToastUtil.makeText(mContext, "上传失败"+code, Toast.LENGTH_SHORT).show();
+        try {
+            if (code == 200) {
+                Intent intent = new Intent();
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("qulation", qulationBaseInfo);
+                bundle.putString("state", state);
+                bundle.putString("result", "ok");
+                intent.putExtras(bundle);
+                setResult(1002, intent);
+                finish();
+            } else {
+                ToastUtil.makeText(mContext, "上传失败" + code, Toast.LENGTH_SHORT).show();
+            }
+        } catch (Exception e) {
+            PgyCrashManager.reportCaughtException(this, e);
         }
+
 
     }
 
     @Override
     public void uploadShopCredentialFaild(int code, String result) {
-
+        ToastUtil.makeText(mContext, "上传异常" + code, Toast.LENGTH_SHORT).show();
     }
 }

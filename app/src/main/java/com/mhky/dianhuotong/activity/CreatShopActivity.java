@@ -73,16 +73,21 @@ public class CreatShopActivity extends BaseActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         BaseTool.logPrint(TAG, "onActivityResult: ----回调了" + requestCode);
-        if (requestCode == GET_DATA_RESULT_CODE && data != null) {
-            Bundle bundle = data.getExtras();
-            provance1 = bundle.getString("chooseprovance");
-            city1 = bundle.getString("choosecity");
-            area1 = bundle.getString("choosearea");
-            road1 = bundle.getString("chooseroad");
-            textViewZuoBiao.setText(bundle.getString("choosezuobiao"));
-            qualicationInfo.getShopDataDTO().setMapPoint(bundle.getString("choosezuobiao"));
-            BaseTool.logPrint(TAG, "onActivityResult: " + provance1 + city1 + area1);
+        try {
+            if (requestCode == GET_DATA_RESULT_CODE && data != null) {
+                Bundle bundle = data.getExtras();
+                provance1 = bundle.getString("chooseprovance");
+                city1 = bundle.getString("choosecity");
+                area1 = bundle.getString("choosearea");
+                road1 = bundle.getString("chooseroad");
+                textViewZuoBiao.setText(bundle.getString("choosezuobiao"));
+                qualicationInfo.getShopDataDTO().setMapPoint(bundle.getString("choosezuobiao"));
+                BaseTool.logPrint(TAG, "onActivityResult: " + provance1 + city1 + area1);
+            }
+        } catch (Exception e) {
+            PgyCrashManager.reportCaughtException(this, e);
         }
+
     }
 
     @Override
@@ -103,13 +108,13 @@ public class CreatShopActivity extends BaseActivity {
         try {
             if (returnAdress != null || returnCity != null || returnArea != null) {
                 BaseTool.logPrint(TAG, "onResume: ----" + returnCity + returnArea + returnAdress);
-                if (returnCity!=null&&returnArea!=null&&returnAdress!=null){
+                if (returnCity != null && returnArea != null && returnAdress != null) {
                     textViewAdress.setText(returnCity + returnArea + returnAdress);
                 }
 
             }
-        }catch (Exception e){
-            PgyCrashManager.reportCaughtException(this,e);
+        } catch (Exception e) {
+            PgyCrashManager.reportCaughtException(this, e);
         }
 
     }
@@ -146,9 +151,9 @@ public class CreatShopActivity extends BaseActivity {
     @OnClick(R.id.create_shop_txt1)
     void goAdress1Activity() {
         try {
-            BaseTool.goActivityWithData(this, Adress1Activity.class,bundle);
-        }catch (Exception e){
-            PgyCrashManager.reportCaughtException(this,e);
+            BaseTool.goActivityWithData(this, Adress1Activity.class, bundle);
+        } catch (Exception e) {
+            PgyCrashManager.reportCaughtException(this, e);
         }
 
     }
@@ -201,8 +206,8 @@ public class CreatShopActivity extends BaseActivity {
                 bundle.putSerializable("qulication", qualicationInfo);
                 BaseTool.goActivityWithData(this, CredentialsActivity.class, bundle);
             }
-        }catch (Exception e){
-            PgyCrashManager.reportCaughtException(this,e);
+        } catch (Exception e) {
+            PgyCrashManager.reportCaughtException(this, e);
         }
 
 
@@ -221,8 +226,8 @@ public class CreatShopActivity extends BaseActivity {
             } else {
                 ToastUtil.makeText(this, "请选择地址", Toast.LENGTH_SHORT).show();
             }
-        }catch (Exception e){
-            PgyCrashManager.reportCaughtException(this,e);
+        } catch (Exception e) {
+            PgyCrashManager.reportCaughtException(this, e);
         }
 
 

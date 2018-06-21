@@ -27,6 +27,7 @@ import com.mhky.dianhuotong.custom.AlertDialog.CredentialBaseDialog;
 import com.mhky.dianhuotong.custom.ToastUtil;
 import com.mhky.dianhuotong.custom.viewgroup.DianHuoTongBaseTitleBar;
 import com.mhky.dianhuotong.invoice.VoiceGridviewAdapter;
+import com.pgyersdk.crash.PgyCrashManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,17 +56,22 @@ public class CredentialsActivity extends BaseActivity implements CredentialIF, C
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 1002) {
-            if (resultCode == 1002) {
-                qulationBaseInfo = (QualicationInfo.QualificationListBean) data.getExtras().getSerializable("qulation");
-                if (qulationBaseInfo != null) {
-                    qualicationInfoArrayList.add(qulationBaseInfo);
-                    voiceGridviewAdapter.updateData(qualicationInfoArrayList);
-                    BaseTool.setListViewHeightBasedOnChildren(gridView);
-                    list.remove(upNumber);
+        try {
+            if (requestCode == 1002) {
+                if (resultCode == 1002) {
+                    qulationBaseInfo = (QualicationInfo.QualificationListBean) data.getExtras().getSerializable("qulation");
+                    if (qulationBaseInfo != null) {
+                        qualicationInfoArrayList.add(qulationBaseInfo);
+                        voiceGridviewAdapter.updateData(qualicationInfoArrayList);
+                        BaseTool.setListViewHeightBasedOnChildren(gridView);
+                        list.remove(upNumber);
+                    }
                 }
             }
+        } catch (Exception e) {
+            PgyCrashManager.reportCaughtException(this, e);
         }
+
 
     }
 
@@ -75,7 +81,12 @@ public class CredentialsActivity extends BaseActivity implements CredentialIF, C
         setContentView(R.layout.activity_credentials);
         ButterKnife.bind(this);
         context = this;
-        inIt();
+        try {
+            inIt();
+        } catch (Exception e) {
+            PgyCrashManager.reportCaughtException(this, e);
+        }
+
     }
 
 
@@ -110,9 +121,14 @@ public class CredentialsActivity extends BaseActivity implements CredentialIF, C
 
     @OnClick(R.id.credentials_next)
     void goAddShopFinishActivity() {
-        if (list!=null){
-            for (int a=0;a<list.size();a++){
-                if ("营业执照".equals(list.get(a).getName())){
+        try {
+
+        } catch (Exception e) {
+            PgyCrashManager.reportCaughtException(this, e);
+        }
+        if (list != null) {
+            for (int a = 0; a < list.size(); a++) {
+                if ("营业执照".equals(list.get(a).getName())) {
                     ToastUtil.makeText(context, "请上传营业执照", Toast.LENGTH_SHORT).show();
                     return;
                 }
@@ -125,34 +141,44 @@ public class CredentialsActivity extends BaseActivity implements CredentialIF, C
 
     @Override
     public void createShopSucess(int code, String result) {
-        if (code == 200) {
-            ShopBaseInfo shopBaseInfo = JSON.parseObject(result, ShopBaseInfo.class);
-            Bundle bundle = new Bundle();
-            bundle.putSerializable("shop", shopBaseInfo);
-            bundle.putInt("state",1);
-            BaseTool.goActivityWithData(context, AddShop3Activity.class, bundle);
-            BaseActivityManager.getInstance().finishAllActivity();
-        }else {
-            ToastUtil.makeText(context, "创建店铺失败"+code, Toast.LENGTH_SHORT).show();
+        try {
+            if (code == 200) {
+                ShopBaseInfo shopBaseInfo = JSON.parseObject(result, ShopBaseInfo.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("shop", shopBaseInfo);
+                bundle.putInt("state", 1);
+                BaseTool.goActivityWithData(context, AddShop3Activity.class, bundle);
+                BaseActivityManager.getInstance().finishAllActivity();
+            } else {
+                ToastUtil.makeText(context, "创建店铺失败" + code, Toast.LENGTH_SHORT).show();
+            }
+        } catch (Exception e) {
+            PgyCrashManager.reportCaughtException(this, e);
         }
+
         BaseTool.logPrint(TAG, "createShopSucess: ----" + code + result);
     }
 
     @Override
     public void createShopFailed(int code, String result) {
-        ToastUtil.makeText(context, "创建店铺失败"+code, Toast.LENGTH_SHORT).show();
+        ToastUtil.makeText(context, "创建店铺失败" + code, Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void getCredentialTypeSucess(int code, String result) {
-        if (code == 200) {
-            if (result != null && !result.equals("")) {
-                list = JSON.parseArray(result, CredentialBaseTypeInfo.class);
-                CredentialBaseAdapter credentialBaseAdapter = new CredentialBaseAdapter(context, list);
-                credentialBaseDialog = new CredentialBaseDialog(this, this, credentialBaseAdapter, "请选择资质类型", "取消", "资质上传");
-            }
+        try {
+            if (code == 200) {
+                if (result != null && !result.equals("")) {
+                    list = JSON.parseArray(result, CredentialBaseTypeInfo.class);
+                    CredentialBaseAdapter credentialBaseAdapter = new CredentialBaseAdapter(context, list);
+                    credentialBaseDialog = new CredentialBaseDialog(this, this, credentialBaseAdapter, "请选择资质类型", "取消", "资质上传");
+                }
 
+            }
+        } catch (Exception e) {
+            PgyCrashManager.reportCaughtException(this, e);
         }
+
     }
 
     @Override
@@ -167,18 +193,23 @@ public class CredentialsActivity extends BaseActivity implements CredentialIF, C
 
     @Override
     public void OnClickCredentialBaseDialogListviewItem(int position) {
-        if (list != null) {
-            upNumber = position;
-            BaseTool.logPrint(TAG, "OnClickCredentialBaseDialogListviewItem: " + list.get(position).getName());
-            Intent intent = new Intent(context, CredentialUploadActivity.class);
-            Bundle bundle = new Bundle();
-            bundle.putSerializable("credentialtype", list.get(position));
-            intent.putExtras(bundle);
-            startActivityForResult(intent, 1002);
-            credentialBaseDialog.dismiss();
-        } else {
-            ToastUtil.makeText(context, "没有可上传的资质信息", Toast.LENGTH_SHORT).show();
+        try {
+            if (list != null) {
+                upNumber = position;
+                BaseTool.logPrint(TAG, "OnClickCredentialBaseDialogListviewItem: " + list.get(position).getName());
+                Intent intent = new Intent(context, CredentialUploadActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("credentialtype", list.get(position));
+                intent.putExtras(bundle);
+                startActivityForResult(intent, 1002);
+                credentialBaseDialog.dismiss();
+            } else {
+                ToastUtil.makeText(context, "没有可上传的资质信息", Toast.LENGTH_SHORT).show();
+            }
+        } catch (Exception e) {
+            PgyCrashManager.reportCaughtException(this, e);
         }
+
 
     }
 }

@@ -1,13 +1,15 @@
 package com.mhky.dianhuotong.base.view;
 
-import android.annotation.SuppressLint;
-import android.content.Intent;
+import android.content.IntentFilter;
+import android.net.ConnectivityManager;
+import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
 import android.view.KeyEvent;
 
 import com.mhky.dianhuotong.custom.AlertDialog.DianHuoTongBaseDialog;
+import com.mhky.dianhuotong.receiver.SystemBrocastReciver;
 
 
 /**
@@ -23,9 +25,16 @@ public class BaseActivity extends FragmentActivity {
      * @param savedInstanceState
      */
     private DianHuoTongBaseDialog dianHuoTongBaseDialog;
+    private SystemBrocastReciver systemBrocastReciver;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        systemBrocastReciver=new SystemBrocastReciver(this);
+        IntentFilter intentFilter=new IntentFilter();
+        intentFilter.addAction(WifiManager.WIFI_STATE_CHANGED_ACTION);
+        intentFilter.addAction(WifiManager.NETWORK_STATE_CHANGED_ACTION);
+        intentFilter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
+        registerReceiver(systemBrocastReciver,intentFilter);
 //        dianHuoTongBaseDialog.show();
 //        Sofia.with(this).statusBarBackground(getResources().getColor(R.color.color04c1ab));
 //        Sofia.with(this).statusBarBackgroundAlpha(100);
@@ -62,6 +71,7 @@ public class BaseActivity extends FragmentActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        unregisterReceiver(systemBrocastReciver);
     }
 
     /**

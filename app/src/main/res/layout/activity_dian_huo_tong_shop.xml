@@ -13,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/x40" />
 
-    <ScrollView
+    <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scrollbars="none">
@@ -149,7 +149,8 @@
                     android:layout_marginStart="@dimen/x10"
                     android:text="还剩"
                     android:textColor="@color/color333333"
-                    android:textSize="@dimen/t12" />
+                    android:textSize="@dimen/t12"
+                    android:visibility="gone"/>
 
                 <TextView
                     android:id="@+id/shop_hh"
@@ -163,7 +164,8 @@
                     android:paddingStart="@dimen/x2"
                     android:text="00"
                     android:textColor="@color/color333333"
-                    android:textSize="@dimen/t12" />
+                    android:textSize="@dimen/t12"
+                    android:visibility="gone"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -173,7 +175,8 @@
                     android:text=":"
                     android:textColor="@color/color333333"
                     android:textSize="@dimen/t12"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:visibility="gone"/>
 
                 <TextView
                     android:id="@+id/shop_mm"
@@ -187,7 +190,8 @@
                     android:paddingStart="@dimen/x2"
                     android:text="00"
                     android:textColor="@color/color333333"
-                    android:textSize="@dimen/t12" />
+                    android:textSize="@dimen/t12"
+                    android:visibility="gone"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -197,7 +201,8 @@
                     android:text=":"
                     android:textColor="@color/color333333"
                     android:textSize="@dimen/t12"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:visibility="gone"/>
 
                 <TextView
                     android:id="@+id/shop_ss"
@@ -211,13 +216,14 @@
                     android:paddingStart="@dimen/x2"
                     android:text="00"
                     android:textColor="@color/color333333"
-                    android:textSize="@dimen/t12" />
+                    android:textSize="@dimen/t12"
+                    android:visibility="gone"/>
             </LinearLayout>
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/shop_recycleview"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/x120"
+                android:layout_height="@dimen/x156"
                 android:background="@color/colorWhite"
                 android:orientation="horizontal" />
 
@@ -233,8 +239,9 @@
                 android:src="@drawable/shop_test1" />
 
             <RelativeLayout
+                android:id="@+id/shop_go_recommend_rl"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/x40"
                 android:layout_marginStart="@dimen/x14"
                 android:layout_marginTop="@dimen/x20">
 
@@ -242,7 +249,8 @@
                     android:id="@+id/shop_image_best"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/icon_shop_best" />
+                    android:src="@drawable/icon_shop_best"
+                    android:layout_centerVertical="true"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -253,16 +261,22 @@
                     android:text="为您推荐"
                     android:textColor="@color/color04c1ab"
                     android:textSize="@dimen/t12" />
-
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
                     android:layout_marginEnd="@dimen/x16"
-                    android:text="更多》"
+                    android:text="更多  》"
                     android:textColor="@color/color04c1ab"
                     android:textSize="@dimen/t12" />
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/x1"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginEnd="@dimen/x14"
+                    android:background="@color/colorF7F7F7"
+                    android:visibility="gone"/>
             </RelativeLayout>
 
             <LinearLayout
@@ -272,13 +286,20 @@
                 android:layout_marginStart="@dimen/x14"
                 android:orientation="vertical">
 
-                <ListView
+                <android.support.v7.widget.RecyclerView
                     android:id="@+id/shop_listview"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:divider="@null" />
             </LinearLayout>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/x50"
+                android:text="已经到底部啦~"
+                android:gravity="center"
+                android:textColor="@color/colorBFBFBF"
+                android:textSize="@dimen/t12"/>
 
         </LinearLayout>
-    </ScrollView>
+    </android.support.v4.widget.NestedScrollView>
 </LinearLayout>

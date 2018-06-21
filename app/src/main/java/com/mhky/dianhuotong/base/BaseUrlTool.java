@@ -13,13 +13,14 @@ public class BaseUrlTool {
     private final static String HOST_IMAGE_URL = "http://116.255.155.156:9040";//release  Imge
     private final static String HOSTS_ORDER="http://116.255.158.91:";
     private final static String HOST_URL_COUPON="http://116.255.158.91:"+"9060";
+    private final static String HOST_ACTIVITY="http://116.255.158.91:9060/promotion";
     //debug
 //    private final static String HOSTS = "http://192.168.2.158:";//debug
 //    private final static String HOSTS_CART = "http://192.168.2.158:";
 //    private final static String HOST_IMAGE_URL = HOSTS + "9040";//debug  Imge
 //    private final static String HOSTS_ORDER = "http://192.168.2.158:";
 //    private final static String HOST_URL_COUPON = "http://192.168.2.158:" + "9060";
-
+//    private final static String HOST_ACTIVITY="http://192.168.2.158:9060/promotion";
     /**
      * 上传图片地址
      */
@@ -28,13 +29,7 @@ public class BaseUrlTool {
     private final static String HOST_ADRESS_URL = HOSTS + "8018";
     private final static String HOST_GOODS_URL = HOSTS + "9000";
     private final static String HOST_CART_URL = HOSTS_CART + "9050";
-
-
     private final static String HOST_BANLANCE_URL = HOSTS_ORDER + "9030";
-
-
-
-
     private final static String HOST_ADVERT_URL = HOSTS_CART + "9070";
     private final static String HOST_PROMOTE_URL = HOSTS_ORDER + "8889";
 //    private final static String HOST_ACTIVITY_URL=HOSTS+"9060";
@@ -82,7 +77,14 @@ public class BaseUrlTool {
     public static String getAlterPwdURL(String ID) {
         return HOST_URL + "/user/" + ID + ALTER_USER_PWD;
     }
+    /**
+     * 通过手机号修改密码http://192.168.2.158:9088/user/password/
+     */
+    private static final String ALTER_USER_PWD1 = "/user/password/";
 
+    public static String getAlterPwdURL1(String ID) {
+        return HOST_URL+ALTER_USER_PWD1 +ID;
+    }
     /**
      * 店铺添加用户
      */
@@ -326,5 +328,15 @@ public class BaseUrlTool {
      * 分页获取品牌信息
      */
     public static final String GET_BRAND=HOST_GOODS_URL+"/brand";
+    /**
+     * 获取商铺首页推荐商品
+     * http://192.168.2.158:9000/goods/recommend?startDate=2018-06-19&endDate=2018-06-19
+     */
+    public static final String GET_RECOMMEND_GOODS=HOST_GOODS_URL+"/goods/recommend";
+    /**
+     * 获取限时限折http://192.168.2.158:9060/promotion?promotionTypes=XIAN_SHI_XIAN_LIANG_ZHE_KOU&status=true
+     */
+
+    public static final String GET_LAST_MINUTE=HOST_ACTIVITY;
 
 }

@@ -13,23 +13,29 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
+import com.liqi.utils.encoding.MD5Util;
 import com.mhky.dianhuotong.R;
 import com.mhky.dianhuotong.base.BaseApplication;
 import com.mhky.dianhuotong.base.BaseTool;
 import com.mhky.dianhuotong.base.view.BaseActivity;
+import com.mhky.dianhuotong.custom.AlertDialog.LoadingDialog;
 import com.mhky.dianhuotong.custom.ToastUtil;
 import com.mhky.dianhuotong.custom.tool.TimerMessage;
 import com.mhky.dianhuotong.custom.viewgroup.DianHuoTongBaseTitleBar;
 import com.mhky.dianhuotong.login.ForgetPassWordIF;
 import com.mhky.dianhuotong.login.ForgetPasswordPrecenter;
+import com.mhky.dianhuotong.person.bean.AlterPwdInfo;
 import com.mhky.dianhuotong.person.bean.ChangeMobilePhoneInfo;
+import com.mhky.dianhuotong.person.personif.AlterPwdIF;
+import com.mhky.dianhuotong.person.pesenter.AlterPWDPersenter;
 import com.mhky.dianhuotong.person.pesenter.ChangePhonePrecenter;
+import com.pgyersdk.crash.PgyCrashManager;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class ForgetPasswordActivity extends BaseActivity implements ForgetPassWordIF, TimerMessage.OnTimerListener {
+public class ForgetPasswordActivity extends BaseActivity implements ForgetPassWordIF, TimerMessage.OnTimerListener ,AlterPwdIF{
     @BindView(R.id.forgetpwd_titlebar)
     DianHuoTongBaseTitleBar diaHuiTongBaseTitleBar;
     @BindView(R.id.forgetpwd_phone)
@@ -50,16 +56,25 @@ public class ForgetPasswordActivity extends BaseActivity implements ForgetPassWo
     private ForgetPasswordPrecenter forgetPasswordPrecenter;
     private TimerMessage timerMessage;
     private static final String TAG = "ChangePhoneActivity";
+    private AlterPWDPersenter alterPWDPersenter;
+    private LoadingDialog loadingDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_forget_password);
         ButterKnife.bind(this);
-        inIt();
+        try {
+            inIt();
+        }catch (Exception e){
+            PgyCrashManager.reportCaughtException(this,e);
+        }
+
     }
 
     private void inIt() {
+        loadingDialog=new LoadingDialog(this);
+        alterPWDPersenter = new AlterPWDPersenter(this);
         isTimerStart = false;
         imageViewState = false;
         diaHuiTongBaseTitleBar.setCenterTextView("忘记密码");
@@ -144,7 +159,7 @@ public class ForgetPasswordActivity extends BaseActivity implements ForgetPassWo
     @Override
     public void onFinish(String fi) {
         textViewGetSms.setText(fi);
-        messageButtonNo();
+        messageButtonOk();
     }
 
     /**
@@ -205,9 +220,10 @@ public class ForgetPasswordActivity extends BaseActivity implements ForgetPassWo
     public void checkForgetPwdPhoneSmsSuccess(int code, String result) {
         if (code == 200) {
             BaseTool.logPrint(TAG, "checkSmsSuccess: ----");
-            ChangeMobilePhoneInfo changeMobilePhoneInfo = new ChangeMobilePhoneInfo();
-            changeMobilePhoneInfo.setMobile(editTextPhone.getText().toString());
-//            changePhonePrecenter.changePhone(BaseApplication.getInstansApp().getLoginRequestInfo().getId(), JSON.toJSONString(changeMobilePhoneInfo));
+            AlterPwdInfo alterPwdInfo = new AlterPwdInfo();
+            alterPwdInfo.setPassword(MD5Util.md5(editTextPwd.getText().toString().trim()));
+            alterPWDPersenter.alterPwdByPhone(editTextPhone.getText().toString().trim(),JSON.toJSONString(alterPwdInfo));
+            loadingDialog.show();
         } else {
             ToastUtil.makeText(this, "验证码校验失败" + code, Toast.LENGTH_SHORT).show();
         }
@@ -216,5 +232,25 @@ public class ForgetPasswordActivity extends BaseActivity implements ForgetPassWo
     @Override
     public void checkForgetPwdPhoneSmsFailed(int code, String result) {
         ToastUtil.makeText(this, "验证码校验失败", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void alterPwdSucess(int code, String result) {
+        if (loadingDialog!=null&&loadingDialog.isShowing()){
+            loadingDialog.dismiss();
+        }
+        if (code==200){
+            ToastUtil.makeText(this, "找回成功！", Toast.LENGTH_SHORT).show();
+            finish();
+        }
+
+    }
+
+    @Override
+    public void alterPwdFailed(int code, String result) {
+        if (loadingDialog!=null&&loadingDialog.isShowing()){
+            loadingDialog.dismiss();
+        }
+        ToastUtil.makeText(this, "找回失败！", Toast.LENGTH_SHORT).show();
     }
 }

@@ -157,8 +157,6 @@ public class SearchGoodsActivity extends BaseActivity implements SearchGoodsIF, 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(linearLayoutManager);
-        smartRefreshLayout.setRefreshHeader(new BezierRadarHeader(this).setEnableHorizontalDrag(true).setPrimaryColor(getResources().getColor(R.color.color04c1ab)).setAccentColor(getResources().getColor(R.color.colorWhite)));
-        smartRefreshLayout.setRefreshFooter(new BallPulseFooter(this).setSpinnerStyle(SpinnerStyle.Scale).setAnimatingColor(getResources().getColor(R.color.color04c1ab)).setNormalColor(getResources().getColor(R.color.color04c1ab)));
         setRefresh();
         searchGoodsPresenter = new SearchGoodsPresenter(this);
         bundle = getIntent().getExtras();
@@ -195,6 +193,8 @@ public class SearchGoodsActivity extends BaseActivity implements SearchGoodsIF, 
     }
 
     private void setRefresh() {
+        smartRefreshLayout.setRefreshHeader(new BezierRadarHeader(this).setEnableHorizontalDrag(true).setPrimaryColor(getResources().getColor(R.color.color04c1ab)).setAccentColor(getResources().getColor(R.color.colorWhite)));
+        smartRefreshLayout.setRefreshFooter(new BallPulseFooter(this).setSpinnerStyle(SpinnerStyle.Scale).setAnimatingColor(getResources().getColor(R.color.color04c1ab)).setNormalColor(getResources().getColor(R.color.color04c1ab)));
         smartRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {
@@ -751,6 +751,6 @@ public class SearchGoodsActivity extends BaseActivity implements SearchGoodsIF, 
 
     @Override
     public void getGoodsInfoFailed(int code, String result) {
-
+        ToastUtil.makeText(mContext, "获取信息失败！", Toast.LENGTH_SHORT).show();
     }
 }

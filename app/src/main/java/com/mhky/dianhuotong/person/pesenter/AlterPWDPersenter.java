@@ -66,4 +66,49 @@ public class AlterPWDPersenter {
             }
         });
     }
+
+    public void alterPwdByPhone(String phone,String pwdJson){
+        OkGo.<String>put(BaseUrlTool.getAlterPwdURL1(phone)).upJson(pwdJson).execute(new Callback<String>() {
+            @Override
+
+            public void onStart(Request<String, ? extends Request> request) {
+
+            }
+
+            @Override
+            public void onSuccess(Response<String> response) {
+                alterPwdIF.alterPwdSucess(response.code(), BaseTool.getResponsBody(response));
+            }
+
+            @Override
+            public void onCacheSuccess(Response<String> response) {
+
+            }
+
+            @Override
+            public void onError(Response<String> response) {
+                alterPwdIF.alterPwdFailed(response.code(), BaseTool.getResponsBody(response));
+            }
+
+            @Override
+            public void onFinish() {
+
+            }
+
+            @Override
+            public void uploadProgress(Progress progress) {
+
+            }
+
+            @Override
+            public void downloadProgress(Progress progress) {
+
+            }
+
+            @Override
+            public String convertResponse(okhttp3.Response response) throws Throwable {
+                return null;
+            }
+        });
+    }
 }

@@ -80,9 +80,7 @@
             android:name="com.baidu.lbsapi.API_KEY"
             android:value="guEle2R0kMZVXMg3Zu5h4RkuW1ueKS8f" />
 
-        <activity android:name=".activity.WelcomActivity">
-
-        </activity>
+        <activity android:name=".activity.WelcomActivity" />
         <activity android:name=".base.view.BaseActivity" />
         <activity android:name=".activity.MainActivity" />
         <activity
@@ -168,7 +166,7 @@
         <activity
             android:name=".shop.activity.CartActivity"
             android:launchMode="singleTask" />
-        <activity android:name=".activity.InitActivity" >
+        <activity android:name=".activity.InitActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -203,7 +201,9 @@
         <activity android:name=".activity.MyIntroduceActivity" />
         <activity android:name=".shop.activity.StarCompanyActivity" />
         <activity android:name=".shop.activity.BrandActivity" />
-        <activity android:name=".activity.BootPageActivity"></activity>
+        <activity android:name=".activity.BootPageActivity" />
+        <activity android:name=".shop.activity.RecommendActivity" />
+        <activity android:name=".shop.activity.TransferPostActivity"></activity>
     </application>
 
 </manifest>

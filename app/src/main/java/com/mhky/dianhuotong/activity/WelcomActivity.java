@@ -14,6 +14,7 @@ import com.mhky.dianhuotong.base.view.BaseActivity;
 import com.mhky.dianhuotong.shop.activity.CouponActivity;
 import com.mhky.dianhuotong.shop.activity.OderOkActivity;
 import com.mhky.dianhuotong.shop.activity.SearchActivity;
+import com.mhky.dianhuotong.shop.activity.TransferPostActivity;
 import com.stone.countdownprogress.CountDownProgress;
 
 
@@ -72,7 +73,7 @@ public class WelcomActivity extends BaseActivity {
         } else if (a == 3) {
 //            aBoolean = false;
 //            countDownProgress.cancel();
-//            BaseTool.goActivityNoData(this, SearchActivity.class);
+//            BaseTool.goActivityNoData(this, TransferPostActivity.class);
 ////           // BaseTool.goActivityNoData(this, OderOkActivity.class);
 //            finish();
         }
