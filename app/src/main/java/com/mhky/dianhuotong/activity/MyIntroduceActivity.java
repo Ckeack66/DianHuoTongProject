@@ -8,6 +8,7 @@ import android.graphics.Rect;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -21,6 +22,7 @@ import com.joker.api.Permissions4M;
 import com.mhky.dianhuotong.R;
 import com.mhky.dianhuotong.base.BaseTool;
 import com.mhky.dianhuotong.base.view.BaseActivity;
+import com.mhky.dianhuotong.custom.AlertDialog.LoadingDialog;
 import com.mhky.dianhuotong.custom.ToastUtil;
 import com.mhky.dianhuotong.custom.viewgroup.DianHuoTongBaseTitleBar;
 import com.mhky.dianhuotong.promote.PromoteIF;
@@ -41,7 +43,8 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 import static com.mhky.dianhuotong.wxapi.Constants.APP_ID;
-@PermissionsRequestSync(permission = {Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission.READ_PHONE_STATE}, value = {101, 102,103})
+
+@PermissionsRequestSync(permission = {Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.READ_PHONE_STATE}, value = {101, 102, 103})
 public class MyIntroduceActivity extends BaseActivity implements PromoteIF {
     @BindView(R.id.shop_code_title)
     DianHuoTongBaseTitleBar dianHuoTongBaseTitleBar;
@@ -56,6 +59,7 @@ public class MyIntroduceActivity extends BaseActivity implements PromoteIF {
     private PromotePresenter promotePresenter;
     public static final String CARD_TAG = "card100";
     private static final String TAG = "CardActivity";
+    private LoadingDialog loadingDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,8 +70,10 @@ public class MyIntroduceActivity extends BaseActivity implements PromoteIF {
     }
 
     private void init() {
+        loadingDialog = new LoadingDialog(this);
         dianHuoTongBaseTitleBar.setLeftImage(R.drawable.icon_back);
         dianHuoTongBaseTitleBar.setCenterTextView("我的推广码");
+        loadingDialog.show();
         dianHuoTongBaseTitleBar.setLeftOnclickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -79,11 +85,13 @@ public class MyIntroduceActivity extends BaseActivity implements PromoteIF {
         promotePresenter = new PromotePresenter().setPromoteIF(this);
         promotePresenter.getPromoteInfo();
     }
+
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         Permissions4M.onRequestPermissionsResult(this, requestCode, grantResults);
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
+
     @OnClick(R.id.card_wx)
     void shareWx() {
         share(0);
@@ -95,7 +103,7 @@ public class MyIntroduceActivity extends BaseActivity implements PromoteIF {
     }
 
     private void share(int type) {
-        if (bitmap1!=null){
+        if (bitmap1 != null) {
             WXImageObject imageObject = new WXImageObject(bitmap1);
             WXMediaMessage msg = new WXMediaMessage();  //这个对象是用来包裹发送信息的对象
             msg.mediaObject = imageObject;
@@ -177,23 +185,34 @@ public class MyIntroduceActivity extends BaseActivity implements PromoteIF {
 
     @Override
     public void getPromoteInfoSuccess(int code, String result) {
-        if (code == 200) {
-            PromoteInfo promoteInfo = JSON.parseObject(result, PromoteInfo.class);
-            getCode(promoteInfo.getCode());
+        try {
+            if (loadingDialog != null) {
+                loadingDialog.dismiss();
+            }
+            if (code == 200) {
+                PromoteInfo promoteInfo = JSON.parseObject(result, PromoteInfo.class);
+                getCode(promoteInfo.getCode());
+            }
+        } catch (Exception e) {
+            PgyCrashManager.reportCaughtException(this, e);
         }
+
     }
 
     @Override
     public void getPromoteInfoFailed(int code, String result) {
-
+        if (loadingDialog != null) {
+            loadingDialog.dismiss();
+        }
+        ToastUtil.makeText(this, "获取信息失败！", Toast.LENGTH_SHORT).show();
     }
 
-    @PermissionsGranted({101, 102,103})
+    @PermissionsGranted({101, 102, 103})
     void getLocationGrantsucess(int code) {
         switch (code) {
             case 101:
                 a = true;
-                if (b&&c) {
+                if (b && c) {
                     try {
                         init();
                     } catch (Exception e) {
@@ -203,7 +222,7 @@ public class MyIntroduceActivity extends BaseActivity implements PromoteIF {
                 break;
             case 102:
                 b = true;
-                if (a&&c) {
+                if (a && c) {
                     try {
                         init();
                     } catch (Exception e) {
@@ -213,7 +232,7 @@ public class MyIntroduceActivity extends BaseActivity implements PromoteIF {
                 break;
             case 103:
                 c = true;
-                if (a&&b) {
+                if (a && b) {
                     try {
                         init();
                     } catch (Exception e) {
@@ -224,7 +243,7 @@ public class MyIntroduceActivity extends BaseActivity implements PromoteIF {
         }
     }
 
-    @PermissionsDenied({101, 102,103})
+    @PermissionsDenied({101, 102, 103})
     void getLocationGrantFaile(int code) {
         switch (code) {
             case 101:

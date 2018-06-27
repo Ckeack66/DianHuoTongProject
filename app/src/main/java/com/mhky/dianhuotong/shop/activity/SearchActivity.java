@@ -245,6 +245,7 @@ public class SearchActivity extends BaseActivity implements BaseListDialog.Crede
         if (cls != null) {
             Bundle bundle = new Bundle();
             bundle.putString("type", type1);
+            bundle.putString("goodsnm", body);
             bundle.putString("shopnm", body);
             BaseTool.goActivityWithData(context, cls, bundle);
         }

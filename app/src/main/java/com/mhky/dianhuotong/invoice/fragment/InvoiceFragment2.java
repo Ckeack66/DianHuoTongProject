@@ -136,6 +136,26 @@ public class InvoiceFragment2 extends Fragment implements BillIF {
 //                httpParams.put("ticketInformationDTO", JSON.toJSONString(billInfo));
                 billPresenter.updateBill(JSON.toJSONString(billInfo));
             }
+        }else {
+            billInfo = new BillInfo();
+            billInfo.setAccountNumber(editTextBillBankNumber.getText().toString());
+            billInfo.setBankName(editTextBillBank.getText().toString());
+            billInfo.setTaxNumber(editTextBillNumber.getText().toString());
+            billInfo.setCompositeid(Integer.valueOf(BaseApplication.getInstansApp().getLoginRequestInfo().getShopId().toString()));
+            if (radioButton1.isChecked()) {
+                billInfo.setTicketType("UNIVERSAL");
+            } else if (radioButton2.isChecked()) {
+                billInfo.setTicketType("SPECIAL");
+            }
+            if (!isGetBillInfo) {
+                //post
+                billPresenter.addBill(JSON.toJSONString(billInfo));
+            } else {
+                //put
+//                HttpParams httpParams = new HttpParams();
+//                httpParams.put("ticketInformationDTO", JSON.toJSONString(billInfo));
+                billPresenter.updateBill(JSON.toJSONString(billInfo));
+            }
         }
 
     }
@@ -143,17 +163,21 @@ public class InvoiceFragment2 extends Fragment implements BillIF {
     @Override
     public void getBillSuccess(int code, String result) {
         if (code == 200) {
-            isGetBillInfo = true;
             billInfo = JSON.parseObject(result, BillInfo.class);
-            if ("UNIVERSAL".equals(billInfo.getTicketType())) {
-                radioButton1.setChecked(true);
-            } else if ("SPECIAL".equals(billInfo.getTicketType())) {
-                radioButton2.setChecked(true);
+            if (billInfo!=null){
+                isGetBillInfo = true;
+                if ("UNIVERSAL".equals(billInfo.getTicketType())) {
+                    radioButton1.setChecked(true);
+                } else if ("SPECIAL".equals(billInfo.getTicketType())) {
+                    radioButton2.setChecked(true);
+                }
+                editTextBillNumber.setText(billInfo.getTaxNumber());
+                editTextBillBank.setText(billInfo.getBankName());
+                editTextBillBankNumber.setText(billInfo.getAccountNumber());
+            }else {
+                isGetBillInfo = false;
+                billInfo = new BillInfo();
             }
-            editTextBillNumber.setText(billInfo.getTaxNumber());
-            editTextBillBank.setText(billInfo.getBankName());
-            editTextBillBankNumber.setText(billInfo.getAccountNumber());
-
         } else {
             isGetBillInfo = false;
             billInfo = new BillInfo();

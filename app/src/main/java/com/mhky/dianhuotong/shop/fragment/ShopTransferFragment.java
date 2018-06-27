@@ -122,7 +122,9 @@ public class ShopTransferFragment extends Fragment implements CompanyIF {
 
     @OnClick(R.id.shop_transfer_gocard)
     void goCard() {
-        BaseTool.goActivityNoData(getActivity(), CardActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putString("shopid", mParam1);
+        BaseTool.goActivityWithData(getActivity(), CardActivity.class, bundle);
     }
 
     @Override
@@ -146,18 +148,28 @@ public class ShopTransferFragment extends Fragment implements CompanyIF {
             if (shopTransferInfo != null) {
                 if (shopTransferInfo.getIntroduce() != null) {
                     textViewIntruduce.setText(shopTransferInfo.getIntroduce().toString());
+                } else {
+                    textViewIntruduce.setText("暂无商家公告！");
                 }
                 if (shopTransferInfo.getShippingMethod() != null) {
                     textViewTransport.setText(shopTransferInfo.getShippingMethod().toString());
+                } else {
+                    textViewTransport.setText("暂无配送方式！");
                 }
                 if (shopTransferInfo.getOpenProcess() != null) {
                     textViewOpenAccount.setText(shopTransferInfo.getOpenProcess().toString());
+                } else {
+                    textViewOpenAccount.setText("暂无开户流程！");
                 }
                 if (shopTransferInfo.getOpenExplain() != null) {
                     textViewAccountBody.setText(shopTransferInfo.getOpenExplain().toString());
+                } else {
+                    textViewAccountBody.setText("暂无开户说明！");
                 }
                 if (shopTransferInfo.getAfterSaleService() != null) {
                     textViewSel.setText(shopTransferInfo.getAfterSaleService().toString());
+                } else {
+                    textViewSel.setText("暂无售后相关内容！");
                 }
             }
         }

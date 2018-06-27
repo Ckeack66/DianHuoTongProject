@@ -76,6 +76,7 @@
                     android:textSize="@dimen/t24" />
 
                 <TextView
+                    android:id="@+id/coupon_cut_money"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="30"
@@ -84,10 +85,12 @@
         </RelativeLayout>
 
         <RelativeLayout
+            android:id="@+id/coupon_get"
             android:layout_width="match_parent"
             android:layout_height="@dimen/x36">
 
             <TextView
+                android:id="@+id/coupon_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"

@@ -23,8 +23,11 @@ import com.joker.api.Permissions4M;
 import com.mhky.dianhuotong.R;
 import com.mhky.dianhuotong.base.BaseTool;
 import com.mhky.dianhuotong.base.view.BaseActivity;
+import com.mhky.dianhuotong.custom.AlertDialog.LoadingDialog;
 import com.mhky.dianhuotong.custom.ToastUtil;
 import com.mhky.dianhuotong.custom.viewgroup.DianHuoTongBaseTitleBar;
+import com.mhky.dianhuotong.shop.activity.ShopActivity;
+import com.pgyersdk.crash.PgyCrashManager;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -50,6 +53,7 @@ public class ScanCodeActivity extends BaseActivity implements QRCodeView.Delegat
 
     private boolean isShowFlush = false;
     private static final String TAG = "ScanCodeActivity";
+    private LoadingDialog loadingDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,24 +61,38 @@ public class ScanCodeActivity extends BaseActivity implements QRCodeView.Delegat
         setContentView(R.layout.activity_scan_code);
         mContext = this;
         ButterKnife.bind(this);
-        inIt();
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        if (isUseCamera) {
-            xingView.startCamera();
-            xingView.startSpotAndShowRect();
+        try {
+            inIt();
+        } catch (Exception e) {
+            PgyCrashManager.reportCaughtException(this, e);
         }
 
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+        try {
+            if (isUseCamera) {
+                xingView.startCamera();
+                xingView.startSpotAndShowRect();
+            }
+        } catch (Exception e) {
+            PgyCrashManager.reportCaughtException(this, e);
+        }
+
+
+    }
+
+    @Override
     protected void onStop() {
-        if (isUseCamera) {
-            xingView.stopCamera();
-            xingView.stopSpotAndHiddenRect();
+        try {
+            if (isUseCamera) {
+                xingView.stopCamera();
+                xingView.stopSpotAndHiddenRect();
+            }
+        } catch (Exception e) {
+            PgyCrashManager.reportCaughtException(this, e);
         }
         super.onStop();
 
@@ -82,23 +100,32 @@ public class ScanCodeActivity extends BaseActivity implements QRCodeView.Delegat
 
     @Override
     protected void onDestroy() {
-        xingView.onDestroy();
-        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        try {
+            xingView.onDestroy();
+            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        } catch (Exception e) {
+            PgyCrashManager.reportCaughtException(this, e);
+        }
         super.onDestroy();
 
     }
 
     @OnClick(R.id.scan_code_flush)
     void oparateFlash() {
-        if (!isShowFlush) {
-            isShowFlush = true;
-            xingView.openFlashlight();
-            textViewFlash.setText("点击关闭闪光灯");
-        } else {
-            isShowFlush = false;
-            xingView.closeFlashlight();
-            textViewFlash.setText("点击打开闪光灯");
+        try {
+            if (!isShowFlush) {
+                isShowFlush = true;
+                xingView.openFlashlight();
+                textViewFlash.setText("点击关闭闪光灯");
+            } else {
+                isShowFlush = false;
+                xingView.closeFlashlight();
+                textViewFlash.setText("点击打开闪光灯");
+            }
+        } catch (Exception e) {
+            PgyCrashManager.reportCaughtException(this, e);
         }
+
     }
 
     @Override
@@ -117,11 +144,11 @@ public class ScanCodeActivity extends BaseActivity implements QRCodeView.Delegat
             }
         });
         dianHuoTongBaseTitleBar.setCenterTextView("扫码搜索");
-        dianHuoTongBaseTitleBar.setRightText("相册选择");
+        //dianHuoTongBaseTitleBar.setRightText("相册选择");
         dianHuoTongBaseTitleBar.setRightTextOnclickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ToastUtil.makeText(mContext, "正在开发中..", Toast.LENGTH_SHORT).show();
+                //ToastUtil.makeText(mContext, "正在开发中..", Toast.LENGTH_SHORT).show();
             }
         });
         xingView.setDelegate(this);
@@ -142,11 +169,16 @@ public class ScanCodeActivity extends BaseActivity implements QRCodeView.Delegat
                 isReadExtorge = true;
                 break;
             case 103:
-                BaseTool.logPrint(TAG, "getGrantSucess: " + "授权成功！");
-                isUseCamera = true;
-                xingView.startCamera();
-                xingView.showScanRect();
-                xingView.startSpot();
+                try {
+                    BaseTool.logPrint(TAG, "getGrantSucess: " + "授权成功！");
+                    isUseCamera = true;
+                    xingView.startCamera();
+                    xingView.showScanRect();
+                    xingView.startSpot();
+                } catch (Exception e) {
+                    PgyCrashManager.reportCaughtException(this, e);
+                }
+
 //        mQRCodeView.startCamera(Camera.CameraInfo.CAMERA_FACING_FRONT);
 
                 break;
@@ -169,15 +201,32 @@ public class ScanCodeActivity extends BaseActivity implements QRCodeView.Delegat
 
     @Override
     public void onScanQRCodeSuccess(String result) {
-        vibrate();
-        ToastUtil.makeText(this, "扫描结果:" + result, Toast.LENGTH_SHORT).show();
-        BaseTool.logPrint(TAG, "onScanQRCodeSuccess: --------" + result);
-        xingView.startSpot();//延迟1.5秒进行扫描
+
+        if (result.length() < 6) {
+            xingView.startSpot();//延迟1.5秒进行扫描
+        } else if (result.length() > 6 && "MHKYDP".equals(result.substring(0, 6))) {
+            //分享出去的店铺
+            BaseTool.logPrint(TAG, "onScanQRCodeSuccess: --------" + result.substring(6, result.length()));
+            vibrate();
+            Bundle bundle = new Bundle();
+            bundle.putString("shopid", result.substring(6, result.length()));
+            BaseTool.goActivityWithData(this, ShopActivity.class, bundle);
+            finish();
+        } else if (result.length() > 6 && "MHKYSP".equals(result.substring(0, 6))) {
+            //分享出去的商品
+            BaseTool.logPrint(TAG, "onScanQRCodeSuccess: --------" + result.substring(6, result.length()));
+        } else {
+            //搜索商品
+            ToastUtil.makeText(this, "扫描结果:" + result, Toast.LENGTH_SHORT).show();
+            BaseTool.logPrint(TAG, "onScanQRCodeSuccess: --------" + result);
+        }
+
+
     }
 
     @Override
     public void onScanQRCodeOpenCameraError() {
-
+        ToastUtil.makeText(this, "扫描出错！" , Toast.LENGTH_SHORT).show();
     }
 
     //震动

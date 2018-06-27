@@ -33,13 +33,13 @@
                 android:layout_marginStart="@dimen/x10"
                 android:layout_marginBottom="@dimen/x4"/>
         </LinearLayout>
+
         <android.support.v7.widget.SearchView
             android:id="@+id/search_view"
             android:layout_width="match_parent"
             android:layout_height="@dimen/x50"
-            android:background="@color/color04c1ab"
-            app:queryHint="请输入药品名称"
-            app:goIcon="@drawable/icon_search" />
+            app:goIcon="@drawable/icon_search"
+            app:queryHint="请输入药品名称" />
     </LinearLayout>
 
     <RelativeLayout

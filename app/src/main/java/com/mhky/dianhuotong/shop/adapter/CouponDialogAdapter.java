@@ -17,6 +17,6 @@ public class CouponDialogAdapter extends BaseQuickAdapter<CouponInfo, BaseViewHo
     @Override
     protected void convert(BaseViewHolder helper, CouponInfo item) {
         helper.addOnClickListener(R.id.item_coup);
-        helper.setText(R.id.item_coup, "满" + item.getPromotionItem().getGradientFullCut().getFullAmount() + "减" + item.getPromotionItem().getGradientFullCut().getCutPrice());
+        helper.setText(R.id.item_coup, "满" + String.valueOf(item.getPromotionItem().getGradientFullCut().getFullAmount()/100) + "减" + String.valueOf(item.getPromotionItem().getGradientFullCut().getCutPrice()/100));
     }
 }

@@ -4,12 +4,14 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.mhky.dianhuotong.R;
 import com.mhky.dianhuotong.base.BaseApplication;
@@ -24,9 +26,11 @@ import com.mhky.dianhuotong.shop.bean.CartBaseInfo;
 import com.mhky.dianhuotong.shop.bean.CouponInfo;
 import com.mhky.dianhuotong.shop.bean.FrigthInfo;
 import com.mhky.dianhuotong.shop.bean.OrderBaseInfo;
+import com.mhky.dianhuotong.shop.bean.OrderInfo;
 import com.mhky.dianhuotong.shop.bean.OrderOkBotttomInfo;
 import com.mhky.dianhuotong.shop.bean.OrderOkCenterInfo;
 import com.mhky.dianhuotong.shop.bean.OrderOkInfo;
+import com.mhky.dianhuotong.shop.bean.OrderOkNewInfo;
 import com.mhky.dianhuotong.shop.bean.OrderOkTitleInfo;
 import com.mhky.dianhuotong.shop.bean.ShopAdressInfo;
 import com.mhky.dianhuotong.shop.custom.CouponDialog;
@@ -40,7 +44,9 @@ import com.mhky.dianhuotong.shop.shopif.OrderOkIF;
 import com.mhky.dianhuotong.shop.shopif.ShopAdressIF;
 import com.pgyersdk.crash.PgyCrashManager;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -86,6 +92,7 @@ public class OderOkActivity extends BaseActivity implements OrderOkAdapter.GetEd
     private List<CouponInfo> couponInfoListPT;
     private CouponInfo couponInfo;
     private StringBuilder stringBuilder1;
+    private Map<String, String> hashMapRemark;
     private static final String TAG = "OderOkActivity";
 
     @Override
@@ -105,6 +112,7 @@ public class OderOkActivity extends BaseActivity implements OrderOkAdapter.GetEd
     private void inIt() {
         stringBuilder1 = new StringBuilder();
         couponInfoListPT = new ArrayList<>();
+        hashMapRemark = new HashMap<String, String>();
         loadingDialog = new LoadingDialog(this);
         shopAdressPresenter = new ShopAdressPresenter(this);
         shopAdressPresenter.getShopAdress();
@@ -210,6 +218,7 @@ public class OderOkActivity extends BaseActivity implements OrderOkAdapter.GetEd
                 OrderOkBotttomInfo orderOkBotttomInfo = new OrderOkBotttomInfo();
                 orderOkBotttomInfo.setMoney(money);
                 orderOkBotttomInfo.setParentId(key);
+                orderOkBotttomInfo.setShopDTOBean(list.get(0).getShopDTO());
                 orderOkBotttomInfo.setFrigthInfo(list.get(0).getFrigthInfo());
                 orderOkBotttomInfo.setGoodsNumber(String.valueOf(list.size()));
                 List<CouponInfo> couponInfoList1 = new ArrayList<>();
@@ -271,16 +280,28 @@ public class OderOkActivity extends BaseActivity implements OrderOkAdapter.GetEd
         try {
             if (goodsIDs != null && !"".equals(goodsIDs)) {
                 loadingDialog.show();
-                HashMap<String, String> m = new HashMap();
-                m.put("skuIds", goodsIDs);
-                if (couponInfo != null) {
-                    stringBuilder1.append(couponInfo.getId());
-                    stringBuilder1.append(",");
+                OrderOkNewInfo orderOkNewInfo = new OrderOkNewInfo();
+                orderOkNewInfo.setBuyerId(BaseApplication.getInstansApp().getPersonInfo().getId());
+                orderOkNewInfo.setRemark(hashMapRemark);
+                orderOkNewInfo.setSkuIds(Arrays.asList(goodsIDs.split(",")));
+                if (TextUtils.isEmpty(stringBuilder1.toString())) {
+                    orderOkNewInfo.setCouponIds(new ArrayList<String>());
+                } else {
+                    orderOkNewInfo.setCouponIds(Arrays.asList(stringBuilder1.toString().split(",")));
                 }
-                if (stringBuilder1.length() > 0) {
-                    m.put("couponIds", stringBuilder1.toString().substring(0, stringBuilder1.length() - 1));
-                }
-                banlancePresenter.doBanlance(m);
+                orderOkNewInfo.setInvoiced(false);
+                orderOkNewInfo.setSource("MOBILE");
+//                HashMap<String, String> m = new HashMap();
+//                m.put("skuIds", goodsIDs);
+//                if (couponInfo != null) {
+//                    stringBuilder1.append(couponInfo.getId());
+//                    stringBuilder1.append(",");
+//                }
+//                if (stringBuilder1.length() > 0) {
+//                    m.put("couponIds", stringBuilder1.toString().substring(0, stringBuilder1.length() - 1));
+//                }
+                BaseTool.logPrint(TAG, "order: ------" + JSON.toJSONString(orderOkNewInfo));
+                banlancePresenter.doBanlance(JSON.toJSONString(orderOkNewInfo));
             } else {
                 ToastUtil.makeText(mContext, "商品信息错误", Toast.LENGTH_SHORT).show();
             }
@@ -343,21 +364,35 @@ public class OderOkActivity extends BaseActivity implements OrderOkAdapter.GetEd
                 double b = (double) orderOkInfoList.get(a).getOrderOkBotttomInfo().getMoney();
                 double money1 = b / 100;
                 if (money1 < (Double.valueOf(orderOkInfoList.get(a).getOrderOkBotttomInfo().getFrigthInfo().getSendAccount().toString()) / 100)) {
-                    shopFright = shopFright + (Double.valueOf(orderOkInfoList.get(a).getOrderOkBotttomInfo().getFrigthInfo().getFreight().toString()) / 100);
+                    BigDecimal bigDecimal = new BigDecimal(shopFright).setScale(2, BigDecimal.ROUND_HALF_DOWN);
+                    BigDecimal bigDecimal1 = new BigDecimal(Double.valueOf(orderOkInfoList.get(a).getOrderOkBotttomInfo().getFrigthInfo().getFreight().toString()) / 100).setScale(2, BigDecimal.ROUND_HALF_DOWN);
+                    shopFright = bigDecimal.add(bigDecimal1).doubleValue();
                 }
             }
             if (orderOkInfoList.get(a).getItemType() == 3 && orderOkInfoList.get(a).getOrderOkBotttomInfo().getCouponInfo() != null) {
-                shopYh = shopYh + orderOkInfoList.get(a).getOrderOkBotttomInfo().getCouponInfo().getPromotionItem().getGradientFullCut().getCutPrice();
+                BigDecimal bigDecimal=new BigDecimal(String.valueOf(shopYh));
+                BigDecimal bigDecimal1=new BigDecimal(String.valueOf(Double.valueOf(orderOkInfoList.get(a).getOrderOkBotttomInfo().getCouponInfo().getPromotionItem().getGradientFullCut().getCutPrice()) / 100));
+                shopYh = bigDecimal.add(bigDecimal1).doubleValue();
                 stringBuilder1.append(orderOkInfoList.get(a).getOrderOkBotttomInfo().getCouponInfo().getId());
                 stringBuilder1.append(",");
             }
-
+            if (orderOkInfoList.get(a).getItemType() == OrderOkInfo.BOTTOM) {
+                hashMapRemark.put(orderOkInfoList.get(a).getOrderOkBotttomInfo().getShopDTOBean().getId(), orderOkInfoList.get(a).getOrderOkBotttomInfo().getWords());
+            }
         }
         if (couponInfo != null) {
-            allMoney1 = allMoney / 100 + shopFright - shopYh - (couponInfo.getPromotionItem().getGradientFullCut().getCutPrice() / 100);
+            BigDecimal bigDecimal=new BigDecimal(String.valueOf(allMoney/100));
+            BigDecimal bigDecimal1=new BigDecimal(String.valueOf(shopFright));
+            BigDecimal bigDecimal2=new BigDecimal(String.valueOf(shopYh));
+            BigDecimal bigDecimal3=new BigDecimal(String.valueOf(couponInfo.getPromotionItem().getGradientFullCut().getCutPrice() / 100));
+            allMoney1=bigDecimal.add(bigDecimal1).subtract(bigDecimal2).subtract(bigDecimal3).doubleValue();
             textViewAll.setText("满" + couponInfo.getPromotionItem().getGradientFullCut().getFullAmount() / 100 + "减" + couponInfo.getPromotionItem().getGradientFullCut().getCutPrice() / 100);
         } else {
-            allMoney1 = allMoney / 100 + shopFright - shopYh;
+            BigDecimal bigDecimal=new BigDecimal(String.valueOf(allMoney/100));
+            BigDecimal bigDecimal1=new BigDecimal(String.valueOf(shopFright));
+            BigDecimal bigDecimal2=new BigDecimal(String.valueOf(shopYh));
+            allMoney1 = bigDecimal.add(bigDecimal1).subtract(bigDecimal2).doubleValue();
+            BaseTool.logPrint("优惠券后的价格", String.valueOf(allMoney1));
             textViewAll.setText("");
         }
         textViewMoney.setText("￥" + allMoney1);

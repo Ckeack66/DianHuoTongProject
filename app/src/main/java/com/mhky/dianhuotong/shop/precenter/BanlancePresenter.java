@@ -23,12 +23,8 @@ public class BanlancePresenter {
         this.banlanceIF = banlanceIF;
     }
 
-    public void doBanlance(HashMap hashMap) {
-        hashMap.put("buyerId", BaseApplication.getInstansApp().getLoginRequestInfo().getId());
-        hashMap.put("source", "MOBILE");
-        hashMap.put("invoiced",false);
-        String param = BaseTool.getUrlParamsByMap(hashMap, false);
-        OkGo.<String>post(BaseUrlTool.DO_BANLANCE_URL + param).execute(new Callback<String>() {
+    public void doBanlance(String json) {
+        OkGo.<String>post(BaseUrlTool.DO_BANLANCE_URL).upJson(json).execute(new Callback<String>() {
             @Override
             public void onStart(Request<String, ? extends Request> request) {
 

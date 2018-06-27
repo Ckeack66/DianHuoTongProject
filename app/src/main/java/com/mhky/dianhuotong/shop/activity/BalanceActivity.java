@@ -3,9 +3,9 @@ package com.mhky.dianhuotong.shop.activity;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -15,9 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
-import com.alipay.sdk.app.EnvUtils;
 import com.alipay.sdk.app.PayTask;
-import com.liqi.utils.encoding.MD5Util;
 import com.mhky.dianhuotong.R;
 import com.mhky.dianhuotong.base.BaseApplication;
 import com.mhky.dianhuotong.base.BaseTool;
@@ -27,9 +25,7 @@ import com.mhky.dianhuotong.custom.ToastUtil;
 import com.mhky.dianhuotong.custom.viewgroup.DianHuoTongBaseTitleBar;
 import com.mhky.dianhuotong.pay.WXPayInfo;
 import com.mhky.dianhuotong.pay.alipay.AuthResult;
-import com.mhky.dianhuotong.pay.alipay.PayBasicInfo;
 import com.mhky.dianhuotong.pay.alipay.PayResult;
-import com.mhky.dianhuotong.shop.bean.OrderBaseInfo;
 import com.mhky.dianhuotong.shop.bean.ShopAdressInfo;
 import com.mhky.dianhuotong.shop.precenter.BanlancePresenter;
 import com.mhky.dianhuotong.shop.precenter.ShopAdressPresenter;
@@ -40,17 +36,13 @@ import com.mhky.dianhuotong.shop.shopif.ShopAdressIF;
 import com.mhky.dianhuotong.wxapi.Constants;
 import com.mhky.dianhuotong.wxapi.MD5;
 import com.pgyersdk.crash.PgyCrashManager;
-import com.tencent.mm.opensdk.modelbiz.WXPayInsurance;
 import com.tencent.mm.opensdk.modelpay.PayReq;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -58,7 +50,7 @@ import butterknife.OnClick;
 
 import static com.mhky.dianhuotong.wxapi.Constants.APP_ID;
 
-public class BalanceActivity extends BaseActivity implements BanlanceIF, ShopAdressIF ,BanlanceReciverIF{
+public class BalanceActivity extends BaseActivity implements BanlanceIF, ShopAdressIF, BanlanceReciverIF {
     @BindView(R.id.balance_title)
     DianHuoTongBaseTitleBar dianHuoTongBaseTitleBar;
     @BindView(R.id.balance_pay11)
@@ -107,8 +99,8 @@ public class BalanceActivity extends BaseActivity implements BanlanceIF, ShopAdr
                         Toast.makeText(BalanceActivity.this, "支付成功", Toast.LENGTH_SHORT).show();
                         if (state == 1) {
                             setResult(1020);
-                            Intent intent=new Intent();
-                            intent.putExtra("result",0);
+                            Intent intent = new Intent();
+                            intent.putExtra("result", 0);
                             intent.setAction(BaseApplication.wxAction);
                             sendBroadcast(intent);
                         }
@@ -167,10 +159,10 @@ public class BalanceActivity extends BaseActivity implements BanlanceIF, ShopAdr
     }
 
     private void init() {
-        banlanceReciver=new BanlanceReciver().setBanlanceReciverIF(this);
-        IntentFilter intentFilter=new IntentFilter();
+        banlanceReciver = new BanlanceReciver().setBanlanceReciverIF(this);
+        IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(BaseApplication.wxAction);
-        registerReceiver(banlanceReciver,intentFilter);
+        registerReceiver(banlanceReciver, intentFilter);
         loadingDialog = new LoadingDialog(this);
         shopAdressPresenter = new ShopAdressPresenter(this);
         shopAdressPresenter.getShopAdress();
@@ -206,7 +198,7 @@ public class BalanceActivity extends BaseActivity implements BanlanceIF, ShopAdr
     @OnClick(R.id.balance_pay3)
     void choosePay3() {
         setChoosePayState(checkBox3);
-        linearLayout.setVisibility(View.VISIBLE);
+        //linearLayout.setVisibility(View.VISIBLE);
         payType = 3;
     }
 
@@ -265,46 +257,54 @@ public class BalanceActivity extends BaseActivity implements BanlanceIF, ShopAdr
             final String orderInfo = result;
             if (code == 200) {
                 if (payType == 1) {
-                    Runnable payRunnable = new Runnable() {
-                        @Override
-                        public void run() {
-                            PayTask alipay = new PayTask(BalanceActivity.this);
-                            Map<String, String> result = alipay.payV2(orderInfo, true);
-                            Log.i("msp", result.toString());
-                            Message msg = new Message();
-                            msg.what = SDK_PAY_FLAG;
-                            msg.obj = result;
-                            mHandler.sendMessage(msg);
-                        }
-                    };
+                    if (orderInfo != null) {
+                        Runnable payRunnable = new Runnable() {
+                            @Override
+                            public void run() {
 
-                    Thread payThread = new Thread(payRunnable);
-                    payThread.start();
+                                PayTask alipay = new PayTask(BalanceActivity.this);
+                                Map<String, String> result = alipay.payV2(orderInfo, true);
+                                Log.i("msp", result.toString());
+                                Message msg = new Message();
+                                msg.what = SDK_PAY_FLAG;
+                                msg.obj = result;
+                                mHandler.sendMessage(msg);
+                            }
+
+                        };
+                        Thread payThread = new Thread(payRunnable);
+                        payThread.start();
+                    }
+
                 } else if (payType == 2) {
                     // ToastUtil.makeText(this, "微信结账中...请等待", Toast.LENGTH_SHORT).show();
                     final WXPayInfo wxPayInfo = JSON.parseObject(result, WXPayInfo.class);
-                    Runnable payRunnable1 = new Runnable() {
-                        @Override
-                        public void run() {
-                            PayReq req = new PayReq();
-                            req.appId = wxPayInfo.getAppid();
-                            req.partnerId = Constants.PARTNER_ID;
-                            req.prepayId = wxPayInfo.getPrepay_id();
-                            req.nonceStr = wxPayInfo.getNonce_str();
-                            req.timeStamp = wxPayInfo.getTimestamp();
-                            req.packageValue = "Sign=WXPay";
-                            req.sign = wxPayInfo.getSign();
-                            BaseTool.logPrint("sign", req.sign);
-                            msgApi.sendReq(req);
-                        }
-                    };
-                    Thread payThread1 = new Thread(payRunnable1);
-                    payThread1.start();
+                    if (wxPayInfo != null) {
+                        Runnable payRunnable1 = new Runnable() {
+                            @Override
+                            public void run() {
+                                PayReq req = new PayReq();
+                                req.appId = wxPayInfo.getAppid();
+                                req.partnerId = Constants.PARTNER_ID;
+                                req.prepayId = wxPayInfo.getPrepay_id();
+                                req.nonceStr = wxPayInfo.getNonce_str();
+                                req.timeStamp = wxPayInfo.getTimestamp();
+                                req.packageValue = "Sign=WXPay";
+                                req.sign = wxPayInfo.getSign();
+                                BaseTool.logPrint("sign", req.sign);
+                                msgApi.sendReq(req);
+                            }
+                        };
+                        Thread payThread1 = new Thread(payRunnable1);
+                        payThread1.start();
+                    }
 
 
                 } else if (payType == 3) {
                     ToastUtil.makeText(this, "此订单将进行线下结账...请仔细核对商家信息", Toast.LENGTH_SHORT).show();
                 }
+            } else {
+                ToastUtil.makeText(this, "获取支付信息失败！", Toast.LENGTH_SHORT).show();
             }
         } catch (Exception e) {
             PgyCrashManager.reportCaughtException(this, e);
@@ -322,15 +322,19 @@ public class BalanceActivity extends BaseActivity implements BanlanceIF, ShopAdr
 
     @Override
     public void getShopAdressSuccess(int code, String result) {
-        if (code == 200) {
-            ShopAdressInfo shopAdressInfo = JSON.parseObject(result, ShopAdressInfo.class);
-            StringBuilder stringBuilder = new StringBuilder();
-            stringBuilder.append(shopAdressInfo.getAddress().getProvince());
-            stringBuilder.append(shopAdressInfo.getAddress().getCity());
-            stringBuilder.append(shopAdressInfo.getAddress().getDistrict());
-            stringBuilder.append(shopAdressInfo.getAddress().getTown());
-            stringBuilder.append(shopAdressInfo.getAddress().getRoad());
-            textViewShopAdress.setText(stringBuilder.toString());
+        try {
+            if (code == 200) {
+                ShopAdressInfo shopAdressInfo = JSON.parseObject(result, ShopAdressInfo.class);
+                StringBuilder stringBuilder = new StringBuilder();
+                stringBuilder.append(shopAdressInfo.getAddress().getProvince());
+                stringBuilder.append(shopAdressInfo.getAddress().getCity());
+                stringBuilder.append(shopAdressInfo.getAddress().getDistrict());
+                stringBuilder.append(shopAdressInfo.getAddress().getTown());
+                stringBuilder.append(shopAdressInfo.getAddress().getRoad());
+                textViewShopAdress.setText(stringBuilder.toString());
+            }
+        } catch (Exception e) {
+            PgyCrashManager.reportCaughtException(this, e);
         }
     }
 

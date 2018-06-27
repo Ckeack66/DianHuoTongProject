@@ -101,4 +101,14 @@ public class OrderOkBotttomInfo {
     }
 
     private boolean showCoupon=false;
+
+    public CartBaseInfo.GoodsItemsBean.ShopDTOBean getShopDTOBean() {
+        return shopDTOBean;
+    }
+
+    public void setShopDTOBean(CartBaseInfo.GoodsItemsBean.ShopDTOBean shopDTOBean) {
+        this.shopDTOBean = shopDTOBean;
+    }
+
+    private CartBaseInfo.GoodsItemsBean.ShopDTOBean shopDTOBean;
 }

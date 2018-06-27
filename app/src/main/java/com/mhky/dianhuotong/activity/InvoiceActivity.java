@@ -18,6 +18,7 @@ import com.mhky.dianhuotong.invoice.fragment.InvoiceFragment2;
 import com.mhky.dianhuotong.shop.bean.ShopAdressInfo;
 import com.mhky.dianhuotong.shop.precenter.ShopAdressPresenter;
 import com.mhky.dianhuotong.shop.shopif.ShopAdressIF;
+import com.pgyersdk.crash.PgyCrashManager;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -117,17 +118,25 @@ public class InvoiceActivity extends BaseActivity implements RadioGroup.OnChecke
 
     @Override
     public void getShopAdressSuccess(int code, String result) {
-        if (code == 200) {
-            ShopAdressInfo shopAdressInfo = JSON.parseObject(result, ShopAdressInfo.class);
-            StringBuilder stringBuilder = new StringBuilder();
-            stringBuilder.append(shopAdressInfo.getAddress().getProvince());
-            stringBuilder.append(shopAdressInfo.getAddress().getCity());
-            stringBuilder.append(shopAdressInfo.getAddress().getDistrict());
-            stringBuilder.append(shopAdressInfo.getAddress().getTown());
-            stringBuilder.append(shopAdressInfo.getAddress().getRoad());
-            textViewAdress.setText(stringBuilder.toString());
-            textViewShopName.setText(shopAdressInfo.getShopname());
+        try {
+            if (code == 200) {
+                ShopAdressInfo shopAdressInfo = JSON.parseObject(result, ShopAdressInfo.class);
+                if (shopAdressInfo!=null){
+                    StringBuilder stringBuilder = new StringBuilder();
+                    stringBuilder.append(shopAdressInfo.getAddress().getProvince());
+                    stringBuilder.append(shopAdressInfo.getAddress().getCity());
+                    stringBuilder.append(shopAdressInfo.getAddress().getDistrict());
+                    stringBuilder.append(shopAdressInfo.getAddress().getTown());
+                    stringBuilder.append(shopAdressInfo.getAddress().getRoad());
+                    textViewAdress.setText(stringBuilder.toString());
+                    textViewShopName.setText(shopAdressInfo.getShopname());
+                }
+
+            }
+        }catch (Exception e){
+            PgyCrashManager.reportCaughtException(this,e);
         }
+
     }
 
     @Override

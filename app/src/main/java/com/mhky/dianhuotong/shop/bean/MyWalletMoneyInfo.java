@@ -31,7 +31,7 @@ public class MyWalletMoneyInfo implements Serializable {
     private int wallet;
     private int gainMoney;
     private int loseMoney;
-    private int waitMoney;
+    private double waitMoney;
     private String createTime;
     private String lastModifyTime;
 
@@ -123,11 +123,11 @@ public class MyWalletMoneyInfo implements Serializable {
         this.loseMoney = loseMoney;
     }
 
-    public int getWaitMoney() {
+    public double getWaitMoney() {
         return waitMoney;
     }
 
-    public void setWaitMoney(int waitMoney) {
+    public void setWaitMoney(double waitMoney) {
         this.waitMoney = waitMoney;
     }
 

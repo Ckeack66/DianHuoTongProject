@@ -247,7 +247,7 @@ public class MainActivity extends BaseActivity implements MainIF, DrawerLayout.D
         dianHuoTongBaseDialogAddShop = new DianHuoTongBaseDialog(this, this, "温馨提示", "加入店铺查看更多精彩内容~", "稍后再说", "立刻加入", main3);
         diaHuiTongBaseTitleBar.setLeftImage(R.drawable.icon_go_personal);
         diaHuiTongBaseTitleBar.setCenterTextView(getString(R.string.main_title));
-        diaHuiTongBaseTitleBar.setRightImage(R.drawable.icon_main_message);
+        //diaHuiTongBaseTitleBar.setRightImage(R.drawable.icon_main_message);
         diaHuiTongBaseTitleBar.setLeftOnclickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

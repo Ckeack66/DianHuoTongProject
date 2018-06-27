@@ -8,6 +8,7 @@ import android.graphics.Rect;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -67,7 +68,15 @@ public class CardActivity extends BaseActivity {
         });
         api = WXAPIFactory.createWXAPI(this, APP_ID, true);
         api.registerApp(APP_ID);
-        getCode();
+        Bundle bundle=getIntent().getExtras();
+        if (bundle!=null){
+            String shopId=bundle.getString("shopid");
+            if (!TextUtils.isEmpty(shopId)){
+                getCode(shopId);
+            }
+        }
+
+
     }
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -116,12 +125,12 @@ public class CardActivity extends BaseActivity {
         api.sendReq(req);
     }
 
-    private void getCode() {
+    private void getCode(final String shopId) {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                bitmap = QRCodeUtil.createQRCodeBitmap("028000", dip2px(200), Color.parseColor("#04c1ab"), Color.parseColor("#ffffff"));
-                bitmap1 = QRCodeUtil.addText(bitmap, "推广码："+"028000");
+                bitmap = QRCodeUtil.createQRCodeBitmap("MHKYDP"+shopId, dip2px(200), Color.parseColor("#04c1ab"), Color.parseColor("#ffffff"));
+                bitmap1 = QRCodeUtil.addText(bitmap, "店铺号："+"MHKYDP00"+shopId);
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {

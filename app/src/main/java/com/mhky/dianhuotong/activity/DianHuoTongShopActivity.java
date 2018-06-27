@@ -21,6 +21,7 @@ import com.mhky.dianhuotong.advert.AdvertMainPresenter;
 import com.mhky.dianhuotong.custom.ToastUtil;
 import com.mhky.dianhuotong.shop.activity.AllGoodsActivity;
 import com.mhky.dianhuotong.shop.activity.BrandActivity;
+import com.mhky.dianhuotong.shop.activity.CouponActivity;
 import com.mhky.dianhuotong.shop.activity.GoodsActivity;
 import com.mhky.dianhuotong.shop.activity.RecommendActivity;
 import com.mhky.dianhuotong.shop.activity.VipShopActivity;
@@ -180,6 +181,11 @@ public class DianHuoTongShopActivity extends BaseActivity implements OnBannerLis
     @OnClick(R.id.shop_go_recommend_rl)
     void goRecommendActivity() {
         BaseTool.goActivityNoData(this, RecommendActivity.class);
+    }
+
+    @OnClick(R.id.shop_area_bestgoods)
+    void goCouponActivity() {
+        BaseTool.goActivityNoData(this, CouponActivity.class);
     }
 
     //初始化轮播图

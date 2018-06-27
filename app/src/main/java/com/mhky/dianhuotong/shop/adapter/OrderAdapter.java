@@ -73,7 +73,7 @@ public class OrderAdapter extends BaseMultiItemQuickAdapter<OrderInfo, BaseViewH
                 } else if (item.getOrderBottomInfo().getFreightInfoBean().getFreight()==null){
                     helper.setText(R.id.order_bottom_text3, "（运费未知）");
                 }else {
-                    helper.setText(R.id.order_bottom_text3, "（含运费￥" + item.getOrderBottomInfo().getFreightInfoBean().getFreight()+"）");
+                    helper.setText(R.id.order_bottom_text3, "（含运费￥" + Double.valueOf(item.getOrderBottomInfo().getFreightInfoBean().getFreight().toString())/100+"）");
                 }
                 switch (item.getOrderBottomInfo().getOrderStatus()) {
                     case "ORDERED":

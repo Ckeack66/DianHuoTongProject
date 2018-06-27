@@ -1,4 +1,5 @@
 package com.mhky.dianhuotong.base;
+
 /**
  * Created by Administrator on 2018/4/2.
  */
@@ -11,9 +12,10 @@ public class BaseUrlTool {
     private final static String HOSTS = "http://116.255.150.39:";//release
     private final static String HOSTS_CART = "http://116.255.158.91:";//release
     private final static String HOST_IMAGE_URL = "http://116.255.155.156:9040";//release  Imge
-    private final static String HOSTS_ORDER="http://116.255.158.91:";
-    private final static String HOST_URL_COUPON="http://116.255.158.91:"+"9060";
-    private final static String HOST_ACTIVITY="http://116.255.158.91:9060/promotion";
+    private final static String HOSTS_ORDER = "http://116.255.158.91:";
+//    private final static String HOSTS_ORDER = "http://192.168.2.237:";
+    private final static String HOST_URL_COUPON = "http://116.255.158.91:" + "9060";
+    private final static String HOST_ACTIVITY = "http://116.255.158.91:9060/promotion/list";
     //debug
 //    private final static String HOSTS = "http://192.168.2.158:";//debug
 //    private final static String HOSTS_CART = "http://192.168.2.158:";
@@ -77,14 +79,16 @@ public class BaseUrlTool {
     public static String getAlterPwdURL(String ID) {
         return HOST_URL + "/user/" + ID + ALTER_USER_PWD;
     }
+
     /**
      * 通过手机号修改密码http://192.168.2.158:9088/user/password/
      */
     private static final String ALTER_USER_PWD1 = "/user/password/";
 
     public static String getAlterPwdURL1(String ID) {
-        return HOST_URL+ALTER_USER_PWD1 +ID;
+        return HOST_URL + ALTER_USER_PWD1 + ID;
     }
+
     /**
      * 店铺添加用户
      */
@@ -234,9 +238,9 @@ public class BaseUrlTool {
     }
 
     /**
-     * 订单服务
+     * 订单服务http://192.168.2.158:9030/order/add
      */
-    public static final String DO_BANLANCE_URL = HOST_BANLANCE_URL + "/order?";
+    public static final String DO_BANLANCE_URL = HOST_BANLANCE_URL + "/order/add";
 
     /**
      * 获取订单信息
@@ -327,16 +331,34 @@ public class BaseUrlTool {
     /**
      * 分页获取品牌信息
      */
-    public static final String GET_BRAND=HOST_GOODS_URL+"/brand";
+    public static final String GET_BRAND = HOST_GOODS_URL + "/brand";
     /**
      * 获取商铺首页推荐商品
      * http://192.168.2.158:9000/goods/recommend?startDate=2018-06-19&endDate=2018-06-19
      */
-    public static final String GET_RECOMMEND_GOODS=HOST_GOODS_URL+"/goods/recommend";
+    public static final String GET_RECOMMEND_GOODS = HOST_GOODS_URL + "/goods/recommend";
     /**
      * 获取限时限折http://192.168.2.158:9060/promotion?promotionTypes=XIAN_SHI_XIAN_LIANG_ZHE_KOU&status=true
      */
 
-    public static final String GET_LAST_MINUTE=HOST_ACTIVITY;
+    public static final String GET_LAST_MINUTE = HOST_ACTIVITY;
 
+    /**
+     * 通过手机号查询钱包余额http://192.168.2.158:8889/extension/user/15665788176/mobile
+     */
+    public static String getWalletMoney(String phone) {
+        return HOST_PROMOTE_URL + "/extension/user/" + phone + "/mobile";
+    }
+
+    /**
+     * 获取优惠券列表
+     * http://192.168.2.158:9060/promotion?promotionTypes=PING_TAI_YOU_HUI_QUAN&status=true
+     */
+    public static final String GET_PLATFORM_COUPON = HOST_ACTIVITY+"?";
+
+    /**
+     * 领取优惠券
+     * http://192.168.2.158:9060/couponRecord?promotionId=1&companyId=1&shopId=1&grads=signal
+     */
+    public static final String BIND_COUPON_URL=HOST_URL_COUPON+"/couponRecord?";
 }

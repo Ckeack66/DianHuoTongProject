@@ -89,7 +89,7 @@ public class OrderDataPresenter {
     public List<OrderInfo> getOrderListFragment3(OrderBaseInfo orderBaseInfo) {
         List<OrderInfo> orderInfoList = new ArrayList<>();
         for (int a = 0; a < orderBaseInfo.getContent().size(); a++) {
-            if ("SHIPPED".equals(orderBaseInfo.getContent().get(a).getStatus())) {
+            if ("PAID".equals(orderBaseInfo.getContent().get(a).getStatus())){
                 BaseTool.logPrint(TAG, "getOrderList: ---a" + a);
                 OrderInfo orderInfoTop = new OrderInfo(1);
                 OrderTopInfo orderTopInfo = new OrderTopInfo();
@@ -104,6 +104,7 @@ public class OrderDataPresenter {
                     OrderInfo orderInfoBody = new OrderInfo(2);
                     orderInfoBody.setOrderBodyInfo(orderBaseInfo.getContent().get(a).getItems().get(b));
                     orderInfoList.add(orderInfoBody);
+                    orderInfoBody.setParentNumber(a);
                 }
                 OrderInfo orderInfoBottom = new OrderInfo(3);
                 OrderBottomInfo orderBottomInfo = new OrderBottomInfo();

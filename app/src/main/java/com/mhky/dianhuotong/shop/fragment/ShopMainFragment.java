@@ -24,13 +24,17 @@ import com.alibaba.fastjson.JSON;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.lzy.okgo.model.HttpParams;
 import com.mhky.dianhuotong.R;
+import com.mhky.dianhuotong.base.BaseApplication;
 import com.mhky.dianhuotong.base.BaseTool;
 import com.mhky.dianhuotong.custom.AlertDialog.DianHuoTongBaseDialog;
+import com.mhky.dianhuotong.custom.AlertDialog.LoadingDialog;
 import com.mhky.dianhuotong.custom.ToastUtil;
 import com.mhky.dianhuotong.shop.activity.GoodsActivity;
 import com.mhky.dianhuotong.shop.adapter.SearchGoodsAdpter;
+import com.mhky.dianhuotong.shop.adapter.ShopCouponAdapter;
 import com.mhky.dianhuotong.shop.bean.GoodsInfo;
 import com.mhky.dianhuotong.shop.bean.SearchSGoodsBean;
+import com.mhky.dianhuotong.shop.bean.ShopCouponInfo;
 import com.mhky.dianhuotong.shop.bean.ShopInfo;
 import com.mhky.dianhuotong.shop.bean.ShopTransferInfo;
 import com.mhky.dianhuotong.shop.bean.ShopTypeInfo;
@@ -40,12 +44,15 @@ import com.mhky.dianhuotong.shop.custom.CompanyPopupwindow;
 import com.mhky.dianhuotong.shop.custom.ShopTypePopupwindow;
 import com.mhky.dianhuotong.shop.custom.SortPopupwindow;
 import com.mhky.dianhuotong.shop.precenter.CompanyPrecenter;
+import com.mhky.dianhuotong.shop.precenter.CouponPresenter;
 import com.mhky.dianhuotong.shop.precenter.GoodsPrecenter;
 import com.mhky.dianhuotong.shop.precenter.SearchGoodsPresenter;
 import com.mhky.dianhuotong.shop.precenter.ShopPresenter;
 import com.mhky.dianhuotong.shop.precenter.StarGoodsPrecenter;
 import com.mhky.dianhuotong.shop.precenter.StarShopPrecenter;
 import com.mhky.dianhuotong.shop.shopif.CompanyIF;
+import com.mhky.dianhuotong.shop.shopif.CounponAddIF;
+import com.mhky.dianhuotong.shop.shopif.CounponGetIF;
 import com.mhky.dianhuotong.shop.shopif.GoodsIF;
 import com.mhky.dianhuotong.shop.shopif.SearchGoodsIF;
 import com.mhky.dianhuotong.shop.shopif.ShopIF;
@@ -60,7 +67,9 @@ import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -73,7 +82,7 @@ import wellijohn.org.scrollviewwithstickheader.ScrollViewWithStickHeader;
  * Use the {@link ShopMainFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ShopMainFragment extends Fragment implements ShopIF, SortPopupwindow.OnClickPopupwindow2ItemListener, ShopTypePopupwindow.OnClickShopPopupwindowItemListener, SearchGoodsIF, CompanyIF, GoodsIF, StarShopIF, DianHuoTongBaseDialog.BaseDialogListener {
+public class ShopMainFragment extends Fragment implements ShopIF, SortPopupwindow.OnClickPopupwindow2ItemListener, ShopTypePopupwindow.OnClickShopPopupwindowItemListener, SearchGoodsIF, CompanyIF, GoodsIF, StarShopIF, DianHuoTongBaseDialog.BaseDialogListener, CounponGetIF, CounponAddIF {
     @BindView(R.id.shop_img)
     ImageView imageViewLogo;
     @BindView(R.id.shop_main_child_tab1)
@@ -106,6 +115,8 @@ public class ShopMainFragment extends Fragment implements ShopIF, SortPopupwindo
     TextView textViewShopStar;
     @BindView(R.id.shop_transfer)
     TextView textViewTransfer;
+    @BindView(R.id.shop_coupon_rlv)
+    RecyclerView recyclerViewCoupon;
     private int chooseOldNumber = -1;
     private boolean tabIsOpen = false;
     private Unbinder unbinder;
@@ -137,7 +148,10 @@ public class ShopMainFragment extends Fragment implements ShopIF, SortPopupwindo
     private DianHuoTongBaseDialog dianHuoTongBaseDialog;
     private String starID;
     private static final String TAG = "ShopMainFragment";
-
+    private List<ShopCouponInfo> shopCouponInfoList;
+    private CouponPresenter couponPresenter;
+    private ShopCouponAdapter shopCouponAdapter;
+    private LoadingDialog loadingDialog;
 
     public ShopMainFragment() {
         // Required empty public constructor
@@ -185,10 +199,19 @@ public class ShopMainFragment extends Fragment implements ShopIF, SortPopupwindo
 
         return view;
     }
+
     private void init() {
+        loadingDialog = new LoadingDialog(getActivity());
         recyclerView.setNestedScrollingEnabled(false);
         goodsPrecenter = new GoodsPrecenter(this);
         shopPresenter = new ShopPresenter(this);
+        couponPresenter = new CouponPresenter().setCounponGetIF(this).setCounponAddIF(this);
+        Map map = new HashMap();
+        map.put("shopId", mParam1);
+        couponPresenter.getCouponByShop(map);
+        LinearLayoutManager linearLayoutManagerHorizongtal = new LinearLayoutManager(getActivity());
+        linearLayoutManagerHorizongtal.setOrientation(LinearLayoutManager.HORIZONTAL);
+        recyclerViewCoupon.setLayoutManager(linearLayoutManagerHorizongtal);
         shopTransferInfoList = new ArrayList<>();
         sortPopupwindow = new SortPopupwindow(getActivity(), -1);
         sortPopupwindow.setClickPopupwindow2ItemListener(this);
@@ -216,6 +239,7 @@ public class ShopMainFragment extends Fragment implements ShopIF, SortPopupwindo
         linearLayoutHead.setFocusableInTouchMode(true);
         linearLayoutHead.requestFocus();
     }
+
     private void setRefresh() {
         smartRefreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
@@ -265,6 +289,7 @@ public class ShopMainFragment extends Fragment implements ShopIF, SortPopupwindo
         }
         searchGoodsPresenter.searchGoods(httpParams, true, 0);
     }
+
     @Override
     public void onDestroyView() {
         super.onDestroyView();
@@ -290,7 +315,7 @@ public class ShopMainFragment extends Fragment implements ShopIF, SortPopupwindo
     @OnClick(R.id.shop_star)
     void startShop() {
         try {
-            if (shopInfo!=null){
+            if (shopInfo != null) {
                 if (shopInfo.isFollowStatus()) {
                     //取消关注
                     starShopPrecenter.getStarShop();
@@ -373,7 +398,7 @@ public class ShopMainFragment extends Fragment implements ShopIF, SortPopupwindo
         try {
             if (code == 200) {
                 shopInfo = JSON.parseObject(result, ShopInfo.class);
-                if (shopInfo!=null){
+                if (shopInfo != null) {
                     if (shopInfo.getLogo() != null) {
                         Picasso.get().load(shopInfo.getLogo()).into(imageViewLogo);
                     }
@@ -521,11 +546,13 @@ public class ShopMainFragment extends Fragment implements ShopIF, SortPopupwindo
                 if (shopTransferInfo != null) {
                     if (shopTransferInfo.getNotice() != null) {
                         textViewNotice.setText(shopTransferInfo.getNotice().toString());
+                    } else {
+                        textViewNotice.setText("暂无公告！");
                     }
-                    if (shopTransferInfo.getSendAccount()==0){
+                    if (shopTransferInfo.getSendAccount() == 0) {
                         textViewTransfer.setText("全场免邮");
-                    }else {
-                        textViewTransfer.setText("满"+shopTransferInfo.getSendAccount()/100+"元免邮");
+                    } else {
+                        textViewTransfer.setText("满" + shopTransferInfo.getSendAccount() / 100 + "元免邮");
                     }
                 }
             }
@@ -641,6 +668,69 @@ public class ShopMainFragment extends Fragment implements ShopIF, SortPopupwindo
             starShopPrecenter.delete(starID);
         } catch (Exception e) {
             PgyCrashManager.reportCaughtException(getActivity(), e);
+        }
+    }
+
+    @Override
+    public void getCouponSuccess(int code, String result) {
+        try {
+            if (code == 200) {
+                shopCouponInfoList = JSON.parseArray(result, ShopCouponInfo.class);
+                if (shopCouponAdapter == null) {
+                    shopCouponAdapter = new ShopCouponAdapter(shopCouponInfoList, getActivity());
+                    shopCouponAdapter.openLoadAnimation();
+                    shopCouponAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+                        @Override
+                        public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                            switch (view.getId()) {
+                                case R.id.shop_coupon:
+                                    //领取优惠券
+                                    try {
+                                        loadingDialog.show();
+                                        Map map = new HashMap();
+                                        map.put("promotionId", shopCouponInfoList.get(position).getId());
+                                        map.put("shopId", BaseApplication.getInstansApp().getPersonInfo().getShopId());
+                                        map.put("companyId",mParam1);
+                                        couponPresenter.bindCouponByShop(map);
+                                    } catch (Exception e) {
+                                        PgyCrashManager.reportCaughtException(getActivity(), e);
+                                    }
+                                    break;
+                            }
+                        }
+                    });
+                    recyclerViewCoupon.setAdapter(shopCouponAdapter);
+                }
+            }
+        } catch (Exception e) {
+            PgyCrashManager.reportCaughtException(getActivity(), e);
+        }
+    }
+
+    @Override
+    public void getCouponFailed(int code, String result) {
+
+    }
+
+    @Override
+    public void addCouponSuccess(int code, String result) {
+        try {
+            if (code == 200) {
+
+            }
+        } catch (Exception e) {
+            PgyCrashManager.reportCaughtException(getActivity(), e);
+        } finally {
+            if (loadingDialog != null) {
+                loadingDialog.dismiss();
+            }
+        }
+    }
+
+    @Override
+    public void addCouponFailed(int code, String result) {
+        if (loadingDialog != null) {
+            loadingDialog.dismiss();
         }
     }
 }

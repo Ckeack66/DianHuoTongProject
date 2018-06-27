@@ -151,7 +151,7 @@ public class CartActivity extends BaseActivity implements CartOprateIF, CartData
             }
         });
         cartOpratePresenter = new CartOpratePresenter(this);
-        cartOpratePresenter.getCart(BaseApplication.getInstansApp().getLoginRequestInfo().getId(), 0);
+        cartOpratePresenter.getCart(BaseApplication.getInstansApp().getPersonInfo().getId(), 0);
         loadingDialog.show();
         cartInfoList = new ArrayList<>();
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
