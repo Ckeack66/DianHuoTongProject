@@ -130,6 +130,7 @@ public class ForgetPasswordActivity extends BaseActivity implements ForgetPassWo
             return;
         }
         forgetPasswordPrecenter.getMsm(editTextPhone.getText().toString());
+        messageButtonNo();
 
     }
 
@@ -199,11 +200,12 @@ public class ForgetPasswordActivity extends BaseActivity implements ForgetPassWo
             isSendSMS = true;
             timerMessage.start();
             isTimerStart = true;
-            messageButtonNo();
             ToastUtil.makeText(this, "发送成功！", Toast.LENGTH_SHORT).show();
         } else if (code == 202) {
+            messageButtonOk();
             ToastUtil.makeText(this, "手机号码未注册！", Toast.LENGTH_SHORT).show();
         } else {
+            messageButtonOk();
             ToastUtil.makeText(this, "无法发送验证码！", Toast.LENGTH_SHORT).show();
         }
         BaseTool.logPrint(TAG, "SMSonSuccess: " + code + "-----" + result);
@@ -213,6 +215,11 @@ public class ForgetPasswordActivity extends BaseActivity implements ForgetPassWo
     public void getForgetPwdPhoneSmsFailed(int code, String result) {
         textViewGetSms.setText("获取验证码");
         messageButtonOk();
+        if ("@null".equals(result)){
+            ToastUtil.makeText(this, "连接超时！", Toast.LENGTH_SHORT).show();
+        }else {
+            ToastUtil.makeText(this, result, Toast.LENGTH_SHORT).show();
+        }
         BaseTool.logPrint(TAG, "SMSonFailed: " + code + "-----" + result);
     }
 

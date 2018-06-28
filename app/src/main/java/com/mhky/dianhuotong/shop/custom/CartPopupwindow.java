@@ -64,7 +64,10 @@ public class CartPopupwindow extends PopupWindow implements View.OnClickListener
     private TextView textViewTitleText;
     private TextView textViewNumberTitle;
     private TextView textViewFloght;
+    private TextView textViewTips;
     private CartOpratePresenter cartOpratePresenter;
+    private TextView textViewLine;
+    private TextView textViewLine1;
     private List<GoodsSkuInfo> goodsSkuInfoList;
     private String[] typeName;
     private GoodsInfo goodsInfo;
@@ -87,8 +90,11 @@ public class CartPopupwindow extends PopupWindow implements View.OnClickListener
         textViewPrice = view.findViewById(R.id.cart_popup_price);
         textViewTitleText = view.findViewById(R.id.cart_popup_title_txt);
         imageViewGoods = view.findViewById(R.id.cart_popup_img);
-        textViewNumberTitle=view.findViewById(R.id.cart_popup_number_title);
-        textViewFloght=view.findViewById(R.id.cart_popup_type);
+        textViewNumberTitle = view.findViewById(R.id.cart_popup_number_title);
+        textViewFloght = view.findViewById(R.id.cart_popup_type);
+        textViewTips = view.findViewById(R.id.cart_popup_tip);
+        textViewLine = view.findViewById(R.id.cart_popup_line);
+        textViewLine1=view.findViewById(R.id.cart_popup_line1);
         setWidth(WindowManager.LayoutParams.MATCH_PARENT);
         setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
         setFocusable(false);
@@ -165,9 +171,9 @@ public class CartPopupwindow extends PopupWindow implements View.OnClickListener
                     selectNUmber = position;
                     goodsNumberMax = goodsSkuInfoList.get(position).getStock();
                     textViewGoodsNumber.setText("库存：" + goodsNumberMax);
-                    if (goodsNumber>goodsSkuInfoList.get(selectNUmber).getBatchNums()){
+                    if (goodsNumber > goodsSkuInfoList.get(selectNUmber).getBatchNums()) {
                         textViewPrice.setText("￥" + goodsSkuInfoList.get(selectNUmber).getWholesalePrice() / 100);
-                    }else {
+                    } else {
                         textViewPrice.setText("￥" + goodsSkuInfoList.get(selectNUmber).getRetailPrice() / 100);
                     }
                 }
@@ -185,10 +191,11 @@ public class CartPopupwindow extends PopupWindow implements View.OnClickListener
                     if (goodsNumber > 1 && selectNUmber != -1) {
                         goodsNumber--;
                     }
-                    if (goodsNumber>goodsSkuInfoList.get(selectNUmber).getBatchNums()){
+                    if (goodsNumber > goodsSkuInfoList.get(selectNUmber).getBatchNums()) {
                         textViewPrice.setText("￥" + goodsSkuInfoList.get(selectNUmber).getWholesalePrice() / 100);
-                    }else {
+                    } else {
                         textViewPrice.setText("￥" + goodsSkuInfoList.get(selectNUmber).getRetailPrice() / 100);
+                        textViewTips.setVisibility(View.GONE);
                     }
                     if (goodsNumber > 0) {
                         textViewOk.setBackgroundColor(Color.parseColor("#04c1ab"));
@@ -202,9 +209,11 @@ public class CartPopupwindow extends PopupWindow implements View.OnClickListener
                     if (goodsNumber < goodsNumberMax && selectNUmber != -1) {
                         goodsNumber++;
                     }
-                    if (goodsNumber>goodsSkuInfoList.get(selectNUmber).getBatchNums()){
+                    if (goodsNumber > goodsSkuInfoList.get(selectNUmber).getBatchNums()) {
                         textViewPrice.setText("￥" + goodsSkuInfoList.get(selectNUmber).getWholesalePrice() / 100);
-                    }else {
+                        textViewTips.setVisibility(View.VISIBLE);
+                        textViewTips.setText("当前已超过优惠数量" + goodsSkuInfoList.get(selectNUmber).getBatchNums() + ",将以原价" + "￥" + goodsSkuInfoList.get(selectNUmber).getWholesalePrice() / 100 + "进行购买");
+                    } else {
                         textViewPrice.setText("￥" + goodsSkuInfoList.get(selectNUmber).getRetailPrice() / 100);
                     }
                     if (goodsNumber > 0) {
@@ -235,8 +244,8 @@ public class CartPopupwindow extends PopupWindow implements View.OnClickListener
                     break;
             }
             textViewNumber.setText(goodsNumber + "");
-        }catch (Exception e){
-            PgyCrashManager.reportCaughtException(mContext,e);
+        } catch (Exception e) {
+            PgyCrashManager.reportCaughtException(mContext, e);
         }
 
     }
@@ -251,9 +260,9 @@ public class CartPopupwindow extends PopupWindow implements View.OnClickListener
             } else {
                 ToastUtil.makeText(mContext, "加购失败-" + code, Toast.LENGTH_SHORT).show();
             }
-        }catch (Exception e){
-            PgyCrashManager.reportCaughtException(mContext,e);
-        }finally {
+        } catch (Exception e) {
+            PgyCrashManager.reportCaughtException(mContext, e);
+        } finally {
             textViewOk.setBackgroundColor(Color.parseColor("#04c1ab"));
             textViewOk.setClickable(true);
         }
@@ -299,37 +308,44 @@ public class CartPopupwindow extends PopupWindow implements View.OnClickListener
 
     @Override
     public void getSkuSucess(int code, String result) {
-        if (code == 200) {
-            BaseTool.logPrint(TAG, "getSkuSucess: ------"+result);
-            if (result != null && !"".equals(result)) {
-                goodsSkuInfoList = JSON.parseArray(result, GoodsSkuInfo.class);
-                ArrayList<String> arrayList = new ArrayList();
-                if (goodsSkuInfoList != null && goodsSkuInfoList.size() > 0) {
-                    for (int a = 0; a < goodsSkuInfoList.size(); a++) {
-                        String s = "";
-                        for (int b = 0; b < goodsSkuInfoList.get(a).getSalePropertyOptions().size(); b++) {
-                            s = s + goodsSkuInfoList.get(a).getSalePropertyOptions().get(b).getValue();
+        try {
+            if (code == 200) {
+                BaseTool.logPrint(TAG, "getSkuSucess: ------" + result);
+                if (result != null && !"".equals(result)) {
+                    goodsSkuInfoList = JSON.parseArray(result, GoodsSkuInfo.class);
+                    ArrayList<String> arrayList = new ArrayList();
+                    if (goodsSkuInfoList != null && goodsSkuInfoList.size() > 0) {
+                        for (int a = 0; a < goodsSkuInfoList.size(); a++) {
+                            String s = "";
+                            for (int b = 0; b < goodsSkuInfoList.get(a).getSalePropertyOptions().size(); b++) {
+                                s = s + goodsSkuInfoList.get(a).getSalePropertyOptions().get(b).getValue();
+                            }
+                            arrayList.add(s);
                         }
-                        arrayList.add(s);
+                        typeName = arrayList.toArray(new String[0]);
+                        setTagFlowLayout(typeName);
+                    } else {
+                        textViewOk.setText("此商品暂不支持您所在地区购买~");
+                        textViewPrice.setVisibility(View.GONE);
+                        textViewGoodsNumber.setVisibility(View.GONE);
+                        tagFlowLayout.setVisibility(View.GONE);
+                        textViewNumberTitle.setVisibility(View.GONE);
+                        imageViewReduce.setVisibility(View.GONE);
+                        imageViewPlus.setVisibility(View.GONE);
+                        textViewNumber.setVisibility(View.GONE);
+                        textViewFloght.setVisibility(View.GONE);
+                        textViewLine.setVisibility(View.GONE);
+                        textViewLine1.setVisibility(View.GONE);
                     }
-                    typeName = arrayList.toArray(new String[0]);
-                    setTagFlowLayout(typeName);
-                }else {
-                    textViewOk.setText("此商品暂不支持您所在地区购买~");
-                    textViewPrice.setVisibility(View.GONE);
-                    textViewGoodsNumber.setVisibility(View.GONE);
-                    tagFlowLayout.setVisibility(View.GONE);
-                    textViewNumberTitle.setVisibility(View.GONE);
-                    imageViewReduce.setVisibility(View.GONE);
-                    imageViewPlus.setVisibility(View.GONE);
-                    textViewNumber.setVisibility(View.GONE);
-                    textViewFloght.setVisibility(View.GONE);
+                } else {
+                    ToastUtil.makeText(mContext, "获取信息失败！", Toast.LENGTH_SHORT).show();
                 }
-            } else {
-                ToastUtil.makeText(mContext, "获取信息失败！", Toast.LENGTH_SHORT).show();
+
+            }
+        } catch (Exception e) {
+            PgyCrashManager.reportCaughtException(mContext, e);
         }
 
-        }
     }
 
     @Override

@@ -64,7 +64,7 @@ public class ForgetPasswordPrecenter {
     }
 
     public void getMsm(String number) {
-        OkGo.<String>get(BaseUrlTool.GET_SMS + number).execute(new Callback<String>() {
+        OkGo.<String>get(BaseUrlTool.GET_SMS + number).retryCount(0).execute(new Callback<String>() {
             @Override
             public void onStart(Request<String, ? extends Request> request) {
 
@@ -88,7 +88,6 @@ public class ForgetPasswordPrecenter {
 
             @Override
             public void onFinish() {
-
             }
 
             @Override

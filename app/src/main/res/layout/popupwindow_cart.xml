@@ -25,7 +25,8 @@
         android:paddingEnd="@dimen/x14"
         android:paddingStart="@dimen/x14">
 
-        <View
+        <TextView
+            android:id="@+id/cart_popup_line1"
             android:layout_width="match_parent"
             android:layout_height="@dimen/x1"
             android:background="@color/colorF7F7F7" />
@@ -109,13 +110,13 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/x120"
+        android:layout_height="@dimen/x138"
         android:layout_above="@id/cart_popup_type"
         android:orientation="vertical">
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/x100"
+            android:layout_height="match_parent"
             android:layout_marginTop="@dimen/x20"
             android:background="@color/colorWhite">
 
@@ -128,7 +129,8 @@
                 android:scaleType="center"
                 android:src="@drawable/icon_dismiss" />
 
-            <View
+            <TextView
+                android:id="@+id/cart_popup_line"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/x1"
                 android:layout_alignParentBottom="true"
@@ -184,6 +186,14 @@
                 android:text="库存："
                 android:textColor="@color/color333333"
                 android:textSize="@dimen/t12" />
+            <TextView
+                android:id="@+id/cart_popup_tip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/x10"
+                android:textColor="@color/colorE20F12"
+                android:textSize="@dimen/t10"
+                android:visibility="gone"/>
         </LinearLayout>
     </RelativeLayout>
 

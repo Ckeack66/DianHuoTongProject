@@ -18,6 +18,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.mhky.dianhuotong.R;
 import com.mhky.dianhuotong.shop.adapter.Popupwindow1Adapter;
 import com.mhky.dianhuotong.shop.bean.Popuwindow1Info;
+import com.pgyersdk.crash.PgyCrashManager;
 
 import java.util.List;
 
@@ -58,7 +59,11 @@ public class SortPopupwindow extends PopupWindow implements View.OnClickListener
         setClippingEnabled(false);
         setOutsideTouchable(false);
         setBackgroundDrawable(new ColorDrawable(0));
-        showItemView(selectNumber1);
+        try {
+            showItemView(selectNumber1);
+        }catch (Exception e){
+            PgyCrashManager.reportCaughtException(context,e);
+        }
     }
 
     @Override

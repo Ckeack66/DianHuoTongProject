@@ -17,6 +17,7 @@ import com.mhky.dianhuotong.shop.adapter.Popupwindow1Adapter;
 import com.mhky.dianhuotong.shop.adapter.Popupwindow3Adapter;
 import com.mhky.dianhuotong.shop.bean.AllCompanyInfo;
 import com.mhky.dianhuotong.shop.bean.Popuwindow1Info;
+import com.pgyersdk.crash.PgyCrashManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,27 +46,33 @@ public class CompanyPopupwindow extends PopupWindow {
         setClippingEnabled(false);
         setOutsideTouchable(false);
         setBackgroundDrawable(new ColorDrawable(0));
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
-        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        recyclerView.setLayoutManager(linearLayoutManager);
-        popupwindow3Adapter = new Popupwindow3Adapter(contentBeanList);
-        popupwindow3Adapter.openLoadAnimation();
-        recyclerView.setAdapter(popupwindow3Adapter);
-        popupwindow3Adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                if (onClickPopupwindow3ItemListener != null) {
-                    onClickPopupwindow3ItemListener.onclick(contentBeanList.get(position));
-                }
-                List<AllCompanyInfo.ContentBean> data = (List<AllCompanyInfo.ContentBean>) adapter.getData();
-                for (int a = 0; a < data.size(); a++) {
-                    data.get(a).setSelect(false);
-                }
-                data.get(position).setSelect(true);
-                popupwindow3Adapter.setNewData(data);
-                dismiss();
+        try {
+            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
+            linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+            recyclerView.setLayoutManager(linearLayoutManager);
+            if (contentBeanList!=null){
+                popupwindow3Adapter = new Popupwindow3Adapter(contentBeanList);
+                popupwindow3Adapter.openLoadAnimation();
+                popupwindow3Adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                        if (onClickPopupwindow3ItemListener != null) {
+                            onClickPopupwindow3ItemListener.onclick(contentBeanList.get(position));
+                        }
+                        List<AllCompanyInfo.ContentBean> data = (List<AllCompanyInfo.ContentBean>) adapter.getData();
+                        for (int a = 0; a < data.size(); a++) {
+                            data.get(a).setSelect(false);
+                        }
+                        data.get(position).setSelect(true);
+                        popupwindow3Adapter.setNewData(data);
+                        dismiss();
+                    }
+                });
+                recyclerView.setAdapter(popupwindow3Adapter);
             }
-        });
+        }catch (Exception e){
+            PgyCrashManager.reportCaughtException(context,e);
+        }
     }
 
     @Override

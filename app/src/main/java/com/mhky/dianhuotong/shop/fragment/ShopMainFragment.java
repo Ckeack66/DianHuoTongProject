@@ -715,8 +715,10 @@ public class ShopMainFragment extends Fragment implements ShopIF, SortPopupwindo
     @Override
     public void addCouponSuccess(int code, String result) {
         try {
-            if (code == 200) {
-
+            if (code == 201) {
+                ToastUtil.makeText(getActivity(), "领取成功！", Toast.LENGTH_SHORT).show();
+            }else {
+                ToastUtil.makeText(getActivity(), "领取失败!"+code+result, Toast.LENGTH_SHORT).show();
             }
         } catch (Exception e) {
             PgyCrashManager.reportCaughtException(getActivity(), e);

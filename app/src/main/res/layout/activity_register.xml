@@ -206,7 +206,7 @@
             android:layout_width="@dimen/x11"
             android:layout_height="@dimen/x11"
             android:gravity="center"
-            android:checked="true"
+            android:checked="false"
             android:layout_gravity="center_vertical"
             style="@style/My_View_CheckBox" />
         <TextView

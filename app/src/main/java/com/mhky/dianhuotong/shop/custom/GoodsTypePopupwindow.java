@@ -18,6 +18,7 @@ import com.mhky.dianhuotong.base.BaseTool;
 import com.mhky.dianhuotong.custom.ToastUtil;
 import com.mhky.dianhuotong.shop.adapter.Popupwindow1Adapter;
 import com.mhky.dianhuotong.shop.bean.Popuwindow1Info;
+import com.pgyersdk.crash.PgyCrashManager;
 
 import java.util.List;
 
@@ -45,26 +46,33 @@ public class GoodsTypePopupwindow extends PopupWindow {
         setClippingEnabled(false);
         setOutsideTouchable(false);
         setBackgroundDrawable(new ColorDrawable(0));
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
-        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        recyclerView.setLayoutManager(linearLayoutManager);
-        popupwindow1Adapter = new Popupwindow1Adapter(R.layout.item_popupwindow_goods_type_listview_child, R.layout.item_popupwindow_goods_type_listview_parent, popuwindow1InfoList);
-        popupwindow1Adapter.openLoadAnimation();
-        recyclerView.setAdapter(popupwindow1Adapter);
-        popupwindow1Adapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
-            @Override
-            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-                if (popuwindow1InfoList.get(position).isHeader) {
-                    BaseTool.logPrint(TAG, "onItemChildClick: 点击了头部" + position);
-                } else {
-                    BaseTool.logPrint(TAG, "onItemChildClick: 点击了item" + position);
-                }
-                if (onClickPopupwindow1ItemListener != null) {
-                    onClickPopupwindow1ItemListener.onclick(popuwindow1InfoList.get(position));
-                }
-                dismiss();
+        try {
+            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
+            linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+            recyclerView.setLayoutManager(linearLayoutManager);
+            if (popuwindow1InfoList != null) {
+                popupwindow1Adapter = new Popupwindow1Adapter(R.layout.item_popupwindow_goods_type_listview_child, R.layout.item_popupwindow_goods_type_listview_parent, popuwindow1InfoList);
+                popupwindow1Adapter.openLoadAnimation();
+                popupwindow1Adapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+                    @Override
+                    public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                        if (popuwindow1InfoList.get(position).isHeader) {
+                            BaseTool.logPrint(TAG, "onItemChildClick: 点击了头部" + position);
+                        } else {
+                            BaseTool.logPrint(TAG, "onItemChildClick: 点击了item" + position);
+                        }
+                        if (onClickPopupwindow1ItemListener != null) {
+                            onClickPopupwindow1ItemListener.onclick(popuwindow1InfoList.get(position));
+                        }
+                        dismiss();
+                    }
+                });
+                recyclerView.setAdapter(popupwindow1Adapter);
             }
-        });
+        } catch (Exception e) {
+            PgyCrashManager.reportCaughtException(context, e);
+        }
+
     }
 
     @Override

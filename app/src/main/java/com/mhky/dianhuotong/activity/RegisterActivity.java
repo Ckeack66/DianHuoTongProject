@@ -7,6 +7,7 @@ import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -34,7 +35,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class RegisterActivity extends BaseActivity implements TimerMessage.OnTimerListener, RegisterIF , SaleManIF, DianHuoTongBaseDialog.BaseDialogListener{
+public class RegisterActivity extends BaseActivity implements TimerMessage.OnTimerListener, RegisterIF, SaleManIF, DianHuoTongBaseDialog.BaseDialogListener {
     @BindView(R.id.register_titlebar)
     DianHuoTongBaseTitleBar diaHuiTongBaseTitleBar;
     @BindView(R.id.register_getmessage)
@@ -49,6 +50,8 @@ public class RegisterActivity extends BaseActivity implements TimerMessage.OnTim
     ImageView imageView;
     @BindView(R.id.register_myweiter_code)
     EditText editTextWaiterCode;
+    @BindView(R.id.register_checkBox)
+    CheckBox checkBox;
     private TimerMessage timerMessage;
     private boolean isTimerStart;
     private boolean imageViewState;
@@ -121,6 +124,15 @@ public class RegisterActivity extends BaseActivity implements TimerMessage.OnTim
             return;
         }
         registerPrecenter.getMsm(editTextPhone.getText().toString());
+        messageButtonNo();
+    }
+
+    /**
+     * 跳往协议页面
+     */
+    @OnClick(R.id.register_file)
+    void goDocumentActivity() {
+        BaseTool.goActivityNoData(this, DocumentActivity.class);
     }
 
     /**
@@ -149,6 +161,9 @@ public class RegisterActivity extends BaseActivity implements TimerMessage.OnTim
         } else if (editTextPwd.getText().toString().length() < 6) {
             ToastUtil.makeText(this, "密码格式不正确", Toast.LENGTH_SHORT).show();
             return;
+        } else if (!checkBox.isChecked()) {
+            ToastUtil.makeText(this, "请勾选用户注册协议", Toast.LENGTH_SHORT).show();
+            return;
         }
 //        if (shapeLoadingDialog != null) {
 //            shapeLoadingDialog.show();
@@ -162,8 +177,8 @@ public class RegisterActivity extends BaseActivity implements TimerMessage.OnTim
 ////                saleManPresenter.getSaleMan(editTextWaiterCode.getText().toString().trim());
 ////            }
 //        } else {
-            loadingDialog.show();
-            registerPrecenter.checkSMS(editTextPhone.getText().toString().trim(), editTextPhoneCode.getText().toString().trim());
+        loadingDialog.show();
+        registerPrecenter.checkSMS(editTextPhone.getText().toString().trim(), editTextPhoneCode.getText().toString().trim());
 //        }
 
     }
@@ -232,7 +247,6 @@ public class RegisterActivity extends BaseActivity implements TimerMessage.OnTim
      */
     @Override
     public void registerSuccess(int code, String result) {
-//        shapeLoadingDialog.dismiss();
         if (loadingDialog != null && loadingDialog.isShowing()) {
             loadingDialog.dismiss();
         }
@@ -256,7 +270,6 @@ public class RegisterActivity extends BaseActivity implements TimerMessage.OnTim
         if (loadingDialog != null && loadingDialog.isShowing()) {
             loadingDialog.dismiss();
         }
-//        shapeLoadingDialog.dismiss();
         ToastUtil.makeText(this, "注册失败！", Toast.LENGTH_SHORT).show();
         BaseTool.logPrint(TAG, "onFailed: " + code + "-----" + result);
     }
@@ -273,11 +286,12 @@ public class RegisterActivity extends BaseActivity implements TimerMessage.OnTim
             isSendSMS = true;
             timerMessage.start();
             isTimerStart = true;
-            messageButtonNo();
             ToastUtil.makeText(this, "发送成功！", Toast.LENGTH_SHORT).show();
         } else if (code == 202) {
+            messageButtonOk();
             ToastUtil.makeText(this, "手机号码已注册！", Toast.LENGTH_SHORT).show();
         } else {
+            messageButtonOk();
             ToastUtil.makeText(this, "无法发送验证码！", Toast.LENGTH_SHORT).show();
         }
         BaseTool.logPrint(TAG, "SMSonSuccess: " + code + "-----" + result);
@@ -293,7 +307,12 @@ public class RegisterActivity extends BaseActivity implements TimerMessage.OnTim
     public void getSmsfailed(int code, String result) {
         txtMessage.setText("获取验证码");
         messageButtonOk();
-        ToastUtil.makeText(this, "无法发送验证码！", Toast.LENGTH_SHORT).show();
+        if ("@null".equals(result)) {
+            ToastUtil.makeText(this, "连接超时！", Toast.LENGTH_SHORT).show();
+        } else {
+            ToastUtil.makeText(this, result, Toast.LENGTH_SHORT).show();
+        }
+        //ToastUtil.makeText(this, "无法发送验证码！", Toast.LENGTH_SHORT).show();
         BaseTool.logPrint(TAG, "SMSonFailed: " + code + "-----" + result);
     }
 
@@ -314,7 +333,9 @@ public class RegisterActivity extends BaseActivity implements TimerMessage.OnTim
             BaseTool.logPrint(TAG, "checkSmsSuccess: ----" + String.valueOf(MD5Util.md5(editTextPwd.getText().toString().trim())));
             registerPrecenter.register(JSON.toJSONString(registerPostDataInfo));
         } else {
-//            shapeLoadingDialog.dismiss();
+            if (loadingDialog != null && loadingDialog.isShowing()) {
+                loadingDialog.dismiss();
+            }
             ToastUtil.makeText(this, "验证码校验失败" + code, Toast.LENGTH_SHORT).show();
         }
     }
@@ -327,7 +348,9 @@ public class RegisterActivity extends BaseActivity implements TimerMessage.OnTim
      */
     @Override
     public void checkSmsFailed(int code, String result) {
-//        shapeLoadingDialog.dismiss();
+        if ( loadingDialog!=null&&loadingDialog.isShowing()){
+            loadingDialog.dismiss();
+        }
         ToastUtil.makeText(this, "验证码校验失败", Toast.LENGTH_SHORT).show();
     }
 
@@ -352,12 +375,18 @@ public class RegisterActivity extends BaseActivity implements TimerMessage.OnTim
             dianHuoTongBaseDialog = new DianHuoTongBaseDialog(this, this, "温馨提示", "您确定要让服务专员:" + saleManInfo.getName() + "为您服务吗？", "取消", "确定", "add");
             dianHuoTongBaseDialog.show();
         } else {
+            if ( loadingDialog!=null&&loadingDialog.isShowing()){
+                loadingDialog.dismiss();
+            }
             ToastUtil.makeText(this, "没有查询到该服务专员哦~", Toast.LENGTH_SHORT).show();
         }
     }
 
     @Override
     public void getSaleManFailed(int code, String result) {
+        if ( loadingDialog!=null&&loadingDialog.isShowing()){
+            loadingDialog.dismiss();
+        }
         ToastUtil.makeText(this, "系统异常~", Toast.LENGTH_SHORT).show();
     }
 

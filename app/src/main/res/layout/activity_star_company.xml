@@ -35,7 +35,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
                     android:layout_centerVertical="true"
-                    android:text="没有搜索到任何内容哦"
+                    android:text="没有收藏热河店铺哦"
                     android:textColor="@color/color333333" />
 
                 <ImageView

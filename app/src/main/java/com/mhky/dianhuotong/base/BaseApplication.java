@@ -114,7 +114,7 @@ public class BaseApplication extends LitePalApplication {
     @Override
     public void onCreate() {
         super.onCreate();
-        OkGo.getInstance().setRetryCount(3).init(this);
+        OkGo.getInstance().setRetryCount(1).init(this);
         mContext = this;
         mSharedPreferences = this.getSharedPreferences(MY_SHARE_NAME, MODE_PRIVATE);
         Fresco.initialize(this);

@@ -430,41 +430,56 @@ public class SearchGoodsActivity extends BaseActivity implements SearchGoodsIF, 
     private void setTabOpen(int number) {
         switch (number) {
             case 1:
-                textViewChoose1.setTextColor(getResources().getColor(R.color.color04c1ab));
-                imageViewChoose1.setImageResource(R.drawable.icon_choose_selecte);
-                if (goodsTypePopupwindow == null) {
-                    goodsTypePopupwindow = new GoodsTypePopupwindow(this, popuwindow1InfoList);
-                    goodsTypePopupwindow.setOnClickPopupwindowItemListener(this);
-                    PopupWindowCompat.showAsDropDown(goodsTypePopupwindow, tabI, 0, 0, Gravity.LEFT);
-                } else {
-                    PopupWindowCompat.showAsDropDown(goodsTypePopupwindow, tabI, 0, 0, Gravity.LEFT);
+                try {
+                    textViewChoose1.setTextColor(getResources().getColor(R.color.color04c1ab));
+                    imageViewChoose1.setImageResource(R.drawable.icon_choose_selecte);
+                    if (goodsTypePopupwindow == null) {
+                        if (popuwindow1InfoList!=null){
+                            goodsTypePopupwindow = new GoodsTypePopupwindow(this, popuwindow1InfoList);
+                            goodsTypePopupwindow.setOnClickPopupwindowItemListener(this);
+                            PopupWindowCompat.showAsDropDown(goodsTypePopupwindow, tabI, 0, 0, Gravity.LEFT);
+                        }
+                    } else {
+                        PopupWindowCompat.showAsDropDown(goodsTypePopupwindow, tabI, 0, 0, Gravity.LEFT);
+                    }
+                    tabIsOpen = true;
+                }catch (Exception e){
+                    PgyCrashManager.reportCaughtException(this,e);
                 }
-                tabIsOpen = true;
                 break;
             case 2:
-                textViewChoose2.setTextColor(getResources().getColor(R.color.color04c1ab));
-                imageViewChoose2.setImageResource(R.drawable.icon_choose_selecte);
-                if (sortPopupwindow == null) {
-                    sortPopupwindow = new SortPopupwindow(this, -1);
-                    sortPopupwindow.setClickPopupwindow2ItemListener(this);
-                    PopupWindowCompat.showAsDropDown(sortPopupwindow, tabI, 0, 0, Gravity.LEFT);
-                } else {
-                    PopupWindowCompat.showAsDropDown(sortPopupwindow, tabI, 0, 0, Gravity.LEFT);
+                try {
+                    textViewChoose2.setTextColor(getResources().getColor(R.color.color04c1ab));
+                    imageViewChoose2.setImageResource(R.drawable.icon_choose_selecte);
+                    if (sortPopupwindow == null) {
+                        sortPopupwindow = new SortPopupwindow(this, -1);
+                        sortPopupwindow.setClickPopupwindow2ItemListener(this);
+                        PopupWindowCompat.showAsDropDown(sortPopupwindow, tabI, 0, 0, Gravity.LEFT);
+                    } else {
+                        PopupWindowCompat.showAsDropDown(sortPopupwindow, tabI, 0, 0, Gravity.LEFT);
+                    }
+
+                    tabIsOpen = true;
+                }catch (Exception e){
+                    PgyCrashManager.reportCaughtException(this,e);
                 }
 
-                tabIsOpen = true;
                 break;
             case 3:
-                textViewChoose3.setTextColor(getResources().getColor(R.color.color04c1ab));
-                imageViewChoose3.setImageResource(R.drawable.icon_choose_selecte);
-                if (companyPopupwindow == null && allCompanyInfo != null) {
-                    companyPopupwindow = new CompanyPopupwindow(this, allCompanyInfo.getContent());
-                    companyPopupwindow.setOnClickPopupwindowItemListener(this);
-                    PopupWindowCompat.showAsDropDown(companyPopupwindow, tabI, 0, 0, Gravity.LEFT);
-                } else if (allCompanyInfo != null) {
-                    PopupWindowCompat.showAsDropDown(companyPopupwindow, tabI, 0, 0, Gravity.LEFT);
+                try {
+                    textViewChoose3.setTextColor(getResources().getColor(R.color.color04c1ab));
+                    imageViewChoose3.setImageResource(R.drawable.icon_choose_selecte);
+                    if (companyPopupwindow == null && allCompanyInfo != null) {
+                        companyPopupwindow = new CompanyPopupwindow(this, allCompanyInfo.getContent());
+                        companyPopupwindow.setOnClickPopupwindowItemListener(this);
+                        PopupWindowCompat.showAsDropDown(companyPopupwindow, tabI, 0, 0, Gravity.LEFT);
+                    } else if (allCompanyInfo != null) {
+                        PopupWindowCompat.showAsDropDown(companyPopupwindow, tabI, 0, 0, Gravity.LEFT);
+                    }
+                    tabIsOpen = true;
+                }catch (Exception e){
+                    PgyCrashManager.reportCaughtException(this,e);
                 }
-                tabIsOpen = true;
                 break;
         }
     }
