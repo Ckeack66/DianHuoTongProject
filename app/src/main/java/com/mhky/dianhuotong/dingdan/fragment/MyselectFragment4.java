@@ -1,6 +1,7 @@
 package com.mhky.dianhuotong.dingdan.fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -16,6 +17,7 @@ import com.mhky.dianhuotong.R;
 import com.mhky.dianhuotong.base.BaseTool;
 import com.mhky.dianhuotong.custom.ToastUtil;
 import com.mhky.dianhuotong.dingdan.adapter.MyselectFragmentAdapter;
+import com.mhky.dianhuotong.shop.activity.BalanceActivity;
 import com.mhky.dianhuotong.shop.activity.GoodsActivity;
 import com.mhky.dianhuotong.shop.activity.OrderInfoActivity;
 import com.mhky.dianhuotong.shop.activity.ShopActivity;
@@ -155,9 +157,13 @@ public class MyselectFragment4 extends Fragment {
                         switch (view.getId()) {
                             case R.id.order_head_go:
                                //ToastUtil.makeText(getActivity(), "点击了店铺" + position, Toast.LENGTH_SHORT).show();
-                                Bundle bundle = new Bundle();
-                                bundle.putString("shopid", orderInfoList.get(position).getOrderTopInfo().getShopID());
-                                BaseTool.goActivityWithData(getActivity(), ShopActivity.class, bundle);
+                                try {
+                                    Bundle bundle = new Bundle();
+                                    bundle.putString("shopid", orderInfoList.get(position).getOrderTopInfo().getShopID());
+                                    BaseTool.goActivityWithData(getActivity(), ShopActivity.class, bundle);
+                                }catch (Exception e){
+                                    PgyCrashManager.reportCaughtException(getActivity(),e);
+                                }
                                 break;
                             case R.id.order_body_goods:
                                 //ToastUtil.makeText(getActivity(), "点击了商品" + position, Toast.LENGTH_SHORT).show();
@@ -173,6 +179,19 @@ public class MyselectFragment4 extends Fragment {
                                // ToastUtil.makeText(getActivity(), "点击了操作" + position, Toast.LENGTH_SHORT).show();
                                 switch (orderInfoList.get(position).getOrderBottomInfo().getOrderStatus()) {
                                     case "ORDERED":
+                                        try {
+                                            Bundle bundle2 = new Bundle();
+                                            bundle2.putString("order",orderInfoList.get(position).getOrderBottomInfo().getContentBean() .getId());
+                                            double a = orderInfoList.get(position).getOrderBottomInfo().getContentBean().getPayment();
+                                            bundle2.putString("money", String.valueOf(a / 100));
+                                            bundle2.putInt("state",1);
+                                            Intent intent = new Intent();
+                                            intent.setClass(getActivity(), BalanceActivity.class);
+                                            intent.putExtras(bundle2);
+                                            startActivityForResult(intent, 10001);
+                                        }catch (Exception e){
+                                            PgyCrashManager.reportCaughtException(getActivity(),e);
+                                        }
                                         //ToastUtil.makeText(getActivity(), "待付款" + position, Toast.LENGTH_SHORT).show();
                                         break;
                                     case "PAID":

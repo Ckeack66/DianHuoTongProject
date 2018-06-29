@@ -1,6 +1,8 @@
 package com.mhky.dianhuotong.shop.fragment;
 
 
+import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -135,10 +137,6 @@ public class ShopMainFragment extends Fragment implements ShopIF, SortPopupwindo
     private SearchGoodsPresenter searchGoodsPresenter;
     private SearchSGoodsBean searchSGoodsBean;
     private SearchGoodsAdpter searchGoodsAdpter;
-    private int number = 0;
-    private int type = 0;
-    private String childId;
-    private int sortId = 0;
     private CompanyPrecenter companyPrecenter;
     private GoodsPrecenter goodsPrecenter;
     private GoodsInfo goodsInfo;
@@ -147,12 +145,14 @@ public class ShopMainFragment extends Fragment implements ShopIF, SortPopupwindo
     private StarShopPrecenter starShopPrecenter;
     private DianHuoTongBaseDialog dianHuoTongBaseDialog;
     private String starID;
-    private static final String TAG = "ShopMainFragment";
     private List<ShopCouponInfo> shopCouponInfoList;
     private CouponPresenter couponPresenter;
     private ShopCouponAdapter shopCouponAdapter;
     private LoadingDialog loadingDialog;
-
+    private int number = 0;
+    private String type101TypeData;
+    private String type102SortData = "name,DESC";
+    private Context mContext;
     public ShopMainFragment() {
         // Required empty public constructor
     }
@@ -166,8 +166,9 @@ public class ShopMainFragment extends Fragment implements ShopIF, SortPopupwindo
      * @return A new instance of fragment ShopMainFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static ShopMainFragment newInstance(String param1, String param2) {
+    public static ShopMainFragment newInstance(String param1, String param2, Context context) {
         ShopMainFragment fragment = new ShopMainFragment();
+        fragment.mContext=context;
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -203,6 +204,10 @@ public class ShopMainFragment extends Fragment implements ShopIF, SortPopupwindo
     private void init() {
         loadingDialog = new LoadingDialog(getActivity());
         recyclerView.setNestedScrollingEnabled(false);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
+        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        linearLayoutManager.setAutoMeasureEnabled(true);
+        recyclerView.setLayoutManager(linearLayoutManager);
         goodsPrecenter = new GoodsPrecenter(this);
         shopPresenter = new ShopPresenter(this);
         couponPresenter = new CouponPresenter().setCounponGetIF(this).setCounponAddIF(this);
@@ -221,7 +226,7 @@ public class ShopMainFragment extends Fragment implements ShopIF, SortPopupwindo
         HttpParams httpParams = new HttpParams();
         httpParams.put("shopId", mParam1);
         httpParams.put("page", number);
-        searchGoodsPresenter.searchGoods(httpParams, true, 0);
+        searchGoodsPresenter.searchGoods(httpParams, true, -1);
         smartRefreshLayout.setEnableRefresh(false);
         companyPrecenter = new CompanyPrecenter(this);
         companyPrecenter.getCompanyTansferInfo(mParam1);
@@ -241,53 +246,27 @@ public class ShopMainFragment extends Fragment implements ShopIF, SortPopupwindo
     }
 
     private void setRefresh() {
+        smartRefreshLayout.setRefreshFooter(new BallPulseFooter(getActivity()).setSpinnerStyle(SpinnerStyle.Scale).setAnimatingColor(getResources().getColor(R.color.color04c1ab)).setNormalColor(getResources().getColor(R.color.color04c1ab)));
         smartRefreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
             public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
                 //smartRefreshLayout.setEnableLoadMore(false);
-                smartRefreshLayout.setRefreshFooter(new BallPulseFooter(getActivity()).setSpinnerStyle(SpinnerStyle.Scale).setAnimatingColor(getResources().getColor(R.color.color04c1ab)).setNormalColor(getResources().getColor(R.color.color04c1ab)));
-                if (type == 0) {
-                    //初始数据
-                    getInitData();
-                } else if (type == 1) {
-                    //分类查询
-                    getTypeData();
-                } else if (type == 2) {
-                    //排序
-                    getSortData();
-                }
-
+                getInitData(1);
             }
         });
     }
 
-    private void getInitData() {
+    private void getInitData(int state) {
         HttpParams httpParams = new HttpParams();
         httpParams.put("shopId", mParam1);
         httpParams.put("page", number);
-        searchGoodsPresenter.searchGoods(httpParams, false, 1);
-    }
-
-    private void getTypeData() {
-        HttpParams httpParams = new HttpParams();
-        httpParams.put("shopId", mParam1);
-        httpParams.put("page", number);
-        if (childId != null && !childId.equals("")) {
-            httpParams.put("categoryIds", childId);
+        if (type102SortData != null) {
+            httpParams.put("sort", type102SortData);
         }
-        searchGoodsPresenter.searchGoods(httpParams, true, 0);
-    }
-
-    private void getSortData() {
-        HttpParams httpParams = new HttpParams();
-        httpParams.put("shopId", mParam1);
-        httpParams.put("page", number);
-        if (sortId == 0) {
-            httpParams.put("sort", "name,DESC");
-        } else {
-            httpParams.put("sort", "createTime,DESC");
+        if (type101TypeData != null) {
+            httpParams.put("goodsIds", type101TypeData);
         }
-        searchGoodsPresenter.searchGoods(httpParams, true, 0);
+        searchGoodsPresenter.searchGoods(httpParams, false, state);
     }
 
     @Override
@@ -361,18 +340,27 @@ public class ShopMainFragment extends Fragment implements ShopIF, SortPopupwindo
     private void setTabOpen(int number) {
         switch (number) {
             case 1:
-                textViewTab1.setTextColor(getResources().getColor(R.color.color04c1ab));
-                imageViewTab1.setImageResource(R.drawable.icon_choose_selecte);
-                PopupWindowCompat.showAsDropDown(shopTypePopupwindow, relativeLayoutTab1, 0, 0, Gravity.LEFT);
-                tabIsOpen = true;
-                nestedScrollView.setEnabled(false);
+                try {
+                    textViewTab1.setTextColor(Color.parseColor("#04c1ab"));
+                    imageViewTab1.setImageResource(R.drawable.icon_choose_selecte);
+                    PopupWindowCompat.showAsDropDown(shopTypePopupwindow, relativeLayoutTab1, 0, 0, Gravity.LEFT);
+                    tabIsOpen = true;
+                    nestedScrollView.setEnabled(false);
+                } catch (Exception e) {
+                    PgyCrashManager.reportCaughtException(getActivity(), e);
+                }
                 break;
             case 2:
-                textViewTab2.setTextColor(getResources().getColor(R.color.color04c1ab));
-                imageViewTab2.setImageResource(R.drawable.icon_choose_selecte);
-                PopupWindowCompat.showAsDropDown(sortPopupwindow, relativeLayoutTab1, 0, 0, Gravity.LEFT);
-                tabIsOpen = true;
-                nestedScrollView.setEnabled(false);
+                try {
+                    textViewTab2.setTextColor(Color.parseColor("#04c1ab"));
+                    imageViewTab2.setImageResource(R.drawable.icon_choose_selecte);
+                    PopupWindowCompat.showAsDropDown(sortPopupwindow, relativeLayoutTab1, 0, 0, Gravity.LEFT);
+                    tabIsOpen = true;
+                    nestedScrollView.setEnabled(false);
+                } catch (Exception e) {
+                    PgyCrashManager.reportCaughtException(getActivity(), e);
+                }
+
                 break;
         }
     }
@@ -380,12 +368,12 @@ public class ShopMainFragment extends Fragment implements ShopIF, SortPopupwindo
     private void setTabStateFalse(int number) {
         switch (number) {
             case 1:
-                textViewTab1.setTextColor(getResources().getColor(R.color.color333333));
+                textViewTab1.setTextColor(Color.parseColor("#333333"));
                 imageViewTab1.setImageResource(R.drawable.icon_choose_unselecte);
                 tabIsOpen = false;
                 break;
             case 2:
-                textViewTab2.setTextColor(getResources().getColor(R.color.color333333));
+                textViewTab2.setTextColor(Color.parseColor("#333333"));
                 imageViewTab2.setImageResource(R.drawable.icon_choose_unselecte);
                 tabIsOpen = false;
                 break;
@@ -442,25 +430,38 @@ public class ShopMainFragment extends Fragment implements ShopIF, SortPopupwindo
     }
 
     @Override
-    public void onclick(int number) {
+    public void onclick(int numbers) {
         String text = "";
-        sortPopupwindow.setSelectState(number);
-        if (number == 0) {
+        sortPopupwindow.setSelectState(numbers);
+        number = 0;
+        if (numbers == 0) {
             text = "默认排序";
-            //ToastUtil.makeText(getActivity(), "默认排序", Toast.LENGTH_SHORT).show();
-        } else if (number == 1) {
+            type102SortData = "name,DESC";
+        } else if (numbers == 1) {
             text = "时间排序";
-            //ToastUtil.makeText(getActivity(), "时间排序", Toast.LENGTH_SHORT).show();
+            type102SortData = "createTime,DESC";
         }
+        smartRefreshLayout.setEnableLoadMore(true);
         textViewTab2.setText(text);
         setTabStateFalse(2);
-        //ToastUtil.makeText(getActivity(), "点击---" + number, Toast.LENGTH_SHORT).show();
+        getInitData(0);
     }
 
     @Override
     public void onclickType(ShopTypeInfo contentBean) {
+        number = 0;
+        StringBuilder stringBuilder = new StringBuilder();
+        for (int a = 0; a < contentBean.getGoodsIds().size(); a++) {
+            stringBuilder.append(contentBean.getGoodsIds().get(a));
+            stringBuilder.append(",");
+        }
+        if (stringBuilder.length() > 0) {
+            type101TypeData = stringBuilder.substring(0, stringBuilder.length() - 1);
+        }
+        textViewTab1.setText(contentBean.getName());
+        smartRefreshLayout.setEnableLoadMore(true);
         setTabStateFalse(1);
-        // ToastUtil.makeText(getActivity(), "点击---" + contentBean.getName(), Toast.LENGTH_SHORT).show();
+        getInitData(0);
     }
 
     @Override
@@ -468,11 +469,9 @@ public class ShopMainFragment extends Fragment implements ShopIF, SortPopupwindo
         try {
             if (code == 200) {
                 SearchSGoodsBean searchSGoodsBeans = JSON.parseObject(result, SearchSGoodsBean.class);
-                if (isfirst) {
+                if (refreshOrLoadmore == -1) {
                     //初始页面
                     searchSGoodsBean = searchSGoodsBeans;
-                    BaseTool.logPrint(TAG, "searchGoodsInfoSuccess1: " + searchSGoodsBean.getContent().size());
-                    BaseTool.logPrint(TAG, "searchGoodsInfoSuccess2: " + searchSGoodsBeans.getContent().size());
                     if (searchSGoodsBeans.getContent() != null) {
                         searchGoodsAdpter = new SearchGoodsAdpter(searchSGoodsBean.getContent(), getActivity());
                         searchGoodsAdpter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
@@ -489,30 +488,23 @@ public class ShopMainFragment extends Fragment implements ShopIF, SortPopupwindo
                                 goodsPrecenter.getGoodsInfo(String.valueOf(searchSGoodsBean.getContent().get(position).getId()));
                             }
                         });
-                        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
-                        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-                        linearLayoutManager.setAutoMeasureEnabled(true);
-                        recyclerView.setLayoutManager(linearLayoutManager);
                         searchGoodsAdpter.openLoadAnimation();
                         recyclerView.setAdapter(searchGoodsAdpter);
                     }
-
-
-                } else {
-                    //刷新或者加载更多界面
-                    if (refreshOrLoadmore == 0) {
-                        searchSGoodsBean = null;
-                        searchSGoodsBean = searchSGoodsBeans;
-                    } else if (refreshOrLoadmore == 1) {
-                        number++;
-                        smartRefreshLayout.finishLoadMore(true);
-                        if (searchSGoodsBeans.getContent().size() < 10) {
-                            searchSGoodsBean.getContent().addAll(searchSGoodsBeans.getContent());
-                            searchGoodsAdpter.addData(searchSGoodsBeans.getContent());
-                        } else if (searchSGoodsBeans.getContent().size() == 0) {
-                            ToastUtil.makeText(getActivity(), "没有更多数据了", Toast.LENGTH_SHORT).show();
-                        }
-
+                    number++;
+                } else if (refreshOrLoadmore == 0) {
+                    searchSGoodsBean = searchSGoodsBeans;
+                    searchGoodsAdpter.setNewData(searchSGoodsBeans.getContent());
+                    number++;
+                } else if (refreshOrLoadmore == 1) {
+                    number++;
+                    smartRefreshLayout.finishLoadMore(true);
+                    if (searchSGoodsBeans.getContent().size() == 0) {
+                        smartRefreshLayout.setEnableLoadMore(false);
+                        ToastUtil.makeText(getActivity(), "没有更多数据了", Toast.LENGTH_SHORT).show();
+                    } else if (searchSGoodsBeans.getContent().size() < 10) {
+                        smartRefreshLayout.setEnableLoadMore(false);
+                        searchGoodsAdpter.addData(searchSGoodsBeans.getContent());
                     }
                 }
             }
@@ -690,7 +682,7 @@ public class ShopMainFragment extends Fragment implements ShopIF, SortPopupwindo
                                         Map map = new HashMap();
                                         map.put("promotionId", shopCouponInfoList.get(position).getId());
                                         map.put("shopId", BaseApplication.getInstansApp().getPersonInfo().getShopId());
-                                        map.put("companyId",mParam1);
+                                        map.put("companyId", mParam1);
                                         couponPresenter.bindCouponByShop(map);
                                     } catch (Exception e) {
                                         PgyCrashManager.reportCaughtException(getActivity(), e);
@@ -717,8 +709,8 @@ public class ShopMainFragment extends Fragment implements ShopIF, SortPopupwindo
         try {
             if (code == 201) {
                 ToastUtil.makeText(getActivity(), "领取成功！", Toast.LENGTH_SHORT).show();
-            }else {
-                ToastUtil.makeText(getActivity(), "领取失败!"+code+result, Toast.LENGTH_SHORT).show();
+            } else {
+                ToastUtil.makeText(getActivity(), "领取失败!" + code + result, Toast.LENGTH_SHORT).show();
             }
         } catch (Exception e) {
             PgyCrashManager.reportCaughtException(getActivity(), e);

@@ -105,58 +105,68 @@ public class VipShopActivity extends BaseActivity implements SearchCompanyIF {
 
     @Override
     public void getCompanyListSuccess(int code, String result) {
-        if (code == 200) {
-            SearchCompanyInfo searchCompanyInfo1 = JSON.parseObject(result, SearchCompanyInfo.class);
-            if (isNew == -1) {
-                if (searchCompanyInfo1 != null && searchCompanyInfo1.getContent() != null && searchCompanyInfo1.getContent().size() == 0) {
-                    relativeLayoutTips.setVisibility(View.VISIBLE);
-                }
-                searchCompanyInfo = searchCompanyInfo1;
-                searchCompanyAdapter = new SearchCompanyAdapter(searchCompanyInfo.getContent(), context);
-                searchCompanyAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
-                    @Override
-                    public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-                        switch (view.getId()) {
-                            case R.id.go_company:
-                                Bundle bundle = new Bundle();
-                                bundle.putString("shopid", searchCompanyInfo.getContent().get(position).getId()+"");
-                                BaseTool.goActivityWithData(context, ShopActivity.class, bundle);
-                                break;
-                        }
+        try {
+            if (code == 200) {
+                SearchCompanyInfo searchCompanyInfo1 = JSON.parseObject(result, SearchCompanyInfo.class);
+                if (isNew == -1) {
+                    if (searchCompanyInfo1 != null && searchCompanyInfo1.getContent() != null && searchCompanyInfo1.getContent().size() == 0) {
+                        relativeLayoutTips.setVisibility(View.VISIBLE);
                     }
-                });
-                recyclerView.setAdapter(searchCompanyAdapter);
-                pageNumber = 1;
-            } else if (isNew == 0) {
-                if (searchCompanyInfo1 != null && searchCompanyInfo1.getContent() != null && searchCompanyInfo1.getContent().size() == 0) {
-                    relativeLayoutTips.setVisibility(View.VISIBLE);
-                } else {
-                    relativeLayoutTips.setVisibility(View.GONE);
-                }
-                smartRefreshLayout.finishRefresh();
-                searchCompanyInfo = searchCompanyInfo1;
-                searchCompanyAdapter.setNewData(searchCompanyInfo.getContent());
-                pageNumber++;
-            } else if (isNew == 1) {
-                smartRefreshLayout.finishLoadMore();
-                if (searchCompanyInfo1.getContent().size() == 0) {
-                    smartRefreshLayout.setEnableLoadMore(false);
-                    ToastUtil.makeText(this, "没有更多数据了~", Toast.LENGTH_SHORT).show();
-                } else if (searchCompanyInfo1.getContent().size() < 10) {
-                    smartRefreshLayout.setEnableLoadMore(false);
-                    searchCompanyAdapter.addData(searchCompanyInfo1.getContent());
-                    ToastUtil.makeText(this, "没有更多数据了~", Toast.LENGTH_SHORT).show();
-                } else {
+                    searchCompanyInfo = searchCompanyInfo1;
+                    searchCompanyAdapter = new SearchCompanyAdapter(searchCompanyInfo.getContent(), context);
+                    searchCompanyAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+                        @Override
+                        public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                            try {
+                                switch (view.getId()) {
+                                    case R.id.go_company:
+                                        Bundle bundle = new Bundle();
+                                        bundle.putString("shopid", searchCompanyInfo.getContent().get(position).getId()+"");
+                                        BaseTool.goActivityWithData(context, ShopActivity.class, bundle);
+                                        break;
+                                }
+                            }catch (Exception e){
+                                PgyCrashManager.reportCaughtException(context,e);
+                            }
+
+                        }
+                    });
+                    recyclerView.setAdapter(searchCompanyAdapter);
+                    pageNumber = 1;
+                } else if (isNew == 0) {
+                    if (searchCompanyInfo1 != null && searchCompanyInfo1.getContent() != null && searchCompanyInfo1.getContent().size() == 0) {
+                        relativeLayoutTips.setVisibility(View.VISIBLE);
+                    } else {
+                        relativeLayoutTips.setVisibility(View.GONE);
+                    }
+                    smartRefreshLayout.finishRefresh();
+                    searchCompanyInfo = searchCompanyInfo1;
+                    searchCompanyAdapter.setNewData(searchCompanyInfo.getContent());
                     pageNumber++;
-                    searchCompanyAdapter.addData(searchCompanyInfo1.getContent());
-                    ToastUtil.makeText(this, "加载了一批数据~", Toast.LENGTH_SHORT).show();
+                } else if (isNew == 1) {
+                    smartRefreshLayout.finishLoadMore();
+                    if (searchCompanyInfo1.getContent().size() == 0) {
+                        smartRefreshLayout.setEnableLoadMore(false);
+                        ToastUtil.makeText(this, "没有更多数据了~", Toast.LENGTH_SHORT).show();
+                    } else if (searchCompanyInfo1.getContent().size() < 10) {
+                        smartRefreshLayout.setEnableLoadMore(false);
+                        searchCompanyAdapter.addData(searchCompanyInfo1.getContent());
+                        ToastUtil.makeText(this, "没有更多数据了~", Toast.LENGTH_SHORT).show();
+                    } else {
+                        pageNumber++;
+                        searchCompanyAdapter.addData(searchCompanyInfo1.getContent());
+                        ToastUtil.makeText(this, "加载了一批数据~", Toast.LENGTH_SHORT).show();
+                    }
                 }
+
+
+            } else {
+                ToastUtil.makeText(this, "获取数据异常~", Toast.LENGTH_SHORT).show();
             }
-
-
-        } else {
-            ToastUtil.makeText(this, "获取数据异常~", Toast.LENGTH_SHORT).show();
+        }catch (Exception e){
+            PgyCrashManager.reportCaughtException(this,e);
         }
+
     }
 
     @Override

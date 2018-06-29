@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.IntentFilter;
 import android.graphics.Color;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -75,7 +77,7 @@ import butterknife.OnClick;
 import cn.bingoogolapple.bgabanner.BGABanner;
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class MainActivity extends BaseActivity implements MainIF, DrawerLayout.DrawerListener, AdapterView.OnItemClickListener, DianHuoTongBaseDialog.BaseDialogListener, AllGoodsIF ,AdvertMainIF,UpdateMainViewIF,LoginIF{
+public class MainActivity extends BaseActivity implements MainIF, DrawerLayout.DrawerListener, AdapterView.OnItemClickListener, DianHuoTongBaseDialog.BaseDialogListener, AllGoodsIF, AdvertMainIF, UpdateMainViewIF, LoginIF {
     @BindView(R.id.drawer_listview)
     ListView listView;
     @BindView(R.id.mian_titlebar)
@@ -119,7 +121,7 @@ public class MainActivity extends BaseActivity implements MainIF, DrawerLayout.D
     private UpdateMainViewReceiver updateMainViewReceiver;
     private LoginPrecenter loginPrecenter;
     private LoadingDialog loadingDialog;
-    public static String action="com.mhky.dianhuotong.activity.update";
+    public static String action = "com.mhky.dianhuotong.activity.update";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -156,7 +158,7 @@ public class MainActivity extends BaseActivity implements MainIF, DrawerLayout.D
         super.onDestroy();
         PgyUpdateManager.unregister();
         unregisterReceiver(updateMainViewReceiver);
-        if (loadingDialog!=null&&loadingDialog.isShowing()){
+        if (loadingDialog != null && loadingDialog.isShowing()) {
             loadingDialog.dismiss();
         }
     }
@@ -175,6 +177,13 @@ public class MainActivity extends BaseActivity implements MainIF, DrawerLayout.D
 
                 @Override
                 public void onUpdateAvailable(String s) {
+                    ConnectivityManager connectionManager = (ConnectivityManager)
+                            getSystemService(CONNECTIVITY_SERVICE);
+                    //获取网络的状态信息，有下面三种方式
+                    NetworkInfo networkInfo = connectionManager.getActiveNetworkInfo();
+                    if (networkInfo.getType() == ConnectivityManager.TYPE_MOBILE) {
+                        ToastUtil.makeText(mContext, "当前是移动网络哦，注意流量消耗~", Toast.LENGTH_SHORT).show();
+                    }
                     final AppBean appBean = getAppBeanFromString(s);
                     new AlertDialog.Builder(MainActivity.this)
                             .setTitle("有新版本更新啦~")
@@ -225,19 +234,19 @@ public class MainActivity extends BaseActivity implements MainIF, DrawerLayout.D
 
 
     private void inIt() {
-        loadingDialog=new LoadingDialog(this);
+        loadingDialog = new LoadingDialog(this);
         loginPrecenter = new LoginPrecenter(this);
-        String u=BaseApplication.getInstansApp().getUserPhone();
-        String p=BaseApplication.getInstansApp().getUserPwd();
-        if (u!=null&&p!=null){
+        String u = BaseApplication.getInstansApp().getUserPhone();
+        String p = BaseApplication.getInstansApp().getUserPwd();
+        if (u != null && p != null) {
             loadingDialog.show();
-            loginPrecenter.Login(u,p);
+            loginPrecenter.Login(u, p);
         }
-        updateMainViewReceiver=new UpdateMainViewReceiver(this);
-        IntentFilter intentFilter=new IntentFilter();
+        updateMainViewReceiver = new UpdateMainViewReceiver(this);
+        IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(action);
-        registerReceiver(updateMainViewReceiver,intentFilter);
-        advertMainPresenter=new AdvertMainPresenter(this);
+        registerReceiver(updateMainViewReceiver, intentFilter);
+        advertMainPresenter = new AdvertMainPresenter(this);
         advertMainPresenter.getAdvertMain();
         if (BaseApplication.getInstansApp().getAllGoodsBaseInfos() == null) {
             drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
@@ -290,19 +299,22 @@ public class MainActivity extends BaseActivity implements MainIF, DrawerLayout.D
 
     private void initImageBaner(List<?> list) {
         try {
-            banner.setAdapter(new BGABanner.Adapter() {
-                @Override
-                public void fillBannerItem(BGABanner banner, View itemView, @Nullable Object model, int position) {
-                    AdvertInfo advertInfo=(AdvertInfo) model;
-                    Uri uri = Uri.parse(advertInfo.getImage());
-                    Picasso.get().load(uri).into((ImageView) itemView);
-                }
-            });
+            if (list != null && list.size() > 0) {
+                banner.setAdapter(new BGABanner.Adapter() {
+                    @Override
+                    public void fillBannerItem(BGABanner banner, View itemView, @Nullable Object model, int position) {
+                        AdvertInfo advertInfo = (AdvertInfo) model;
+                        Uri uri = Uri.parse(advertInfo.getImage());
+                        Picasso.get().load(uri).into((ImageView) itemView);
+                    }
+                });
 
-            banner.setAutoPlayAble(true);
-            banner.setData(list, new ArrayList<String>());
-        }catch (Exception e){
-        PgyCrashManager.reportCaughtException(this,e);
+                banner.setAutoPlayAble(true);
+                banner.setData(list, new ArrayList<String>());
+            }
+
+        } catch (Exception e) {
+            PgyCrashManager.reportCaughtException(this, e);
         }
 
     }
@@ -402,12 +414,15 @@ public class MainActivity extends BaseActivity implements MainIF, DrawerLayout.D
 //                        BaseTool.goActivityNoData(this, ShiYaoQianYanActivity.class);
 //                        break;
                     case 1:
-                        if (BaseApplication.getInstansApp().getPersonInfo()!=null&&BaseApplication.getInstansApp().getPersonInfo().getAuditStatus() == null) {
+                        if (BaseApplication.getInstansApp().getPersonInfo() != null && BaseApplication.getInstansApp().getPersonInfo().getAuditStatus() == null) {
                             dianHuoTongBaseDialogAddShop.show();
                         } else if ("UNAUDITED".equals(BaseApplication.getInstansApp().getPersonInfo().getAuditStatus().toString())) {
                             ToastUtil.makeText(this, "正在审核中~", Toast.LENGTH_SHORT).show();
                         } else if ("APPROVED".equals(BaseApplication.getInstansApp().getPersonInfo().getAuditStatus().toString())) {
                             BaseTool.goActivityNoData(this, DianHuoTongShopActivity.class);
+                        } else if ("UNSANCTIONED".equals(BaseApplication.getInstansApp().getPersonInfo().getAuditStatus().toString())) {
+                            ToastUtil.makeText(this, "店铺审核失败，请重新加入~", Toast.LENGTH_SHORT).show();
+                            dianHuoTongBaseDialogAddShop.show();
                         }
                         break;
 //                    case 2:
@@ -471,13 +486,18 @@ public class MainActivity extends BaseActivity implements MainIF, DrawerLayout.D
      */
     @Override
     public void onClickBaseDialogLeft(String mTag) {
-        if (main1.equals(mTag) && dianHuoTongBaseDialog.isShowing()) {
-            dianHuoTongBaseDialog.dismiss();
-        } else if (main2.equals(mTag) && dianHuoTongBaseDialogBack.isShowing()) {
-            dianHuoTongBaseDialogBack.dismiss();
-        } else if (main3.equals(mTag) && dianHuoTongBaseDialogAddShop.isShowing()) {
-            dianHuoTongBaseDialogAddShop.dismiss();
+        try {
+            if (main1.equals(mTag) && dianHuoTongBaseDialog.isShowing()) {
+                dianHuoTongBaseDialog.dismiss();
+            } else if (main2.equals(mTag) && dianHuoTongBaseDialogBack.isShowing()) {
+                dianHuoTongBaseDialogBack.dismiss();
+            } else if (main3.equals(mTag) && dianHuoTongBaseDialogAddShop.isShowing()) {
+                dianHuoTongBaseDialogAddShop.dismiss();
+            }
+        } catch (Exception e) {
+            PgyCrashManager.reportCaughtException(this, e);
         }
+
     }
 
     /**
@@ -487,17 +507,21 @@ public class MainActivity extends BaseActivity implements MainIF, DrawerLayout.D
      */
     @Override
     public void onClickBaseDialogRight(String mTag) {
-
-        if (main1.equals(mTag) && dianHuoTongBaseDialog.isShowing()) {
-            BaseTool.goActivityNoData(this, LoginActivity.class);
-            dianHuoTongBaseDialog.dismiss();
-        } else if (main2.equals(mTag) && dianHuoTongBaseDialogBack.isShowing()) {
-            dianHuoTongBaseDialogBack.dismiss();
-            System.exit(0);
-        } else if (main3.equals(mTag) && dianHuoTongBaseDialogAddShop.isShowing()) {
-            dianHuoTongBaseDialogAddShop.dismiss();
-            BaseTool.goActivityNoData(this, AddShopActivity.class);
+        try {
+            if (main1.equals(mTag) && dianHuoTongBaseDialog.isShowing()) {
+                BaseTool.goActivityNoData(this, LoginActivity.class);
+                dianHuoTongBaseDialog.dismiss();
+            } else if (main2.equals(mTag) && dianHuoTongBaseDialogBack.isShowing()) {
+                dianHuoTongBaseDialogBack.dismiss();
+                System.exit(0);
+            } else if (main3.equals(mTag) && dianHuoTongBaseDialogAddShop.isShowing()) {
+                dianHuoTongBaseDialogAddShop.dismiss();
+                BaseTool.goActivityNoData(this, AddShopActivity.class);
+            }
+        } catch (Exception e) {
+            PgyCrashManager.reportCaughtException(this, e);
         }
+
 
     }
 
@@ -513,23 +537,27 @@ public class MainActivity extends BaseActivity implements MainIF, DrawerLayout.D
      * 更新抽屉界面信息
      */
     private void updateDrawer() {
-        if (BaseApplication.getInstansApp().getPersonInfo() != null) {
-            if (BaseApplication.getInstansApp().getPersonInfo().getImage() != null) {
-                //BaseTool.logPrint(TAG, "updateDrawer: --------" + BaseApplication.getInstansApp().getLoginRequestInfo().getImage().toString());
-                Picasso.get().load(BaseApplication.getInstansApp().getPersonInfo().getImage().toString()).into(imageViewUser);
-                BaseTool.logPrint(TAG,"更新图片");
-            }else {
-                imageViewUser.setImageDrawable(getResources().getDrawable(R.drawable.icon_header_big));
-                BaseTool.logPrint(TAG,"设置成默认图片");
+        try {
+            if (BaseApplication.getInstansApp().getPersonInfo() != null) {
+                if (BaseApplication.getInstansApp().getPersonInfo().getImage() != null) {
+                    //BaseTool.logPrint(TAG, "updateDrawer: --------" + BaseApplication.getInstansApp().getLoginRequestInfo().getImage().toString());
+                    Picasso.get().load(BaseApplication.getInstansApp().getPersonInfo().getImage().toString()).into(imageViewUser);
+                    BaseTool.logPrint(TAG, "更新图片");
+                } else {
+                    imageViewUser.setImageDrawable(getResources().getDrawable(R.drawable.icon_header_big));
+                    BaseTool.logPrint(TAG, "设置成默认图片");
+                }
+                if (BaseApplication.getInstansApp().getPersonInfo().getUsername() != null) {
+                    textViewUserName.setText(BaseApplication.getInstansApp().getPersonInfo().getUsername());
+                }
+                if (BaseApplication.getInstansApp().getPersonInfo().getMobile() != null) {
+                    textViewPhone.setText(BaseApplication.getInstansApp().getPersonInfo().getMobile());
+                }
+                BaseApplication.getInstansApp().setUpdata(false);
+                return;
             }
-            if (BaseApplication.getInstansApp().getPersonInfo().getUsername() != null) {
-                textViewUserName.setText(BaseApplication.getInstansApp().getPersonInfo().getUsername());
-            }
-            if (BaseApplication.getInstansApp().getPersonInfo().getMobile() != null) {
-                textViewPhone.setText(BaseApplication.getInstansApp().getPersonInfo().getMobile());
-            }
-            BaseApplication.getInstansApp().setUpdata(false);
-            return;
+        } catch (Exception e) {
+            PgyCrashManager.reportCaughtException(this, e);
         }
     }
 
@@ -555,10 +583,17 @@ public class MainActivity extends BaseActivity implements MainIF, DrawerLayout.D
 
     @Override
     public void getAdvertMainSuccess(int code, String result) {
-        if (code==200){
-            advertInfoList=JSON.parseArray(result,AdvertInfo.class);
-            initImageBaner(advertInfoList);
+        try {
+            if (code == 200) {
+                advertInfoList = JSON.parseArray(result, AdvertInfo.class);
+                if (advertInfoList != null && advertInfoList.size() > 0) {
+                    initImageBaner(advertInfoList);
+                }
+            }
+        } catch (Exception e) {
+            PgyCrashManager.reportCaughtException(this, e);
         }
+
     }
 
     @Override
@@ -573,19 +608,24 @@ public class MainActivity extends BaseActivity implements MainIF, DrawerLayout.D
 
     @Override
     public void LoginSucess(int code, String result) {
-        if (loadingDialog!=null&&loadingDialog.isShowing()){
-            loadingDialog.dismiss();
+        try {
+            if (loadingDialog != null && loadingDialog.isShowing()) {
+                loadingDialog.dismiss();
+            }
+            if (code == 200) {
+                drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+                shopInfoPresenter.getShopInfo();
+                BaseApplication.getInstansApp().setMypswsds(BaseApplication.getInstansApp().getUserPwd());
+            }
+        } catch (Exception e) {
+            PgyCrashManager.reportCaughtException(this, e);
         }
-        if (code == 200) {
-            drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
-            shopInfoPresenter.getShopInfo();
-            BaseApplication.getInstansApp().setMypswsds(BaseApplication.getInstansApp().getUserPwd());
-        }
+
     }
 
     @Override
     public void LoginFailed(int code, String result) {
-        if (loadingDialog!=null&&loadingDialog.isShowing()){
+        if (loadingDialog != null && loadingDialog.isShowing()) {
             loadingDialog.dismiss();
         }
     }

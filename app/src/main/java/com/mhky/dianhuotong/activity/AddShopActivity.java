@@ -1,6 +1,7 @@
 package com.mhky.dianhuotong.activity;
 
 import android.Manifest;
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -66,13 +67,19 @@ public class AddShopActivity extends BaseActivity implements AddShopIF, GetLocat
     private AddShopNewAdapter addShopNewAdapter;
     private List<ShopBaseInfo> shopBaseInfoListNew;
     private String loacation;
+    private Context mContext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_shop);
+        mContext=this;
         ButterKnife.bind(this);
-        inIt();
+        try {
+            inIt();
+        }catch (Exception e){
+            PgyCrashManager.reportCaughtException(mContext,e);
+        }
     }
 
     @Override
@@ -133,11 +140,12 @@ public class AddShopActivity extends BaseActivity implements AddShopIF, GetLocat
 
     @OnClick(R.id.addshop_view_more)
     void goViewShop() {
-        if ( showMoreBundle!=null){
-            BaseTool.goActivityWithData(this,SelelctAdressActivity.class, showMoreBundle);
-        }else {
-            ToastUtil.makeText(this, "定位中...", Toast.LENGTH_SHORT).show();
-        }
+        ToastUtil.makeText(mContext, "暂未开通店员加入店铺哦~", Toast.LENGTH_SHORT).show();
+//        if ( showMoreBundle!=null){
+//            BaseTool.goActivityWithData(this,SelelctAdressActivity.class, showMoreBundle);
+//        }else {
+//            ToastUtil.makeText(this, "定位中...", Toast.LENGTH_SHORT).show();
+//        }
     }
     @Override
     public void getShopInfoSuccess(int code, String result) {
@@ -158,10 +166,11 @@ public class AddShopActivity extends BaseActivity implements AddShopIF, GetLocat
                     addShopNewAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
                         @Override
                         public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                            Bundle bundle = new Bundle();
-                            bundle.putSerializable("shop", shopBaseInfoListNew.get(position));
-                            bundle.putInt("state",0);
-                            BaseTool.goActivityWithData(AddShopActivity.this, AddShop3Activity.class, bundle);
+                            ToastUtil.makeText(mContext, "暂未开通店员加入店铺哦~", Toast.LENGTH_SHORT).show();
+//                            Bundle bundle = new Bundle();
+//                            bundle.putSerializable("shop", shopBaseInfoListNew.get(position));
+//                            bundle.putInt("state",0);
+//                            BaseTool.goActivityWithData(AddShopActivity.this, AddShop3Activity.class, bundle);
                         }
                     });
                     recyclerView.setAdapter(addShopNewAdapter);

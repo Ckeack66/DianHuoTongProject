@@ -189,14 +189,14 @@ public class MyselectFragment1 extends Fragment {
                                     case "ORDERED":
                                         //ToastUtil.makeText(getActivity(), "待付款" + position, Toast.LENGTH_SHORT).show();
                                         try {
-                                            Bundle bundle = new Bundle();
-                                            bundle.putString("order",orderInfoList.get(position).getOrderBottomInfo().getContentBean() .getId());
+                                            Bundle bundle2 = new Bundle();
+                                            bundle2.putString("order",orderInfoList.get(position).getOrderBottomInfo().getContentBean() .getId());
                                             double a = orderInfoList.get(position).getOrderBottomInfo().getContentBean().getPayment();
-                                            bundle.putString("money", String.valueOf(a / 100));
-                                            bundle.putInt("state",1);
+                                            bundle2.putString("money", String.valueOf(a / 100));
+                                            bundle2.putInt("state",1);
                                             Intent intent = new Intent();
                                             intent.setClass(getActivity(), BalanceActivity.class);
-                                            intent.putExtras(bundle);
+                                            intent.putExtras(bundle2);
                                             startActivityForResult(intent, 10001);
                                         }catch (Exception e){
                                             PgyCrashManager.reportCaughtException(getActivity(),e);

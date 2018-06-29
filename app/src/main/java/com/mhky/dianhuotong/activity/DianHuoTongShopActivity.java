@@ -76,6 +76,8 @@ public class DianHuoTongShopActivity extends BaseActivity implements OnBannerLis
     TextView textViewMM;
     @BindView(R.id.shop_ss)
     TextView textViewSS;
+    @BindView(R.id.shop_bot)
+    TextView textViewBot;
     private Context mContext;
     private ShopMiaoShaAdapter shopMiaoShaAdapter;
     private static final String TAG = "DianHuoTongShopActivity";
@@ -100,7 +102,12 @@ public class DianHuoTongShopActivity extends BaseActivity implements OnBannerLis
         setContentView(R.layout.activity_dian_huo_tong_shop);
         ButterKnife.bind(this);
         mContext = this;
-        inIt();
+        try {
+            inIt();
+        }catch (Exception e){
+            PgyCrashManager.reportCaughtException(this,e);
+        }
+
     }
 
     @Override
@@ -139,7 +146,7 @@ public class DianHuoTongShopActivity extends BaseActivity implements OnBannerLis
         advertMainPresenter = new AdvertMainPresenter(this);
         lastMinutePresenter = new LastMinutePresenter().setLastMinuteIF(this);
         HttpParams httpParams1 = new HttpParams();
-        lastMinutePresenter.getLastMinute(httpParams1);
+        lastMinutePresenter.getLastMinute(httpParams1,this);
         advertMainPresenter.getAdvertShopMain();
         shopInfoPresenter = new ShopInfoPresenter();
         dianHuoTongShopTitleBar.setActivity(this);
@@ -191,17 +198,19 @@ public class DianHuoTongShopActivity extends BaseActivity implements OnBannerLis
     //初始化轮播图
     private void initImageBaner(List<?> list) {
         try {
-            bgaBanner.setData(list, new ArrayList<String>());
-            bgaBanner.setAdapter(new BGABanner.Adapter() {
-                @Override
-                public void fillBannerItem(BGABanner banner, View itemView, @Nullable Object model, int position) {
-                    AdvertInfo advertInfo = (AdvertInfo) model;
-                    Uri uri = Uri.parse(advertInfo.getImage());
-                    Picasso.get().load(uri).into((ImageView) itemView);
-                }
-            });
+            if (list!=null&&list.size()>0){
+                bgaBanner.setData(list, new ArrayList<String>());
+                bgaBanner.setAdapter(new BGABanner.Adapter() {
+                    @Override
+                    public void fillBannerItem(BGABanner banner, View itemView, @Nullable Object model, int position) {
+                        AdvertInfo advertInfo = (AdvertInfo) model;
+                        Uri uri = Uri.parse(advertInfo.getImage());
+                        Picasso.get().load(uri).into((ImageView) itemView);
+                    }
+                });
 
-            bgaBanner.setAutoPlayAble(true);
+                bgaBanner.setAutoPlayAble(true);
+            }
         } catch (Exception e) {
             PgyCrashManager.reportCaughtException(this, e);
         }
@@ -233,7 +242,10 @@ public class DianHuoTongShopActivity extends BaseActivity implements OnBannerLis
     public void getAdvertMainSuccess(int code, String result) {
         if (code == 200) {
             advertInfoList = JSON.parseArray(result, AdvertInfo.class);
-            initImageBaner(advertInfoList);
+            if (advertInfoList!=null&&advertInfoList.size()>0){
+                initImageBaner(advertInfoList);
+            }
+
         }
     }
 
@@ -247,42 +259,48 @@ public class DianHuoTongShopActivity extends BaseActivity implements OnBannerLis
         try {
             if (code == 200) {
                 recommendBean = JSON.parseObject(result, RecommendBean.class);
-                if (recommendBean.getContent().size() < 6) {
-                    recommendGoodsAdapter = new RecommendGoodsAdapter(mContext, recommendBean.getContent());
+                if (recommendBean != null) {
+                    if (recommendBean.getContent().size() < 6) {
+                        recommendGoodsAdapter = new RecommendGoodsAdapter(mContext, recommendBean.getContent());
+                    } else {
+                        List<RecommendBean.ContentBean> contentBeanList = recommendBean.getContent().subList(0, 6);
+                        recommendGoodsAdapter = new RecommendGoodsAdapter(mContext, contentBeanList);
+                    }
+                    recommendGoodsAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                            try {
+                                Bundle bundle = new Bundle();
+                                bundle.putSerializable("id", recommendBean.getContent().get(position).getId() + "");
+                                BaseTool.goActivityWithData(mContext, GoodsActivity.class, bundle);
+                            } catch (Exception e) {
+                                PgyCrashManager.reportCaughtException(mContext, e);
+                            }
+
+                            //ToastUtil.makeText(mContext, "点击了父控件", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                    recommendGoodsAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+                        @Override
+                        public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                            try {
+                                BaseTool.logPrint(TAG, "onItemChildClick: ---" + position);
+                                goodsPrecenter.getGoodsInfo(String.valueOf(recommendBean.getContent().get(position).getId()));
+                            } catch (Exception e) {
+                                PgyCrashManager.reportCaughtException(mContext, e);
+                            }
+
+
+                        }
+                    });
+                    recyclerViewRecommend.setAdapter(recommendGoodsAdapter);
+                    recyclerViewRecommend.setHasFixedSize(true);
+                    recyclerViewRecommend.setNestedScrollingEnabled(false);
+                    textViewBot.setVisibility(View.VISIBLE);
                 } else {
-                    List<RecommendBean.ContentBean> contentBeanList = recommendBean.getContent().subList(0, 6);
-                    recommendGoodsAdapter = new RecommendGoodsAdapter(mContext, contentBeanList);
+                    textViewBot.setVisibility(View.GONE);
                 }
-                recommendGoodsAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                        try {
-                            Bundle bundle = new Bundle();
-                            bundle.putSerializable("id", recommendBean.getContent().get(position).getId() + "");
-                            BaseTool.goActivityWithData(mContext, GoodsActivity.class, bundle);
-                        } catch (Exception e) {
-                            PgyCrashManager.reportCaughtException(mContext, e);
-                        }
 
-                        //ToastUtil.makeText(mContext, "点击了父控件", Toast.LENGTH_SHORT).show();
-                    }
-                });
-                recommendGoodsAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
-                    @Override
-                    public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-                        try {
-                            BaseTool.logPrint(TAG, "onItemChildClick: ---" + position);
-                            goodsPrecenter.getGoodsInfo(String.valueOf(recommendBean.getContent().get(position).getId()));
-                        } catch (Exception e) {
-                            PgyCrashManager.reportCaughtException(mContext, e);
-                        }
-
-
-                    }
-                });
-                recyclerViewRecommend.setAdapter(recommendGoodsAdapter);
-                recyclerViewRecommend.setHasFixedSize(true);
-                recyclerViewRecommend.setNestedScrollingEnabled(false);
             }
         } catch (Exception e) {
             PgyCrashManager.reportCaughtException(this, e);

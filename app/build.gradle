@@ -13,10 +13,10 @@ android {
         applicationId "com.mhky.dianhuotong"
         minSdkVersion 18
         targetSdkVersion 26
-        versionName '1.0.5'
+        versionName '1.1.1'
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         signingConfig signingConfigs.config
-        versionCode 5
+        versionCode 11
     }
     buildTypes {
         release {

@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -19,6 +20,7 @@ import com.mhky.dianhuotong.R;
 import com.mhky.dianhuotong.base.BaseApplication;
 import com.mhky.dianhuotong.base.BaseTool;
 import com.mhky.dianhuotong.base.view.BaseActivity;
+import com.mhky.dianhuotong.custom.AlertDialog.LoadingDialog;
 import com.mhky.dianhuotong.custom.viewgroup.DianHuoTongBaseTitleBar;
 import com.mhky.dianhuotong.dingdan.fragment.MyselectFragment1;
 import com.mhky.dianhuotong.dingdan.fragment.MyselectFragment2;
@@ -30,9 +32,12 @@ import com.mhky.dianhuotong.shop.precenter.OrderPrecenter;
 import com.mhky.dianhuotong.shop.receiver.BanlanceReciver;
 import com.mhky.dianhuotong.shop.receiver.BanlanceReciverIF;
 import com.mhky.dianhuotong.shop.shopif.OrderIF;
+import com.pgyersdk.crash.PgyCrashManager;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -84,6 +89,7 @@ public class MyselectedActivity extends BaseActivity implements RadioGroup.OnChe
     private Context mContext;
     private boolean isFirst = false;
     private BanlanceReciver banlanceReciver;
+    private LoadingDialog loadingDialog;
     private static final String TAG = "MyselectedActivity";
 
     @Override
@@ -92,7 +98,12 @@ public class MyselectedActivity extends BaseActivity implements RadioGroup.OnChe
         setContentView(R.layout.activity_myselected);
         ButterKnife.bind(this);
         mContext = this;
-        inIt();
+        try {
+            inIt();
+        } catch (Exception e) {
+            PgyCrashManager.reportCaughtException(this, e);
+        }
+
     }
 
     @Override
@@ -107,13 +118,15 @@ public class MyselectedActivity extends BaseActivity implements RadioGroup.OnChe
     }
 
     private void inIt() {
+        loadingDialog = new LoadingDialog(this);
         banlanceReciver = new BanlanceReciver().setBanlanceReciverIF(this);
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(BaseApplication.wxAction);
         registerReceiver(banlanceReciver, intentFilter);
         orderPrecenter = new OrderPrecenter(this);
         if (BaseApplication.getInstansApp().getPersonInfo().getShopId() != null) {
-            orderPrecenter.getOrder(BaseApplication.getInstansApp().getPersonInfo().getShopId().toString());
+            loadingDialog.show();
+            orderPrecenter.getOrder(BaseApplication.getInstansApp().getPersonInfo().getId().toString());
         }
         dianHuoTongBaseTitleBar.setLeftImage(R.drawable.icon_back);
         dianHuoTongBaseTitleBar.setCenterTextView(getString(R.string.myselect_title));
@@ -208,42 +221,60 @@ public class MyselectedActivity extends BaseActivity implements RadioGroup.OnChe
 
     @Override
     public void getOrderSucess(int code, String result) {
-        if (code == 200) {
-            orderBaseInfo = JSON.parseObject(result, OrderBaseInfo.class);
-            if (!isFirst) {
-                myselectFragment1 = MyselectFragment1.newInstance("", "", orderBaseInfo);
-                myselectFragment2 = MyselectFragment2.newInstance("", "", orderBaseInfo);
-                myselectFragment3 = MyselectFragment3.newInstance("", "", orderBaseInfo);
-                myselectFragment4 = MyselectFragment4.newInstance("", "", orderBaseInfo);
-                fragmentManager = getSupportFragmentManager();
-                fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.add(R.id.myselected_fragment, myselectFragment1);
-                fragmentTransaction.add(R.id.myselected_fragment, myselectFragment2);
-                fragmentTransaction.add(R.id.myselected_fragment, myselectFragment3);
-                fragmentTransaction.add(R.id.myselected_fragment, myselectFragment4);
-                showFragment(myselectFragment1);
-                fragmentTransaction.commit();
-                isFirst = true;
-            } else {
-                myselectFragment1.upData(orderBaseInfo);
-                myselectFragment2.upData(orderBaseInfo);
-                myselectFragment3.upData(orderBaseInfo);
-                myselectFragment4.upData(orderBaseInfo);
+        try {
+            if (code == 200) {
+                orderBaseInfo = JSON.parseObject(result, OrderBaseInfo.class);
+                if (!isFirst) {
+                    myselectFragment1 = MyselectFragment1.newInstance("", "", orderBaseInfo);
+                    myselectFragment2 = MyselectFragment2.newInstance("", "", orderBaseInfo);
+                    myselectFragment3 = MyselectFragment3.newInstance("", "", orderBaseInfo);
+                    myselectFragment4 = MyselectFragment4.newInstance("", "", orderBaseInfo);
+                    fragmentManager = getSupportFragmentManager();
+                    fragmentTransaction = fragmentManager.beginTransaction();
+                    fragmentTransaction.add(R.id.myselected_fragment, myselectFragment1);
+                    fragmentTransaction.add(R.id.myselected_fragment, myselectFragment2);
+                    fragmentTransaction.add(R.id.myselected_fragment, myselectFragment3);
+                    fragmentTransaction.add(R.id.myselected_fragment, myselectFragment4);
+                    showFragment(myselectFragment1);
+                    fragmentTransaction.commit();
+                    isFirst = true;
+                } else {
+                    myselectFragment1.upData(orderBaseInfo);
+                    myselectFragment2.upData(orderBaseInfo);
+                    myselectFragment3.upData(orderBaseInfo);
+                    myselectFragment4.upData(orderBaseInfo);
+                }
+            }
+        }catch (Exception e){
+            PgyCrashManager.reportCaughtException(this,e);
+        }finally {
+            if (loadingDialog!=null&&loadingDialog.isShowing()){
+                loadingDialog.dismiss();
             }
         }
     }
 
     @Override
     public void getOrderFaild(int code, String result) {
-
+        if (loadingDialog!=null&&loadingDialog.isShowing()){
+            loadingDialog.dismiss();
+        }
     }
 
     @Override
     public void doBanlance(int code) {
-        if (code == 0) {
-            if (BaseApplication.getInstansApp().getPersonInfo().getShopId() != null) {
-                orderPrecenter.getOrder(BaseApplication.getInstansApp().getPersonInfo().getShopId().toString());
-            }
+        if (code!=-2){
+            loadingDialog.show();
+            TimerTask timerTask = new TimerTask() {
+                @Override
+                public void run() {
+                    if (BaseApplication.getInstansApp().getPersonInfo().getShopId() != null) {
+                        orderPrecenter.getOrder(BaseApplication.getInstansApp().getPersonInfo().getId().toString());
+                    }
+                }
+            };
+            Timer timer = new Timer();
+            timer.schedule(timerTask, 3000);
         }
     }
 }

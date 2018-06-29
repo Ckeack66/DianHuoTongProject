@@ -25,6 +25,7 @@ public class LoadingDialog extends Dialog {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.dialog_loading);
         setCanceledOnTouchOutside(false);
+        setCancelable(false);
         ivProgress =  findViewById(R.id.ivProgress);
     }
 

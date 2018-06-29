@@ -19,6 +19,7 @@ import com.mhky.dianhuotong.shop.bean.GoodsBaseInfo;
 import com.mhky.dianhuotong.shop.custom.DianHuoTongShopTitleBar;
 import com.mhky.dianhuotong.shop.precenter.AllGoosPrecenter;
 import com.mhky.dianhuotong.shop.shopif.AllGoodsIF;
+import com.pgyersdk.crash.PgyCrashManager;
 
 import java.util.List;
 
@@ -48,7 +49,11 @@ public class AllGoodsActivity extends BaseActivity implements AdapterView.OnItem
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_all_goods);
         ButterKnife.bind(this);
-        init();
+        try {
+            init();
+        } catch (Exception e) {
+            PgyCrashManager.reportCaughtException(this, e);
+        }
     }
 
     private void init() {
@@ -68,23 +73,30 @@ public class AllGoodsActivity extends BaseActivity implements AdapterView.OnItem
         //BaseTool.logPrint(TAG, "点击了onItemClick: -------" + position);
         switch (parent.getId()) {
             case R.id.all_goods_listview1:
-                //ToastUtil.makeText(this, "点击了" + position, Toast.LENGTH_SHORT).show();
-                Itype = position;
-                all_goods_listview1.setIndexColor(position);
-                if (allGoodsBaseInfos.get(position) != null) {
-                    all_goods_listview2.updateData(allGoodsBaseInfos.get(position).getChildren());
-                } else {
-                    all_goods_listview2.updateData(null);
+                try {
+                    Itype = position;
+                    all_goods_listview1.setIndexColor(position);
+                    if (allGoodsBaseInfos.get(position) != null) {
+                        all_goods_listview2.updateData(allGoodsBaseInfos.get(position).getChildren());
+                    } else {
+                        all_goods_listview2.updateData(null);
+                    }
+                    listView2.setSelection(0);
+                } catch (Exception e) {
+                    PgyCrashManager.reportCaughtException(this, e);
                 }
-                listView2.setSelection(0);
                 break;
             case R.id.all_goods_listview2:
-                //ToastUtil.makeText(this, "点击了第二个listview" + position, Toast.LENGTH_SHORT).show();
-                IItype = position;
-                Bundle bundle = new Bundle();
-                bundle.putString("type", II_TYPE);
-                bundle.putSerializable("data", allGoodsBaseInfos.get(Itype).getChildren().get(IItype));
-                BaseTool.goActivityWithData(this, SearchGoodsActivity.class, bundle);
+                try {
+                    IItype = position;
+                    Bundle bundle = new Bundle();
+                    bundle.putString("type", II_TYPE);
+                    bundle.putSerializable("data", allGoodsBaseInfos.get(Itype).getChildren().get(IItype));
+                    bundle.putString("sort_name",allGoodsBaseInfos.get(Itype).getChildren().get(IItype).getName());
+                    BaseTool.goActivityWithData(this, SearchGoodsActivity.class, bundle);
+                } catch (Exception e) {
+                    PgyCrashManager.reportCaughtException(this, e);
+                }
                 break;
             default:
                 BaseTool.logPrint(TAG, "onItemClick: " + parent);
@@ -93,23 +105,33 @@ public class AllGoodsActivity extends BaseActivity implements AdapterView.OnItem
 
     @Override
     public void getAllGoodsInfoSuccess(int code, String result) {
-        if (code == 200) {
-            allGoodsBaseInfos = JSON.parseArray(result, GoodsBaseInfo.class);
-            BaseApplication.getInstansApp().setAllGoodsBaseInfos(allGoodsBaseInfos);
-            setListData(allGoodsBaseInfos);
+        try {
+            if (code == 200) {
+                allGoodsBaseInfos = JSON.parseArray(result, GoodsBaseInfo.class);
+                BaseApplication.getInstansApp().setAllGoodsBaseInfos(allGoodsBaseInfos);
+                setListData(allGoodsBaseInfos);
+            }
+        } catch (Exception e) {
+            PgyCrashManager.reportCaughtException(this, e);
         }
+
     }
 
     private void setListData(List<GoodsBaseInfo> goodsBaseInfoList) {
-        if (goodsBaseInfoList != null) {
-            all_goods_listview1 = new AllGoodsListview1Adapter(goodsBaseInfoList, this);
-            listView1.setAdapter(all_goods_listview1);
-            listView1.setOnItemClickListener(this);
-            all_goods_listview2 = new AllGoodsListview2Adapter(goodsBaseInfoList.get(0).getChildren(), this);
-            all_goods_listview2.setOnItemGridviewClickListener(this);
-            listView2.setAdapter(all_goods_listview2);
-            listView2.setOnItemClickListener(this);
+        try {
+            if (goodsBaseInfoList != null) {
+                all_goods_listview1 = new AllGoodsListview1Adapter(goodsBaseInfoList, this);
+                listView1.setAdapter(all_goods_listview1);
+                listView1.setOnItemClickListener(this);
+                all_goods_listview2 = new AllGoodsListview2Adapter(goodsBaseInfoList.get(0).getChildren(), this);
+                all_goods_listview2.setOnItemGridviewClickListener(this);
+                listView2.setAdapter(all_goods_listview2);
+                listView2.setOnItemClickListener(this);
+            }
+        } catch (Exception e) {
+            PgyCrashManager.reportCaughtException(this, e);
         }
+
     }
 
     @Override
@@ -119,12 +141,18 @@ public class AllGoodsActivity extends BaseActivity implements AdapterView.OnItem
 
     @Override
     public void onclickItem(int positionParent, int positionChild) {
-        BaseTool.logPrint(TAG, "onclickItem: ----" + positionParent + "------" + positionChild);
-        IItype = positionParent;
-        IIItype = positionChild;
-        Bundle bundle = new Bundle();
-        bundle.putString("type", III_TYPE);
-        bundle.putString("data", allGoodsBaseInfos.get(Itype).getChildren().get(IItype).getChildren().get(IIItype).getId() + "");
-        BaseTool.goActivityWithData(this, SearchGoodsActivity.class, bundle);
+        try {
+            BaseTool.logPrint(TAG, "onclickItem: ----" + positionParent + "------" + positionChild);
+            IItype = positionParent;
+            IIItype = positionChild;
+            Bundle bundle = new Bundle();
+            bundle.putString("type", III_TYPE);
+            bundle.putString("data", allGoodsBaseInfos.get(Itype).getChildren().get(IItype).getChildren().get(IIItype).getId() + "");
+            bundle.putString("sort_name",allGoodsBaseInfos.get(Itype).getChildren().get(IItype).getChildren().get(IIItype).getName());
+            BaseTool.goActivityWithData(this, SearchGoodsActivity.class, bundle);
+        } catch (Exception e) {
+            PgyCrashManager.reportCaughtException(this, e);
+        }
+
     }
 }

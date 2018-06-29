@@ -34,13 +34,11 @@ import com.mhky.dianhuotong.shop.receiver.BanlanceReciverIF;
 import com.mhky.dianhuotong.shop.shopif.BanlanceIF;
 import com.mhky.dianhuotong.shop.shopif.ShopAdressIF;
 import com.mhky.dianhuotong.wxapi.Constants;
-import com.mhky.dianhuotong.wxapi.MD5;
 import com.pgyersdk.crash.PgyCrashManager;
 import com.tencent.mm.opensdk.modelpay.PayReq;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -148,7 +146,12 @@ public class BalanceActivity extends BaseActivity implements BanlanceIF, ShopAdr
         setContentView(R.layout.activity_balance);
         ButterKnife.bind(this);
         msgApi.registerApp(APP_ID);
-        init();
+        try {
+            init();
+        }catch (Exception e){
+            PgyCrashManager.reportCaughtException(this,e);
+        }
+
 
     }
 
@@ -341,22 +344,6 @@ public class BalanceActivity extends BaseActivity implements BanlanceIF, ShopAdr
     @Override
     public void getShopAdressFailed(int code, String result) {
 
-    }
-
-    public String getSign(Map<String, String> map) {
-        String[] keys = map.keySet().toArray(new String[0]);
-        Arrays.sort(keys);
-        StringBuffer reqStr = new StringBuffer();
-        for (String key : keys) {
-            String v = map.get(key);
-            if (v != null && !v.equals("")) {
-                reqStr.append(key).append("=").append(v).append("&");
-            }
-        }
-        reqStr.append("key").append("=").append(Constants.APP_SEARCRIT);
-
-        //MD5加密
-        return MD5.md5(reqStr.toString()).toUpperCase();
     }
 
     @Override

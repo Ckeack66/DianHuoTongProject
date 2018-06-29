@@ -108,9 +108,12 @@ public class InvoiceFragment2 extends Fragment implements BillIF {
             ToastUtil.makeText(getActivity(), "请选择发票类型", Toast.LENGTH_SHORT).show();
             return;
         } else if (TextUtils.isEmpty(editTextBillNumber.getText().toString())) {
-            ToastUtil.makeText(getActivity(), "请输入税号", Toast.LENGTH_SHORT).show();
+            ToastUtil.makeText(getActivity(), "请输入18位税号", Toast.LENGTH_SHORT).show();
             return;
-        } else if (TextUtils.isEmpty(editTextBillBank.getText().toString())) {
+        }  else if (editTextBillNumber.getText().toString().length()!=18) {
+            ToastUtil.makeText(getActivity(), "税号位数不正确", Toast.LENGTH_SHORT).show();
+            return;
+        }else if (TextUtils.isEmpty(editTextBillBank.getText().toString())) {
             ToastUtil.makeText(getActivity(), "请输入开户银行", Toast.LENGTH_SHORT).show();
             return;
         } else if (TextUtils.isEmpty(editTextBillBankNumber.getText().toString())) {

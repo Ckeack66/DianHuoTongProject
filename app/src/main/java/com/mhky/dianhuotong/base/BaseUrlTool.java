@@ -248,7 +248,7 @@ public class BaseUrlTool {
     /**
      * 订单服务
      */
-    public static final String GET_ORDERINFO = HOST_BANLANCE_URL + "/order?shopId=";
+    public static final String GET_ORDERINFO = HOST_BANLANCE_URL + "/order?buyerId=";
     /**
      * 获取支付宝订单信息
      */

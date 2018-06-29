@@ -6,6 +6,7 @@ import android.view.View;
 
 import com.mhky.dianhuotong.R;
 import com.mhky.dianhuotong.custom.viewgroup.DianHuoTongBaseTitleBar;
+import com.pgyersdk.crash.PgyCrashManager;
 import com.tencent.smtt.sdk.WebSettings;
 import com.tencent.smtt.sdk.WebView;
 import com.tencent.smtt.sdk.WebViewClient;
@@ -24,7 +25,12 @@ public class DocumentActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_document);
         ButterKnife.bind(this);
-        init();
+        try {
+            init();
+        }catch (Exception e){
+            PgyCrashManager.reportCaughtException(this,e);
+        }
+
     }
 
     private void init() {

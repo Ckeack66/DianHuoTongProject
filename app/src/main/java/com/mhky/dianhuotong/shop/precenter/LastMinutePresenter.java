@@ -1,5 +1,7 @@
 package com.mhky.dianhuotong.shop.precenter;
 
+import android.content.Context;
+
 import com.alibaba.fastjson.JSON;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.Callback;
@@ -11,6 +13,9 @@ import com.mhky.dianhuotong.base.BaseTool;
 import com.mhky.dianhuotong.base.BaseUrlTool;
 import com.mhky.dianhuotong.shop.bean.LastMinuteInfo;
 import com.mhky.dianhuotong.shop.shopif.LastMinuteIF;
+import com.pgyersdk.crash.PgyCrashManager;
+
+import java.util.List;
 
 public class LastMinutePresenter {
 
@@ -22,7 +27,7 @@ public class LastMinutePresenter {
     private LastMinuteIF lastMinuteIF;
     private static final String TAG = "LastMinutePresenter";
 
-    public void getLastMinute(HttpParams httpParams) {
+    public void getLastMinute(HttpParams httpParams, final Context context) {
         httpParams.put("promotionTypes", "XIAN_SHI_XIAN_LIANG_ZHE_KOU");
         httpParams.put("status", true);
         OkGo.<String>get(BaseUrlTool.GET_LAST_MINUTE).params(httpParams).execute(new Callback<String>() {
@@ -35,11 +40,11 @@ public class LastMinutePresenter {
             public void onSuccess(Response<String> response) {
                 try {
                     if (response.code() == 200) {
-                        LastMinuteInfo lastMinuteInfo = JSON.parseObject(BaseTool.getResponsBody(response), LastMinuteInfo.class);
+                        List<LastMinuteInfo> lastMinuteInfoList = JSON.parseArray(BaseTool.getResponsBody(response), LastMinuteInfo.class);
                         StringBuilder stringBuilder = new StringBuilder();
-                        for (int a = 0; a < lastMinuteInfo.getContent().size(); a++) {
-                            for (int b = 0; b < lastMinuteInfo.getContent().get(a).getGoodsIds().size(); b++) {
-                                stringBuilder.append(lastMinuteInfo.getContent().get(a).getGoodsIds().get(b));
+                        for (int a = 0; a < lastMinuteInfoList.size(); a++) {
+                            for (int b = 0; b < lastMinuteInfoList.get(a).getGoodsIds().size(); b++) {
+                                stringBuilder.append(lastMinuteInfoList.get(a).getGoodsIds().get(b));
                                 stringBuilder.append(",");
                             }
                         }
@@ -49,11 +54,9 @@ public class LastMinutePresenter {
                             httpParams.put("goodsIds", s);
                             searchGoods(httpParams);
                         }
-
-
                     }
                 } catch (Exception e) {
-
+                    PgyCrashManager.reportCaughtException(context, e);
                 }
 
             }

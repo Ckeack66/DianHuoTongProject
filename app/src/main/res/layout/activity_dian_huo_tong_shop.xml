@@ -292,12 +292,14 @@
                     android:divider="@null" />
             </LinearLayout>
             <TextView
+                android:id="@+id/shop_bot"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/x50"
                 android:text="已经到底部啦~"
                 android:gravity="center"
                 android:textColor="@color/colorBFBFBF"
-                android:textSize="@dimen/t12"/>
+                android:textSize="@dimen/t12"
+                android:visibility="gone"/>
 
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>

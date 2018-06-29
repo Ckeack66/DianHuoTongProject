@@ -212,7 +212,7 @@ public class CartPopupwindow extends PopupWindow implements View.OnClickListener
                     if (goodsNumber > goodsSkuInfoList.get(selectNUmber).getBatchNums()) {
                         textViewPrice.setText("￥" + goodsSkuInfoList.get(selectNUmber).getWholesalePrice() / 100);
                         textViewTips.setVisibility(View.VISIBLE);
-                        textViewTips.setText("当前已超过优惠数量" + goodsSkuInfoList.get(selectNUmber).getBatchNums() + ",将以原价" + "￥" + goodsSkuInfoList.get(selectNUmber).getWholesalePrice() / 100 + "进行购买");
+                        textViewTips.setText("当前已达到批发数量" + goodsSkuInfoList.get(selectNUmber).getBatchNums() + ",将以批发价" + "￥" + goodsSkuInfoList.get(selectNUmber).getWholesalePrice() / 100 + "进行结算");
                     } else {
                         textViewPrice.setText("￥" + goodsSkuInfoList.get(selectNUmber).getRetailPrice() / 100);
                     }

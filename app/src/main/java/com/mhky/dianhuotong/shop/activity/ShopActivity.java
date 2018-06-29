@@ -23,12 +23,13 @@ import com.mhky.dianhuotong.shop.precenter.ShopPresenter;
 import com.mhky.dianhuotong.shop.precenter.StarShopPrecenter;
 import com.mhky.dianhuotong.shop.shopif.ShopIF;
 import com.mhky.dianhuotong.shop.shopif.StarShopIF;
+import com.pgyersdk.crash.PgyCrashManager;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class ShopActivity extends BaseActivity implements ShopIF {
+public class ShopActivity extends BaseActivity{
     @BindView(R.id.shop_title)
     DianHuoTongShopTitleBar dianHuoTongShopTitleBar;
     @BindView(R.id.shop_main_tab1)
@@ -54,7 +55,6 @@ public class ShopActivity extends BaseActivity implements ShopIF {
     private ShopAllGoodsFragment shopAllGoodsFragment;
     private ShopMainFragment shopMainFragment;
     private ShopTransferFragment shopTransferFragment;
-    private ShopPresenter shopPresenter;
     private String shopId;
 
     private static final String TAG = "ShopActivity";
@@ -64,7 +64,12 @@ public class ShopActivity extends BaseActivity implements ShopIF {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shop);
         ButterKnife.bind(this);
-        inIt();
+        try {
+            inIt();
+        }catch (Exception e){
+            PgyCrashManager.reportCaughtException(this,e);
+        }
+
     }
 
     private void inIt() {
@@ -74,9 +79,8 @@ public class ShopActivity extends BaseActivity implements ShopIF {
         }
         dianHuoTongShopTitleBar.setActivity(this);
         relativeLayoutTab1.setClickable(false);
-        shopPresenter = new ShopPresenter(this);
-        shopAllGoodsFragment = ShopAllGoodsFragment.newInstance("", "");
-        shopMainFragment = ShopMainFragment.newInstance(shopId, "");
+        shopAllGoodsFragment = ShopAllGoodsFragment.newInstance(shopId, "",this);
+        shopMainFragment = ShopMainFragment.newInstance(shopId, "",this);
         shopTransferFragment = ShopTransferFragment.newInstance(shopId, "");
         fragmentManager = getSupportFragmentManager();
         fragmentTransaction = fragmentManager.beginTransaction();
@@ -138,26 +142,6 @@ public class ShopActivity extends BaseActivity implements ShopIF {
             BaseTool.logPrint(TAG, "showFragment: 关闭第三个页面");
             fragmentManager.beginTransaction().hide(shopTransferFragment).show(fragment).commit();
         }
-
-    }
-
-    @Override
-    public void getShopInfoSuccess(int code, String result) {
-
-    }
-
-    @Override
-    public void getShopInfoFailed(int code, String result) {
-
-    }
-
-    @Override
-    public void getShopTypeSuccess(int code, String result) {
-
-    }
-
-    @Override
-    public void getShopTypeFailed(int code, String result) {
 
     }
 

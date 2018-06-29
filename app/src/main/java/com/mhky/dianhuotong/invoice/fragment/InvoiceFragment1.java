@@ -33,6 +33,7 @@ import com.mhky.dianhuotong.shop.precenter.BillPresenter;
 import com.mhky.dianhuotong.shop.precenter.ShopCredentialPresenter;
 import com.mhky.dianhuotong.shop.shopif.BillIF;
 import com.mhky.dianhuotong.shop.shopif.ShopCredentialIF;
+import com.pgyersdk.crash.PgyCrashManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -153,41 +154,50 @@ public class InvoiceFragment1 extends Fragment implements ShopCredentialIF, Cred
 
     @Override
     public void getShopCredentialSucess(int code, String result) {
-        if (code == 200) {
-            if (shopCredentialBaseInfoList != null) {
-                shopCredentialBaseInfoList.clear();
-            }
-            shopCredentialBaseInfoList = JSON.parseArray(result, ShopCredentialBaseInfo.class);
-            upDateShopCredentialList();
-            if (!isFirst) {
-                shopCredentialBaseInfoList.add(shopCredentialBaseInfo);
-                credentialRecycleView1Adapter = new CredentialRecycleView1Adapter(shopCredentialBaseInfoList, getActivity());
-                credentialRecycleView1Adapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
-                    @Override
-                    public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-                        if (shopCredentialBaseInfoList.get(position).getItemType() == 2) {
-                            if (credentialBaseDialog != null) {
-                                credentialBaseDialog.show();
-                            }
-                        } else if (shopCredentialBaseInfoList.get(position).getItemType() == 1) {
-                            Intent intent = new Intent(getActivity(), CredentialUploadActivity.class);
-                            Bundle bundle = new Bundle();
-                            bundle.putSerializable("credentialinfo", shopCredentialBaseInfoList.get(position));
-                            bundle.putString("state", "0");
-                            intent.putExtras(bundle);
-                            startActivityForResult(intent, 1002);
-                        }
-                    }
-                });
-                gridView.setAdapter(credentialRecycleView1Adapter);
-                isFirst = true;
-            } else {
-                shopCredentialBaseInfoList.add(shopCredentialBaseInfo);
-                credentialRecycleView1Adapter.setNewData(shopCredentialBaseInfoList);
-            }
-            CredentialBaseAdapter credentialBaseAdapter = new CredentialBaseAdapter(getActivity(), credentialBaseTypeInfoList);
-            credentialBaseDialog = new CredentialBaseDialog(getActivity(), this, credentialBaseAdapter, "请选择资质类型", "取消", "资质上传");
+        try {
+            if (code == 200) {
+                if (shopCredentialBaseInfoList != null) {
+                    shopCredentialBaseInfoList.clear();
+                }
+                shopCredentialBaseInfoList = JSON.parseArray(result, ShopCredentialBaseInfo.class);
+                upDateShopCredentialList();
+                if (!isFirst) {
+                    shopCredentialBaseInfoList.add(shopCredentialBaseInfo);
+                    credentialRecycleView1Adapter = new CredentialRecycleView1Adapter(shopCredentialBaseInfoList, getActivity());
+                    credentialRecycleView1Adapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+                        @Override
+                        public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                            if (shopCredentialBaseInfoList.get(position).getItemType() == 2) {
+                                if (credentialBaseDialog != null) {
+                                    credentialBaseDialog.show();
+                                }
+                            } else if (shopCredentialBaseInfoList.get(position).getItemType() == 1) {
+                                if ("营业执照".equals(shopCredentialBaseInfoList.get(position).getName())){
+                                    ToastUtil.makeText(getActivity(), "暂不支持修改营业执照~", Toast.LENGTH_SHORT).show();
+                                }else {
+                                    Intent intent = new Intent(getActivity(), CredentialUploadActivity.class);
+                                    Bundle bundle = new Bundle();
+                                    bundle.putSerializable("credentialinfo", shopCredentialBaseInfoList.get(position));
+                                    bundle.putString("state", "0");
+                                    intent.putExtras(bundle);
+                                    startActivityForResult(intent, 1002);
+                                }
 
+                            }
+                        }
+                    });
+                    gridView.setAdapter(credentialRecycleView1Adapter);
+                    isFirst = true;
+                } else {
+                    shopCredentialBaseInfoList.add(shopCredentialBaseInfo);
+                    credentialRecycleView1Adapter.setNewData(shopCredentialBaseInfoList);
+                }
+                CredentialBaseAdapter credentialBaseAdapter = new CredentialBaseAdapter(getActivity(), credentialBaseTypeInfoList);
+                credentialBaseDialog = new CredentialBaseDialog(getActivity(), this, credentialBaseAdapter, "请选择资质类型", "取消", "资质上传");
+
+            }
+        }catch (Exception e){
+            PgyCrashManager.reportCaughtException(getActivity(),e);
         }
 
     }

@@ -398,6 +398,7 @@
                 android:background="@color/colorF7F7F7" />
 
             <TextView
+                android:id="@+id/goods_base_transfer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/x10"
@@ -405,7 +406,7 @@
                 android:paddingBottom="@dimen/x10"
                 android:paddingStart="@dimen/x14"
                 android:paddingTop="@dimen/x10"
-                android:text="济南城区500起配，不足起配不参与优惠并补偿运费15元"
+                android:text="暂无配送信息！"
                 android:textColor="@color/color333333"
                 android:textSize="@dimen/t8" />
 

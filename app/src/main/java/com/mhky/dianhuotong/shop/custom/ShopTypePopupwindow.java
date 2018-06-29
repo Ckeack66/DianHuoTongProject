@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.mhky.dianhuotong.R;
+import com.mhky.dianhuotong.base.BaseTool;
 import com.mhky.dianhuotong.shop.adapter.Popupwindow3Adapter;
 import com.mhky.dianhuotong.shop.adapter.ShopTypePopupwindowAdapter;
 import com.mhky.dianhuotong.shop.bean.AllCompanyInfo;
@@ -57,7 +58,10 @@ public class ShopTypePopupwindow extends PopupWindow {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 if (onClickPopupwindow3ItemListener != null) {
+                    BaseTool.logPrint("商家分类--","回调");
                     onClickPopupwindow3ItemListener.onclickType(contentBeanList.get(position));
+                }else {
+                    BaseTool.logPrint("商家分类--","监听器为空");
                 }
                 List<ShopTypeInfo> data = (List<ShopTypeInfo>) adapter.getData();
                 for (int a = 0; a < data.size(); a++) {

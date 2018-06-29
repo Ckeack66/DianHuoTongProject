@@ -94,10 +94,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_marginStart="@dimen/x16"
-                android:text="使用期限：2016.12.12  ~  2017.10.01"
+                android:layout_marginStart="@dimen/x6"
+                android:text="使用期限：2016-12-12  00:00:00~  2017-10-01 00:00:00"
                 android:textColor="@color/color666666"
-                android:textSize="@dimen/t10" />
+                android:textSize="@dimen/t8" />
 
             <TextView
                 android:layout_width="wrap_content"

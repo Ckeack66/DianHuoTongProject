@@ -18,6 +18,7 @@ import com.joker.api.Permissions4M;
 import com.lzy.okgo.model.HttpParams;
 import com.mhky.dianhuotong.base.BaseActivityManager;
 import com.mhky.dianhuotong.base.BaseApplication;
+import com.mhky.dianhuotong.custom.AlertDialog.DianHuoTongBaseDialog;
 import com.mhky.dianhuotong.custom.AlertDialog.LoadingDialog;
 import com.mhky.dianhuotong.person.bean.PersonInfo;
 import com.mhky.dianhuotong.person.personif.PersonIF;
@@ -45,7 +46,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class PersonInfoUpdateActivity extends TakePhotoActivity implements DianHuoTongBottomMenuDialog.DianHuoTongBottomMenuDialogListener, UpdataPersonIF, PersonIF, View.OnTouchListener {
+public class PersonInfoUpdateActivity extends TakePhotoActivity implements DianHuoTongBottomMenuDialog.DianHuoTongBottomMenuDialogListener, DianHuoTongBaseDialog.BaseDialogListener, UpdataPersonIF, PersonIF, View.OnTouchListener {
     @BindView(R.id.person_info_update_title)
     DianHuoTongBaseTitleBar dianHuoTongBaseTitleBar;
     @BindView(R.id.person_info_update_go_add_shop)
@@ -67,8 +68,10 @@ public class PersonInfoUpdateActivity extends TakePhotoActivity implements DianH
     private LoadingDialog loadingDialog;
     private DianHuoTongBottomMenuDialog dianHuoTongBottomMenuDialog;
     private UpdataPersonInfoPersenter updataPersonInfoPersenter;
+    private DianHuoTongBaseDialog dianHuoTongBaseDialogAddShop;
     private static final String TAG = "PersonInfoUpdateActivit";
     private PersonInfoPrecenter personInfoPrecenter;
+    private String tag1 = "1";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -163,9 +166,14 @@ public class PersonInfoUpdateActivity extends TakePhotoActivity implements DianH
 
     @OnClick(R.id.person_info_update_go_add_shop)
     void goAddShop() {
-        if (BaseApplication.getInstansApp().getPersonInfo()!=null&&BaseApplication.getInstansApp().getPersonInfo().getType()!=null&&"1".equals(BaseApplication.getInstansApp().getPersonInfo().getType().toString())){
-            ToastUtil.makeText(this, "店长暂不支持修改店铺~", Toast.LENGTH_SHORT).show();
-        }else {
+        if (BaseApplication.getInstansApp().getPersonInfo() != null && BaseApplication.getInstansApp().getPersonInfo().getType() != null && "1".equals(BaseApplication.getInstansApp().getPersonInfo().getType().toString())) {
+            ToastUtil.makeText(this, "店长暂不支持修改店铺,请联系客服~", Toast.LENGTH_SHORT).show();
+        } else if ("UNAUDITED".equals(BaseApplication.getInstansApp().getPersonInfo().getAuditStatus().toString())) {
+            ToastUtil.makeText(this, "正在审核中~", Toast.LENGTH_SHORT).show();
+        } else if ("UNSANCTIONED".equals(BaseApplication.getInstansApp().getPersonInfo().getAuditStatus().toString())) {
+            ToastUtil.makeText(this, "店铺审核失败，请重新加入~", Toast.LENGTH_SHORT).show();
+            dianHuoTongBaseDialogAddShop.show();
+        } else {
             BaseTool.goActivityNoData(this, AddShopActivity.class);
         }
 
@@ -202,7 +210,8 @@ public class PersonInfoUpdateActivity extends TakePhotoActivity implements DianH
     }
 
     private void inIt() {
-        loadingDialog=new LoadingDialog(this);
+        dianHuoTongBaseDialogAddShop = new DianHuoTongBaseDialog(this, this, "温馨提示", "加入店铺查看更多精彩内容~", "稍后再说", "立刻加入", tag1);
+        loadingDialog = new LoadingDialog(this);
         dianHuoTongBaseTitleBar.setLeftImage(R.drawable.icon_back);
         dianHuoTongBaseTitleBar.setCenterTextView(getString(R.string.person_update_title));
         dianHuoTongBaseTitleBar.setRightText(getString(R.string.person_update_save));
@@ -276,7 +285,7 @@ public class PersonInfoUpdateActivity extends TakePhotoActivity implements DianH
 
     @Override
     public void updataUserImageFailed(int code, String result) {
-        if (loadingDialog!=null&&loadingDialog.isShowing()){
+        if (loadingDialog != null && loadingDialog.isShowing()) {
             loadingDialog.dismiss();
         }
         ToastUtil.makeText(this, "上传失败" + code, Toast.LENGTH_SHORT).show();
@@ -294,7 +303,7 @@ public class PersonInfoUpdateActivity extends TakePhotoActivity implements DianH
 
     @Override
     public void updataUserinfoFailed(int code, String result) {
-        if (loadingDialog!=null&&loadingDialog.isShowing()){
+        if (loadingDialog != null && loadingDialog.isShowing()) {
             loadingDialog.dismiss();
         }
         ToastUtil.makeText(this, "更新失败" + code, Toast.LENGTH_SHORT).show();
@@ -302,7 +311,7 @@ public class PersonInfoUpdateActivity extends TakePhotoActivity implements DianH
 
     @Override
     public void getUserInfoSucess(PersonInfo personInfo) {
-        if (loadingDialog!=null&&loadingDialog.isShowing()){
+        if (loadingDialog != null && loadingDialog.isShowing()) {
             loadingDialog.dismiss();
         }
         if (personInfo != null) {
@@ -334,7 +343,7 @@ public class PersonInfoUpdateActivity extends TakePhotoActivity implements DianH
 
     @Override
     public void getUserinfoFailed(int code, String result) {
-        if (loadingDialog!=null&&loadingDialog.isShowing()){
+        if (loadingDialog != null && loadingDialog.isShowing()) {
             loadingDialog.dismiss();
         }
         ToastUtil.makeText(this, "没有获取到信息" + code, Toast.LENGTH_SHORT).show();
@@ -344,5 +353,20 @@ public class PersonInfoUpdateActivity extends TakePhotoActivity implements DianH
     public boolean onTouch(View v, MotionEvent event) {
         ToastUtil.makeText(this, "您还没有加入店铺呦~", Toast.LENGTH_SHORT).show();
         return false;
+    }
+
+    @Override
+    public void onClickBaseDialogLeft(String iTag) {
+        if (tag1.equals(iTag) && dianHuoTongBaseDialogAddShop.isShowing()) {
+            dianHuoTongBaseDialogAddShop.dismiss();
+        }
+    }
+
+    @Override
+    public void onClickBaseDialogRight(String iTag) {
+        if (tag1.equals(iTag) && dianHuoTongBaseDialogAddShop.isShowing()) {
+            dianHuoTongBaseDialogAddShop.dismiss();
+            BaseTool.goActivityNoData(this, AddShopActivity.class);
+        }
     }
 }

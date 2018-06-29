@@ -15,6 +15,7 @@ import com.mhky.dianhuotong.person.bean.PersonInfo;
 import com.mhky.dianhuotong.person.custom.AvatarScanHelperDialog;
 import com.mhky.dianhuotong.person.personif.PersonIF;
 import com.mhky.dianhuotong.person.pesenter.PersonInfoPrecenter;
+import com.mhky.dianhuotong.shop.activity.StarCompanyActivity;
 import com.squareup.picasso.Picasso;
 
 import butterknife.BindView;
@@ -66,14 +67,20 @@ public class PersonInfoActivity extends BaseActivity implements PersonIF {
 
     @OnClick(R.id.person_info_image)
     void showBigImage() {
-        if (BaseApplication.getInstansApp().getPersonInfo() != null&&BaseApplication.getInstansApp().getPersonInfo().getImage() != null) {
+        if (BaseApplication.getInstansApp().getPersonInfo() != null && BaseApplication.getInstansApp().getPersonInfo().getImage() != null) {
             avatarScanHelperDialog = new AvatarScanHelperDialog(this, BaseApplication.getInstansApp().getPersonInfo().getImage().toString());
             avatarScanHelperDialog.show();
         }
     }
+
     @OnClick(R.id.person_info_go_promote)
-    void goPromote(){
+    void goPromote() {
         BaseTool.goActivityNoData(this, MyIntroduceActivity.class);
+    }
+
+    @OnClick(R.id.person_info_go_starcompany)
+    void goStarShopActivity() {
+        BaseTool.goActivityNoData(this, StarCompanyActivity.class);
     }
 
     @Override

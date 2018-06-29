@@ -74,21 +74,9 @@ public class GoodsInfoInstructionFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_goods_info_instruction, container, false);
         unbinder = ButterKnife.bind(this, view);
         if (mParam1 != null && !mParam1.equals("")) {
-            webView.loadDataWithBaseURL(null, mParam1, "text/html", "utf-8", null);
             WebSettings webSettings = webView.getSettings();
-            webSettings.setJavaScriptEnabled(true);
             webSettings.setLoadWithOverviewMode(true);
-            webSettings.setUseWideViewPort(true);
-            webSettings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
-            webSettings.setSupportZoom(true);
-            webView.setWebViewClient(new WebViewClient() {
-
-                @Override
-                public boolean shouldOverrideUrlLoading(WebView webView, String s) {
-                    webView.loadUrl(s);
-                    return super.shouldOverrideUrlLoading(webView, s);
-                }
-            });
+            webView.loadDataWithBaseURL(null, mParam1, "text/html", "utf-8", null);
 
 
         }

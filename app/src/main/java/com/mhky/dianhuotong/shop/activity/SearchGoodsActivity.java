@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -116,6 +117,7 @@ public class SearchGoodsActivity extends BaseActivity implements SearchGoodsIF, 
     private CartPopupwindow cartPopupwindow;
     private GoodsPrecenter goodsPrecenter;
     private GoodsInfo goodsInfo;
+    private String type102Data;
     private String type105GoodsId;
     private String type106GoodsId;
     private int type106TypeId;
@@ -161,6 +163,10 @@ public class SearchGoodsActivity extends BaseActivity implements SearchGoodsIF, 
         searchGoodsPresenter = new SearchGoodsPresenter(this);
         bundle = getIntent().getExtras();
         type = bundle.getString("type");
+        type102Data = bundle.getString("sort_name");
+        if (!TextUtils.isEmpty(type102Data)) {
+            textViewChoose1.setText(type102Data);
+        }
         if (type != null && type.equals("102")) {
             childrenBeanX = (GoodsBaseInfo.ChildrenBeanX) bundle.getSerializable("data");
             if (childrenBeanX != null) {
@@ -434,7 +440,7 @@ public class SearchGoodsActivity extends BaseActivity implements SearchGoodsIF, 
                     textViewChoose1.setTextColor(getResources().getColor(R.color.color04c1ab));
                     imageViewChoose1.setImageResource(R.drawable.icon_choose_selecte);
                     if (goodsTypePopupwindow == null) {
-                        if (popuwindow1InfoList!=null){
+                        if (popuwindow1InfoList != null) {
                             goodsTypePopupwindow = new GoodsTypePopupwindow(this, popuwindow1InfoList);
                             goodsTypePopupwindow.setOnClickPopupwindowItemListener(this);
                             PopupWindowCompat.showAsDropDown(goodsTypePopupwindow, tabI, 0, 0, Gravity.LEFT);
@@ -443,8 +449,8 @@ public class SearchGoodsActivity extends BaseActivity implements SearchGoodsIF, 
                         PopupWindowCompat.showAsDropDown(goodsTypePopupwindow, tabI, 0, 0, Gravity.LEFT);
                     }
                     tabIsOpen = true;
-                }catch (Exception e){
-                    PgyCrashManager.reportCaughtException(this,e);
+                } catch (Exception e) {
+                    PgyCrashManager.reportCaughtException(this, e);
                 }
                 break;
             case 2:
@@ -460,8 +466,8 @@ public class SearchGoodsActivity extends BaseActivity implements SearchGoodsIF, 
                     }
 
                     tabIsOpen = true;
-                }catch (Exception e){
-                    PgyCrashManager.reportCaughtException(this,e);
+                } catch (Exception e) {
+                    PgyCrashManager.reportCaughtException(this, e);
                 }
 
                 break;
@@ -477,8 +483,8 @@ public class SearchGoodsActivity extends BaseActivity implements SearchGoodsIF, 
                         PopupWindowCompat.showAsDropDown(companyPopupwindow, tabI, 0, 0, Gravity.LEFT);
                     }
                     tabIsOpen = true;
-                }catch (Exception e){
-                    PgyCrashManager.reportCaughtException(this,e);
+                } catch (Exception e) {
+                    PgyCrashManager.reportCaughtException(this, e);
                 }
                 break;
         }
@@ -557,7 +563,7 @@ public class SearchGoodsActivity extends BaseActivity implements SearchGoodsIF, 
                             }
                         });
                         recyclerView.setAdapter(searchGoodsAdpter);
-                    } else {
+                    } else if (searchSGoodsBeans != null){
                         number++;
                         relativeLayoutTips.setVisibility(View.GONE);
                         smartRefreshLayout.setEnableLoadMore(true);
@@ -585,12 +591,12 @@ public class SearchGoodsActivity extends BaseActivity implements SearchGoodsIF, 
                     }
 
                 } else if (refreshOrLoadmore == 1) {
-                    if (searchSGoodsBeans != null && searchSGoodsBeans.getContent().size() == 0) {
+                    searchSGoodsBean = searchSGoodsBeans;
+                    if (searchSGoodsBean != null && searchSGoodsBean.getContent().size() == 0) {
                         relativeLayoutTips.setVisibility(View.VISIBLE);
                         smartRefreshLayout.setEnableLoadMore(false);
-                    } else if (searchSGoodsBeans != null && searchSGoodsBeans.getContent().size() < 10) {
+                    } else if (searchSGoodsBean != null && searchSGoodsBean.getContent().size() < 10) {
                         relativeLayoutTips.setVisibility(View.GONE);
-                        searchSGoodsBean = searchSGoodsBeans;
                         searchGoodsAdpter.setNewData(searchSGoodsBean.getContent());
                         smartRefreshLayout.finishRefresh(1000, true);
                         smartRefreshLayout.setEnableLoadMore(false);
@@ -598,7 +604,6 @@ public class SearchGoodsActivity extends BaseActivity implements SearchGoodsIF, 
                     } else {
                         relativeLayoutTips.setVisibility(View.GONE);
                         smartRefreshLayout.setEnableLoadMore(true);
-                        searchSGoodsBean = searchSGoodsBeans;
                         searchGoodsAdpter.setNewData(searchSGoodsBean.getContent());
                         smartRefreshLayout.finishRefresh(1000, true);
                         ToastUtil.makeText(this, "刷新成功", Toast.LENGTH_SHORT).show();
@@ -721,8 +726,8 @@ public class SearchGoodsActivity extends BaseActivity implements SearchGoodsIF, 
                 companyPopupwindow.setTouchable(true);
                 companyPopupwindow.setOutsideTouchable(false);
             }
-        }catch (Exception e){
-            PgyCrashManager.reportCaughtException(this,e);
+        } catch (Exception e) {
+            PgyCrashManager.reportCaughtException(this, e);
         }
 
     }

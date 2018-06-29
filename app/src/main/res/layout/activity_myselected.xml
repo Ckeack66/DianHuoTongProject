@@ -211,7 +211,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/myselected_tab_line"
-        android:layout_marginBottom="@dimen/x51"
         android:background="@color/colorWhite">
 
         <FrameLayout
@@ -226,14 +225,16 @@
         android:layout_height="1dp"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="@dimen/x50"
-        android:background="@color/colorBFBFBF" />
+        android:background="@color/colorBFBFBF"
+        android:visibility="gone"/>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/x50"
         android:layout_alignParentBottom="true"
         android:background="@color/colorWhite"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:visibility="gone">
 
         <TextView
             android:layout_width="wrap_content"

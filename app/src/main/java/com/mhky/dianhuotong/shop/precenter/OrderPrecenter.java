@@ -21,7 +21,7 @@ public class OrderPrecenter {
     }
 
     public void getOrder(String id) {
-        OkGo.<String>get(BaseUrlTool.GET_ORDERINFO+id).execute(new Callback<String>() {
+        OkGo.<String>get(BaseUrlTool.GET_ORDERINFO+id+"&size=100000").execute(new Callback<String>() {
             @Override
             public void onStart(Request<String, ? extends Request> request) {
 
