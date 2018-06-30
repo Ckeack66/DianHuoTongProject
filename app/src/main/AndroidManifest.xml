@@ -145,7 +145,11 @@
         <activity android:name=".activity.Adress1Activity" />
         <activity android:name=".activity.Adress2Activity" />
         <activity android:name=".activity.Adress3Activity" />
-        <activity android:name=".shop.activity.SearchGoodsActivity" />
+        <activity
+            android:name=".shop.activity.SearchGoodsActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
 
         <!-- 支付宝 -->
         <activity

@@ -15,9 +15,11 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -124,6 +126,7 @@ public class SearchGoodsActivity extends BaseActivity implements SearchGoodsIF, 
     private String type107Company;
     private String type107GoodsId;
     private String type104GoodName;
+    private String type109Brand;
 
     private static final String TAG = "SearchGoodsActivity";
 
@@ -133,7 +136,12 @@ public class SearchGoodsActivity extends BaseActivity implements SearchGoodsIF, 
         setContentView(R.layout.activity_search_goods);
         mContext = this;
         ButterKnife.bind(this);
-        inIt();
+        try {
+            inIt();
+        } catch (Exception e) {
+            PgyCrashManager.reportCaughtException(this, e);
+        }
+
     }
 
     @Override
@@ -186,6 +194,9 @@ public class SearchGoodsActivity extends BaseActivity implements SearchGoodsIF, 
             type104GoodName = bundle.getString("goodsnm");
             dianHuoTongShopTitleBar.setCenterText(type104GoodName);
             getSrarchData(true, 0);
+        } else if (type != null && type.equals("109")) {
+            type109Brand = bundle.getString("brandID");
+            getData(null, false, 0);
         }
         popuwindow1InfoList = searchGoodsPresenter.getPopupwindowData();
         goodsTypePopupwindow = new GoodsTypePopupwindow(this, popuwindow1InfoList);
@@ -228,6 +239,8 @@ public class SearchGoodsActivity extends BaseActivity implements SearchGoodsIF, 
                     getCompanyData(type107GoodsId, false, 1, type107Company);
                 } else if (type != null && type.equals("108")) {
                     //筛选
+                } else if (type != null && type.equals("109")) {
+                    getData(null, false, 1);
                 }
             }
         });
@@ -256,6 +269,8 @@ public class SearchGoodsActivity extends BaseActivity implements SearchGoodsIF, 
                     getCompanyData(type107GoodsId, false, 2, type107Company);
                 } else if (type != null && type.equals("108")) {
                     //筛选
+                } else if (type != null && type.equals("109")) {
+                    getData(null, false, 2);
                 }
 
             }
@@ -270,6 +285,9 @@ public class SearchGoodsActivity extends BaseActivity implements SearchGoodsIF, 
         }
         if (type104GoodName != null) {
             httpParams.put("search", type104GoodName);
+        }
+        if (type109Brand != null) {
+            httpParams.put("brandId", type109Brand);
         }
         searchGoodsPresenter.searchGoods(httpParams, isFirst, refreshOrLoadmore);
     }
@@ -563,7 +581,7 @@ public class SearchGoodsActivity extends BaseActivity implements SearchGoodsIF, 
                             }
                         });
                         recyclerView.setAdapter(searchGoodsAdpter);
-                    } else if (searchSGoodsBeans != null){
+                    } else if (searchSGoodsBeans != null) {
                         number++;
                         relativeLayoutTips.setVisibility(View.GONE);
                         smartRefreshLayout.setEnableLoadMore(true);
@@ -757,6 +775,7 @@ public class SearchGoodsActivity extends BaseActivity implements SearchGoodsIF, 
                     hideWindow();
                     goodsInfo = JSON.parseObject(result, GoodsInfo.class);
                     cartPopupwindow = new CartPopupwindow(this, goodsInfo);
+                    cartPopupwindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
                     cartPopupwindow.showAtLocation(dianHuoTongShopTitleBar, Gravity.BOTTOM, 0, 0);
                     //ToastUtil.makeText(mContext, searchSGoodsBean.getContent().get(position).getName(), Toast.LENGTH_SHORT).show();
                 } else {

@@ -68,17 +68,18 @@ public class BrandActivity extends BaseActivity implements BrandIF {
 
     private void init() {
         dianHuoTongShopTitleBar.setActivity(this);
-        brandPresenter=new BrandPresenter().setBrandIF(this);
+        brandPresenter = new BrandPresenter().setBrandIF(this);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(linearLayoutManager);
         getInfo();
         initFresh();
     }
+
     private void getInfo() {
         HttpParams httpParams = new HttpParams();
         httpParams.put("page", pageNumber);
-        httpParams.put("size",20 );
+        httpParams.put("size", 20);
         brandPresenter.getBrandInfo(httpParams);
     }
 
@@ -105,7 +106,7 @@ public class BrandActivity extends BaseActivity implements BrandIF {
     @Override
     public void getBrandSuccess(int code, String result) {
         if (code == 200) {
-            BrandInfo brandInfo1= JSON.parseObject(result, BrandInfo.class);
+            BrandInfo brandInfo1 = JSON.parseObject(result, BrandInfo.class);
             if (isNew == -1) {
                 if (brandInfo1 != null && brandInfo1.getContent() != null && brandInfo1.getContent().size() == 0) {
                     relativeLayoutTips.setVisibility(View.VISIBLE);
@@ -115,13 +116,14 @@ public class BrandActivity extends BaseActivity implements BrandIF {
                 brandAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
                     @Override
                     public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-//                        switch (view.getId()) {
-//                            case R.id.go_company:
-//                                Bundle bundle = new Bundle();
-//                                bundle.putString("shopid", searchCompanyInfo.getContent().get(position).getId()+"");
-//                                BaseTool.goActivityWithData(context, ShopActivity.class, bundle);
-//                                break;
-//                        }
+                        switch (view.getId()) {
+                            case R.id.brand_go_search:
+                                Bundle bundle = new Bundle();
+                                bundle.putString("type", "109");
+                                bundle.putString("brandID", brandInfo.getContent().get(position).getId());
+                                BaseTool.goActivityWithData(context, SearchGoodsActivity.class, bundle);
+                                break;
+                        }
                     }
                 });
                 recyclerView.setAdapter(brandAdapter);

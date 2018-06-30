@@ -7,10 +7,14 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
@@ -57,7 +61,7 @@ public class CartPopupwindow extends PopupWindow implements View.OnClickListener
     private ImageView imageViewReduce;
     private ImageView imageViewPlus;
     private ImageView imageViewGoods;
-    private TextView textViewNumber;
+    private EditText editNumber;
     private TextView textViewGoodsNumber;
     private TextView textViewOk;
     private TextView textViewPrice;
@@ -71,6 +75,7 @@ public class CartPopupwindow extends PopupWindow implements View.OnClickListener
     private List<GoodsSkuInfo> goodsSkuInfoList;
     private String[] typeName;
     private GoodsInfo goodsInfo;
+    private boolean isEditListener = false;
     private static final String TAG = "CompanyPopupwindow";
 
     public CartPopupwindow(final Context context, GoodsInfo goodsInfo1) {
@@ -84,7 +89,7 @@ public class CartPopupwindow extends PopupWindow implements View.OnClickListener
         tagFlowLayout = view.findViewById(R.id.cart_popup_type_layout);
         imageViewReduce = view.findViewById(R.id.cart_popup_reduce);
         imageViewPlus = view.findViewById(R.id.cart_popup_plus);
-        textViewNumber = view.findViewById(R.id.cart_popup_numbers);
+        editNumber = view.findViewById(R.id.cart_popup_numbers);
         textViewGoodsNumber = view.findViewById(R.id.cart_popup_goods_number);
         textViewOk = view.findViewById(R.id.cart_popup_ok);
         textViewPrice = view.findViewById(R.id.cart_popup_price);
@@ -94,12 +99,12 @@ public class CartPopupwindow extends PopupWindow implements View.OnClickListener
         textViewFloght = view.findViewById(R.id.cart_popup_type);
         textViewTips = view.findViewById(R.id.cart_popup_tip);
         textViewLine = view.findViewById(R.id.cart_popup_line);
-        textViewLine1=view.findViewById(R.id.cart_popup_line1);
+        textViewLine1 = view.findViewById(R.id.cart_popup_line1);
         setWidth(WindowManager.LayoutParams.MATCH_PARENT);
         setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
-        setFocusable(false);
+        setFocusable(true);
         setTouchable(true);
-        setClippingEnabled(false);
+//        setClippingEnabled(false);
         setOutsideTouchable(false);
         setBackgroundDrawable(new ColorDrawable(0));
         imageViewReduce.setOnClickListener(this);
@@ -113,8 +118,69 @@ public class CartPopupwindow extends PopupWindow implements View.OnClickListener
         });
         cartOpratePresenter = new CartOpratePresenter(this);
         cartOpratePresenter.getSku(String.valueOf(goodsInfo.getId()));
-        BaseTool.logPrint(TAG, "CartPopupwindow: ");
-        //setTagFlowLayout(new String[]{"到鞥", "aaaa", "bbbbbb", "ssddccfvg", "hisiksjihjsihai", "ssskdjdjiiooo", "到鞥", "aaaa", "bbbbbb", "ssddccfvg", "hisiksjihjsihai", "ssskdjdjiiooo", "到鞥", "aaaa", "bbbbbb", "ssddccfvg", "hisiksjihjsihai", "ssskdjdjiiooo"});
+        editNumber.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                BaseTool.logPrint("aaaa", "执行----s" + selectNUmber);
+                try {
+                    if (isEditListener) {
+                        isEditListener = false;
+                        if (selectNUmber != -1) {
+                            if (!TextUtils.isEmpty(s) && Integer.valueOf(s.toString()) > goodsNumberMax) {
+                                textViewOk.setBackgroundColor(Color.parseColor("#04c1ab"));
+                                textViewOk.setClickable(true);
+                                goodsNumber = goodsNumberMax;
+                                editNumber.setText(goodsNumberMax + "");
+                                BaseTool.logPrint("aaaa", "执行----1" + s.toString());
+                            } else if (!TextUtils.isEmpty(s) && Integer.valueOf(s.toString()) > 0) {
+                                textViewOk.setBackgroundColor(Color.parseColor("#04c1ab"));
+                                textViewOk.setClickable(true);
+                                goodsNumber = Integer.valueOf(s.toString());
+                                editNumber.setText(String.valueOf(goodsNumber));
+                                BaseTool.logPrint("aaaa", "执行----2" + s.toString());
+                            } else {
+                                textViewOk.setBackgroundColor(Color.parseColor("#BFBFBF"));
+                                textViewOk.setClickable(false);
+                                goodsNumber = 0;
+                                BaseTool.logPrint("aaaa", "执行----3" + s.toString());
+                            }
+                            editNumber.requestFocus();
+                            editNumber.setSelection(editNumber.getText().length());
+                            isEditListener = true;
+                            BaseTool.logPrint("aaaa", "执行----4" + s.toString());
+                        } else if (Integer.valueOf(s.toString()) != 0) {
+                            BaseTool.logPrint("aaaa", "执行----5" + s.toString());
+                            textViewOk.setBackgroundColor(Color.parseColor("#BFBFBF"));
+                            textViewOk.setClickable(false);
+                            editNumber.setText(String.valueOf(0));
+                            isEditListener = true;
+                        } else {
+                            BaseTool.logPrint("aaaa", "执行----6" + s.toString());
+                            textViewOk.setBackgroundColor(Color.parseColor("#BFBFBF"));
+                            textViewOk.setClickable(false);
+                            editNumber.setText(String.valueOf(0));
+                            isEditListener = false;
+                        }
+                    }else {
+                        BaseTool.logPrint("aaaa", "执行----7" + s.toString());
+                    }
+
+                } catch (Exception e) {
+                    PgyCrashManager.reportCaughtException(mContext, e);
+                }
+            }
+        });
+        setEditState(editNumber,false);
     }
 
     @Override
@@ -125,7 +191,7 @@ public class CartPopupwindow extends PopupWindow implements View.OnClickListener
         selectNUmber = -1;
         goodsNumber = 0;
         goodsNumberMax = 0;
-        textViewNumber.setText("0");
+        editNumber.setText("0");
         textViewTitleText.setText(goodsInfo.getTitle());
         String[] imageDate = goodsInfo.getPicture().split(",");
         if (imageDate != null && imageDate.length > 0) {
@@ -160,15 +226,21 @@ public class CartPopupwindow extends PopupWindow implements View.OnClickListener
             @Override
             public boolean onTagClick(View view, int position, FlowLayout parent) {
                 goodsNumber = 0;
-                textViewNumber.setText(goodsNumber + "");
-                textViewOk.setBackgroundColor(Color.parseColor("#BFBFBF"));
-                textViewNumber.setClickable(false);
-                textViewGoodsNumber.setText("库存：");
-                textViewPrice.setText("￥0.00");
+                BaseTool.logPrint("aaaa", "执行----8" + position+"------------"+selectNUmber);
                 if (position == selectNUmber) {
+                    setEditState(editNumber,false);
                     selectNUmber = -1;
+                    editNumber.setText(goodsNumber + "");
+                    textViewOk.setBackgroundColor(Color.parseColor("#BFBFBF"));
+                    textViewGoodsNumber.setText("库存：");
+                    textViewPrice.setText("￥0.00");
                 } else {
+                    setEditState(editNumber,true);
+                    editNumber.requestFocus();
+                    editNumber.setSelection(editNumber.getText().length());
+                    isEditListener = true;
                     selectNUmber = position;
+                    BaseTool.logPrint("aaaa", "执行----9" + position+"------------"+selectNUmber);
                     goodsNumberMax = goodsSkuInfoList.get(position).getStock();
                     textViewGoodsNumber.setText("库存：" + goodsNumberMax);
                     if (goodsNumber > goodsSkuInfoList.get(selectNUmber).getBatchNums()) {
@@ -183,6 +255,17 @@ public class CartPopupwindow extends PopupWindow implements View.OnClickListener
         });
     }
 
+    private void setEditState(EditText editText, boolean editable){
+        if (!editable) { // disable editing password
+            editText.setFocusable(false);
+            editText.setFocusableInTouchMode(false); // user touches widget on phone with touch screen
+            editText.setClickable(false); // user navigates with wheel and selects widget
+        } else { // enable editing of password
+            editText.setFocusable(true);
+            editText.setFocusableInTouchMode(true);
+            editText.setClickable(true);
+        }
+    }
     @Override
     public void onClick(View v) {
         try {
@@ -190,6 +273,8 @@ public class CartPopupwindow extends PopupWindow implements View.OnClickListener
                 case R.id.cart_popup_reduce:
                     if (goodsNumber > 1 && selectNUmber != -1) {
                         goodsNumber--;
+                    } else {
+                        return;
                     }
                     if (goodsNumber > goodsSkuInfoList.get(selectNUmber).getBatchNums()) {
                         textViewPrice.setText("￥" + goodsSkuInfoList.get(selectNUmber).getWholesalePrice() / 100);
@@ -208,6 +293,8 @@ public class CartPopupwindow extends PopupWindow implements View.OnClickListener
                 case R.id.cart_popup_plus:
                     if (goodsNumber < goodsNumberMax && selectNUmber != -1) {
                         goodsNumber++;
+                    } else {
+                        return;
                     }
                     if (goodsNumber > goodsSkuInfoList.get(selectNUmber).getBatchNums()) {
                         textViewPrice.setText("￥" + goodsSkuInfoList.get(selectNUmber).getWholesalePrice() / 100);
@@ -226,7 +313,7 @@ public class CartPopupwindow extends PopupWindow implements View.OnClickListener
                     break;
                 case R.id.cart_popup_ok:
                     if (BaseApplication.getInstansApp().getLoginRequestInfo() != null) {
-                        if (goodsNumber > 0) {
+                        if (goodsNumber > 0 && selectNUmber != -1) {
                             Map map = new HashMap();
                             map.put("buyerId", BaseApplication.getInstansApp().getLoginRequestInfo().getId());
                             map.put("goodsId", goodsInfo.getId());
@@ -243,7 +330,8 @@ public class CartPopupwindow extends PopupWindow implements View.OnClickListener
                     }
                     break;
             }
-            textViewNumber.setText(goodsNumber + "");
+            editNumber.setText(goodsNumber + "");
+            editNumber.setSelection(editNumber.getText().length());
         } catch (Exception e) {
             PgyCrashManager.reportCaughtException(mContext, e);
         }
@@ -332,7 +420,7 @@ public class CartPopupwindow extends PopupWindow implements View.OnClickListener
                         textViewNumberTitle.setVisibility(View.GONE);
                         imageViewReduce.setVisibility(View.GONE);
                         imageViewPlus.setVisibility(View.GONE);
-                        textViewNumber.setVisibility(View.GONE);
+                        editNumber.setVisibility(View.GONE);
                         textViewFloght.setVisibility(View.GONE);
                         textViewLine.setVisibility(View.GONE);
                         textViewLine1.setVisibility(View.GONE);
