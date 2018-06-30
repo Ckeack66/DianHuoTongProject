@@ -219,7 +219,7 @@ public class SearchSGoodsBean implements Serializable {
         private String createTime;
         private String lastModifyTime;
         private List<Integer> skuIds;
-
+        private List<PromotionInfosBean> promotionInfos;
         public String getExpiryDate() {
             return expiryDate;
         }
@@ -456,7 +456,13 @@ public class SearchSGoodsBean implements Serializable {
         public void setSkuIds(List<Integer> skuIds) {
             this.skuIds = skuIds;
         }
+        public List<PromotionInfosBean> getPromotionInfos() {
+            return promotionInfos;
+        }
 
+        public void setPromotionInfos(List<PromotionInfosBean> promotionInfos) {
+            this.promotionInfos = promotionInfos;
+        }
         public static class AduitGoodsInfoBean implements Serializable {
             /**
              * goodsId : 16
@@ -502,6 +508,80 @@ public class SearchSGoodsBean implements Serializable {
                 this.remarks = remarks;
             }
         }
+        public static class PromotionInfosBean {
+            /**
+             * promotionId : 38
+             * name : 限时折扣6.29
+             * startDate : 1530201600000
+             * endDate : 1535558400000
+             * promotionType : XIAN_SHI_XIAN_LIANG_ZHE_KOU
+             * discount : 0
+             * status : false
+             */
 
+            private int promotionId;
+            private String name;
+            private long startDate;
+            private long endDate;
+            private String promotionType;
+            private int discount;
+            private boolean status;
+
+            public int getPromotionId() {
+                return promotionId;
+            }
+
+            public void setPromotionId(int promotionId) {
+                this.promotionId = promotionId;
+            }
+
+            public String getName() {
+                return name;
+            }
+
+            public void setName(String name) {
+                this.name = name;
+            }
+
+            public long getStartDate() {
+                return startDate;
+            }
+
+            public void setStartDate(long startDate) {
+                this.startDate = startDate;
+            }
+
+            public long getEndDate() {
+                return endDate;
+            }
+
+            public void setEndDate(long endDate) {
+                this.endDate = endDate;
+            }
+
+            public String getPromotionType() {
+                return promotionType;
+            }
+
+            public void setPromotionType(String promotionType) {
+                this.promotionType = promotionType;
+            }
+
+            public int getDiscount() {
+                return discount;
+            }
+
+            public void setDiscount(int discount) {
+                this.discount = discount;
+            }
+
+            public boolean isStatus() {
+                return status;
+            }
+
+            public void setStatus(boolean status) {
+                this.status = status;
+            }
+        }
     }
 }

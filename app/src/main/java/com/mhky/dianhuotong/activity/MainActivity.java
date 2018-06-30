@@ -100,6 +100,8 @@ public class MainActivity extends BaseActivity implements MainIF, DrawerLayout.D
     TextView textViewUserName;
     @BindView(R.id.drawer_text_phone)
     TextView textViewPhone;
+    @BindView(R.id.drawer_app_code)
+    TextView textViewAppCode;
     boolean isOpenDrawer = false;
     private MainActivityPrecenter mainActivityPrecenter;
     private DrawerLayoutAdapter drawerLayoutAdapter;
@@ -129,8 +131,13 @@ public class MainActivity extends BaseActivity implements MainIF, DrawerLayout.D
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         mContext = this;
-        inIt();
-        initData();
+        try {
+            inIt();
+            initData();
+        }catch (Exception  e){
+            PgyCrashManager.reportCaughtException(this,e);
+        }
+
     }
 
     @Override
@@ -553,6 +560,7 @@ public class MainActivity extends BaseActivity implements MainIF, DrawerLayout.D
                 if (BaseApplication.getInstansApp().getPersonInfo().getMobile() != null) {
                     textViewPhone.setText(BaseApplication.getInstansApp().getPersonInfo().getMobile());
                 }
+                textViewAppCode.setText(BaseTool.getLocalVersionName(this));
                 BaseApplication.getInstansApp().setUpdata(false);
                 return;
             }

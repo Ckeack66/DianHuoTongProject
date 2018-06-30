@@ -160,6 +160,7 @@ public class BaseTool {
         // 设置参数
         listView.setLayoutParams(params);
     }
+
     /**
      * 计算listview高度
      */
@@ -188,6 +189,7 @@ public class BaseTool {
         // 设置参数
         listView.setLayoutParams(params);
     }
+
     /**
      * 创建一条图片地址uri,用于保存拍照后的照片
      *
@@ -260,18 +262,19 @@ public class BaseTool {
         if (s.endsWith("&")) {
             s = s.substring(0, s.lastIndexOf("&"));
         }
-/*
-* for (Map.Entry entry : map.entrySet()) {
-* sb.append(entry.getKey() +"="+ entry.getValue()); sb.append("&;"); }
-* String s = sb.toString(); if (s.endsWith("&;")) { //s =
-* StringUtils.substringBeforeLast(s,"&;"); s = s.substring(0,
-* s.lastIndexOf("&;")); }
-*/
+        /*
+         * for (Map.Entry entry : map.entrySet()) {
+         * sb.append(entry.getKey() +"="+ entry.getValue()); sb.append("&;"); }
+         * String s = sb.toString(); if (s.endsWith("&;")) { //s =
+         * StringUtils.substringBeforeLast(s,"&;"); s = s.substring(0,
+         * s.lastIndexOf("&;")); }
+         */
         return s;
     }
 
     /**
      * 根据手机分辨率从DP转成PX
+     *
      * @param context
      * @param dpValue
      * @return
@@ -283,6 +286,7 @@ public class BaseTool {
 
     /**
      * 将sp值转换为px值，保证文字大小不变
+     *
      * @param spValue
      * @return
      */
@@ -293,6 +297,7 @@ public class BaseTool {
 
     /**
      * 根据手机的分辨率PX(像素)转成DP
+     *
      * @param context
      * @param pxValue
      * @return
@@ -304,6 +309,7 @@ public class BaseTool {
 
     /**
      * 将px值转换为sp值，保证文字大小不变
+     *
      * @param pxValue
      * @return
      */
@@ -312,6 +318,7 @@ public class BaseTool {
         final float fontScale = context.getResources().getDisplayMetrics().scaledDensity;
         return (int) (pxValue / fontScale + 0.5f);
     }
+
     public static boolean isDateOneBigger(String str1, String str2) {
         boolean isBigger = false;
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
@@ -330,11 +337,12 @@ public class BaseTool {
         }
         return isBigger;
     }
-    public static void logPrint(String ar1,String ar2){
+
+    public static void logPrint(String ar1, String ar2) {
 //        if (BuildConfig.LOG_DEBUG){
-            Log.d("log开始打印->","**************************************************************");
-            Log.d(ar1,ar2);
-            Log.d("log打印结束->","**************************************************************");
+        Log.d("log开始打印->", "**************************************************************");
+        Log.d(ar1, ar2);
+        Log.d("log打印结束->", "**************************************************************");
 //        }
     }
 
@@ -345,7 +353,7 @@ public class BaseTool {
                     .getPackageManager()
                     .getPackageInfo(ctx.getPackageName(), 0);
             localVersion = packageInfo.versionCode;
-           logPrint("TAG", "本软件的版本号----" + localVersion);
+            logPrint("TAG", "本软件的版本号----" + localVersion);
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
@@ -362,7 +370,7 @@ public class BaseTool {
                     .getPackageManager()
                     .getPackageInfo(ctx.getPackageName(), 0);
             localVersion = packageInfo.versionName;
-            LogUtil.d("TAG", "本软件的版本号。。" + localVersion);
+            logPrint("TAG", "本软件的版本号。。" + localVersion);
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }

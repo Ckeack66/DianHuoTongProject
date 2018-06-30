@@ -115,7 +115,7 @@ public class CouponActivity extends BaseActivity implements CounponGetIF, Counpo
             if (code == 201) {
                 ToastUtil.makeText(mContext, "领取成功！", Toast.LENGTH_SHORT).show();
             } else {
-                ToastUtil.makeText(mContext, "领取失败!" + code + result, Toast.LENGTH_SHORT).show();
+                ToastUtil.makeText(mContext, result, Toast.LENGTH_SHORT).show();
             }
         } catch (Exception e) {
             PgyCrashManager.reportCaughtException(mContext, e);
@@ -131,5 +131,6 @@ public class CouponActivity extends BaseActivity implements CounponGetIF, Counpo
         if (loadingDialog != null) {
             loadingDialog.dismiss();
         }
+        ToastUtil.makeText(mContext, "领取失败！", Toast.LENGTH_SHORT).show();
     }
 }

@@ -50,7 +50,6 @@ public class ScanCodeActivity extends BaseActivity implements QRCodeView.Delegat
     private boolean isUseCamera = false;
     private boolean isReadExtorge = false;
     private boolean isWriteExtorge = false;
-
     private boolean isShowFlush = false;
     private static final String TAG = "ScanCodeActivity";
     private LoadingDialog loadingDialog;
@@ -136,6 +135,7 @@ public class ScanCodeActivity extends BaseActivity implements QRCodeView.Delegat
 
     private void inIt() {
         Permissions4M.get(this).requestSync();
+        loadingDialog=new LoadingDialog(this);
         dianHuoTongBaseTitleBar.setLeftImage(R.drawable.icon_back);
         dianHuoTongBaseTitleBar.setLeftOnclickListener(new View.OnClickListener() {
             @Override
@@ -201,7 +201,6 @@ public class ScanCodeActivity extends BaseActivity implements QRCodeView.Delegat
 
     @Override
     public void onScanQRCodeSuccess(String result) {
-
         if (result.length() < 6) {
             xingView.startSpot();//延迟1.5秒进行扫描
         } else if (result.length() > 6 && "MHKYDP".equals(result.substring(0, 6))) {
@@ -217,8 +216,13 @@ public class ScanCodeActivity extends BaseActivity implements QRCodeView.Delegat
             BaseTool.logPrint(TAG, "onScanQRCodeSuccess: --------" + result.substring(6, result.length()));
         } else {
             //搜索商品
-            ToastUtil.makeText(this, "扫描结果:" + result, Toast.LENGTH_SHORT).show();
-            BaseTool.logPrint(TAG, "onScanQRCodeSuccess: --------" + result);
+            if (result.length()!=13){
+                xingView.startSpot();//延迟1.5秒进行扫描
+            }else {
+                ToastUtil.makeText(this, "扫描结果:" + result, Toast.LENGTH_SHORT).show();
+                BaseTool.logPrint(TAG, "onScanQRCodeSuccess: --------" + result);
+            }
+
         }
 
 

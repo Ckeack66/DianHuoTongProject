@@ -139,11 +139,12 @@
                 android:textSize="@dimen/t12" />
 
             <TextView
+                android:id="@+id/drawer_app_code"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:background="@color/colorTransp"
                 android:gravity="center"
-                android:text="1.1.1"
+                android:text=""
                 android:textColor="@color/colorB5B6B6"
                 android:textSize="@dimen/t12" />
         </LinearLayout>
