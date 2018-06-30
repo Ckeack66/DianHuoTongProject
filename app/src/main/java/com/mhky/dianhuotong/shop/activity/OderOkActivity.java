@@ -409,31 +409,36 @@ public class OderOkActivity extends BaseActivity implements OrderOkAdapter.GetEd
         BaseTool.logPrint("订单", code + result);
         try {
             if (code == 201) {
-                ToastUtil.makeText(this, "订单提交成功！", Toast.LENGTH_SHORT).show();
-                BaseApplication.getInstansApp().setUpdateCart(true);
-                StringBuffer stringBuffer = new StringBuffer();
-                int mon = 0;
                 List<OrderBaseInfo.ContentBean> contentBeanList = JSON.parseArray(result, OrderBaseInfo.ContentBean.class);
-                if (contentBeanList.size() == 1) {
-                    stringBuffer.append(contentBeanList.get(0).getId());
-                    mon = contentBeanList.get(0).getPayment();
-                } else {
-                    for (int a = 0; a < contentBeanList.size(); a++) {
-                        mon = mon + contentBeanList.get(a).getPayment();
-                        stringBuffer.append(contentBeanList.get(a).getId());
-                        if (a != contentBeanList.size() - 1) {
-                            stringBuffer.append(",");
+                if (contentBeanList.size()>0){
+                    ToastUtil.makeText(this, "订单提交成功！", Toast.LENGTH_SHORT).show();
+                    BaseApplication.getInstansApp().setUpdateCart(true);
+                    StringBuffer stringBuffer = new StringBuffer();
+                    int mon = 0;
+                    if (contentBeanList.size() == 1) {
+                        stringBuffer.append(contentBeanList.get(0).getId());
+                        mon = contentBeanList.get(0).getPayment();
+                    } else {
+                        for (int a = 0; a < contentBeanList.size(); a++) {
+                            mon = mon + contentBeanList.get(a).getPayment();
+                            stringBuffer.append(contentBeanList.get(a).getId());
+                            if (a != contentBeanList.size() - 1) {
+                                stringBuffer.append(",");
+                            }
                         }
                     }
+                    String orderIDs = stringBuffer.toString();
+                    Bundle bundle = new Bundle();
+                    bundle.putString("order", orderIDs);
+                    bundle.putString("money", String.valueOf((double) mon / 100));
+                    BaseTool.goActivityWithData(this, BalanceActivity.class, bundle);
+                    finish();
+                }else {
+                    ToastUtil.makeText(this, "订单提交失败！", Toast.LENGTH_SHORT).show();
                 }
-                String orderIDs = stringBuffer.toString();
-                Bundle bundle = new Bundle();
-                bundle.putString("order", orderIDs);
-//            bundle.putString("money", String.valueOf(allMoney1));
 
-                bundle.putString("money", String.valueOf((double) mon / 100));
-                BaseTool.goActivityWithData(this, BalanceActivity.class, bundle);
-                finish();
+            }else {
+                ToastUtil.makeText(this, "订单提交失败！"+result, Toast.LENGTH_SHORT).show();
             }
         }catch (Exception e){
             PgyCrashManager.reportCaughtException(this,e);
@@ -445,6 +450,7 @@ public class OderOkActivity extends BaseActivity implements OrderOkAdapter.GetEd
         if (loadingDialog != null && loadingDialog.isShowing()) {
             loadingDialog.dismiss();
         }
+        ToastUtil.makeText(this, "订单提交失败！", Toast.LENGTH_SHORT).show();
     }
 
     @Override
