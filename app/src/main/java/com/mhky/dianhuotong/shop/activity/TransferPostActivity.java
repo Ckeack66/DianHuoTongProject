@@ -2,6 +2,7 @@ package com.mhky.dianhuotong.shop.activity;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.webkit.JavascriptInterface;
 
 import com.mhky.dianhuotong.R;
 import com.pgyersdk.crash.PgyCrashManager;
@@ -44,6 +45,13 @@ public class TransferPostActivity extends AppCompatActivity {
                 return super.shouldOverrideUrlLoading(webView, s);
             }
         });
-        webView.loadUrl("https://m.kuaidi100.com/index_all.html?type=shunfeng&postid=283673923078");
+        webView.loadUrl("https://m.kuaidi100.com/index_all.html?type="+"shunfeng"+"&postid="+"283673923078"+"&callbackurl="+"http://192.168.2.161:9071/extension/test");
+//        webView.loadUrl("http://192.168.2.161:9071/extension/test");
+        webView.addJavascriptInterface(this, "fa");
+    }
+
+    @JavascriptInterface
+    public void fActivity() {
+        finish();
     }
 }

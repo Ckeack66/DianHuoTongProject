@@ -16,17 +16,25 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.alibaba.fastjson.JSON;
 import com.joker.annotation.PermissionsDenied;
 import com.joker.annotation.PermissionsGranted;
 import com.joker.annotation.PermissionsRequestSync;
 import com.joker.api.Permissions4M;
+import com.lzy.okgo.model.HttpParams;
 import com.mhky.dianhuotong.R;
 import com.mhky.dianhuotong.base.BaseTool;
 import com.mhky.dianhuotong.base.view.BaseActivity;
 import com.mhky.dianhuotong.custom.AlertDialog.LoadingDialog;
 import com.mhky.dianhuotong.custom.ToastUtil;
 import com.mhky.dianhuotong.custom.viewgroup.DianHuoTongBaseTitleBar;
+import com.mhky.dianhuotong.shop.activity.GoodsActivity;
 import com.mhky.dianhuotong.shop.activity.ShopActivity;
+import com.mhky.dianhuotong.shop.bean.SearchSGoodsBean;
+import com.mhky.dianhuotong.shop.precenter.GoodsPrecenter;
+import com.mhky.dianhuotong.shop.precenter.SearchGoodsPresenter;
+import com.mhky.dianhuotong.shop.shopif.GoodsIF;
+import com.mhky.dianhuotong.shop.shopif.SearchGoodsIF;
 import com.pgyersdk.crash.PgyCrashManager;
 
 import butterknife.BindView;
@@ -37,7 +45,7 @@ import cn.bingoogolapple.qrcode.core.QRCodeView;
 import cn.bingoogolapple.qrcode.zxing.ZXingView;
 
 @PermissionsRequestSync(permission = {Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.CAMERA}, value = {101, 102, 103})
-public class ScanCodeActivity extends BaseActivity implements QRCodeView.Delegate {
+public class ScanCodeActivity extends BaseActivity implements QRCodeView.Delegate, SearchGoodsIF {
     @BindView(R.id.scan_code_title)
     DianHuoTongBaseTitleBar dianHuoTongBaseTitleBar;
     @BindView(R.id.scan_code_body)
@@ -53,6 +61,7 @@ public class ScanCodeActivity extends BaseActivity implements QRCodeView.Delegat
     private boolean isShowFlush = false;
     private static final String TAG = "ScanCodeActivity";
     private LoadingDialog loadingDialog;
+    private SearchGoodsPresenter searchGoodsPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -135,7 +144,8 @@ public class ScanCodeActivity extends BaseActivity implements QRCodeView.Delegat
 
     private void inIt() {
         Permissions4M.get(this).requestSync();
-        loadingDialog=new LoadingDialog(this);
+        loadingDialog = new LoadingDialog(this);
+        searchGoodsPresenter = new SearchGoodsPresenter(this);
         dianHuoTongBaseTitleBar.setLeftImage(R.drawable.icon_back);
         dianHuoTongBaseTitleBar.setLeftOnclickListener(new View.OnClickListener() {
             @Override
@@ -216,10 +226,16 @@ public class ScanCodeActivity extends BaseActivity implements QRCodeView.Delegat
             BaseTool.logPrint(TAG, "onScanQRCodeSuccess: --------" + result.substring(6, result.length()));
         } else {
             //搜索商品
-            if (result.length()!=13){
+            if (result.length() != 13) {
                 xingView.startSpot();//延迟1.5秒进行扫描
-            }else {
-                ToastUtil.makeText(this, "扫描结果:" + result, Toast.LENGTH_SHORT).show();
+            } else {
+                //ToastUtil.makeText(this, "扫描结果:" + result, Toast.LENGTH_SHORT).show();
+                loadingDialog.show();
+                HttpParams httpParams = new HttpParams();
+                httpParams.put("page", 0);
+                httpParams.put("size", 100);
+                httpParams.put("barCode", result);
+                searchGoodsPresenter.searchGoods(httpParams, false, 0);
                 BaseTool.logPrint(TAG, "onScanQRCodeSuccess: --------" + result);
             }
 
@@ -230,12 +246,49 @@ public class ScanCodeActivity extends BaseActivity implements QRCodeView.Delegat
 
     @Override
     public void onScanQRCodeOpenCameraError() {
-        ToastUtil.makeText(this, "扫描出错！" , Toast.LENGTH_SHORT).show();
+        ToastUtil.makeText(this, "扫描出错！", Toast.LENGTH_SHORT).show();
     }
 
     //震动
     private void vibrate() {
         Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
         vibrator.vibrate(200);
+    }
+
+
+    @Override
+    public void searchGoodsInfoSuccess(int code, String result, boolean isfirst, int refreshOrLoadmore) {
+        try {
+            if (code == 200) {
+                SearchSGoodsBean searchSGoodsBeans = JSON.parseObject(result, SearchSGoodsBean.class);
+                if (searchSGoodsBeans != null && searchSGoodsBeans.getContent().size() > 0) {
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("id", searchSGoodsBeans.getContent().get(0).getId() + "");
+                    BaseTool.goActivityWithData(mContext, GoodsActivity.class, bundle);
+                    finish();
+                } else {
+                    ToastUtil.makeText(this, "未找到该商品！", Toast.LENGTH_SHORT).show();
+                    xingView.startSpot();
+                }
+            } else {
+                ToastUtil.makeText(this, "搜索失败！", Toast.LENGTH_SHORT).show();
+                xingView.startSpot();
+            }
+        } catch (Exception e) {
+            PgyCrashManager.reportCaughtException(mContext, e);
+        } finally {
+            if (loadingDialog != null && loadingDialog.isShowing()) {
+                loadingDialog.dismiss();
+            }
+        }
+    }
+
+    @Override
+    public void searchGoodsInfoFailed(int code, String result, boolean isfirst, int refreshOrLoadmore) {
+        if (loadingDialog != null && loadingDialog.isShowing()) {
+            loadingDialog.dismiss();
+        }
+        ToastUtil.makeText(this, "服务器未知错误！", Toast.LENGTH_SHORT).show();
+        xingView.startSpot();
     }
 }

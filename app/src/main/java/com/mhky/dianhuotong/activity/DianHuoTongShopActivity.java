@@ -165,6 +165,9 @@ public class DianHuoTongShopActivity extends BaseActivity implements OnBannerLis
         HttpParams httpParams = new HttpParams();
         httpParams.put("startDate", dateNew);
         httpParams.put("endDate", dateNew);
+        httpParams.put("shelves", true);
+        httpParams.put("offShelves", false);
+        httpParams.put("auditStatus", "APPROVED");
         recommentGoodsPrecenter = new RecommentGoodsPrecenter().setRecommentIF(this);
         recommentGoodsPrecenter.getRecommentGoods(httpParams);
     }
