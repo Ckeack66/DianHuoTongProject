@@ -1,8 +1,11 @@
 package com.mhky.dianhuotong.base;
 
 import android.content.Context;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.ConnectivityManager;
+import android.net.wifi.WifiManager;
 import android.support.multidex.MultiDex;
 
 import com.baidu.mapapi.SDKInitializer;
@@ -12,6 +15,7 @@ import com.mhky.dianhuotong.greendao.DaoMaster;
 import com.mhky.dianhuotong.greendao.DaoSession;
 import com.mhky.dianhuotong.login.LoginRequestInfo;
 import com.mhky.dianhuotong.person.bean.PersonInfo;
+import com.mhky.dianhuotong.receiver.SystemBrocastReciver;
 import com.mhky.dianhuotong.shop.bean.GoodsBaseInfo;
 import com.mhky.dianhuotong.shop.bean.ShopInfoByUserID;
 import com.pgyersdk.crash.PgyCrashManager;

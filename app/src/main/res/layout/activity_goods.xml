@@ -144,7 +144,8 @@
                             android:layout_height="wrap_content"
                             android:text="商品名称："
                             android:textColor="@color/color333333"
-                            android:textSize="@dimen/t9" />
+                            android:textSize="@dimen/t11"
+                            android:textStyle="bold"/>
 
                         <TextView
                             android:id="@+id/goods_info_name"
@@ -153,7 +154,7 @@
                             android:layout_marginStart="@dimen/x4"
                             android:text=""
                             android:textColor="@color/color333333"
-                            android:textSize="@dimen/t9" />
+                            android:textSize="@dimen/t11" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -167,7 +168,8 @@
                             android:layout_height="wrap_content"
                             android:text="包装规格："
                             android:textColor="@color/color333333"
-                            android:textSize="@dimen/t9" />
+                            android:textSize="@dimen/t11"
+                            android:textStyle="bold" />
 
                         <TextView
                             android:id="@+id/goods_info_guige"
@@ -176,7 +178,7 @@
                             android:layout_marginStart="@dimen/x4"
                             android:text=""
                             android:textColor="@color/color333333"
-                            android:textSize="@dimen/t9" />
+                            android:textSize="@dimen/t11" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -190,7 +192,8 @@
                             android:layout_height="wrap_content"
                             android:text="生产厂家："
                             android:textColor="@color/color333333"
-                            android:textSize="@dimen/t9" />
+                            android:textSize="@dimen/t11"
+                            android:textStyle="bold" />
 
                         <TextView
                             android:id="@+id/goods_info_company"
@@ -199,7 +202,7 @@
                             android:layout_marginStart="@dimen/x4"
                             android:text=""
                             android:textColor="@color/color333333"
-                            android:textSize="@dimen/t9" />
+                            android:textSize="@dimen/t11" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -213,7 +216,8 @@
                             android:layout_height="wrap_content"
                             android:text="批准文号："
                             android:textColor="@color/color333333"
-                            android:textSize="@dimen/t9" />
+                            android:textSize="@dimen/t11"
+                            android:textStyle="bold" />
 
                         <TextView
                             android:id="@+id/goods_info_pzwh"
@@ -222,7 +226,7 @@
                             android:layout_marginStart="@dimen/x4"
                             android:text=""
                             android:textColor="@color/color333333"
-                            android:textSize="@dimen/t9" />
+                            android:textSize="@dimen/t11" />
                     </LinearLayout>
 
 
@@ -238,7 +242,8 @@
                             android:layout_height="wrap_content"
                             android:text="有效期："
                             android:textColor="@color/color333333"
-                            android:textSize="@dimen/t9" />
+                            android:textSize="@dimen/t11"
+                            android:textStyle="bold" />
 
                         <TextView
                             android:id="@+id/goods_use_time"
@@ -247,7 +252,7 @@
                             android:layout_marginStart="@dimen/x4"
                             android:text=""
                             android:textColor="@color/color333333"
-                            android:textSize="@dimen/t9" />
+                            android:textSize="@dimen/t11" />
                     </LinearLayout>
                 </LinearLayout>
             </FrameLayout>

@@ -69,7 +69,7 @@ public class SystemBrocastReciver extends BroadcastReceiver {
                     if (info.getType() == ConnectivityManager.TYPE_WIFI || info.getType() == ConnectivityManager.TYPE_MOBILE) {
                         BaseTool.logPrint(TAG, getConnectionType(info.getType()) + "连上");
                         if (info.getType() == ConnectivityManager.TYPE_MOBILE){
-                            ToastUtil.makeText(mContext, "当前是移动网络，注意流量消耗~", Toast.LENGTH_SHORT).show();
+                            //ToastUtil.makeText(mContext, "当前是移动网络，注意流量消耗~", Toast.LENGTH_SHORT).show();
                         }
                     }
                 } else {
