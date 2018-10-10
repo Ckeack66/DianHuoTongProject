@@ -231,6 +231,7 @@
                             android:layout_toEndOf="@id/shop_img"
                             android:text=""
                             android:textColor="@color/color333333"
+                            android:gravity="center"
                             android:textSize="@dimen/t14" />
 
                         <TextView
@@ -319,7 +320,6 @@
                     android:orientation="vertical">
 
                     <LinearLayout
-
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/x40"
                         android:layout_marginTop="@dimen/x6"
@@ -399,6 +399,5 @@
 
         </android.support.v4.widget.NestedScrollView>
     </com.scwang.smartrefresh.layout.SmartRefreshLayout>
-
 
 </RelativeLayout>

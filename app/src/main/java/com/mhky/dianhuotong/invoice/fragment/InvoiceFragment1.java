@@ -59,15 +59,16 @@ public class InvoiceFragment1 extends Fragment implements ShopCredentialIF, Cred
 
     @BindView(R.id.voice_gridview)
     RecyclerView gridView;
+
     private ShopCredentialPresenter shopCredentialPresenter;
-    private List<ShopCredentialBaseInfo> shopCredentialBaseInfoList;
+    private List<ShopCredentialBaseInfo> shopCredentialBaseInfoList;                     //店铺已经上传的资质证明List
     //    private List<ShopCredentialInfo> shopCredentialInfoList;
     private CredentialRecycleView1Adapter credentialRecycleView1Adapter;
     private boolean isFirst = false;
     private ShopCredentialBaseInfo shopCredentialBaseInfo;
     private CredentialsDialogPresenter credentialsDialogPresenter;
     private CredentialBaseDialog credentialBaseDialog;
-    private List<CredentialBaseTypeInfo> credentialBaseTypeInfoList;
+    private List<CredentialBaseTypeInfo> credentialBaseTypeInfoList;                    //Dialog需要展示的资质证明名称
     private int upNumber;
     private BillPresenter billPresenter;
     private static final String TAG = "InvoiceFragment1";
@@ -113,12 +114,16 @@ public class InvoiceFragment1 extends Fragment implements ShopCredentialIF, Cred
 //        shopCredentialInfoList = new ArrayList<>();
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 2);
         gridView.setLayoutManager(gridLayoutManager);
+
         shopCredentialPresenter = new ShopCredentialPresenter(this);
         credentialsDialogPresenter = new CredentialsDialogPresenter(this);
+
         shopCredentialBaseInfo = new ShopCredentialBaseInfo();
         shopCredentialBaseInfo.setItemType(2);
+
         credentialsDialogPresenter.getCredentialDialogData();
-        billPresenter=new BillPresenter(this);
+
+        billPresenter = new BillPresenter(this);
         billPresenter.getBill();
         return view;
     }
@@ -129,6 +134,12 @@ public class InvoiceFragment1 extends Fragment implements ShopCredentialIF, Cred
         unbinder.unbind();
     }
 
+    /**
+     * 上传新资质成功后，更新此界面
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -152,6 +163,11 @@ public class InvoiceFragment1 extends Fragment implements ShopCredentialIF, Cred
 
     }
 
+    /**
+     * 获取当前店铺已上传的资质证明
+     * @param code
+     * @param result
+     */
     @Override
     public void getShopCredentialSucess(int code, String result) {
         try {
@@ -194,7 +210,6 @@ public class InvoiceFragment1 extends Fragment implements ShopCredentialIF, Cred
                 }
                 CredentialBaseAdapter credentialBaseAdapter = new CredentialBaseAdapter(getActivity(), credentialBaseTypeInfoList);
                 credentialBaseDialog = new CredentialBaseDialog(getActivity(), this, credentialBaseAdapter, "请选择资质类型", "取消", "资质上传");
-
             }
         }catch (Exception e){
             PgyCrashManager.reportCaughtException(getActivity(),e);
@@ -227,6 +242,9 @@ public class InvoiceFragment1 extends Fragment implements ShopCredentialIF, Cred
 
     }
 
+    /**
+     * 当店铺已经上传了某资质后，Dialog不再包括此资质的选项
+     */
     private void upDateShopCredentialList() {
         if (shopCredentialBaseInfoList != null) {
             for (int a = 0; a < shopCredentialBaseInfoList.size(); a++) {
@@ -243,6 +261,11 @@ public class InvoiceFragment1 extends Fragment implements ShopCredentialIF, Cred
 
     }
 
+    /**
+     * 获取资质证明名称
+     * @param code
+     * @param result
+     */
     @Override
     public void getCredentialTypeSucess(int code, String result) {
         if (code == 200) {
@@ -253,7 +276,6 @@ public class InvoiceFragment1 extends Fragment implements ShopCredentialIF, Cred
 
         }
     }
-
     @Override
     public void getCredentialTypeFailed(int code, String result) {
 

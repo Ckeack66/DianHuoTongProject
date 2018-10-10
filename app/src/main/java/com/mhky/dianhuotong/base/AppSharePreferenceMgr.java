@@ -14,6 +14,10 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Map;
 
+/**
+ * SharePreference   Manager  管理器
+ */
+
 public class AppSharePreferenceMgr {
     /**
      * 保存在手机里面的文件名
@@ -23,31 +27,23 @@ public class AppSharePreferenceMgr {
     /**
      * 保存数据的方法，我们需要拿到保存数据的具体类型，然后根据类型调用不同的保存方法
      */
-    public static void put(Context context, String key, Object object)
-    {
+    public static void put(Context context, String key, Object object) {
 
-        SharedPreferences sp = context.getSharedPreferences(FILE_NAME,
-                Context.MODE_PRIVATE);
+        SharedPreferences sp = context.getSharedPreferences(FILE_NAME, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sp.edit();
 
-        if (object instanceof String)
-        {
+        if (object instanceof String) {
             editor.putString(key, (String) object);
-        } else if (object instanceof Integer)
-        {
+        } else if (object instanceof Integer) {
             editor.putInt(key, (Integer) object);
             BaseTool.logPrint("保存了integer",""+ object);
-        } else if (object instanceof Boolean)
-        {
+        } else if (object instanceof Boolean) {
             editor.putBoolean(key, (Boolean) object);
-        } else if (object instanceof Float)
-        {
+        } else if (object instanceof Float) {
             editor.putFloat(key, (Float) object);
-        } else if (object instanceof Long)
-        {
+        } else if (object instanceof Long) {
             editor.putLong(key, (Long) object);
-        } else
-        {
+        } else {
             editor.putString(key, object.toString());
         }
 
@@ -59,23 +55,17 @@ public class AppSharePreferenceMgr {
      */
     public static Object get(Context context, String key, Object defaultObject)
     {
-        SharedPreferences sp = context.getSharedPreferences(FILE_NAME,
-                Context.MODE_PRIVATE);
+        SharedPreferences sp = context.getSharedPreferences(FILE_NAME, Context.MODE_PRIVATE);
 
-        if (defaultObject instanceof String)
-        {
+        if (defaultObject instanceof String) {
             return sp.getString(key, (String) defaultObject);
-        } else if (defaultObject instanceof Integer)
-        {
+        } else if (defaultObject instanceof Integer) {
             return sp.getInt(key, (Integer) defaultObject);
-        } else if (defaultObject instanceof Boolean)
-        {
+        } else if (defaultObject instanceof Boolean) {
             return sp.getBoolean(key, (Boolean) defaultObject);
-        } else if (defaultObject instanceof Float)
-        {
+        } else if (defaultObject instanceof Float) {
             return sp.getFloat(key, (Float) defaultObject);
-        } else if (defaultObject instanceof Long)
-        {
+        } else if (defaultObject instanceof Long) {
             return sp.getLong(key, (Long) defaultObject);
         }
 
@@ -87,8 +77,7 @@ public class AppSharePreferenceMgr {
      */
     public static void remove(Context context, String key)
     {
-        SharedPreferences sp = context.getSharedPreferences(FILE_NAME,
-                Context.MODE_PRIVATE);
+        SharedPreferences sp = context.getSharedPreferences(FILE_NAME, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sp.edit();
         editor.remove(key);
         SharedPreferencesCompat.apply(editor);
@@ -99,8 +88,7 @@ public class AppSharePreferenceMgr {
      */
     public static void clear(Context context)
     {
-        SharedPreferences sp = context.getSharedPreferences(FILE_NAME,
-                Context.MODE_PRIVATE);
+        SharedPreferences sp = context.getSharedPreferences(FILE_NAME, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sp.edit();
         editor.clear();
         SharedPreferencesCompat.apply(editor);
@@ -111,8 +99,7 @@ public class AppSharePreferenceMgr {
      */
     public static boolean contains(Context context, String key)
     {
-        SharedPreferences sp = context.getSharedPreferences(FILE_NAME,
-                Context.MODE_PRIVATE);
+        SharedPreferences sp = context.getSharedPreferences(FILE_NAME, Context.MODE_PRIVATE);
         return sp.contains(key);
     }
 
@@ -121,8 +108,7 @@ public class AppSharePreferenceMgr {
      */
     public static Map<String, ?> getAll(Context context)
     {
-        SharedPreferences sp = context.getSharedPreferences(FILE_NAME,
-                Context.MODE_PRIVATE);
+        SharedPreferences sp = context.getSharedPreferences(FILE_NAME, Context.MODE_PRIVATE);
         return sp.getAll();
     }
 
@@ -137,6 +123,9 @@ public class AppSharePreferenceMgr {
         Bitmap bitmap = drawable.getBitmap();
         // 将Bitmap压缩成字节数组输出流
         ByteArrayOutputStream byStream = new ByteArrayOutputStream();
+        //Bitmap.CompressFormat format 图像的压缩格式；
+        //int quality 图像压缩率，0-100。 0 压缩100%，100意味着不压缩；
+        //OutputStream stream 写入压缩数据的输出流；
         bitmap.compress(Bitmap.CompressFormat.PNG, 80, byStream);
         // 利用Base64将我们的字节数组输出流转换成String
         byte[] byteArray = byStream.toByteArray();
@@ -165,16 +154,14 @@ public class AppSharePreferenceMgr {
     /**
      * 创建一个解决SharedPreferencesCompat.apply方法的一个兼容类
      */
-    private static class SharedPreferencesCompat
-    {
+    private static class SharedPreferencesCompat {
         private static final Method sApplyMethod = findApplyMethod();
 
         /**
          * 反射查找apply的方法
          */
         @SuppressWarnings({ "unchecked", "rawtypes" })
-        private static Method findApplyMethod()
-        {
+        private static Method findApplyMethod() {
             try
             {
                 Class clz = SharedPreferences.Editor.class;
@@ -189,21 +176,15 @@ public class AppSharePreferenceMgr {
         /**
          * 如果找到则使用apply执行，否则使用commit
          */
-        public static void apply(SharedPreferences.Editor editor)
-        {
-            try
-            {
-                if (sApplyMethod != null)
-                {
+        public static void apply(SharedPreferences.Editor editor) {
+            try {
+                if (sApplyMethod != null) {
                     sApplyMethod.invoke(editor);
                     return;
                 }
-            } catch (IllegalArgumentException e)
-            {
-            } catch (IllegalAccessException e)
-            {
-            } catch (InvocationTargetException e)
-            {
+            } catch (IllegalArgumentException e) {
+            } catch (IllegalAccessException e) {
+            } catch (InvocationTargetException e) {
             }
             editor.commit();
         }

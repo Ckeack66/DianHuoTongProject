@@ -3,9 +3,14 @@ package com.mhky.dianhuotong.shop.bean;
 import com.chad.library.adapter.base.entity.MultiItemEntity;
 
 public class OrderOkInfo implements MultiItemEntity {
+
     public static final int TOP = 1;
     public static final int CENTER = 2;
     public static final int BOTTOM = 3;
+    private int type;
+    private OrderOkTitleInfo orderOkTitleInfo;
+    private OrderOkCenterInfo orderOkCenterInfo;
+    private OrderOkBotttomInfo orderOkBotttomInfo;
 
     public int getType() {
         return type;
@@ -14,7 +19,6 @@ public class OrderOkInfo implements MultiItemEntity {
     public void setType(int type) {
         this.type = type;
     }
-    private int type;
 
     public OrderOkInfo() {
     }
@@ -42,10 +46,6 @@ public class OrderOkInfo implements MultiItemEntity {
     public void setOrderOkBotttomInfo(OrderOkBotttomInfo orderOkBotttomInfo) {
         this.orderOkBotttomInfo = orderOkBotttomInfo;
     }
-
-    private OrderOkTitleInfo orderOkTitleInfo;
-    private OrderOkCenterInfo orderOkCenterInfo;
-    private OrderOkBotttomInfo orderOkBotttomInfo;
 
     @Override
     public int getItemType() {

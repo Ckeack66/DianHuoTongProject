@@ -11,6 +11,7 @@ import java.text.DecimalFormat;
  */
 
 public class TimerMiaoSha extends CountDownTimer {
+
     private TimerMiaoShaListener timerMiaoShaListener;
 
     /**

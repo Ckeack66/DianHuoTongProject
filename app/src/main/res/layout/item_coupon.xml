@@ -3,15 +3,17 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/colorF7F7F7"
-    android:paddingEnd="@dimen/x16"
-    android:paddingStart="@dimen/x16">
+    android:paddingEnd="@dimen/x4"
+    android:paddingStart="@dimen/x4">
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/x16"
+        android:layout_marginTop="@dimen/x20"
         android:background="@drawable/shape_coupon"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:layout_marginLeft="@dimen/x16"
+        android:layout_marginRight="@dimen/x16">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -110,5 +112,15 @@
                 android:textSize="@dimen/t12" />
         </RelativeLayout>
     </LinearLayout>
+
+    <ImageView
+        android:id="@+id/iv_haved_tag"
+        android:layout_width="@dimen/x60"
+        android:layout_height="@dimen/x60"
+        android:src="@drawable/already_received_coupon"
+        android:layout_marginTop="@dimen/x8"
+        android:layout_marginRight="@dimen/x10"
+        android:layout_gravity="end|top"
+        android:visibility="gone"/>
 
 </FrameLayout>

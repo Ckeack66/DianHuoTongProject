@@ -2,6 +2,7 @@ package com.mhky.dianhuotong.shop.precenter;
 
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.Callback;
+import com.lzy.okgo.model.HttpParams;
 import com.lzy.okgo.model.Progress;
 import com.lzy.okgo.model.Response;
 import com.lzy.okgo.request.base.Request;
@@ -20,8 +21,8 @@ public class OrderPrecenter {
         this.orderIF = orderIF;
     }
 
-    public void getOrder(String id) {
-        OkGo.<String>get(BaseUrlTool.GET_ORDERINFO+id+"&size=100000").execute(new Callback<String>() {
+    public void getOrder(HttpParams httpParams) {
+        OkGo.<String>get(BaseUrlTool.GET_ORDERINFO).params(httpParams).execute(new Callback<String>() {
             @Override
             public void onStart(Request<String, ? extends Request> request) {
 

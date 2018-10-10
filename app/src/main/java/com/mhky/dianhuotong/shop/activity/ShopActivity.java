@@ -29,7 +29,12 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class ShopActivity extends BaseActivity{
+/**
+ * 上游B 主页Activity
+ */
+
+public class ShopActivity extends BaseActivity implements ShopMainFragment.OnclickTypeOrSort{
+
     @BindView(R.id.shop_title)
     DianHuoTongShopTitleBar dianHuoTongShopTitleBar;
     @BindView(R.id.shop_main_tab1)
@@ -50,12 +55,13 @@ public class ShopActivity extends BaseActivity{
     RelativeLayout relativeLayoutTab2;
     @BindView(R.id.shop_tab3)
     RelativeLayout relativeLayoutTab3;
+
     private FragmentManager fragmentManager;
     private FragmentTransaction fragmentTransaction;
     private ShopAllGoodsFragment shopAllGoodsFragment;
     private ShopMainFragment shopMainFragment;
     private ShopTransferFragment shopTransferFragment;
-    private String shopId;
+    private String shopId;                                              //intent传过来的Bundle值
 
     private static final String TAG = "ShopActivity";
 
@@ -72,6 +78,9 @@ public class ShopActivity extends BaseActivity{
 
     }
 
+    /**
+     * 初始化控件
+     */
     private void inIt() {
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
@@ -89,7 +98,7 @@ public class ShopActivity extends BaseActivity{
         fragmentTransaction.add(R.id.shop_fragment, shopMainFragment);
         fragmentTransaction.show(shopMainFragment);
         fragmentTransaction.commit();
-
+        shopMainFragment.setOnclickTypeOrSort(this);
     }
 
     @OnClick(R.id.shop_tab1)
@@ -145,4 +154,8 @@ public class ShopActivity extends BaseActivity{
 
     }
 
+    @Override
+    public void onclickTypeOrSort() {
+        setTab2();
+    }
 }

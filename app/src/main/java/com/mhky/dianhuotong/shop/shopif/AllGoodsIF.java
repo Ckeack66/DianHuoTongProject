@@ -5,8 +5,10 @@ package com.mhky.dianhuotong.shop.shopif;
  */
 
 public interface AllGoodsIF {
+
     void getAllGoodsInfoSuccess(int code,String result);
 
     void getAllGoodsInfoFailed(int code,String result);
+
 
 }

@@ -138,8 +138,14 @@ public class OrderBaseInfo implements Serializable {
         private String status;
         private String paymentMode;
         private Object remark;
+        private Object inPrice;
+        private Object huaYuanOrderMsg;
+        private Object expressNo;
+        private String expressCompany;
+        private String receipt;
         private boolean valid;
         private List<ItemsBean> items;
+        private List<PromotionInfosBean> promotionInfos;
         private List<OrderCirculationsBean> orderCirculations;
 
         public String getId() {
@@ -254,6 +260,46 @@ public class OrderBaseInfo implements Serializable {
             this.remark = remark;
         }
 
+        public Object getInPrice() {
+            return inPrice;
+        }
+
+        public void setInPrice(Object inPrice) {
+            this.inPrice = inPrice;
+        }
+
+        public Object getHuaYuanOrderMsg() {
+            return huaYuanOrderMsg;
+        }
+
+        public void setHuaYuanOrderMsg(Object huaYuanOrderMsg) {
+            this.huaYuanOrderMsg = huaYuanOrderMsg;
+        }
+
+        public Object getExpressNo() {
+            return expressNo;
+        }
+
+        public void setExpressNo(Object expressNo) {
+            this.expressNo = expressNo;
+        }
+
+        public String getExpressCompany() {
+            return expressCompany;
+        }
+
+        public void setExpressCompany(String expressCompany) {
+            this.expressCompany = expressCompany;
+        }
+
+        public String getReceipt() {
+            return receipt;
+        }
+
+        public void setReceipt(String receipt) {
+            this.receipt = receipt;
+        }
+
         public boolean isValid() {
             return valid;
         }
@@ -268,6 +314,14 @@ public class OrderBaseInfo implements Serializable {
 
         public void setItems(List<ItemsBean> items) {
             this.items = items;
+        }
+
+        public List<PromotionInfosBean> getPromotionInfos() {
+            return promotionInfos;
+        }
+
+        public void setPromotionInfos(List<PromotionInfosBean> promotionInfos) {
+            this.promotionInfos = promotionInfos;
         }
 
         public List<OrderCirculationsBean> getOrderCirculations() {
@@ -679,6 +733,73 @@ public class OrderBaseInfo implements Serializable {
             }
         }
 
+        public static class PromotionInfosBean implements Serializable{
+
+            /**
+             * promotionId : 71
+             * cutName : signal
+             * promotionType : PING_TAI_YOU_HUI_QUAN
+             * cutPrice : 4000
+             * realCutPrice : 4000
+             * couponId : 123
+             */
+
+            private String promotionId;
+            private String cutName;
+            private String promotionType;
+            private int cutPrice;
+            private int realCutPrice;
+            private int couponId;
+
+            public String getPromotionId() {
+                return promotionId;
+            }
+
+            public void setPromotionId(String promotionId) {
+                this.promotionId = promotionId;
+            }
+
+            public String getCutName() {
+                return cutName;
+            }
+
+            public void setCutName(String cutName) {
+                this.cutName = cutName;
+            }
+
+            public String getPromotionType() {
+                return promotionType;
+            }
+
+            public void setPromotionType(String promotionType) {
+                this.promotionType = promotionType;
+            }
+
+            public int getCutPrice() {
+                return cutPrice;
+            }
+
+            public void setCutPrice(int cutPrice) {
+                this.cutPrice = cutPrice;
+            }
+
+            public int getRealCutPrice() {
+                return realCutPrice;
+            }
+
+            public void setRealCutPrice(int realCutPrice) {
+                this.realCutPrice = realCutPrice;
+            }
+
+            public int getCouponId() {
+                return couponId;
+            }
+
+            public void setCouponId(int couponId) {
+                this.couponId = couponId;
+            }
+        }
+
         public static class OrderCirculationsBean implements Serializable{
             /**
              * orderCirculationId : {"orderNo":"m180521115708902143","orderStatus":"ORDERED"}
@@ -710,15 +831,15 @@ public class OrderBaseInfo implements Serializable {
                  * orderStatus : ORDERED
                  */
 
-                private String orderNo;
+                private String orderId;
                 private String orderStatus;
 
-                public String getOrderNo() {
-                    return orderNo;
+                public String getOrderId() {
+                    return orderId;
                 }
 
-                public void setOrderNo(String orderNo) {
-                    this.orderNo = orderNo;
+                public void setOrderId(String orderId) {
+                    this.orderId = orderId;
                 }
 
                 public String getOrderStatus() {

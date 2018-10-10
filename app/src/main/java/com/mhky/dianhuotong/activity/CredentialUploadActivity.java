@@ -57,7 +57,13 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class CredentialUploadActivity extends TakePhotoActivity implements DianHuoTongBottomMenuDialog.DianHuoTongBottomMenuDialogListener, UploadCredentialIF, ShopCredentialIF {
+/**
+ * 资质上传 Activity
+ */
+
+public class CredentialUploadActivity extends TakePhotoActivity implements DianHuoTongBottomMenuDialog.DianHuoTongBottomMenuDialogListener,
+        UploadCredentialIF, ShopCredentialIF {
+
     @BindView(R.id.credential_title)
     DianHuoTongBaseTitleBar dianHuoTongBaseTitleBar;
     @BindView(R.id.credential_image_group)
@@ -82,17 +88,18 @@ public class CredentialUploadActivity extends TakePhotoActivity implements DianH
     ImageView imageViewStart;
     @BindView(R.id.upload_credential_img_stop)
     ImageView imageViewStop;
+
     private DianHuoTongBottomMenuDialog dianHuoTongBottomMenuDialog;
     private Uri uri = null;
     private Context mContext;
     private UploadCredentialPrecenter uploadCredentialPrecenter;
     private QualicationInfo.QualificationListBean qulationBaseInfo;
     private String imageUrl;
-    private CredentialBaseTypeInfo credentialBaseTypeInfo;
+    private CredentialBaseTypeInfo credentialBaseTypeInfo;                                          //传过来的资质类型实体类
     private TimePickerView pvCustomTime1;
     private TimePickerView pvCustomTime2;
     private ShopCredentialBaseInfo shopCredentialBaseInfo;
-    private String state = "";
+    private String state = "";                                                  //0：修改已上传的资质    1：上传新的资质
     private ShopCredentialPresenter shopCredentialPresenter;
     private int withResult;
     private int heightResult;
@@ -123,14 +130,19 @@ public class CredentialUploadActivity extends TakePhotoActivity implements DianH
             }
         });
         qulationBaseInfo = new QualicationInfo.QualificationListBean();
-        credentialBaseTypeInfo = (CredentialBaseTypeInfo) getIntent().getExtras().getSerializable("credentialtype");
         state = getIntent().getExtras().getString("state");
-        if (state != null && !state.equals("") && state.equals("0")) {
+        if (state != null && !state.equals("") && state.equals("0")) {  //state = 0 的时候是去修改
             shopCredentialBaseInfo = (ShopCredentialBaseInfo) getIntent().getExtras().getSerializable("credentialinfo");
             textViewFile.setText("*请上传更改的" + shopCredentialBaseInfo.getName());
             textViewData1.setText(shopCredentialBaseInfo.getStartTime());
             textViewData2.setText(shopCredentialBaseInfo.getEndTime());
-            if (shopCredentialBaseInfo.getUrl() != null) {
+            if(!BaseTool.isEmpty(shopCredentialBaseInfo.getStartTime())){
+                imageViewStart.setVisibility(View.VISIBLE);
+            }
+            if(!BaseTool.isEmpty(shopCredentialBaseInfo.getEndTime())){
+                imageViewStop.setVisibility(View.VISIBLE);
+            }
+            if (!BaseTool.isEmpty(shopCredentialBaseInfo.getUrl())) {
                 BaseTool.logPrint(TAG, "inIt: ------------" + shopCredentialBaseInfo.getUrl());
                 Picasso.get().load(shopCredentialBaseInfo.getUrl()).resize(withResult, heightResult).into(imageViewCredentail);
                 imageUrl = shopCredentialBaseInfo.getUrl();
@@ -138,7 +150,27 @@ public class CredentialUploadActivity extends TakePhotoActivity implements DianH
             editTextBody.setText(shopCredentialBaseInfo.getScope());
             editTextCardNumber.setText(shopCredentialBaseInfo.getNumber());
             editTextNume.setText(shopCredentialBaseInfo.getCorporation());
-        } else {
+        } else if((state != null && !state.equals("") && state.equals("-1"))) {//此处也是修改，但是传过来的activity不同
+            qulationBaseInfo = (QualicationInfo.QualificationListBean) getIntent().getExtras().getSerializable("credentialinfo");
+            textViewFile.setText("*请上传更改的" + qulationBaseInfo.getName());
+            textViewData1.setText(qulationBaseInfo.getStartTime());
+            textViewData2.setText(qulationBaseInfo.getEndTime());
+            if(!BaseTool.isEmpty(qulationBaseInfo.getStartTime())){
+                imageViewStart.setVisibility(View.VISIBLE);
+            }
+            if(!BaseTool.isEmpty(qulationBaseInfo.getEndTime())){
+                imageViewStop.setVisibility(View.VISIBLE);
+            }
+            if (!BaseTool.isEmpty(qulationBaseInfo.getUrl())) {
+                BaseTool.logPrint(TAG, "inIt: ------------" + qulationBaseInfo.getUrl());
+                Picasso.get().load(qulationBaseInfo.getUrl()).resize(withResult, heightResult).into(imageViewCredentail);
+                imageUrl = qulationBaseInfo.getUrl();
+            }
+            editTextBody.setText(qulationBaseInfo.getScope());
+            editTextCardNumber.setText(qulationBaseInfo.getNumber());
+            editTextNume.setText(qulationBaseInfo.getCorporation());
+        }else{//state = 1 的时候是去上传新的资质
+            credentialBaseTypeInfo = (CredentialBaseTypeInfo) getIntent().getExtras().getSerializable("credentialtype");
             if (credentialBaseTypeInfo != null) {
                 textViewFile.setText("*请上传" + credentialBaseTypeInfo.getName());
             }
@@ -199,6 +231,10 @@ public class CredentialUploadActivity extends TakePhotoActivity implements DianH
         dianHuoTongBottomMenuDialog.show();
     }
 
+    /**
+     * 拍照或者获取相册图片成功
+     * @param result
+     */
     @Override
     public void takeSuccess(TResult result) {
         super.takeSuccess(result);
@@ -247,16 +283,22 @@ public class CredentialUploadActivity extends TakePhotoActivity implements DianH
 //        ToastUtil.makeText(this, "取消", Toast.LENGTH_SHORT).show();
     }
 
+    /**
+     * 拍照
+     */
     @Override
     public void getCamera() {
         uri = BaseTool.createImagePathUri(mContext);
         TakePhoto takePhoto = getTakePhoto();
-        CompressConfig compressConfig = CompressConfig.ofDefaultConfig();
+        CompressConfig compressConfig = CompressConfig.ofDefaultConfig();       //压缩参数
         compressConfig.setMaxSize(1000 * 1024);
-        takePhoto.onEnableCompress(compressConfig, true);
+        takePhoto.onEnableCompress(compressConfig, true);   //设置为需要压缩
         takePhoto.onPickFromCapture(uri);
     }
 
+    /**
+     * 相册选取
+     */
     @Override
     public void getPhotos() {
         TakePhoto takePhoto = getTakePhoto();
@@ -266,6 +308,11 @@ public class CredentialUploadActivity extends TakePhotoActivity implements DianH
         takePhoto.onPickFromGallery();
     }
 
+    /**
+     * 上传图片成功
+     * @param code
+     * @param result
+     */
     @Override
     public void updataCredentialImageSucess(int code, String result) {
         try {
@@ -278,7 +325,6 @@ public class CredentialUploadActivity extends TakePhotoActivity implements DianH
                     BaseTool.logPrint(TAG, "updataCredentialImageSucess: H---" + heightResult);
                     BaseTool.logPrint(TAG, "updataCredentialImageSucess: ------" + result);
                 }
-
             } else {
                 ToastUtil.makeText(this, "上传失败", Toast.LENGTH_SHORT).show();
             }
@@ -302,10 +348,10 @@ public class CredentialUploadActivity extends TakePhotoActivity implements DianH
             }
             qulationBaseInfo.setUrl(imageUrl);
             if (TextUtils.isEmpty(textViewData1.getText())) {
-                if (!TextUtils.isEmpty(textViewData2.getText())) {
+//                if (!TextUtils.isEmpty(textViewData2.getText())) {
                     ToastUtil.makeText(this, "请选择开始时间", Toast.LENGTH_SHORT).show();
-                    return;
-                }
+//                    return;
+//                }
             } else {
                 qulationBaseInfo.setStartTime(textViewData1.getText().toString());
                 if (!TextUtils.isEmpty(textViewData2.getText())) {
@@ -316,12 +362,18 @@ public class CredentialUploadActivity extends TakePhotoActivity implements DianH
             }
             if (!TextUtils.isEmpty(editTextCardNumber.getText())) {
                 qulationBaseInfo.setNumber(editTextCardNumber.getText().toString());
+            }else {
+                ToastUtil.makeText(this, "请输入证件编号", Toast.LENGTH_SHORT).show();
             }
             if (!TextUtils.isEmpty(editTextBody.getText())) {
                 qulationBaseInfo.setScope(editTextBody.getText().toString());
+            }else {
+                ToastUtil.makeText(this, "请输入经营范围", Toast.LENGTH_SHORT).show();
             }
             if (!TextUtils.isEmpty(editTextNume.getText())) {
                 qulationBaseInfo.setCorporation(editTextNume.getText().toString());
+            }else {
+                ToastUtil.makeText(this, "请输入法人姓名", Toast.LENGTH_SHORT).show();
             }
             if (credentialBaseTypeInfo != null) {
                 qulationBaseInfo.setId(credentialBaseTypeInfo.getId());
@@ -341,12 +393,12 @@ public class CredentialUploadActivity extends TakePhotoActivity implements DianH
             } else if ("1".equals(state)) {
                 CredentialUpdateInfo credentialUpdateInfo = new CredentialUpdateInfo();
                 credentialUpdateInfo.setUrl(imageUrl);
+                credentialUpdateInfo.setName(qulationBaseInfo.getName());
                 credentialUpdateInfo.setStartTime(textViewData1.getText().toString());
                 credentialUpdateInfo.setEndTime(textViewData2.getText().toString());
                 credentialUpdateInfo.setCorporation(editTextNume.getText().toString());
                 credentialUpdateInfo.setScope(editTextBody.getText().toString());
                 credentialUpdateInfo.setNumber(editTextCardNumber.getText().toString());
-                credentialUpdateInfo.setName(qulationBaseInfo.getName());
                 credentialUpdateInfo.setCompositeid(BaseApplication.getInstansApp().getLoginRequestInfo().getShopId().toString());
                 shopCredentialPresenter.uploadNewCredential(JSON.toJSONString(credentialUpdateInfo));
             } else {
@@ -357,6 +409,7 @@ public class CredentialUploadActivity extends TakePhotoActivity implements DianH
                 intent.putExtras(bundle);
                 setResult(1002, intent);
                 finish();
+                BaseTool.logPrint(TAG,JSON.toJSONString(qulationBaseInfo));
             }
         } catch (Exception e) {
             PgyCrashManager.reportCaughtException(this, e);
@@ -562,6 +615,11 @@ public class CredentialUploadActivity extends TakePhotoActivity implements DianH
 
     }
 
+    /**
+     * 修改已有资质成功
+     * @param code
+     * @param result
+     */
     @Override
     public void updateShopCredentialSucess(int code, String result) {
         try {

@@ -1,5 +1,6 @@
 package com.mhky.dianhuotong.base.view;
 
+import android.content.Context;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.net.wifi.WifiManager;
@@ -8,15 +9,18 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
 import android.view.KeyEvent;
 
+import com.mhky.dianhuotong.base.BasePresenter;
+import com.mhky.dianhuotong.base.BaseView;
 import com.mhky.dianhuotong.custom.AlertDialog.DianHuoTongBaseDialog;
 import com.mhky.dianhuotong.receiver.SystemBrocastReciver;
 
 
 /**
+ * 基础activity
  * Created by Administrator on 2018/3/26.
  */
 
-public class BaseActivity extends FragmentActivity {
+public  class BaseActivity extends FragmentActivity{
     /**
      * 该方法是在Activity被创建时回调，它是生命周期第一个调用的方法，
      * 我们在创建Activity时一般都需要重写该方法，然后在该方法中做一些初始化的操作，如
@@ -26,6 +30,9 @@ public class BaseActivity extends FragmentActivity {
      */
     private DianHuoTongBaseDialog dianHuoTongBaseDialog;
     private SystemBrocastReciver systemBrocastReciver;
+
+
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

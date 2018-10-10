@@ -75,7 +75,6 @@
             app:sidebar_text_alignment="center"
             app:sidebar_text_size="@dimen/t14" />
 
-
     </RelativeLayout>
 
 

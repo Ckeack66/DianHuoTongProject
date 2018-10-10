@@ -26,7 +26,6 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/myselect_title"
         android:visibility="gone">
-
         <include layout="@layout/search_layout" />
     </LinearLayout>
 
@@ -69,7 +68,6 @@
             android:layout_marginRight="@dimen/x18"
             android:background="@drawable/icon_go_grey" />
 
-
     </RelativeLayout>
 
     <RadioGroup
@@ -83,7 +81,7 @@
 
         <RadioButton
             android:id="@+id/myselected_tab_1"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:button="@null"
@@ -95,7 +93,7 @@
 
         <RadioButton
             android:id="@+id/myselected_tab_2"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:button="@null"
@@ -106,7 +104,7 @@
 
         <RadioButton
             android:id="@+id/myselected_tab_3"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:button="@null"
@@ -117,7 +115,7 @@
 
         <RadioButton
             android:id="@+id/myselected_tab_4"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:button="@null"
@@ -136,28 +134,28 @@
 
         <View
             android:id="@+id/myselected_tab_view1"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@color/color04c1ab" />
 
         <View
             android:id="@+id/myselected_tab_view2"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@color/colorTransp" />
 
         <View
             android:id="@+id/myselected_tab_view3"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@color/colorTransp" />
 
         <View
             android:id="@+id/myselected_tab_view4"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@color/colorTransp" />

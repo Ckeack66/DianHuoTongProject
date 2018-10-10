@@ -11,10 +11,13 @@ import com.mhky.dianhuotong.base.BaseTool;
 import com.mhky.dianhuotong.shop.bean.CartInfo;
 import com.squareup.picasso.Picasso;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.List;
 
 /**
  * Created by Administrator on 2018/4/28.
+ * 购物车商品适配器
  */
 
 public class CartAdapter extends BaseSectionQuickAdapter<CartInfo, BaseViewHolder> {
@@ -29,6 +32,7 @@ public class CartAdapter extends BaseSectionQuickAdapter<CartInfo, BaseViewHolde
     private Context mContext;
     private int withResult;
     private int heightResult;
+    NumberFormat df = new DecimalFormat("0.00");
 
     public CartAdapter(int layoutResId, int sectionHeadResId, List<CartInfo> data, Context context) {
         super(layoutResId, sectionHeadResId, data);
@@ -38,6 +42,7 @@ public class CartAdapter extends BaseSectionQuickAdapter<CartInfo, BaseViewHolde
 
     @Override
     protected void convertHead(BaseViewHolder helper, CartInfo item) {
+
         if (item.getCartTitleInfo().isViewTab()) {
             helper.setVisible(R.id.cart_head_tab, false);
         } else {
@@ -55,6 +60,10 @@ public class CartAdapter extends BaseSectionQuickAdapter<CartInfo, BaseViewHolde
 
     @Override
     protected void convert(BaseViewHolder helper, CartInfo item) {
+
+        helper.setIsRecyclable(false);
+
+        //设定是否被选中
         if (item.getCartBodyBaseInfo().isSelectChild()) {
             helper.setChecked(R.id.cart_body_check1, true);
         } else {
@@ -62,17 +71,25 @@ public class CartAdapter extends BaseSectionQuickAdapter<CartInfo, BaseViewHolde
         }
         helper.setText(R.id.goods_base_title, item.getCartBodyBaseInfo().getGoodsItemsBean().getTitle());
         helper.setText(R.id.goods_base__companay, item.getCartBodyBaseInfo().getGoodsItemsBean().getManufacturer());
+        //设定商品进货单价
         double a = 0;
-        if (item.getCartBodyBaseInfo().getGoodsItemsBean().getAmount() > item.getCartBodyBaseInfo().getGoodsItemsBean().getSkuDTO().getBatchNums()) {
+        if (item.getCartBodyBaseInfo().getGoodsItemsBean().getAmount() >= item.getCartBodyBaseInfo().getGoodsItemsBean().getSkuDTO().getBatchNums()) {
             a = (double) item.getCartBodyBaseInfo().getGoodsItemsBean().getSkuDTO().getWholesalePrice();
         } else {
             a = (double) item.getCartBodyBaseInfo().getGoodsItemsBean().getSkuDTO().getRetailPrice();
         }
-        double money = a / 100;
+        String money = df.format(a/100);
+//        double money = a / 100;
         helper.setText(R.id.goods_base_money, "￥" + money);
         helper.setText(R.id.cart_popup_numbers, item.getCartBodyBaseInfo().getGoodsItemsBean().getAmount() + "");
-        String url = item.getCartBodyBaseInfo().getGoodsItemsBean().getPicture().split(",")[0];
-        Picasso.get().load(url).resize(withResult, heightResult).into((ImageView) helper.getView(R.id.goods_base_imageview));
+        //设定药品图片
+        if(!BaseTool.isEmpty(item.getCartBodyBaseInfo().getGoodsItemsBean().getPicture())){
+            String url = item.getCartBodyBaseInfo().getGoodsItemsBean().getPicture().split(",")[0];
+            if(!BaseTool.isEmpty(url)){
+                Picasso.get().load(url).error(R.drawable.default_pill_case).resize(withResult, heightResult).into((ImageView) helper.getView(R.id.goods_base_imageview));
+            }
+        }
+        //设定产品规格
         if (item.getCartBodyBaseInfo().getGoodsItemsBean().getSkuDTO().getSalePropertyOptions().size() == 1) {
             helper.setText(R.id.goods_base_type, item.getCartBodyBaseInfo().getGoodsItemsBean().getSkuDTO().getSalePropertyOptions().get(0).getValue());
         } else {

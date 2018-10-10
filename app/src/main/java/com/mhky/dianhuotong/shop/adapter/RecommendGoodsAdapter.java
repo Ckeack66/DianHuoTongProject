@@ -7,6 +7,7 @@ import android.widget.ImageView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.mhky.dianhuotong.R;
+import com.mhky.dianhuotong.base.BaseTool;
 import com.mhky.dianhuotong.shop.bean.RecommendBean;
 import com.squareup.picasso.Picasso;
 
@@ -21,9 +22,9 @@ public class RecommendGoodsAdapter extends BaseQuickAdapter<RecommendBean.Conten
 
     @Override
     protected void convert(BaseViewHolder helper, RecommendBean.ContentBean item) {
-        if (item.getPicture() != null) {
+        if (!BaseTool.isEmpty(item.getPicture())) {
             String[] imageDate = item.getPicture().split(",");
-            Picasso.get().load(imageDate[0]).into((ImageView) helper.getView(R.id.goods_base_imageview));
+            Picasso.get().load(imageDate[0]).error(R.drawable.default_pill_case).into((ImageView) helper.getView(R.id.goods_base_imageview));
         }
         if (item.getTitle() != null) {
             helper.setText(R.id.goods_base_title, item.getTitle());

@@ -24,6 +24,42 @@ public class ShopAdressInfo implements Serializable {
     private Object licenseImg;
     private boolean ifShopOwner;
     private String createTime;
+    private String regionCode;
+    private String postalcode;
+    private String phone;
+    private String salesmanAuditStatus;
+
+    public String getRegionCode() {
+        return regionCode;
+    }
+
+    public void setRegionCode(String regionCode) {
+        this.regionCode = regionCode;
+    }
+
+    public String getPostalcode() {
+        return postalcode;
+    }
+
+    public void setPostalcode(String postalcode) {
+        this.postalcode = postalcode;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getSalesmanAuditStatus() {
+        return salesmanAuditStatus;
+    }
+
+    public void setSalesmanAuditStatus(String salesmanAuditStatus) {
+        this.salesmanAuditStatus = salesmanAuditStatus;
+    }
 
     public String getShopname() {
         return shopname;

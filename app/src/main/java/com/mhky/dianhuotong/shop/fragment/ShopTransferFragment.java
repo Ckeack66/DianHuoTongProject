@@ -36,6 +36,7 @@ import butterknife.Unbinder;
  * A simple {@link Fragment} subclass.
  * Use the {@link ShopTransferFragment#newInstance} factory method to
  * create an instance of this fragment.
+ * 商家开户配送Fragment
  */
 public class ShopTransferFragment extends Fragment implements CompanyIF {
     // TODO: Rename parameter arguments, choose names that match

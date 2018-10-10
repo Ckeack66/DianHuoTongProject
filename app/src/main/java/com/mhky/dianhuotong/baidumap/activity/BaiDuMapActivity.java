@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -31,7 +32,9 @@ import com.baidu.mapapi.map.MyLocationConfiguration;
 import com.baidu.mapapi.map.MyLocationData;
 import com.baidu.mapapi.map.OverlayOptions;
 import com.baidu.mapapi.map.TextureMapView;
+import com.baidu.mapapi.map.UiSettings;
 import com.baidu.mapapi.model.LatLng;
+import com.baidu.mapapi.model.LatLngBounds;
 import com.baidu.mapapi.model.inner.Point;
 import com.baidu.mapapi.search.geocode.GeoCodeOption;
 import com.baidu.mapapi.search.geocode.GeoCodeResult;
@@ -75,6 +78,7 @@ public class BaiDuMapActivity extends BaseActivity implements BaiduMap.OnMapClic
     DianHuoTongBaseTitleBar dianHuoTongBaseTitleBar;
     @BindView(R.id.baidumap_search_text)
     EditText editTextMap;
+
     private BaiduMap baiduMap;
     private static final String TAG = "BaiDuMapActivity";
     private BitmapDescriptor bitmapDescriptor;
@@ -85,8 +89,8 @@ public class BaiDuMapActivity extends BaseActivity implements BaiduMap.OnMapClic
     private PoiSearch poiSearch;
     private String mCity;
     private Context mContext;
-    private String getCity;
-    private String getArea;
+    private String getCity;                         //城市
+    private String getArea;                         //街道办事处
     private String chooseProvance = "未知";
     private String chooseCity = "";
     private String chosseArea = "";
@@ -103,6 +107,7 @@ public class BaiDuMapActivity extends BaseActivity implements BaiduMap.OnMapClic
         mContext = this;
         ButterKnife.bind(this);
         init();
+
     }
 
     @Override
@@ -143,20 +148,24 @@ public class BaiDuMapActivity extends BaseActivity implements BaiduMap.OnMapClic
         Bundle bundles = getIntent().getExtras();
         if (bundles != null) {
             getCity = bundles.getString("city");
-            getArea = bundles.getString("area");
+            getArea = bundles.getString("name");
         }
         chooseCity = getCity;
         chosseArea = getArea;
 //        textureMapView.showZoomControls(false);
+        //设置缩放控件的位置，在 onMapLoadFinish 后生效
         textureMapView.setZoomControlsPosition(new android.graphics.Point(0, 0));
+        //设置Logo位置
         textureMapView.setLogoPosition(LogoPosition.logoPostionRightTop);
         baiduMap = textureMapView.getMap();
         baiduMap.setOnMapClickListener(this);
-        bitmapDescriptor = BitmapDescriptorFactory.fromResource(R.drawable.icon_location);
+        View view = LayoutInflater.from(this).inflate(R.layout.overlay_icon,null);
+        bitmapDescriptor = BitmapDescriptorFactory.fromView(view);
+//        bitmapDescriptor = BitmapDescriptorFactory.fromResource(R.drawable.icon_openmap_mark);
         poiSearch = PoiSearch.newInstance();
         dianHuoTongBaseTitleBar.setCenterTextView("坐标选择");
         dianHuoTongBaseTitleBar.setLeftImage(R.drawable.icon_back);
-//        dianHuoTongBaseTitleBar.setRightText("搜索");
+        dianHuoTongBaseTitleBar.setRightText("确定");
         dianHuoTongBaseTitleBar.setLeftOnclickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -164,6 +173,14 @@ public class BaiDuMapActivity extends BaseActivity implements BaiduMap.OnMapClic
                 finish();
             }
         });
+        dianHuoTongBaseTitleBar.setRightTextOnclickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                returnData();
+                finish();
+            }
+        });
+//        dianHuoTongBaseTitleBar.setRightText("搜索");
 //        dianHuoTongBaseTitleBar.setRightTextOnclickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {
@@ -307,7 +324,9 @@ public class BaiDuMapActivity extends BaseActivity implements BaiduMap.OnMapClic
             MyLocationData myLocationData = new MyLocationData.Builder().accuracy(location.getRadius()).direction(100).latitude(location.getLatitude()).longitude(location.getLongitude()).build();
             baiduMap.setMyLocationData(myLocationData);
             LatLng newcenpt = new LatLng(location.getLatitude(), location.getLongitude());
-            MapStatusUpdate u = MapStatusUpdateFactory.newLatLngZoom(newcenpt, 16.0f);
+            //设置地图中心点以及缩放级别
+            MapStatusUpdate u = MapStatusUpdateFactory.newLatLngZoom(newcenpt, 17.0f);
+            //以动画方式更新地图状态，动画耗时 300 ms
             baiduMap.animateMapStatus(u);
             textViewName.setText("地点：" + locate);
             textViewJingDu.setText(location.getLongitude() + "");
@@ -334,15 +353,17 @@ public class BaiDuMapActivity extends BaseActivity implements BaiduMap.OnMapClic
         zBY = "" + latLng.latitude;
         textViewJingDu.setText(latLng.longitude + "");
         textViewWeiDu.setText(latLng.latitude + "");
+        //地理编码查询接口
         GeoCoder geoCoder = GeoCoder.newInstance();
         BaseTool.logPrint(TAG, "getLocateinfo: --------------");
         geoCoder.setOnGetGeoCodeResultListener(new OnGetGeoCoderResultListener() {
+            //地理编码查询结果回调函数
             @Override
             public void onGetGeoCodeResult(GeoCodeResult geoCodeResult) {
                 BaseTool.logPrint(TAG, "onGetReverseGeoCodeResult: ");
 
             }
-
+            //反地理编码查询结果回调函数
             @Override
             public void onGetReverseGeoCodeResult(ReverseGeoCodeResult reverseGeoCodeResult) {
                 textViewName.setText("地点：" + reverseGeoCodeResult.getAddress() + reverseGeoCodeResult.getSematicDescription());
@@ -361,7 +382,7 @@ public class BaiDuMapActivity extends BaseActivity implements BaiduMap.OnMapClic
     }
 
     /**
-     * 根据城市加位置名称定位到该点
+     * 根据城市加街道办事处名称定位到该点
      *
      * @param mCity
      * @param name
@@ -378,6 +399,7 @@ public class BaiDuMapActivity extends BaseActivity implements BaiduMap.OnMapClic
                     baiduMap.animateMapStatus(u);
                     baiduMap.clear();
                     OverlayOptions overlayOptions = new MarkerOptions().position(newcenpt).icon(bitmapDescriptor).perspective(true);
+                    //向地图添加一个覆盖层
                     baiduMap.addOverlay(overlayOptions);
                     getLocateinfo(newcenpt);
                 } else {

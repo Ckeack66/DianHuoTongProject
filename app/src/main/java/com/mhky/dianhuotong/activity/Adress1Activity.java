@@ -41,7 +41,7 @@ public class Adress1Activity extends BaseActivity implements AdressIF {
     WaveSideBar waveSideBar;
     @BindView(R.id.adress1_image_city)
     TextView textViewLocation;
-    private List<AdressBaseInfo> list;
+    private List<AdressBaseInfo> list;                                              //城市列表
     private AdressPrecenter adressPrecenter;
     private AdressExpandbleListviewAdapter adressExpandbleListviewAdapter;
     private String[] mIndexString;

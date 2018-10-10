@@ -1,5 +1,6 @@
 package com.mhky.dianhuotong.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.text.method.HideReturnsTransformationMethod;
@@ -34,6 +35,10 @@ import com.mhky.dianhuotong.register.RegisterPrecenter;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+
+/**
+ * 注册的时候，先验证验证码是否符合，然后再去注册
+ */
 
 public class RegisterActivity extends BaseActivity implements TimerMessage.OnTimerListener, RegisterIF, SaleManIF, DianHuoTongBaseDialog.BaseDialogListener {
     @BindView(R.id.register_titlebar)
@@ -177,6 +182,7 @@ public class RegisterActivity extends BaseActivity implements TimerMessage.OnTim
 ////                saleManPresenter.getSaleMan(editTextWaiterCode.getText().toString().trim());
 ////            }
 //        } else {
+
         loadingDialog.show();
         registerPrecenter.checkSMS(editTextPhone.getText().toString().trim(), editTextPhoneCode.getText().toString().trim());
 //        }
@@ -231,12 +237,12 @@ public class RegisterActivity extends BaseActivity implements TimerMessage.OnTim
     }
 
     /**
-     * 设置发送密码不可以点击
+     * 设置发送验证码不可以点击
      */
     private void messageButtonNo() {
+        txtMessage.setClickable(false);
         txtMessage.setTextColor(getResources().getColor(R.color.colorBFBFBF));
         txtMessage.setBackground(getResources().getDrawable(R.drawable.shape_register_getcode_grey));
-        txtMessage.setClickable(false);
     }
 
     /**
@@ -252,7 +258,13 @@ public class RegisterActivity extends BaseActivity implements TimerMessage.OnTim
         }
         if (code == 200) {
             ToastUtil.makeText(this, "注册成功！", Toast.LENGTH_SHORT).show();
-            finish();
+            Bundle b = new Bundle();
+            b.putString("phone",editTextPhone.getText().toString().trim());
+            b.putString("pwd",editTextPwd.getText().toString().trim());
+            Intent intent = new Intent();
+            intent.putExtras(b);
+            RegisterActivity.this.setResult(7,intent);
+            RegisterActivity.this.finish();
         } else {
             ToastUtil.makeText(this, "发生未知错误-" + code, Toast.LENGTH_SHORT).show();
         }
@@ -336,7 +348,8 @@ public class RegisterActivity extends BaseActivity implements TimerMessage.OnTim
             if (loadingDialog != null && loadingDialog.isShowing()) {
                 loadingDialog.dismiss();
             }
-            ToastUtil.makeText(this, "验证码校验失败" + code, Toast.LENGTH_SHORT).show();
+//            ToastUtil.makeText(this, "验证码校验失败" + code, Toast.LENGTH_SHORT).show();
+            ToastUtil.makeText(this, result, Toast.LENGTH_SHORT).show();
         }
     }
 

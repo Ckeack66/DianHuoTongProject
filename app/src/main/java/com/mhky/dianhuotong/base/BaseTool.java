@@ -10,6 +10,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,17 +40,20 @@ import java.util.Map;
 
 /**
  * Created by Administrator on 2018/3/31.
+ * 工具类
  */
 
 public class BaseTool {
     private static final String TAG = "BaseTool";
 
+    //StartActivity   不带参数
     public static void goActivityNoData(Context context, Class cls) {
         Intent intent = new Intent();
         intent.setClass(context, cls);
         context.startActivity(intent);
     }
 
+    //StartActivity   带参数
     public static void goActivityWithData(Context context, Class cls, Bundle data) {
         Intent intent = new Intent();
         intent.setClass(context, cls);
@@ -319,6 +323,7 @@ public class BaseTool {
         return (int) (pxValue / fontScale + 0.5f);
     }
 
+    //比较两个日期前后  str1 > str2 (true)             str1 < str2 (false)
     public static boolean isDateOneBigger(String str1, String str2) {
         boolean isBigger = false;
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
@@ -340,9 +345,9 @@ public class BaseTool {
 
     public static void logPrint(String ar1, String ar2) {
 //        if (BuildConfig.LOG_DEBUG){
-        Log.d("log开始打印->", "**************************************************************");
-        Log.d(ar1, ar2);
-        Log.d("log打印结束->", "**************************************************************");
+        Log.e("log开始打印->", "**************************************************************");
+        Log.e(ar1, ar2);
+//        Log.e("log打印结束->", "**************************************************************");
 //        }
     }
 
@@ -375,5 +380,14 @@ public class BaseTool {
             e.printStackTrace();
         }
         return localVersion;
+    }
+
+    /**空String判断*/
+    public static boolean isEmpty(CharSequence str) {
+        if (TextUtils.isEmpty(str) || str.equals("null") || str == null) {//后台可能会返回“null”
+            return true;
+        } else {
+            return false;
+        }
     }
 }

@@ -11,9 +11,11 @@ import com.mhky.dianhuotong.credential.credentialif.CredentialsDialogIF;
 
 /**
  * Created by Administrator on 2018/4/18.
+ * 获取资质证明类型的Presenter
  */
 
 public class CredentialsDialogPresenter {
+
     private CredentialsDialogIF credentialsDialogIF;
 
     public CredentialsDialogPresenter(CredentialsDialogIF credentialsDialogIF) {

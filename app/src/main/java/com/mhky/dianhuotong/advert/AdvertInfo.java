@@ -2,6 +2,10 @@ package com.mhky.dianhuotong.advert;
 
 import java.io.Serializable;
 
+/**
+ * 轮播图类
+ */
+
 public class AdvertInfo implements Serializable {
     /**
      * id : 4
@@ -15,15 +19,15 @@ public class AdvertInfo implements Serializable {
      * lastModifyTime : 2018-05-23 07:14:42
      */
 
-    private int id;
-    private String name;
-    private String key;
-    private String link;
-    private String type;
-    private String image;
-    private int sort;
-    private String createTime;
-    private String lastModifyTime;
+    private int id;                                        //id
+    private String name;                                   //banner   name
+    private String key;                                    //key
+    private String link;                                   //点击链接
+    private String type;                                   //？？
+    private String image;                                  //图片URL
+    private int sort;                                      //banner序号
+    private String createTime;                             //创建时间
+    private String lastModifyTime;                         //最后一次修改时间
 
     public int getId() {
         return id;

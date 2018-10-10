@@ -33,6 +33,7 @@ public class LoginPrecenter implements PersonIF, ShopInfoIF {
     }
 
     public void Login(String phone, String pwd) {
+        BaseTool.logPrint("login_ck",pwd);
         OkGo.<String>get(BaseUrlTool.LOGIN).params("value", phone).params("password", pwd).execute(new Callback<String>() {
             @Override
             public void onStart(Request<String, ? extends Request> request) {

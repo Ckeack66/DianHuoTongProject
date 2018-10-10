@@ -44,6 +44,7 @@ public class SortPopupwindow extends PopupWindow implements View.OnClickListener
         selectNumber = selectNumber1;
         View view = View.inflate(context, R.layout.popupwindow_goods2, null);
         setContentView(view);
+
         relativeLayout1 = view.findViewById(R.id.popupwindow_goods2_item1);
         textView1 = view.findViewById(R.id.popupwindow_goods2_item1_txt);
         imageView1 = view.findViewById(R.id.popupwindow_goods2_item1_img);
@@ -58,7 +59,8 @@ public class SortPopupwindow extends PopupWindow implements View.OnClickListener
         setTouchable(true);
         setClippingEnabled(false);
         setOutsideTouchable(false);
-        setBackgroundDrawable(new ColorDrawable(0));
+//        setBackgroundDrawable(new ColorDrawable(0));
+        setBackgroundDrawable(new ColorDrawable(0x40000000));
         try {
             showItemView(selectNumber1);
         }catch (Exception e){

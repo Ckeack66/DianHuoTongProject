@@ -37,7 +37,7 @@
                 android:layout_height="wrap_content"
                 android:text="地点："
                 android:textColor="@color/colorWhite"
-                android:textSize="@dimen/x12" />
+                android:textSize="@dimen/x13" />
 
             <View
                 android:layout_width="match_parent"
@@ -60,7 +60,7 @@
                         android:layout_height="wrap_content"
                         android:text="经度："
                         android:textColor="@color/colorWhite"
-                        android:textSize="@dimen/t12" />
+                        android:textSize="@dimen/t14" />
 
                     <TextView
                         android:id="@+id/baidumap_jingdu"
@@ -68,7 +68,7 @@
                         android:layout_height="wrap_content"
                         android:text="00.00"
                         android:textColor="@color/colorWhite"
-                        android:textSize="@dimen/t9" />
+                        android:textSize="@dimen/t10" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -82,7 +82,7 @@
                         android:layout_height="wrap_content"
                         android:text="纬度："
                         android:textColor="@color/colorWhite"
-                        android:textSize="@dimen/t12" />
+                        android:textSize="@dimen/t14" />
 
                     <TextView
                         android:id="@+id/baidumap_weidu"
@@ -90,7 +90,7 @@
                         android:layout_height="wrap_content"
                         android:text="00.00"
                         android:textColor="@color/colorWhite"
-                        android:textSize="@dimen/t9" />
+                        android:textSize="@dimen/t10" />
                 </LinearLayout>
 
 
@@ -101,8 +101,10 @@
             android:id="@+id/baidumap_search_text"
             android:layout_width="match_parent"
             android:layout_height="@dimen/x30"
-            android:background="@null"
+            android:background="@color/white"
             android:textColor="@color/color333333"
-            android:layout_marginStart="@dimen/x40"/>
+            android:layout_marginStart="@dimen/x46"
+            android:visibility="gone"/>
     </RelativeLayout>
+
 </LinearLayout>

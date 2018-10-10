@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.mhky.dianhuotong.R;
 import com.mhky.dianhuotong.base.BaseTool;
 import com.mhky.dianhuotong.shop.bean.GoodsBaseInfo;
+import com.mhky.dianhuotong.shop.bean.GoodsCategories;
 
 import java.util.List;
 
@@ -20,13 +21,14 @@ import java.util.List;
  */
 
 public class AllGoodsListview2Adapter extends BaseAdapter implements AdapterView.OnItemClickListener {
-    private List<GoodsBaseInfo.ChildrenBeanX> allGoodsBaseInfos;
+
+    private List<GoodsCategories.ItemsBean> itemsBeanList;
     private Context context;
     private OnItemGridviewClickListener onItemGridviewClickListener;
     int positionParent;
 
-    public AllGoodsListview2Adapter(List<GoodsBaseInfo.ChildrenBeanX> allGoodsBaseInfos, Context context) {
-        this.allGoodsBaseInfos = allGoodsBaseInfos;
+    public AllGoodsListview2Adapter(List<GoodsCategories.ItemsBean> itemsBeanList, Context context) {
+        this.itemsBeanList = itemsBeanList;
         this.context = context;
     }
 
@@ -36,14 +38,14 @@ public class AllGoodsListview2Adapter extends BaseAdapter implements AdapterView
 
     @Override
     public int getCount() {
-        if (allGoodsBaseInfos != null) {
-            return allGoodsBaseInfos.size();
+        if (itemsBeanList != null) {
+            return itemsBeanList.size();
         }
         return 0;
     }
 
-    public void updateData(List<GoodsBaseInfo.ChildrenBeanX> allGoodsBaseInfos1) {
-        allGoodsBaseInfos = allGoodsBaseInfos1;
+    public void updateData(List<GoodsCategories.ItemsBean> itemsBeanList1) {
+        itemsBeanList = itemsBeanList1;
         notifyDataSetChanged();
     }
 
@@ -62,13 +64,15 @@ public class AllGoodsListview2Adapter extends BaseAdapter implements AdapterView
         positionParent = position;
         convertView = View.inflate(context, R.layout.item_all_goods_listview2, null);
         TextView textView = convertView.findViewById(R.id.all_goods_listview2_text);
+        TextView tv_item_more = convertView.findViewById(R.id.tv_item_more);
         GridView gridView = convertView.findViewById(R.id.all_goods_listview2_gridview);
         RelativeLayout relativeLayout = convertView.findViewById(R.id.all_goods_listview2_more);
-        AllGoodsListViewGridviewAdpter allGoodsListViewGridviewAdpter = new AllGoodsListViewGridviewAdpter(context, allGoodsBaseInfos.get(position).getChildren(), position);
+        AllGoodsListViewGridviewAdpter allGoodsListViewGridviewAdpter = new AllGoodsListViewGridviewAdpter(context, itemsBeanList.get(position).getSubitemData(), position);
         gridView.setAdapter(allGoodsListViewGridviewAdpter);
         gridView.setOnItemClickListener(this);
-        textView.setText(allGoodsBaseInfos.get(position).getName());
-        if (allGoodsBaseInfos.get(position).getChildren().size() != 0) {
+        textView.setText(itemsBeanList.get(position).getName());
+        tv_item_more.setText(itemsBeanList.get(position).getItemMore().getName());
+        if (itemsBeanList.get(position).getSubitemData().size() != 0) {
             BaseTool.setListViewHeightBasedOnChildren(gridView, 3);
         }
         return convertView;

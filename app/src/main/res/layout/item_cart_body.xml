@@ -33,7 +33,7 @@
             android:layout_height="@dimen/x84"
             android:layout_marginTop="@dimen/x14"
             android:layout_toEndOf="@id/cart_body_check"
-            android:src="@drawable/image_test" />
+            android:src="@drawable/default_pill_case" />
 
         <RelativeLayout
             android:id="@+id/shop_good1_layout"

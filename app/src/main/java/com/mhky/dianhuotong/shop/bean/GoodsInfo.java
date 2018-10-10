@@ -5,6 +5,7 @@ import java.util.List;
 
 /**
  * Created by Administrator on 2018/4/19.
+ * 商品详情实体类
  */
 
 public class GoodsInfo implements Serializable {
@@ -877,6 +878,7 @@ public class GoodsInfo implements Serializable {
     private int brandId;
     private String name;
     private String model;
+    private String unit;
     private String manufacturer;
     private String approvalNumber;
     private String superviseCode;
@@ -884,6 +886,7 @@ public class GoodsInfo implements Serializable {
     private String barCode;
     private String picture;
     private float price;
+    private Object expiryDate;
     private String description;
     private String appDescription;
     private String instruction;
@@ -894,6 +897,23 @@ public class GoodsInfo implements Serializable {
     private String createTime;
     private String lastModifyTime;
     private List<Integer> skuIds;
+    private String letter;
+
+    public String getLetter() {
+        return letter;
+    }
+
+    public void setLetter(String letter) {
+        this.letter = letter;
+    }
+
+    public String getUnit() {
+        return unit;
+    }
+
+    public void setUnit(String unit) {
+        this.unit = unit;
+    }
 
     public Object getExpiryDate() {
         return expiryDate;
@@ -903,7 +923,7 @@ public class GoodsInfo implements Serializable {
         this.expiryDate = expiryDate;
     }
 
-    private Object expiryDate;
+
 
     public int getId() {
         return id;
@@ -1115,6 +1135,24 @@ public class GoodsInfo implements Serializable {
         private String id;
         private String shopName;
         private String address;
+        private String mainIndustry;
+        private String auditStatus;
+
+        public String getMainIndustry() {
+            return mainIndustry;
+        }
+
+        public void setMainIndustry(String mainIndustry) {
+            this.mainIndustry = mainIndustry;
+        }
+
+        public String getAuditStatus() {
+            return auditStatus;
+        }
+
+        public void setAuditStatus(String auditStatus) {
+            this.auditStatus = auditStatus;
+        }
 
         public String getId() {
             return id;

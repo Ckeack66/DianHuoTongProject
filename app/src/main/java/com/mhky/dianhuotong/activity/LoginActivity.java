@@ -1,5 +1,6 @@
 package com.mhky.dianhuotong.activity;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
@@ -35,7 +36,12 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+/**
+ * 登录页
+ */
+
 public class LoginActivity extends BaseActivity implements LoginIF {
+
     @BindView(R.id.login_title)
     DianHuoTongBaseTitleBar diaHuoTongBaseTitleBar;
     @BindView(R.id.login_phone)
@@ -50,6 +56,16 @@ public class LoginActivity extends BaseActivity implements LoginIF {
     private LoginPrecenter loginPrecenter;
     private boolean imageViewState;
     private static final String TAG = "LoginActivity";
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == 7){
+            Bundle bundle = data.getExtras();
+            editTextPhone.setText(bundle.getString("phone"));
+            editTextPwd.setText(bundle.getString("pwd"));
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,7 +102,7 @@ public class LoginActivity extends BaseActivity implements LoginIF {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (!TextUtils.isEmpty(editTextPwd.getText())&&s.length()>0){
+                if (!TextUtils.isEmpty(editTextPwd.getText()) && s.length()>0){
                     textViewLogin.setEnabled(true);
                 }else {
                     textViewLogin.setEnabled(false);
@@ -155,7 +171,8 @@ public class LoginActivity extends BaseActivity implements LoginIF {
 
     @OnClick(R.id.login_go_register)
     void goRegisterActivity() {
-        BaseTool.goActivityNoData(this, RegisterActivity.class);
+//        BaseTool.goActivityNoData(this, RegisterActivity.class);
+        startActivityForResult(new Intent(this,RegisterActivity.class),6);
     }
 
     @OnClick(R.id.login_go_forgetpwd)

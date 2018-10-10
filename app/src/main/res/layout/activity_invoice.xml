@@ -109,7 +109,7 @@
 
             <RadioButton
                 android:id="@+id/invoice_tab_1"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:button="@null"
@@ -121,7 +121,7 @@
 
             <RadioButton
                 android:id="@+id/invoice_tab_2"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:button="@null"
@@ -141,14 +141,14 @@
 
             <View
                 android:id="@+id/invoice_tab_view1"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@color/color04c1ab" />
 
             <View
                 android:id="@+id/invoice_tab_view2"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@color/colorTransp" />

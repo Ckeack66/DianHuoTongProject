@@ -1,0 +1,2 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merger version="3"><dataSet config="main"><source path="E:\android_work\DianHuoTongProject\SlidingMenu\assets"/><source path="E:\android_work\DianHuoTongProject\SlidingMenu\build\generated\assets\shaders\debug"/></dataSet><dataSet config="debug"><source path="E:\android_work\DianHuoTongProject\SlidingMenu\src\debug\assets"/></dataSet></merger>

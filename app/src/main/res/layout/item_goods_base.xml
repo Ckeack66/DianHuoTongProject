@@ -7,8 +7,8 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/x120"
-        android:layout_marginEnd="@dimen/x14"
+        android:layout_height="140dp"
+        android:layout_marginEnd="@dimen/x12"
         android:layout_marginStart="@dimen/x14">
 
         <ImageView
@@ -16,14 +16,15 @@
             android:layout_width="@dimen/x84"
             android:layout_height="@dimen/x84"
             android:layout_marginTop="@dimen/x14"
-            android:src="@drawable/image_test" />
+            android:src="@drawable/default_pill_case"
+            android:layout_centerVertical="true"/>
 
         <RelativeLayout
             android:id="@+id/shop_good1_layout"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/x106"
+            android:layout_height="140dp"
             android:layout_marginStart="@dimen/x12"
-            android:layout_marginTop="@dimen/x14"
+            android:layout_marginTop="@dimen/x10"
             android:layout_toEndOf="@id/goods_base_imageview"
             android:orientation="vertical">
 
@@ -31,29 +32,35 @@
                 android:id="@+id/goods_base_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/x14"
+                android:layout_marginEnd="@dimen/x10"
                 android:background="@color/colorWhite"
                 android:maxLines="2"
-                android:text=""
+                android:text="药品名称"
                 android:ellipsize="marquee"
                 android:textColor="@color/color333333"
-                android:textSize="@dimen/t11" />
+                android:textStyle="bold"
+                android:textSize="@dimen/t14" />
 
             <RelativeLayout
                 android:id="@+id/goods_base_shop_rel"
-                android:layout_width="@dimen/x123"
-                android:layout_height="@dimen/x10"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/x30"
                 android:layout_marginBottom="@dimen/x8"
-               android:layout_alignParentBottom="true">
+                android:layout_marginRight="@dimen/x7"
+               android:layout_alignParentBottom="true"
+                android:layout_alignParentStart="true"
+                android:layout_toLeftOf="@+id/goods_base_addcart_button">
 
                 <TextView
                     android:id="@+id/goods_base_shop_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
-                    android:text=""
+                    android:text="山东特利尔营销策划有限公司医药分公司"
+                    android:ellipsize="marquee"
+                    android:singleLine="false"
                     android:textColor="@color/color767676"
-                    android:textSize="@dimen/t8" />
+                    android:textSize="@dimen/t12" />
 
                 <TextView
                     android:id="@+id/shop_good1_number"
@@ -66,23 +73,23 @@
                     android:textSize="@dimen/t8"
                     android:visibility="gone" />
 
-
             </RelativeLayout>
+
             <RelativeLayout
                 android:id="@+id/goods_base_money_rel"
                 android:layout_width="@dimen/x180"
                 android:layout_height="@dimen/x16"
                 android:layout_above="@id/goods_base_shop_rel"
-                android:layout_marginBottom="@dimen/x10">
+                android:layout_marginBottom="@dimen/x7">
 
                 <TextView
                     android:id="@+id/shop_good1_money_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
-                    android:text="参考价"
+                    android:text="价格"
                     android:textColor="@color/color333333"
-                    android:textSize="@dimen/t9" />
+                    android:textSize="@dimen/t10" />
 
                 <TextView
                     android:id="@+id/goods_base_money"
@@ -95,32 +102,32 @@
                     android:textColor="@color/colorE20F12"
                     android:textSize="@dimen/t14" />
 
-
             </RelativeLayout>
+
             <TextView
                 android:id="@+id/goods_base__companay"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/x10"
+                android:layout_marginBottom="@dimen/x6"
                 android:layout_above="@id/goods_base_money_rel"
                 android:background="@color/colorWhite"
-                android:text=""
+                android:text="长春银诺克医药有限公司"
                 android:textColor="@color/color767676"
-                android:textSize="@dimen/t9" />
+                android:textSize="@dimen/t12" />
+
+            <TextView
+                android:id="@+id/goods_base_addcart_button"
+                android:layout_width="@dimen/x64"
+                android:layout_height="@dimen/x24"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginBottom="@dimen/x10"
+                android:background="@drawable/shape_login_button"
+                android:gravity="center"
+                android:text="加入购物车"
+                android:textSize="@dimen/t10" />
 
         </RelativeLayout>
-
-        <TextView
-            android:id="@+id/goods_base_addcart_button"
-            android:layout_width="@dimen/x64"
-            android:layout_height="@dimen/x24"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginBottom="@dimen/x10"
-            android:background="@drawable/shape_login_button"
-            android:gravity="center"
-            android:text="加入购物车"
-            android:textSize="@dimen/t10" />
 
     </RelativeLayout>
 

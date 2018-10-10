@@ -20,15 +20,17 @@ public class LoginRequestInfo implements Serializable {
      * type : null
      */
 
-    private String username;
-    private String password;
-    private String mobile;
-    private boolean enabled;
-    private Object image;
-    private Object shopId;
-    private String id;
-    private Object truename;
-    private Object type;
+    private String username;                                    //用户名称
+    private String password;                                    //用户密码
+    private String mobile;                                      //用户手机号（账号）
+    private boolean enabled;                                    //是否可以登录
+    private Object image;                                       //头像URL
+    private Object shopId;                                      //下游药店ID
+    private String id;                                          //账号ID
+    private Object truename;                                    //真实姓名
+    private Object type;                                        //0：店员    1.店长
+    private String auditStatus;                                 //账号审核状态：APPROVED：审核已过           待审核         审核未通过
+    private String salesmanCode;                                //业务员推荐码
 
     public String getUsername() {
         return username;
@@ -100,5 +102,21 @@ public class LoginRequestInfo implements Serializable {
 
     public void setType(Object type) {
         this.type = type;
+    }
+
+    public String getAuditStatus() {
+        return auditStatus;
+    }
+
+    public void setAuditStatus(String auditStatus) {
+        this.auditStatus = auditStatus;
+    }
+
+    public String getSalesmanCode() {
+        return salesmanCode;
+    }
+
+    public void setSalesmanCode(String salesmanCode) {
+        this.salesmanCode = salesmanCode;
     }
 }

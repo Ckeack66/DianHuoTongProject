@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
+ * 搜索后    商品类
  * Created by Administrator on 2018/4/19.
  */
 
@@ -27,7 +28,7 @@ public class SearchSGoodsBean implements Serializable {
     private int number;
     private int size;
     private int totalPages;
-    private int numberOfElements;
+        private int numberOfElements;
     private int totalElements;
     private boolean previousPage;
     private boolean firstPage;
@@ -142,6 +143,9 @@ public class SearchSGoodsBean implements Serializable {
         this.content = content;
     }
 
+    /**
+     * 商品详情
+     */
     public static class ContentBean implements Serializable {
         /**
          * id : 16
@@ -211,6 +215,7 @@ public class SearchSGoodsBean implements Serializable {
         private String picture;
         private int price;
         private String description;
+        private String appDescription;
         private String instruction;
         private String saleProperties;
         private ShopInfoBean shopInfo;
@@ -220,6 +225,34 @@ public class SearchSGoodsBean implements Serializable {
         private String lastModifyTime;
         private List<Integer> skuIds;
         private List<PromotionInfosBean> promotionInfos;
+        private String expiryDate;
+        private String letter;
+        private String unit;
+
+        public String getUnit() {
+            return unit;
+        }
+
+        public void setUnit(String unit) {
+            this.unit = unit;
+        }
+
+        public String getLetter() {
+            return letter;
+        }
+
+        public void setLetter(String letter) {
+            this.letter = letter;
+        }
+
+        public String getAppDescription() {
+            return appDescription;
+        }
+
+        public void setAppDescription(String appDescription) {
+            this.appDescription = appDescription;
+        }
+
         public String getExpiryDate() {
             return expiryDate;
         }
@@ -227,8 +260,6 @@ public class SearchSGoodsBean implements Serializable {
         public void setExpiryDate(String expiryDate) {
             this.expiryDate = expiryDate;
         }
-
-        private String expiryDate;
 
         public int getId() {
             return id;
@@ -377,6 +408,10 @@ public class SearchSGoodsBean implements Serializable {
         public ShopInfoBean getShopInfo() {
             return shopInfo;
         }
+
+        /**
+         * 店铺详情
+         */
         public static class ShopInfoBean implements Serializable {
 
             /**
@@ -388,6 +423,24 @@ public class SearchSGoodsBean implements Serializable {
             private String address;
             private String shopName;
             private String id;
+            private String mainIndustry;
+            private String auditStatus;
+
+            public String getMainIndustry() {
+                return mainIndustry;
+            }
+
+            public void setMainIndustry(String mainIndustry) {
+                this.mainIndustry = mainIndustry;
+            }
+
+            public String getAuditStatus() {
+                return auditStatus;
+            }
+
+            public void setAuditStatus(String auditStatus) {
+                this.auditStatus = auditStatus;
+            }
 
             public String getAddress() {
                 return address;
@@ -456,6 +509,7 @@ public class SearchSGoodsBean implements Serializable {
         public void setSkuIds(List<Integer> skuIds) {
             this.skuIds = skuIds;
         }
+
         public List<PromotionInfosBean> getPromotionInfos() {
             return promotionInfos;
         }
@@ -463,6 +517,10 @@ public class SearchSGoodsBean implements Serializable {
         public void setPromotionInfos(List<PromotionInfosBean> promotionInfos) {
             this.promotionInfos = promotionInfos;
         }
+
+        /**
+         * 平台审核详情
+         */
         public static class AduitGoodsInfoBean implements Serializable {
             /**
              * goodsId : 16
@@ -508,6 +566,10 @@ public class SearchSGoodsBean implements Serializable {
                 this.remarks = remarks;
             }
         }
+
+        /**
+         * 促销信息
+         */
         public static class PromotionInfosBean {
             /**
              * promotionId : 38

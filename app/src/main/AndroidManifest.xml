@@ -80,7 +80,7 @@
         android:theme="@style/AppTheme">
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
-            android:value="guEle2R0kMZVXMg3Zu5h4RkuW1ueKS8f" />
+            android:value="TdDPx74wyL0LnNbRbWCsPYBRYuAWQhhg" />
 
         <activity android:name=".activity.WelcomActivity" />
         <activity android:name=".base.view.BaseActivity" />
@@ -164,6 +164,7 @@
             android:exported="false"
             android:screenOrientation="behind"
             android:windowSoftInputMode="adjustResize|stateHidden" />
+
         <activity android:name=".shop.activity.GoodsInfoActivity" />
         <activity android:name=".shop.activity.ShopActivity" />
         <activity android:name=".shop.activity.CardActivity" />
@@ -183,14 +184,26 @@
         <!-- 蒲公英 -->
         <meta-data
             android:name="PGYER_APPID"
-            android:value="f57f476d284f75a39ad8816165320863 " />
+            android:value="75638de265dc597e5d72a777f0d88cff" />
 
         <activity android:name=".shop.activity.OrderInfoActivity" />
         <activity android:name=".activity.FeedBackBaseActivity" />
+
         <activity
             android:name=".wxapi.WXPayEntryActivity"
             android:exported="true"
-            android:launchMode="singleTop" />
+            android:launchMode="singleTop" >
+        </activity>
+        <!--<activity-->
+            <!--android:name=".wxapi.WXPayEntryActivity"-->
+            <!--android:exported="true"-->
+            <!--android:launchMode="singleTop" >-->
+            <!--<intent-filter>-->
+                <!--<action android:name="android.intent.action.VIEW"/>-->
+                <!--<category android:name="android.intent.category.DEFAULT"/>-->
+                <!--<data android:scheme="wx1aa6ee31b052846b"/>-->
+            <!--</intent-filter>-->
+        <!--</activity>-->
         <activity
             android:name=".shop.activity.OderOkActivity"
             android:windowSoftInputMode="stateHidden|adjustPan" />
@@ -210,7 +223,9 @@
         <activity android:name=".activity.BootPageActivity" />
         <activity android:name=".shop.activity.RecommendActivity" />
         <activity android:name=".shop.activity.TransferPostActivity" />
-        <activity android:name=".activity.DocumentActivity"></activity>
+        <activity android:name=".activity.DocumentActivity" />
+        <activity android:name=".base.BaseActivityCK" />
+        <activity android:name=".activity.GoldGoodsActivity"></activity>
     </application>
 
 </manifest>

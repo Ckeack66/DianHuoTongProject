@@ -31,6 +31,15 @@ public class ShopCouponInfo implements Serializable {
     private String operator;
     private boolean status;
     private List<?> goodsIds;
+    private boolean haved;
+
+    public boolean isHaved() {
+        return haved;
+    }
+
+    public void setHaved(boolean haved) {
+        this.haved = haved;
+    }
 
     public String getId() {
         return id;

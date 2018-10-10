@@ -5,6 +5,7 @@ import java.util.List;
 
 /**
  * Created by Administrator on 2018/5/4.
+ * 上游B  药品分类实体
  */
 
 public class ShopTypeInfo implements Serializable {
@@ -21,6 +22,7 @@ public class ShopTypeInfo implements Serializable {
     private String name;
     private int nums;
     private List<String> goodsIds;
+    private boolean isSelect = false;
 
     public boolean isSelect() {
         return isSelect;
@@ -29,8 +31,6 @@ public class ShopTypeInfo implements Serializable {
     public void setSelect(boolean select) {
         isSelect = select;
     }
-
-    private boolean isSelect = false;
 
     public String getShopId() {
         return shopId;

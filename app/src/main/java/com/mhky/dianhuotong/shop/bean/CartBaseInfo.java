@@ -5,6 +5,7 @@ import java.util.List;
 
 /**
  * Created by Administrator on 2018/5/5.
+ * 购物车商品实体类  II
  */
 
 public class CartBaseInfo implements Serializable {
@@ -75,12 +76,15 @@ public class CartBaseInfo implements Serializable {
         private boolean shelves;
         private boolean offShelves;
         private String auditStatus;
-        private Object expirationTime;
-        private Object promotionDTO;
+//        private Object expirationTime;
+//        private Object promotionDTO;
         private int amount;
         private int inPrice;
         private boolean checked;
         private boolean enable;
+        //运费实体类（自己添加，提交订单界面需使用）
+        private FrigthInfo frigthInfo;
+
 
         public FrigthInfo getFrigthInfo() {
             return frigthInfo;
@@ -89,8 +93,6 @@ public class CartBaseInfo implements Serializable {
         public void setFrigthInfo(FrigthInfo frigthInfo) {
             this.frigthInfo = frigthInfo;
         }
-
-        private FrigthInfo frigthInfo;
 
         public CouponInfo getCouponInfo() {
             return couponInfo;
@@ -230,21 +232,21 @@ public class CartBaseInfo implements Serializable {
             this.auditStatus = auditStatus;
         }
 
-        public Object getExpirationTime() {
-            return expirationTime;
-        }
-
-        public void setExpirationTime(Object expirationTime) {
-            this.expirationTime = expirationTime;
-        }
-
-        public Object getPromotionDTO() {
-            return promotionDTO;
-        }
-
-        public void setPromotionDTO(Object promotionDTO) {
-            this.promotionDTO = promotionDTO;
-        }
+//        public Object getExpirationTime() {
+//            return expirationTime;
+//        }
+//
+//        public void setExpirationTime(Object expirationTime) {
+//            this.expirationTime = expirationTime;
+//        }
+//
+//        public Object getPromotionDTO() {
+//            return promotionDTO;
+//        }
+//
+//        public void setPromotionDTO(Object promotionDTO) {
+//            this.promotionDTO = promotionDTO;
+//        }
 
         public int getAmount() {
             return amount;
@@ -301,7 +303,16 @@ public class CartBaseInfo implements Serializable {
             private int batchNums;
             private boolean enable;
             private String expirationDate;
+            private int retail;
             private List<SalePropertyOptionsBean> salePropertyOptions;
+
+            public int isRetail() {
+                return retail;
+            }
+
+            public void setRetail(int retail) {
+                this.retail = retail;
+            }
 
             public int getId() {
                 return id;

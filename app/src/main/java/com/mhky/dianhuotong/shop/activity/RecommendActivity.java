@@ -139,7 +139,7 @@ public class RecommendActivity extends BaseActivity implements RecommentIF, Good
                         cartPopupwindow.dismiss();
                     }
                     goodsInfo = JSON.parseObject(result, GoodsInfo.class);
-                    cartPopupwindow = new CartPopupwindow(this, goodsInfo);
+                    cartPopupwindow = new CartPopupwindow(this, goodsInfo,4);
                     cartPopupwindow.showAtLocation(dianHuoTongBaseTitleBar, Gravity.BOTTOM, 0, 0);
                     //ToastUtil.makeText(mContext, searchSGoodsBean.getContent().get(position).getName(), Toast.LENGTH_SHORT).show();
                 } else {
@@ -178,7 +178,8 @@ public class RecommendActivity extends BaseActivity implements RecommentIF, Good
                         public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                             try {
                                 Bundle bundle = new Bundle();
-                                bundle.putSerializable("id", recommendBean.getContent().get(position).getId() + "");
+//                                bundle.putSerializable("id", recommendBean.getContent().get(position).getId() + "");
+                                bundle.putSerializable("id", recommendGoodsAdapter.getData().get(position).getId() + "");
                                 BaseTool.goActivityWithData(mContext, GoodsActivity.class, bundle);
                             } catch (Exception e) {
                                 PgyCrashManager.reportCaughtException(mContext, e);
@@ -192,12 +193,11 @@ public class RecommendActivity extends BaseActivity implements RecommentIF, Good
                         public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                             try {
                                 BaseTool.logPrint(TAG, "onItemChildClick: ---" + position);
-                                goodsPrecenter.getGoodsInfo(String.valueOf(recommendBean.getContent().get(position).getId()));
+//                                goodsPrecenter.getGoodsInfo(String.valueOf(recommendBean.getContent().get(position).getId()));
+                                goodsPrecenter.getGoodsInfo(String.valueOf(recommendGoodsAdapter.getData().get(position).getId()));
                             } catch (Exception e) {
                                 PgyCrashManager.reportCaughtException(mContext, e);
                             }
-
-
                         }
                     });
                     recyclerViewRecommend.setAdapter(recommendGoodsAdapter);
@@ -210,7 +210,8 @@ public class RecommendActivity extends BaseActivity implements RecommentIF, Good
                     smartRefreshLayout.finishRefresh();
                     page++;
                 } else if (state == 1) {
-                    recommendBean.getContent().addAll(recommendBean1.getContent());
+//                    recommendBean.getContent().addAll(recommendBean1.getContent());
+//                    recommendGoodsAdapter.loadMoreComplete();
                     recommendGoodsAdapter.addData(recommendBean1.getContent());
                     smartRefreshLayout.finishLoadMore();
                     if (recommendBean1.getContent().size() < 10) {

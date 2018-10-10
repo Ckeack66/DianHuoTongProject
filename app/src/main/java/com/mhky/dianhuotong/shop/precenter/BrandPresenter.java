@@ -19,7 +19,9 @@ public class BrandPresenter {
     private BrandIF brandIF;
 
     public void getBrandInfo(HttpParams httpParams) {
-        OkGo.<String>get(BaseUrlTool.GET_BRAND).params(httpParams).execute(new Callback<String>() {
+        OkGo.<String>get(BaseUrlTool.GET_BRAND)
+                .params(httpParams)
+                .execute(new Callback<String>() {
             @Override
             public void onStart(Request<String, ? extends Request> request) {
 

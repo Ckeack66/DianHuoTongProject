@@ -42,7 +42,8 @@
                     android:paddingTop="@dimen/x10"
                     android:text=""
                     android:textColor="@color/color333333"
-                    android:textSize="@dimen/t14" />
+                    android:textSize="@dimen/t16"
+                    android:textStyle="bold"/>
             </LinearLayout>
 
             <View
@@ -271,15 +272,18 @@
                     android:src="@drawable/icon_shop_good_shopimg"
                     android:layout_centerVertical="true"/>
 
+
                 <TextView
                     android:id="@+id/goods_shop_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginStart="@dimen/x10"
+                    android:layout_marginRight="@dimen/x10"
                     android:layout_toEndOf="@id/goods_shop_img"
-                    android:text=""
+                    android:text="dasdadadaddsadadasdaaaaaaaaaaaaaaaaaaaaaaa"
                     android:textColor="@color/color333333"
+                    android:layout_toStartOf="@+id/goods_base_go_shop"
                     android:textSize="@dimen/t14" />
 
                 <LinearLayout
@@ -368,9 +372,11 @@
                     android:paddingEnd="@dimen/x10"
                     android:paddingStart="@dimen/x10"
                     android:paddingTop="@dimen/x4"
+                    android:layout_marginStart="@dimen/x10"
                     android:text="进入店铺"
                     android:textColor="@color/colorB23700"
                     android:textSize="@dimen/t12" />
+
             </RelativeLayout>
 
             <RelativeLayout
@@ -413,7 +419,7 @@
                 android:paddingTop="@dimen/x10"
                 android:text="暂无配送信息！"
                 android:textColor="@color/color333333"
-                android:textSize="@dimen/t8" />
+                android:textSize="@dimen/t11" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -491,7 +497,8 @@
             android:layout_height="match_parent"
             android:layout_alignParentEnd="true"
             android:alpha="0.6"
-            android:src="@drawable/icon_shop_good_more" />
+            android:src="@drawable/icon_shop_good_more"
+            android:visibility="gone"/>
     </RelativeLayout>
 
     <LinearLayout
@@ -505,10 +512,12 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@color/colorWhite">
+
             <RelativeLayout
                 android:id="@+id/go_cart_ll"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:layout_centerInParent="true">
                 <TextView
                     android:id="@+id/go_cart"
                     android:layout_width="wrap_content"

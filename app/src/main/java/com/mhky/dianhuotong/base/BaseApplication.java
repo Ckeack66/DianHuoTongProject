@@ -1,29 +1,22 @@
 package com.mhky.dianhuotong.base;
 
 import android.content.Context;
-import android.content.IntentFilter;
 import android.content.SharedPreferences;
-import android.database.sqlite.SQLiteDatabase;
-import android.net.ConnectivityManager;
-import android.net.wifi.WifiManager;
 import android.support.multidex.MultiDex;
 
+import com.alibaba.fastjson.JSON;
 import com.baidu.mapapi.SDKInitializer;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.lzy.okgo.OkGo;
-import com.mhky.dianhuotong.greendao.DaoMaster;
-import com.mhky.dianhuotong.greendao.DaoSession;
 import com.mhky.dianhuotong.login.LoginRequestInfo;
 import com.mhky.dianhuotong.person.bean.PersonInfo;
-import com.mhky.dianhuotong.receiver.SystemBrocastReciver;
 import com.mhky.dianhuotong.shop.bean.GoodsBaseInfo;
+import com.mhky.dianhuotong.shop.bean.GoodsCategories;
 import com.mhky.dianhuotong.shop.bean.ShopInfoByUserID;
 import com.pgyersdk.crash.PgyCrashManager;
 import com.tencent.smtt.sdk.QbSdk;
 
-import org.greenrobot.greendao.database.Database;
 import org.greenrobot.greendao.query.QueryBuilder;
-import org.litepal.LitePal;
 import org.litepal.LitePalApplication;
 
 import java.util.List;
@@ -40,11 +33,16 @@ public class BaseApplication extends LitePalApplication {
     private static final String MY_USER_NAME="myusername";
     private static final String MY_USER_PWD="mypwd";
     private static final String DAO_SESSION="search-data";
+    private static final String ALL_GOODS_TYPE_NEW = "ALL_GOODS_TYPE_NEW";                          //商品类目(全的)
+    private static final String ALL_GOODS_TYPE_OLD = "ALL_GOODS_TYPE_OLD";                          //商品类目(仅仅是商品的)
     public static final String wxAction="com.mhky.dianhuotong.balance";
     private static SharedPreferences mSharedPreferences;
     private Context mContext;
     private String userPhone;
     private String userPwd;
+
+    private String mypswsds;
+
     public String getMypswsds() {
         return mypswsds;
     }
@@ -53,7 +51,7 @@ public class BaseApplication extends LitePalApplication {
         this.mypswsds = mypswsds;
     }
 
-    private String mypswsds;
+    private PersonInfo personInfo;
 
     public PersonInfo getPersonInfo() {
         return personInfo;
@@ -63,7 +61,7 @@ public class BaseApplication extends LitePalApplication {
         this.personInfo = personInfo;
     }
 
-    private PersonInfo personInfo;
+    private boolean isUpdata = true;
 
     public boolean isUpdata() {
         return isUpdata;
@@ -73,7 +71,7 @@ public class BaseApplication extends LitePalApplication {
         isUpdata = updata;
     }
 
-    private boolean isUpdata = true;
+    private LoginRequestInfo loginRequestInfo;
 
     public LoginRequestInfo getLoginRequestInfo() {
         return loginRequestInfo;
@@ -83,7 +81,7 @@ public class BaseApplication extends LitePalApplication {
         this.loginRequestInfo = loginRequestInfo;
     }
 
-    private LoginRequestInfo loginRequestInfo;
+    private List<GoodsBaseInfo> allGoodsBaseInfos;
 
     public List<GoodsBaseInfo> getAllGoodsBaseInfos() {
         return allGoodsBaseInfos;
@@ -93,7 +91,10 @@ public class BaseApplication extends LitePalApplication {
         this.allGoodsBaseInfos = allGoodsBaseInfos;
     }
 
-    private List<GoodsBaseInfo> allGoodsBaseInfos;
+    /**
+     * 更新购物车
+     */
+    private boolean isUpdateCart = false;
 
     public boolean isUpdateCart() {
         return isUpdateCart;
@@ -103,7 +104,7 @@ public class BaseApplication extends LitePalApplication {
         isUpdateCart = updateCart;
     }
 
-    private boolean isUpdateCart = false;
+    private ShopInfoByUserID shopInfoByUserID;
 
     public ShopInfoByUserID getShopInfoByUserID() {
         return shopInfoByUserID;
@@ -113,17 +114,20 @@ public class BaseApplication extends LitePalApplication {
         this.shopInfoByUserID = shopInfoByUserID;
     }
 
-    private ShopInfoByUserID shopInfoByUserID;
-
     @Override
     public void onCreate() {
         super.onCreate();
+        //初始化OkGo     setRetryCount()  设置请求失败之后的重新请求次数
         OkGo.getInstance().setRetryCount(1).init(this);
         mContext = this;
         mSharedPreferences = this.getSharedPreferences(MY_SHARE_NAME, MODE_PRIVATE);
+        //Fresco图片加载框架初始化
         Fresco.initialize(this);
+        //百度地图初始化
         SDKInitializer.initialize(getApplicationContext());
+        //activity管理器初始化
         BaseActivityManager.getInstance();
+        //腾讯TBS5核浏览器初始化
         QbSdk.initX5Environment(this, new QbSdk.PreInitCallback() {
             @Override
             public void onCoreInitFinished() {
@@ -135,7 +139,10 @@ public class BaseApplication extends LitePalApplication {
                 BaseTool.logPrint(TAG, "onCoreInitFinished: -----腾讯x5内核初始化" + b);
             }
         });
+        //蒲公英框架的注册初始化
         PgyCrashManager.register(this);
+//        PgyCrashManager.register();
+        //GreenDao数据库操作框架
         QueryBuilder.LOG_SQL=true;
         QueryBuilder.LOG_SQL=true;
     }
@@ -159,16 +166,49 @@ public class BaseApplication extends LitePalApplication {
     public boolean setToakens(String toaken) {
         return mSharedPreferences.edit().putString(MY_TOAKEN, toaken).commit();
     }
+
     public void setUserLoginInfo(String phone,String pwd){
         mSharedPreferences.edit().putString(MY_USER_NAME, phone).apply();
         mSharedPreferences.edit().putString(MY_USER_PWD, pwd).apply();
     }
+
     public String getUserPhone(){
         return mSharedPreferences.getString(MY_USER_NAME, null);
     }
     public String getUserPwd(){
         return mSharedPreferences.getString(MY_USER_PWD, null);
     }
+
+    /*   设置全部的allGoodsType   */
+    public void setGoodsCategories(List<GoodsCategories> goodsCategories){
+        String s = JSON.toJSONString(goodsCategories);
+        mSharedPreferences.edit().putString(ALL_GOODS_TYPE_NEW,s).apply();
+    }
+
+    public List<GoodsCategories> getGoodsCategories(){
+        if (mSharedPreferences.getString(ALL_GOODS_TYPE_NEW,null) != null){
+            List<GoodsCategories> list = JSON.parseArray(mSharedPreferences.getString(ALL_GOODS_TYPE_NEW,null),GoodsCategories.class);
+            return list;
+        }else {
+            return null;
+        }
+    }
+
+    /*   设置单单商品的allGoodsType   */
+    public void setGoodsType(List<GoodsBaseInfo> goodsBaseInfoList){
+        String s = JSON.toJSONString(goodsBaseInfoList);
+        mSharedPreferences.edit().putString(ALL_GOODS_TYPE_OLD,s).apply();
+    }
+
+    public List<GoodsBaseInfo> getGoodsType(){
+        if (mSharedPreferences.getString(ALL_GOODS_TYPE_NEW,null) != null){
+            List<GoodsBaseInfo> list = JSON.parseArray(mSharedPreferences.getString(ALL_GOODS_TYPE_OLD,null),GoodsBaseInfo.class);
+            return list;
+        }else {
+            return null;
+        }
+    }
+
     public boolean clearToaken() {
         BaseApplication.getInstansApp().setLoginRequestInfo(null);
         BaseApplication.getInstansApp().setPersonInfo(null);

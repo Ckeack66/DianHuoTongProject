@@ -8,14 +8,12 @@ import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.content.PermissionChecker;
 import android.support.v4.widget.DrawerLayout;
-import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
@@ -28,11 +26,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
-import com.joker.annotation.PermissionsDenied;
 import com.joker.annotation.PermissionsGranted;
-import com.joker.annotation.PermissionsRequestSync;
 import com.joker.api.Permissions4M;
-import com.liqi.utils.encoding.MD5Util;
+import com.lzy.okgo.model.HttpParams;
 import com.mhky.dianhuotong.R;
 import com.mhky.dianhuotong.advert.AdvertInfo;
 import com.mhky.dianhuotong.advert.AdvertMainIF;
@@ -46,27 +42,23 @@ import com.mhky.dianhuotong.custom.ToastUtil;
 import com.mhky.dianhuotong.custom.viewgroup.DianHuoTongBaseTitleBar;
 import com.mhky.dianhuotong.login.LoginIF;
 import com.mhky.dianhuotong.login.LoginPrecenter;
-import com.mhky.dianhuotong.main.GlideImageLoader;
 import com.mhky.dianhuotong.main.MainIF;
 import com.mhky.dianhuotong.main.adpter.DrawerLayoutAdapter;
 import com.mhky.dianhuotong.main.adpter.GridViewAdapter;
 import com.mhky.dianhuotong.main.presenter.MainActivityPrecenter;
 import com.mhky.dianhuotong.receiver.UpdateMainViewIF;
 import com.mhky.dianhuotong.receiver.UpdateMainViewReceiver;
-import com.mhky.dianhuotong.shop.adapter.AllGoodsListview1Adapter;
-import com.mhky.dianhuotong.shop.adapter.AllGoodsListview2Adapter;
 import com.mhky.dianhuotong.shop.bean.GoodsBaseInfo;
+import com.mhky.dianhuotong.shop.bean.GoodsCategories;
 import com.mhky.dianhuotong.shop.precenter.AllGoosPrecenter;
 import com.mhky.dianhuotong.shop.precenter.ShopInfoPresenter;
 import com.mhky.dianhuotong.shop.shopif.AllGoodsIF;
+import com.mhky.dianhuotong.shop.shopif.GoodsCategoriesIF;
 import com.pgyersdk.crash.PgyCrashManager;
 import com.pgyersdk.javabean.AppBean;
 import com.pgyersdk.update.PgyUpdateManager;
 import com.pgyersdk.update.UpdateManagerListener;
 import com.squareup.picasso.Picasso;
-import com.youth.banner.Banner;
-import com.youth.banner.BannerConfig;
-import com.youth.banner.Transformer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -77,7 +69,12 @@ import butterknife.OnClick;
 import cn.bingoogolapple.bgabanner.BGABanner;
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class MainActivity extends BaseActivity implements MainIF, DrawerLayout.DrawerListener, AdapterView.OnItemClickListener, DianHuoTongBaseDialog.BaseDialogListener, AllGoodsIF, AdvertMainIF, UpdateMainViewIF, LoginIF {
+/**
+ * App主页面
+ */
+
+public class MainActivity extends BaseActivity implements MainIF, DrawerLayout.DrawerListener, AdapterView.OnItemClickListener,
+        DianHuoTongBaseDialog.BaseDialogListener, AllGoodsIF, AdvertMainIF, UpdateMainViewIF, LoginIF ,GoodsCategoriesIF{
     @BindView(R.id.drawer_listview)
     ListView listView;
     @BindView(R.id.mian_titlebar)
@@ -103,6 +100,8 @@ public class MainActivity extends BaseActivity implements MainIF, DrawerLayout.D
     @BindView(R.id.drawer_app_code)
     TextView textViewAppCode;
     boolean isOpenDrawer = false;
+    @BindView(R.id.drawer_title)
+    RelativeLayout drawerTitle;
     private MainActivityPrecenter mainActivityPrecenter;
     private DrawerLayoutAdapter drawerLayoutAdapter;
     private GridViewAdapter gridViewAdapter;
@@ -125,20 +124,23 @@ public class MainActivity extends BaseActivity implements MainIF, DrawerLayout.D
     private LoadingDialog loadingDialog;
     public static String action = "com.mhky.dianhuotong.activity.update";
 
+    public static List<GoodsBaseInfo> list = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         mContext = this;
+        PgyCrashManager.register(this);
         try {
             inIt();
             initData();
-        }catch (Exception  e){
-            PgyCrashManager.reportCaughtException(this,e);
+        } catch (Exception e) {
+            PgyCrashManager.reportCaughtException(this, e);
         }
-
     }
+
 
     @Override
     protected void onStart() {
@@ -163,7 +165,7 @@ public class MainActivity extends BaseActivity implements MainIF, DrawerLayout.D
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        PgyUpdateManager.unregister();
+        PgyCrashManager.unregister();
         unregisterReceiver(updateMainViewReceiver);
         if (loadingDialog != null && loadingDialog.isShowing()) {
             loadingDialog.dismiss();
@@ -174,6 +176,36 @@ public class MainActivity extends BaseActivity implements MainIF, DrawerLayout.D
     protected void onResume() {
         super.onResume();
         updateDrawer();
+
+        Permissions4M.get(this)
+                // 是否强制弹出权限申请对话框，建议设置为 true，默认为 true
+                // .requestForce(true)
+                // 是否支持 5.0 权限申请，默认为 false
+                // .requestUnderM(false)
+                // 权限，单权限申请仅只能填入一个
+                .requestPermissions(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                // 权限码
+                .requestCodes(10010)
+                // 如果需要使用 @PermissionNonRationale 注解的话，建议添加如下一行
+                // 返回的 intent 是跳转至**系统设置页面**
+                // .requestPageType(Permissions4M.PageType.MANAGER_PAGE)
+                // 返回的 intent 是跳转至**手机管家页面**
+                // .requestPageType(Permissions4M.PageType.ANDROID_SETTING_PAGE)
+                .request();
+
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        Permissions4M.onRequestPermissionsResult(this, requestCode, grantResults);
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+
+    @PermissionsGranted(10010)
+    void granSuccess() {
+        /**
+         * 蒲公英  三方更新
+         */
         if (!isShowUpdate) {
             PgyUpdateManager.setIsForced(false);
             PgyUpdateManager.register(this, new UpdateManagerListener() {
@@ -200,9 +232,8 @@ public class MainActivity extends BaseActivity implements MainIF, DrawerLayout.D
                                     new DialogInterface.OnClickListener() {
 
                                         @Override
-                                        public void onClick(
-                                                DialogInterface dialog,
-                                                int which) {
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            BaseTool.logPrint("pgyer",appBean.getDownloadURL());
                                             startDownloadTask(
                                                     MainActivity.this,
                                                     appBean.getDownloadURL());
@@ -221,7 +252,6 @@ public class MainActivity extends BaseActivity implements MainIF, DrawerLayout.D
                 drawerLayout.closeDrawers();
             }
         }
-
     }
 
     @Override
@@ -232,7 +262,6 @@ public class MainActivity extends BaseActivity implements MainIF, DrawerLayout.D
                 drawerLayout.closeDrawers();
             } else {
                 dianHuoTongBaseDialogBack.show();
-
             }
             return false;
         }
@@ -249,18 +278,21 @@ public class MainActivity extends BaseActivity implements MainIF, DrawerLayout.D
             loadingDialog.show();
             loginPrecenter.Login(u, p);
         }
+
         updateMainViewReceiver = new UpdateMainViewReceiver(this);
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(action);
         registerReceiver(updateMainViewReceiver, intentFilter);
+
         advertMainPresenter = new AdvertMainPresenter(this);
         advertMainPresenter.getAdvertMain();
-        if (BaseApplication.getInstansApp().getAllGoodsBaseInfos() == null) {
+        if (BaseApplication.getInstansApp().getGoodsType() == null) {
             drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
         }
         dianHuoTongBaseDialog = new DianHuoTongBaseDialog(this, this, "温馨提示", "登录之后会有更多精彩哦~", "稍后再说", "马上登陆", main1);
         dianHuoTongBaseDialogBack = new DianHuoTongBaseDialog(this, this, "温馨提示", "您确定要退出系统吗", "取消", "退出", main2);
         dianHuoTongBaseDialogAddShop = new DianHuoTongBaseDialog(this, this, "温馨提示", "加入店铺查看更多精彩内容~", "稍后再说", "立刻加入", main3);
+
         diaHuiTongBaseTitleBar.setLeftImage(R.drawable.icon_go_personal);
         diaHuiTongBaseTitleBar.setCenterTextView(getString(R.string.main_title));
         //diaHuiTongBaseTitleBar.setRightImage(R.drawable.icon_main_message);
@@ -276,22 +308,21 @@ public class MainActivity extends BaseActivity implements MainIF, DrawerLayout.D
                         drawerLayout.closeDrawers();
                     }
                 }
-
-
             }
         });
-
         diaHuiTongBaseTitleBar.setRightOnclickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //ToastUtil.makeText(mContext, "进入消息中心", Toast.LENGTH_SHORT).show();
             }
         });
+
         mainActivityPrecenter = new MainActivityPrecenter(this, this);
         mainActivityPrecenter.getlistData();
         mainActivityPrecenter.getGridData();
         mainActivityPrecenter.getImageUrl();
         display = new DisplayMetrics();
+
         drawerLayout.setScrimColor(Color.TRANSPARENT);
         drawerLayout.addDrawerListener(this);
         gridView.setOnItemClickListener(this);
@@ -321,7 +352,7 @@ public class MainActivity extends BaseActivity implements MainIF, DrawerLayout.D
             }
 
         } catch (Exception e) {
-            PgyCrashManager.reportCaughtException(this, e);
+            PgyCrashManager.reportCaughtException(this,e);
         }
 
     }
@@ -421,7 +452,8 @@ public class MainActivity extends BaseActivity implements MainIF, DrawerLayout.D
 //                        BaseTool.goActivityNoData(this, ShiYaoQianYanActivity.class);
 //                        break;
                     case 1:
-                        if (BaseApplication.getInstansApp().getPersonInfo() != null && BaseApplication.getInstansApp().getPersonInfo().getAuditStatus() == null) {
+                        if (BaseApplication.getInstansApp().getPersonInfo() != null &&
+                                BaseApplication.getInstansApp().getPersonInfo().getAuditStatus() == null) {  //账号已登录，但是店铺未绑定店铺
                             dianHuoTongBaseDialogAddShop.show();
                         } else if ("UNAUDITED".equals(BaseApplication.getInstansApp().getPersonInfo().getAuditStatus().toString())) {
                             ToastUtil.makeText(this, "正在审核中~", Toast.LENGTH_SHORT).show();
@@ -569,10 +601,15 @@ public class MainActivity extends BaseActivity implements MainIF, DrawerLayout.D
         }
     }
 
-
+    /**
+     * 获取药品类目树  +  获取本账号绑定的药店信息
+     */
     private void initData() {
-        allGoosPrecenter = new AllGoosPrecenter(this);
+        allGoosPrecenter = new AllGoosPrecenter(this,this);
         allGoosPrecenter.getAllGoodsType();
+        HttpParams httpParams = new HttpParams();
+        httpParams.put("type","MOBILE");
+        allGoosPrecenter.getGoodsCategeries(httpParams);
         shopInfoPresenter = new ShopInfoPresenter();
         shopInfoPresenter.getShopInfo();
     }
@@ -581,11 +618,28 @@ public class MainActivity extends BaseActivity implements MainIF, DrawerLayout.D
     public void getAllGoodsInfoSuccess(int code, String result) {
         if (code == 200) {
             BaseApplication.getInstansApp().setAllGoodsBaseInfos(JSON.parseArray(result, GoodsBaseInfo.class));
+            BaseApplication.getInstansApp().setGoodsType(JSON.parseArray(result, GoodsBaseInfo.class));
         }
     }
 
     @Override
     public void getAllGoodsInfoFailed(int code, String result) {
+
+    }
+
+    /**
+     * 获取商品类目成功
+     * @param code
+     * @param result
+     */
+    @Override
+    public void getGoodsCategoriesSuccess(int code, String result) {
+        if (code == 200){
+            BaseApplication.getInstansApp().setGoodsCategories(JSON.parseArray(result, GoodsCategories.class));
+        }
+    }
+    @Override
+    public void getGoodsCategoriesFailed(int code, String result) {
 
     }
 
@@ -637,4 +691,5 @@ public class MainActivity extends BaseActivity implements MainIF, DrawerLayout.D
             loadingDialog.dismiss();
         }
     }
+
 }

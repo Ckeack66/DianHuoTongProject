@@ -13,7 +13,7 @@ public class InitActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //setContentView(R.layout.activity_init);
+//        setContentView(R.layout.activity_init);
         init();
     }
 
@@ -22,7 +22,7 @@ public class InitActivity extends BaseActivity {
         //                          ->获取成功->对比当前软件版本号->如果小于当前软件版本号则是软件升级了->则跳转到引导页
         //                          ->获取成功->对比当前软件版本号->如果等于当前软件版本号则是当前版本->跳转到启动页
         Integer oldVersion = (Integer) AppSharePreferenceMgr.get(this, "app_version", -1);
-        BaseTool.logPrint("init------------------------",oldVersion+"");
+        BaseTool.logPrint("init------------------------",oldVersion+"第一次");
         if (oldVersion == null || oldVersion == -1) {
             BaseTool.goActivityNoData(this, BootPageActivity.class);
             finish();

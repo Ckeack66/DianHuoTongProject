@@ -8,7 +8,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.mhky.dianhuotong.R;
+import com.mhky.dianhuotong.base.BaseTool;
 import com.mhky.dianhuotong.shop.bean.GoodsBaseInfo;
+import com.mhky.dianhuotong.shop.bean.GoodsCategories;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -18,13 +20,14 @@ import java.util.List;
  */
 
 public class AllGoodsListViewGridviewAdpter extends BaseAdapter {
+
     private Context context;
-    private List<GoodsBaseInfo.ChildrenBeanX.ChildrenBean> childrenBean;
+    private List<GoodsCategories.ItemsBean.SubitemDataBean> subitemDataBeanList;
     private int a;
 
-    public AllGoodsListViewGridviewAdpter(Context context, List<GoodsBaseInfo.ChildrenBeanX.ChildrenBean> childrenBean, int aa) {
+    public AllGoodsListViewGridviewAdpter(Context context, List<GoodsCategories.ItemsBean.SubitemDataBean> subitemDataBeanList, int aa) {
         this.context = context;
-        this.childrenBean = childrenBean;
+        this.subitemDataBeanList = subitemDataBeanList;
         a = aa;
     }
 
@@ -34,8 +37,8 @@ public class AllGoodsListViewGridviewAdpter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        if (childrenBean != null) {
-            return childrenBean.size();
+        if (subitemDataBeanList != null) {
+            return subitemDataBeanList.size();
         }
         return 0;
     }
@@ -55,12 +58,11 @@ public class AllGoodsListViewGridviewAdpter extends BaseAdapter {
         convertView = View.inflate(context, R.layout.item_all_goods_liatview2_gridview, null);
         ImageView imageView = convertView.findViewById(R.id.all_goods_listview2_gridview_image);
         TextView textView = convertView.findViewById(R.id.all_goods_listview2_gridview_text);
-        textView.setText(childrenBean.get(position).getName());
-        if (childrenBean.get(position).getPicture() != null) {
-            Picasso.get().load(childrenBean.get(position).getPicture().toString()).into(imageView);
+        textView.setText(subitemDataBeanList.get(position).getTitle());
+        if (!BaseTool.isEmpty(subitemDataBeanList.get(position).getImage())) {
+            Picasso.get().load(subitemDataBeanList.get(position).getImage()).into(imageView);
         }
         return convertView;
     }
-
 
 }

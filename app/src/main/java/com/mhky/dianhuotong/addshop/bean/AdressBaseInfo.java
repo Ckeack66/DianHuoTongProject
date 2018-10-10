@@ -14,6 +14,9 @@ public class AdressBaseInfo implements Serializable {
      */
 
     private String firstName;
+    private String code;
+    private String type;
+    private String namepath;
     private List<RegionBean> region;
 
     public String getFirstName() {
@@ -22,6 +25,30 @@ public class AdressBaseInfo implements Serializable {
 
     public void setFirstName(String firstName) {
         this.firstName = firstName;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getNamepath() {
+        return namepath;
+    }
+
+    public void setNamepath(String namepath) {
+        this.namepath = namepath;
     }
 
     public List<RegionBean> getRegion() {
@@ -42,6 +69,8 @@ public class AdressBaseInfo implements Serializable {
         private int id;
         private String name;
         private Object firstName;
+        private Object type;
+        private Object namepath;
 
         public String getCode() {
             return code;
@@ -75,6 +104,22 @@ public class AdressBaseInfo implements Serializable {
 
         public void setFirstName(Object firstName) {
             this.firstName = firstName;
+        }
+
+        public Object getType() {
+            return type;
+        }
+
+        public void setType(Object type) {
+            this.type = type;
+        }
+
+        public Object getNamepath() {
+            return namepath;
+        }
+
+        public void setNamepath(Object namepath) {
+            this.namepath = namepath;
         }
     }
 }

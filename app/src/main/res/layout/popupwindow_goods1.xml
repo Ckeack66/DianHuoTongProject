@@ -9,5 +9,7 @@
         android:id="@+id/popupwindow_goods1_recycleview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorWhite"/>
+        android:background="@color/colorWhite"
+        android:layout_marginBottom="126dp"/>
+
 </LinearLayout>

@@ -4,12 +4,22 @@ import com.chad.library.adapter.base.entity.MultiItemEntity;
 
 /**
  * Created by Administrator on 2018/5/10.
+ * 订单详情
  */
 
 public class OrderInfo implements MultiItemEntity {
+
     public static final int TOP = 1;
     public static final int BODY = 2;
     public static final int BOTTOM = 3;
+
+    private String parentNumber;
+    private int type;
+
+    private OrderTopInfo orderTopInfo;
+    private OrderBaseInfo.ContentBean.ItemsBean orderBodyInfo;
+    private OrderBottomInfo orderBottomInfo;
+
 
     public OrderBottomInfo getOrderBottomInfo() {
         return orderBottomInfo;
@@ -18,8 +28,6 @@ public class OrderInfo implements MultiItemEntity {
     public void setOrderBottomInfo(OrderBottomInfo orderBottomInfo) {
         this.orderBottomInfo = orderBottomInfo;
     }
-
-    private OrderBottomInfo orderBottomInfo;
     public OrderBaseInfo.ContentBean.ItemsBean getOrderBodyInfo() {
         return orderBodyInfo;
     }
@@ -28,26 +36,20 @@ public class OrderInfo implements MultiItemEntity {
         this.orderBodyInfo = orderBodyInfo;
     }
 
-    private OrderBaseInfo.ContentBean.ItemsBean orderBodyInfo;
     public OrderTopInfo getOrderTopInfo() {
         return orderTopInfo;
     }
-
     public void setOrderTopInfo(OrderTopInfo orderTopInfo) {
         this.orderTopInfo = orderTopInfo;
     }
 
-    private OrderTopInfo orderTopInfo;
-    public int getParentNumber() {
+    public String getParentNumber() {
         return parentNumber;
     }
 
-    public void setParentNumber(int parentNumber) {
+    public void setParentNumber(String parentNumber) {
         this.parentNumber = parentNumber;
     }
-
-    private int parentNumber;
-    private int type;
 
     public OrderInfo(int type) {
         this.type = type;

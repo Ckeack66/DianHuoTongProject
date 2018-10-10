@@ -4,11 +4,17 @@ import java.util.List;
 
 /**
  * Created by Administrator on 2018/4/28.
+ * 购物车商品实体Title类    III
  */
 
 public class CartTitleInfo {
+
     private boolean isSelectTitle = false;
     private boolean isViewTab = false;
+    private int parentId;
+    private CartBaseInfo.GoodsItemsBean.ShopDTOBean shopDTOBean;
+    private List<CartBaseInfo.GoodsItemsBean> cartItemInfoList;
+
 
     public int getParentId() {
         return parentId;
@@ -17,8 +23,6 @@ public class CartTitleInfo {
     public void setParentId(int parentId) {
         this.parentId = parentId;
     }
-
-    private int parentId;
 
     public boolean isSelectTitle() {
         return isSelectTitle;
@@ -44,7 +48,6 @@ public class CartTitleInfo {
         this.shopDTOBean = shopDTOBean;
     }
 
-    private CartBaseInfo.GoodsItemsBean.ShopDTOBean shopDTOBean;
 
     public List<CartBaseInfo.GoodsItemsBean> getCartItemInfoList() {
         return cartItemInfoList;
@@ -53,6 +56,4 @@ public class CartTitleInfo {
     public void setCartItemInfoList(List<CartBaseInfo.GoodsItemsBean> cartItemInfoList) {
         this.cartItemInfoList = cartItemInfoList;
     }
-
-    private List<CartBaseInfo.GoodsItemsBean> cartItemInfoList;
 }

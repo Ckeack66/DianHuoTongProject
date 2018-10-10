@@ -38,7 +38,7 @@ public class BaseUrlTool {
 //    private final static String HOST_ADRESS_URL = "http://192.168.2.235:8088";
     //        private final static String HOST_URL = "http://192.168.2.235:9088";
     /**
-     * 获取短信验证码
+     * 获取短信验证码（注册时）
      */
     public static final String GET_SMS = HOST_URL + "/user/sms/msg/";
     /**
@@ -138,6 +138,13 @@ public class BaseUrlTool {
      * 获取全部商品类别
      */
     public static String GET_ALL_GOODS_TYPE = HOST_GOODS_URL + "/category";
+
+    /**
+     * 获取全部商品类别(新)
+     * http://116.255.158.91:9070/advert/menu/all
+     */
+    public static String GET_GOODS_CATEGORIES = HOST_ADVERT_URL + "/advert/menu/all";
+
     /**
      * 搜索商品返回
      */
@@ -175,7 +182,7 @@ public class BaseUrlTool {
     private static String SKU_INFO = HOST_GOODS_URL + "/goods/";
 
     public static String getSkuInfo(String goodsId) {
-        return SKU_INFO + goodsId + "/skus?";
+            return SKU_INFO + goodsId + "/skus?";
     }
 
     /**
@@ -248,12 +255,15 @@ public class BaseUrlTool {
     /**
      * 订单服务
      */
-    public static final String GET_ORDERINFO = HOST_BANLANCE_URL + "/order?buyerId=";
+    public static final String GET_ORDERINFO = HOST_BANLANCE_URL + "/order";
+
     /**
-     * 获取支付宝订单信息
+     * 获取支付宝订单信息/获取微信订单信息
+     * 下方为本地测试用
      */
 
     public static final String GET_ALIPAY_CODE = HOST_BANLANCE_URL + "/order/payCode?";
+//    public static final String GET_ALIPAY_CODE = "http://192.168.2.237:9030" + "/order/payCode?";
 
     /**
      * 根据userID进行查询店铺信息
@@ -361,4 +371,11 @@ public class BaseUrlTool {
      * http://192.168.2.158:9060/couponRecord?promotionId=1&companyId=1&shopId=1&grads=signal
      */
     public static final String BIND_COUPON_URL=HOST_URL_COUPON+"/couponRecord?";
+
+    /**
+     * 买家回执单
+     */
+    public static String uploadBuyersReturnOrders(String orderNo) {
+        return HOST_BANLANCE_URL + "/order/" + orderNo + "/receipt ";
+    }
 }

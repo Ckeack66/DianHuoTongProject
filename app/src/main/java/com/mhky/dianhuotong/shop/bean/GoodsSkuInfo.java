@@ -5,35 +5,47 @@ import java.util.List;
 
 /**
  * Created by Administrator on 2018/4/26.
+ * 单个商品属性信息
  */
 
 public class GoodsSkuInfo implements Serializable {
+
     /**
-     * id : 4
-     * skuNo : 123456
-     * goodsId : 23
-     * batchNo : 123456
-     * retailPrice : 2045
-     * wholesalePrice : null
-     * stock : 100
-     * batchNums : 0
+     * id : 8291387
+     * skuNo : aaa0209c5220031706191
+     * goodsId : 8257928
+     * batchNo : 170619
+     * retailPrice : null
+     * wholesalePrice : 871
+     * huayuanPrice : 822
+     * stock : 775
+     * dongshengStock : 0
+     * huayuanStock : 0
+     * identification : HUAYUAN
+     * batchNums : 25
      * enable : true
-     * salePropertyOptions : [{"name":"规格","value":"400G","url":""},{"name":"疗程","value":"1疗程","url":""}]
-     * expirationDate : 2018-04-30 00:00:00
-     * areaInfo : {"id":"19244","area":"山东省济南市","regionCode":"370100000000"}
+     * salePropertyOptions : [{"name":"规格","value":"10g","url":null}]
+     * expirationDate : 1588262400000
+     * areaInfo : {"id":"1","area":"中国","regionCode":"100000000000"}
+     * isRetail : 1
      */
 
     private int id;
     private String skuNo;
     private int goodsId;
     private String batchNo;
-    private double retailPrice;
-    private double wholesalePrice;
+    private int retailPrice;
+    private int wholesalePrice;
+    private int huayuanPrice;
     private int stock;
+    private int dongshengStock;
+    private int huayuanStock;
+    private String identification;
     private int batchNums;
     private boolean enable;
-    private String expirationDate;
+    private long expirationDate;
     private AreaInfoBean areaInfo;
+    private int isRetail;
     private List<SalePropertyOptionsBean> salePropertyOptions;
 
     public int getId() {
@@ -68,20 +80,28 @@ public class GoodsSkuInfo implements Serializable {
         this.batchNo = batchNo;
     }
 
-    public double getRetailPrice() {
+    public int getRetailPrice() {
         return retailPrice;
     }
 
-    public void setRetailPrice(double retailPrice) {
+    public void setRetailPrice(int retailPrice) {
         this.retailPrice = retailPrice;
     }
 
-    public double getWholesalePrice() {
+    public int getWholesalePrice() {
         return wholesalePrice;
     }
 
-    public void setWholesalePrice(double wholesalePrice) {
+    public void setWholesalePrice(int wholesalePrice) {
         this.wholesalePrice = wholesalePrice;
+    }
+
+    public int getHuayuanPrice() {
+        return huayuanPrice;
+    }
+
+    public void setHuayuanPrice(int huayuanPrice) {
+        this.huayuanPrice = huayuanPrice;
     }
 
     public int getStock() {
@@ -90,6 +110,30 @@ public class GoodsSkuInfo implements Serializable {
 
     public void setStock(int stock) {
         this.stock = stock;
+    }
+
+    public int getDongshengStock() {
+        return dongshengStock;
+    }
+
+    public void setDongshengStock(int dongshengStock) {
+        this.dongshengStock = dongshengStock;
+    }
+
+    public int getHuayuanStock() {
+        return huayuanStock;
+    }
+
+    public void setHuayuanStock(int huayuanStock) {
+        this.huayuanStock = huayuanStock;
+    }
+
+    public String getIdentification() {
+        return identification;
+    }
+
+    public void setIdentification(String identification) {
+        this.identification = identification;
     }
 
     public int getBatchNums() {
@@ -108,11 +152,11 @@ public class GoodsSkuInfo implements Serializable {
         this.enable = enable;
     }
 
-    public String getExpirationDate() {
+    public long getExpirationDate() {
         return expirationDate;
     }
 
-    public void setExpirationDate(String expirationDate) {
+    public void setExpirationDate(long expirationDate) {
         this.expirationDate = expirationDate;
     }
 
@@ -122,6 +166,14 @@ public class GoodsSkuInfo implements Serializable {
 
     public void setAreaInfo(AreaInfoBean areaInfo) {
         this.areaInfo = areaInfo;
+    }
+
+    public int getIsRetail() {
+        return isRetail;
+    }
+
+    public void setIsRetail(int isRetail) {
+        this.isRetail = isRetail;
     }
 
     public List<SalePropertyOptionsBean> getSalePropertyOptions() {
@@ -134,9 +186,9 @@ public class GoodsSkuInfo implements Serializable {
 
     public static class AreaInfoBean {
         /**
-         * id : 19244
-         * area : 山东省济南市
-         * regionCode : 370100000000
+         * id : 1
+         * area : 中国
+         * regionCode : 100000000000
          */
 
         private String id;
@@ -171,13 +223,13 @@ public class GoodsSkuInfo implements Serializable {
     public static class SalePropertyOptionsBean {
         /**
          * name : 规格
-         * value : 400G
-         * url :
+         * value : 10g
+         * url : null
          */
 
         private String name;
         private String value;
-        private String url;
+        private Object url;
 
         public String getName() {
             return name;
@@ -195,11 +247,11 @@ public class GoodsSkuInfo implements Serializable {
             this.value = value;
         }
 
-        public String getUrl() {
+        public Object getUrl() {
             return url;
         }
 
-        public void setUrl(String url) {
+        public void setUrl(Object url) {
             this.url = url;
         }
     }

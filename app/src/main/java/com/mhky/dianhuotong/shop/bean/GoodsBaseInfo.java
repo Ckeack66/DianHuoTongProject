@@ -9,6 +9,7 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
+ * 货物基本信息
  * Created by Administrator on 2018/4/19.
  */
 

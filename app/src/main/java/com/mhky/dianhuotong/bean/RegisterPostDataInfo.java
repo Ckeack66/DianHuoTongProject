@@ -21,6 +21,8 @@ public class RegisterPostDataInfo implements Serializable {
     private String mobile;
     private String password;
     private String username = "";
+    private String code;
+
 
     public String getCode() {
         return code;
@@ -29,8 +31,6 @@ public class RegisterPostDataInfo implements Serializable {
     public void setCode(String code) {
         this.code = code;
     }
-
-    private String code;
 
     public String getAuthorities() {
         return authorities;

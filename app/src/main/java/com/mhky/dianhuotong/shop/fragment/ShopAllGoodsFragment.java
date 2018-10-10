@@ -66,6 +66,7 @@ import butterknife.Unbinder;
  * A simple {@link Fragment} subclass.
  * Use the {@link ShopAllGoodsFragment#newInstance} factory method to
  * create an instance of this fragment.
+ * 商家全部商品Fragment
  */
 public class ShopAllGoodsFragment extends Fragment implements GoodsIF, SearchGoodsIF, SortPopupwindow.OnClickPopupwindow2ItemListener, ShopIF, ShopTypePopupwindow.OnClickShopPopupwindowItemListener {
     @BindView(R.id.shop_refresh)
@@ -92,21 +93,22 @@ public class ShopAllGoodsFragment extends Fragment implements GoodsIF, SearchGoo
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-    private SortPopupwindow sortPopupwindow;
     private int chooseOldNumber = -1;
     private boolean tabIsOpen = false;
     private Unbinder unbinder;
     private int number = 0;
     private String type101TypeData;
-    private String type102SortData = "name,DESC";
+//    private String type102SortData = "name,DESC";
+    private String type102SortData = "";
     private GoodsPrecenter goodsPrecenter;
     private GoodsInfo goodsInfo;
+    private SortPopupwindow sortPopupwindow;
     private CartPopupwindow cartPopupwindow;
+    private ShopTypePopupwindow shopTypePopupwindow;
     private SearchGoodsPresenter searchGoodsPresenter;
+    private ShopPresenter shopPresenter;
     private SearchSGoodsBean searchSGoodsBean;
     private SearchGoodsAdpter searchGoodsAdpter;
-    private ShopTypePopupwindow shopTypePopupwindow;
-    private ShopPresenter shopPresenter;
     private List<ShopTypeInfo> shopTransferInfoList;
     private Context mContext;
 
@@ -278,7 +280,7 @@ public class ShopAllGoodsFragment extends Fragment implements GoodsIF, SearchGoo
         HttpParams httpParams = new HttpParams();
         httpParams.put("shopId", mParam1);
         httpParams.put("page", number);
-        if (type102SortData != null) {
+        if (!BaseTool.isEmpty(type102SortData)) {
             httpParams.put("sort", type102SortData);
         }
         if (type101TypeData != null) {
@@ -293,7 +295,7 @@ public class ShopAllGoodsFragment extends Fragment implements GoodsIF, SearchGoo
             if (code == 200) {
                 if (result != null && !result.equals("")) {
                     goodsInfo = JSON.parseObject(result, GoodsInfo.class);
-                    cartPopupwindow = new CartPopupwindow(getActivity(), goodsInfo);
+                    cartPopupwindow = new CartPopupwindow(getActivity(), goodsInfo,6);
                     cartPopupwindow.showAtLocation(relativeLayoutTab1, Gravity.BOTTOM, 0, 0);
                 }
             }
@@ -341,13 +343,19 @@ public class ShopAllGoodsFragment extends Fragment implements GoodsIF, SearchGoo
                     number++;
                 } else if (refreshOrLoadmore == 1) {
                     number++;
-                    smartRefreshLayout.finishLoadMore(true);
-                    if (searchSGoodsBeans.getContent().size() == 0) {
+
+                    if (searchSGoodsBeans != null && searchSGoodsBeans.getContent().size() == 0) {
+                        smartRefreshLayout.finishLoadMore(true);
                         smartRefreshLayout.setEnableLoadMore(false);
                         ToastUtil.makeText(getActivity(), "没有更多数据了", Toast.LENGTH_SHORT).show();
-                    } else if (searchSGoodsBeans.getContent().size() < 10) {
-                        smartRefreshLayout.setEnableLoadMore(false);
+                    } else if (searchSGoodsBeans != null && searchSGoodsBeans.getContent().size() < 10) {
                         searchGoodsAdpter.addData(searchSGoodsBeans.getContent());
+                        smartRefreshLayout.finishLoadMore(true);
+                        smartRefreshLayout.setEnableLoadMore(false);
+                    } else {
+                        searchGoodsAdpter.addData(searchSGoodsBeans.getContent());
+                        smartRefreshLayout.finishLoadMore(666, true, false);
+                        number++;
                     }
                 }
             }
@@ -389,6 +397,7 @@ public class ShopAllGoodsFragment extends Fragment implements GoodsIF, SearchGoo
     public void getShopInfoFailed(int code, String result) {
 
     }
+
 
     @Override
     public void getShopTypeSuccess(int code, String result) {

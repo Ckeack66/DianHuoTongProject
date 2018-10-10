@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 /**
  * Created by Administrator on 2018/5/4.
+ * 上游B公司实体类
  */
 
 public class ShopInfo implements Serializable {
@@ -22,6 +23,10 @@ public class ShopInfo implements Serializable {
      * mainIndustry : null
      * level : null
      * id : 1
+     *
+     "identification": "DONGSHENG",
+     "status": "APPROVED",
+     "createTime": "2018-08-12 11:15:08"
      */
 
     private String name;
@@ -38,6 +43,34 @@ public class ShopInfo implements Serializable {
     private String mainIndustry;
     private String level;
     private String id;
+    private boolean followStatus;
+    private String identification;
+    private String status;
+    private String createTime;
+
+    public String getIdentification() {
+        return identification;
+    }
+
+    public void setIdentification(String identification) {
+        this.identification = identification;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(String createTime) {
+        this.createTime = createTime;
+    }
 
     public boolean isFollowStatus() {
         return followStatus;
@@ -46,8 +79,6 @@ public class ShopInfo implements Serializable {
     public void setFollowStatus(boolean followStatus) {
         this.followStatus = followStatus;
     }
-
-    private boolean followStatus;
 
     public String getName() {
         return name;

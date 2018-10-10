@@ -19,9 +19,10 @@ import java.util.List;
  */
 
 public class CartDataPresenter {
+
     private CartDataIF cartDataIF;
-    private List<CartTitleInfo> cartTitleInfoList;
-    private CartBaseInfo cartBaseInfo;
+    private List<CartTitleInfo> cartTitleInfoList;                      //数据list
+    private CartBaseInfo cartBaseInfo;                                  //请求下来需要解析的Json实体类
     private static final String TAG = "CartDataPresenter";
 
     public CartDataPresenter(CartDataIF cartDataIF) {
@@ -29,9 +30,14 @@ public class CartDataPresenter {
         cartTitleInfoList = new ArrayList<>();
     }
 
+    /**
+     * 设定购物车head（商品所属公司名称）   +   添加商品
+     * @param cartdata
+     */
     private void getCartData(String cartdata) {
         cartBaseInfo = JSON.parseObject(cartdata, CartBaseInfo.class);
         BaseTool.logPrint(TAG, "getCartData: -------" + cartBaseInfo.getGoodsItems().size());
+        //先设定订购的药品的几家公司的名字，即头部
         for (int a = 0; a < cartBaseInfo.getGoodsItems().size(); a++) {
             CartTitleInfo cartTitleInfo = new CartTitleInfo();
             List<CartBaseInfo.GoodsItemsBean> cartItemInfoList = new ArrayList<>();
@@ -56,6 +62,9 @@ public class CartDataPresenter {
             }
 
         }
+        /**
+         * 添加该公司旗下所有被订购的商品
+         */
         for (int a = 0; a < cartTitleInfoList.size(); a++) {
             cartTitleInfoList.get(a).setParentId(a);
             for (int b = 0; b < cartBaseInfo.getGoodsItems().size(); b++) {
@@ -65,9 +74,17 @@ public class CartDataPresenter {
             }
         }
     }
+
+    /**
+     * 将请求下来的购物车Json字符串转化为List<CartInfo>集合
+     * @param cartdata
+     * @return
+     * CartInfo分为两部分  CartTitleInfo（getCartData(cartdata) 获取  ）
+     *                     CartBodyInfo （下方代码获取）
+     */
     public List<CartInfo>  getCartInfoList(String cartdata){
         getCartData(cartdata);
-        List<CartInfo> cartInfoList=new ArrayList<>();
+        List<CartInfo> cartInfoList = new ArrayList<>();
         for (int a = 0; a < cartTitleInfoList.size(); a++) {
             CartInfo cartInfoTitle = new CartInfo(true, "", cartTitleInfoList.get(a));
             cartInfoList.add(cartInfoTitle);
@@ -83,6 +100,5 @@ public class CartDataPresenter {
         }
         return cartInfoList;
     }
-
 
 }

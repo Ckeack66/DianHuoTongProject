@@ -16,6 +16,7 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
+import com.lzy.okgo.model.HttpParams;
 import com.mhky.dianhuotong.R;
 import com.mhky.dianhuotong.base.BaseApplication;
 import com.mhky.dianhuotong.base.BaseTool;
@@ -43,7 +44,12 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+/**
+ * 订单Activity
+ */
+
 public class MyselectedActivity extends BaseActivity implements RadioGroup.OnCheckedChangeListener, OrderIF, BanlanceReciverIF {
+
     @BindView(R.id.myselect_title)
     DianHuoTongBaseTitleBar dianHuoTongBaseTitleBar;
     @BindView(R.id.myselected_tab)
@@ -87,7 +93,7 @@ public class MyselectedActivity extends BaseActivity implements RadioGroup.OnChe
     private OrderPrecenter orderPrecenter;
     private OrderBaseInfo orderBaseInfo;
     private Context mContext;
-    private boolean isFirst = false;
+    private boolean isFirst = false;                                        //是否是首次进入页面
     private BanlanceReciver banlanceReciver;
     private LoadingDialog loadingDialog;
     private static final String TAG = "MyselectedActivity";
@@ -119,15 +125,22 @@ public class MyselectedActivity extends BaseActivity implements RadioGroup.OnChe
 
     private void inIt() {
         loadingDialog = new LoadingDialog(this);
+
         banlanceReciver = new BanlanceReciver().setBanlanceReciverIF(this);
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(BaseApplication.wxAction);
         registerReceiver(banlanceReciver, intentFilter);
+
         orderPrecenter = new OrderPrecenter(this);
         if (BaseApplication.getInstansApp().getPersonInfo().getShopId() != null) {
             loadingDialog.show();
-            orderPrecenter.getOrder(BaseApplication.getInstansApp().getPersonInfo().getId().toString());
+            HttpParams httpParams = new HttpParams();
+            httpParams.put("buyerId",BaseApplication.getInstansApp().getPersonInfo().getId().toString());
+            httpParams.put("page","0");
+            httpParams.put("size","10");
+            orderPrecenter.getOrder(httpParams);
         }
+
         dianHuoTongBaseTitleBar.setLeftImage(R.drawable.icon_back);
         dianHuoTongBaseTitleBar.setCenterTextView(getString(R.string.myselect_title));
         if (BaseApplication.getInstansApp().getPersonInfo() != null && BaseApplication.getInstansApp().getPersonInfo().getShopName() != null) {
@@ -151,6 +164,9 @@ public class MyselectedActivity extends BaseActivity implements RadioGroup.OnChe
 
     }
 
+    /**
+     * 资质跳转
+     */
     @OnClick(R.id.myselect_zizhi)
     void goMyZiZhi() {
         BaseTool.goActivityNoData(this, InvoiceActivity.class);
@@ -219,13 +235,18 @@ public class MyselectedActivity extends BaseActivity implements RadioGroup.OnChe
         }
     }
 
+    /**
+     * 获取订单信息成功
+     * @param code
+     * @param result
+     */
     @Override
     public void getOrderSucess(int code, String result) {
         try {
             if (code == 200) {
                 orderBaseInfo = JSON.parseObject(result, OrderBaseInfo.class);
                 if (!isFirst) {
-                    myselectFragment1 = MyselectFragment1.newInstance("", "", orderBaseInfo);
+                    myselectFragment1 = MyselectFragment1.newInstance("", "", orderBaseInfo,orderPrecenter);
                     myselectFragment2 = MyselectFragment2.newInstance("", "", orderBaseInfo);
                     myselectFragment3 = MyselectFragment3.newInstance("", "", orderBaseInfo);
                     myselectFragment4 = MyselectFragment4.newInstance("", "", orderBaseInfo);
@@ -263,13 +284,17 @@ public class MyselectedActivity extends BaseActivity implements RadioGroup.OnChe
 
     @Override
     public void doBanlance(int code) {
-        if (code!=-2){
+        if (code != -2){
             loadingDialog.show();
             TimerTask timerTask = new TimerTask() {
                 @Override
                 public void run() {
                     if (BaseApplication.getInstansApp().getPersonInfo().getShopId() != null) {
-                        orderPrecenter.getOrder(BaseApplication.getInstansApp().getPersonInfo().getId().toString());
+                        HttpParams httpParams = new HttpParams();
+                        httpParams.put("buyerId",BaseApplication.getInstansApp().getPersonInfo().getId().toString());
+                        httpParams.put("page","0");
+                        httpParams.put("size","10");
+                        orderPrecenter.getOrder(httpParams);
                     }
                 }
             };

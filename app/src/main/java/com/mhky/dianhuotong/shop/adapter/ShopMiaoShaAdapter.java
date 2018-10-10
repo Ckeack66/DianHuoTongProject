@@ -25,6 +25,7 @@ import java.util.zip.Inflater;
  */
 
 public class ShopMiaoShaAdapter extends BaseQuickAdapter<LastMinuteGoodsInfo.ContentBean, BaseViewHolder> {
+
     public ShopMiaoShaAdapter(@Nullable List<LastMinuteGoodsInfo.ContentBean> data) {
         super(R.layout.item_shop_miaosha, data);
     }

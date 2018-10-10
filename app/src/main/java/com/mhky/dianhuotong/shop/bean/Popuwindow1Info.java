@@ -7,6 +7,9 @@ import com.chad.library.adapter.base.entity.SectionEntity;
  */
 
 public class Popuwindow1Info extends SectionEntity<GoodsBaseInfo.ChildrenBeanX> {
+
+    private Popuwindow1ChildInfo popuwindow1ChildInfo;
+
     public Popuwindow1Info(boolean isHeader, String header, Popuwindow1ChildInfo popuwindow1ChildInfo1) {
         super(isHeader, header);
         popuwindow1ChildInfo = popuwindow1ChildInfo1;
@@ -23,6 +26,4 @@ public class Popuwindow1Info extends SectionEntity<GoodsBaseInfo.ChildrenBeanX> 
     public void setPopuwindow1ChildInfo(Popuwindow1ChildInfo popuwindow1ChildInfo) {
         this.popuwindow1ChildInfo = popuwindow1ChildInfo;
     }
-
-    private Popuwindow1ChildInfo popuwindow1ChildInfo;
 }

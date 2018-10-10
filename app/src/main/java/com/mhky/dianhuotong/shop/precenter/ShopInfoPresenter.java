@@ -14,9 +14,11 @@ import com.mhky.dianhuotong.shop.shopif.ShopInfoIF;
 
 /**
  * Created by Administrator on 2018/5/11.
+ * 通过UserId  获取店铺信息 的 presenter
  */
 
 public class ShopInfoPresenter {
+
     private ShopInfoIF shopInfoIF;
 
 
@@ -29,7 +31,8 @@ public class ShopInfoPresenter {
 
     public void getShopInfo() {
         if (BaseApplication.getInstansApp().getLoginRequestInfo()!=null){
-            OkGo.<String>get(BaseUrlTool.getShopInfo(BaseApplication.getInstansApp().getLoginRequestInfo().getId())).execute(new Callback<String>() {
+            OkGo.<String>get(BaseUrlTool.getShopInfo(BaseApplication.getInstansApp().getLoginRequestInfo().getId()))
+                    .execute(new Callback<String>() {
                 @Override
                 public void onStart(Request<String, ? extends Request> request) {
 

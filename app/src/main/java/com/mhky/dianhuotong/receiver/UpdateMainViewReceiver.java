@@ -18,6 +18,5 @@ public class UpdateMainViewReceiver extends BroadcastReceiver {
         if (MainActivity.action.equals(intent.getAction())){
             updateMainViewIF.updateview();
         }
-
     }
 }

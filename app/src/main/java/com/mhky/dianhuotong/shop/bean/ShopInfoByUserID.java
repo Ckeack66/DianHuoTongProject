@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
+ * 药店信息
  * Created by Administrator on 2018/5/11.
  */
 
@@ -23,17 +24,26 @@ public class ShopInfoByUserID implements Serializable {
      * createTime : 2018-06-05 10:09:25
      */
 
-    private int id;
-    private String shopname;
-    private String mapPoint;
-    private AddressBean address;
-    private String shopType;
-    private String status;
-    private String regionCode;
-    private String postalcode;
-    private String phone;
-    private String createTime;
-    private List<BuyersBean> buyers;
+    private int id;                                                     //id
+    private String shopname;                                            //药店名称
+    private String mapPoint;                                            //药店经纬坐标
+    private AddressBean address;                                        //坐标地址
+    private String shopType;                                            //商店类型（药店、商店、诊所等）
+    private String status;                                              //shop状态
+    private String regionCode;                                          //地区编号
+    private String postalcode;                                          //邮编
+    private String phone;                                               //联系电话
+    private String salesmanAuditStatus;                                 //店铺审核状态    APPROVED：已审核通过     UNAUDITED：正在审核中      UNSANCTIONED： 未审核通过
+    private String createTime;                                          //创建时间
+    private List<BuyersBean> buyers;                                    //账号信息
+
+    public String getSalesmanAuditStatus() {
+        return salesmanAuditStatus;
+    }
+
+    public void setSalesmanAuditStatus(String salesmanAuditStatus) {
+        this.salesmanAuditStatus = salesmanAuditStatus;
+    }
 
     public int getId() {
         return id;

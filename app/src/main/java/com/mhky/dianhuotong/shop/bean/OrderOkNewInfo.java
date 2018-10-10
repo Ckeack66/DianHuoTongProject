@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 public class OrderOkNewInfo implements Serializable {
+
     /**
      * buyerId : string
      * couponIds : ["string"]
@@ -14,12 +15,12 @@ public class OrderOkNewInfo implements Serializable {
      * source : PC
      */
 
-    private String buyerId;
-    private boolean invoiced;
-    private Map<String,String> remark;
+    private String buyerId;                             //账号id
+    private boolean invoiced;                           //是否开发票
+    private Map<String,String> remark;                  //留言备注
     private String source;
     private List<String> couponIds;
-    private List<String> skuIds;
+    private List<String> skuIds;                        //商品id的list
 
     public String getBuyerId() {
         return buyerId;

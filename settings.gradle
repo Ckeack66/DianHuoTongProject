@@ -1,1 +1,1 @@
-include ':app'
+include ':app', ':GridViewLine', ':shapeloading', ':viewexplosion', ':takephoto_library', ':SlidingMenu', ':stickscrollview', ':shiyaolibrary'

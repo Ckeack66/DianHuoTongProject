@@ -15,8 +15,7 @@
             android:id="@+id/order_ok_shop_img"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/icon_shop_defalt"
-            />
+            android:src="@drawable/icon_shop_defalt" />
         <TextView
             android:id="@+id/order_ok_head_name"
             android:layout_width="wrap_content"

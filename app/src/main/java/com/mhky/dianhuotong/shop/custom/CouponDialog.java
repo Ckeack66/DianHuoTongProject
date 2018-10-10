@@ -46,7 +46,8 @@ public class CouponDialog extends Dialog implements View.OnClickListener{
 
     }
 
-    public CouponDialog(@NonNull Context context, CouponDialog.CredentialBaseDialogListener baseDialogListener1, List<CouponInfo> couponInfoList, String title, String left, String mtag) {
+    public CouponDialog(@NonNull Context context, CouponDialog.CredentialBaseDialogListener baseDialogListener1,
+                        List<CouponInfo> couponInfoList, String title, String left, String mtag) {
         this(context, baseDialogListener1);
         //super(context,R.style.custom_dialog);
         couponDialogAdapter = new CouponDialogAdapter(couponInfoList);

@@ -10,6 +10,10 @@ import android.widget.ImageView;
 
 import com.mhky.dianhuotong.R;
 
+/**
+ * LoadingDialog   界面
+ */
+
 public class LoadingDialog extends Dialog {
 
     private Context context;

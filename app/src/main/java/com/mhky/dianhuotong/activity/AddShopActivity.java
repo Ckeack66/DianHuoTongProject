@@ -53,6 +53,7 @@ public class AddShopActivity extends BaseActivity implements AddShopIF, GetLocat
     DianHuoTongBaseTitleBar dianHuoTongBaseTitleBar;
     @BindView(R.id.addshop_rv)
     RecyclerView recyclerView;
+
     private AddShopPrecenter addShopPrecenter;
     private boolean a = false;
     private boolean b = false;
@@ -101,13 +102,13 @@ public class AddShopActivity extends BaseActivity implements AddShopIF, GetLocat
                 finish();
             }
         });
+
         linearLayoutManager=new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setHasFixedSize(true);
+
         shopBaseInfoListNew=new ArrayList<>();
-        myLocationListener = new MyLocationListener(this);
-        addShopPrecenter = new AddShopPrecenter(this);
         qualicationInfo = new QualicationInfo();
         QualicationInfo.BuyerDTOBean buyerDTOBean = new QualicationInfo.BuyerDTOBean();
         buyerDTOBean.setId(BaseApplication.getInstansApp().getLoginRequestInfo().getId());
@@ -116,10 +117,16 @@ public class AddShopActivity extends BaseActivity implements AddShopIF, GetLocat
         shopDataDTOBean.setAddress(addressBean);
         qualicationInfo.setBuyerDTO(buyerDTOBean);
         qualicationInfo.setShopDataDTO(shopDataDTOBean);
-        BaseActivityManager.getInstance().addActivity(this);
         creatShopBundle = new Bundle();
         creatShopBundle.putSerializable("createInfo", qualicationInfo);
+
+        myLocationListener = new MyLocationListener(this);
+
+        addShopPrecenter = new AddShopPrecenter(this);
+
         Permissions4M.get(this).requestSync();
+
+        BaseActivityManager.getInstance().addActivity(this);
 
     }
 
@@ -147,6 +154,7 @@ public class AddShopActivity extends BaseActivity implements AddShopIF, GetLocat
 //            ToastUtil.makeText(this, "定位中...", Toast.LENGTH_SHORT).show();
 //        }
     }
+
     @Override
     public void getShopInfoSuccess(int code, String result) {
         try {
@@ -227,12 +235,6 @@ public class AddShopActivity extends BaseActivity implements AddShopIF, GetLocat
             LocationClientOption option = new LocationClientOption();
             option.setLocationMode(LocationClientOption.LocationMode.Hight_Accuracy);
             option.setCoorType("bd09ll");
-            option.setIsNeedAddress(true);
-            option.setIsNeedLocationDescribe(true);
-            //可选，设置定位模式，默认高精度
-            //LocationMode.Hight_Accuracy：高精度；
-            //LocationMode. Battery_Saving：低功耗；
-            //LocationMode. Device_Sensors：仅使用设备；
             option.setScanSpan(0);
             //可选，设置发起定位请求的间隔，int类型，单位ms
             //如果设置为0，则代表单次定位，即仅定位一次，默认为0
@@ -240,6 +242,12 @@ public class AddShopActivity extends BaseActivity implements AddShopIF, GetLocat
             option.setOpenGps(true);
             //可选，设置是否使用gps，默认false
             //使用高精度和仅用设备两种定位模式的，参数必须设置为true
+            option.setIsNeedAddress(true);
+            option.setIsNeedLocationDescribe(true);
+            //可选，设置定位模式，默认高精度
+            //LocationMode.Hight_Accuracy：高精度；
+            //LocationMode. Battery_Saving：低功耗；
+            //LocationMode. Device_Sensors：仅使用设备；
             option.setLocationNotify(true);
             //可选，设置是否当GPS有效时按照1S/1次频率输出GPS结果，默认false
             option.SetIgnoreCacheException(false);
@@ -272,10 +280,10 @@ public class AddShopActivity extends BaseActivity implements AddShopIF, GetLocat
         }
         if (location.getLocType() == 61 || location.getLocType() == 66 || location.getLocType() == 161) {
             HttpParams httpParams = new HttpParams();
-            httpParams.put("region", location.getDistrict());
+            httpParams.put("region", location.getDistrict());//区或县
             showMoreBundle = new Bundle();
             showMoreBundle.putString("area", location.getCity());
-            loacation=location.getCity();
+            loacation = location.getCity();
             creatShopBundle.putString("location",location.getCity());
             addShopPrecenter.getShopInfo(httpParams);
             locationClient.stop();

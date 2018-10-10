@@ -83,6 +83,7 @@ import wellijohn.org.scrollviewwithstickheader.ScrollViewWithStickHeader;
  * A simple {@link Fragment} subclass.
  * Use the {@link ShopMainFragment#newInstance} factory method to
  * create an instance of this fragment.
+ * 商家首页Fragment
  */
 public class ShopMainFragment extends Fragment implements ShopIF, SortPopupwindow.OnClickPopupwindow2ItemListener, ShopTypePopupwindow.OnClickShopPopupwindowItemListener, SearchGoodsIF, CompanyIF, GoodsIF, StarShopIF, DianHuoTongBaseDialog.BaseDialogListener, CounponGetIF, CounponAddIF {
     @BindView(R.id.shop_img)
@@ -145,14 +146,16 @@ public class ShopMainFragment extends Fragment implements ShopIF, SortPopupwindo
     private StarShopPrecenter starShopPrecenter;
     private DianHuoTongBaseDialog dianHuoTongBaseDialog;
     private String starID;
-    private List<ShopCouponInfo> shopCouponInfoList;
+    private List<ShopCouponInfo> shopCouponInfoList = new ArrayList<>();                            //店铺优惠券List
     private CouponPresenter couponPresenter;
     private ShopCouponAdapter shopCouponAdapter;
     private LoadingDialog loadingDialog;
-    private int number = 0;
+    private int number = 0;                                                                         //页码
     private String type101TypeData;
     private String type102SortData = "name,DESC";
     private Context mContext;
+    private OnclickTypeOrSort onclickTypeOrSort;
+
     public ShopMainFragment() {
         // Required empty public constructor
     }
@@ -203,33 +206,44 @@ public class ShopMainFragment extends Fragment implements ShopIF, SortPopupwindo
 
     private void init() {
         loadingDialog = new LoadingDialog(getActivity());
+
         recyclerView.setNestedScrollingEnabled(false);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         linearLayoutManager.setAutoMeasureEnabled(true);
         recyclerView.setLayoutManager(linearLayoutManager);
+
         goodsPrecenter = new GoodsPrecenter(this);
         shopPresenter = new ShopPresenter(this);
         couponPresenter = new CouponPresenter().setCounponGetIF(this).setCounponAddIF(this);
         Map map = new HashMap();
+        BaseTool.logPrint("param1ck",mParam1 + "--" + mParam2);
         map.put("shopId", mParam1);
         couponPresenter.getCouponByShop(map);
+
         LinearLayoutManager linearLayoutManagerHorizongtal = new LinearLayoutManager(getActivity());
         linearLayoutManagerHorizongtal.setOrientation(LinearLayoutManager.HORIZONTAL);
         recyclerViewCoupon.setLayoutManager(linearLayoutManagerHorizongtal);
+
         shopTransferInfoList = new ArrayList<>();
         sortPopupwindow = new SortPopupwindow(getActivity(), -1);
         sortPopupwindow.setClickPopupwindow2ItemListener(this);
+
         shopPresenter.getShopInfo(mParam1);
         shopPresenter.getShopType(mParam1);
+
         searchGoodsPresenter = new SearchGoodsPresenter(this);
         HttpParams httpParams = new HttpParams();
         httpParams.put("shopId", mParam1);
         httpParams.put("page", number);
         searchGoodsPresenter.searchGoods(httpParams, true, -1);
+
         smartRefreshLayout.setEnableRefresh(false);
+        smartRefreshLayout.setEnableLoadMore(false);
+
         companyPrecenter = new CompanyPrecenter(this);
         companyPrecenter.getCompanyTansferInfo(mParam1);
+
         nestedScrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
             @Override
             public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
@@ -237,24 +251,29 @@ public class ShopMainFragment extends Fragment implements ShopIF, SortPopupwindo
                 setTabStateFalse(chooseOldNumber);
             }
         });
+
         starShopPrecenter = new StarShopPrecenter();
         starShopPrecenter.setStarShopIF(this);
         dianHuoTongBaseDialog = new DianHuoTongBaseDialog(getActivity(), this, "温馨提示", "请问客官确定要取消收藏店铺吗？", "取消", "确定", "fg");
-        setRefresh();
+//        setRefresh();
         linearLayoutHead.setFocusableInTouchMode(true);
         linearLayoutHead.requestFocus();
     }
 
-    private void setRefresh() {
-        smartRefreshLayout.setRefreshFooter(new BallPulseFooter(getActivity()).setSpinnerStyle(SpinnerStyle.Scale).setAnimatingColor(getResources().getColor(R.color.color04c1ab)).setNormalColor(getResources().getColor(R.color.color04c1ab)));
-        smartRefreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
-            @Override
-            public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
-                //smartRefreshLayout.setEnableLoadMore(false);
-                getInitData(1);
-            }
-        });
-    }
+    /**
+     * 暂时用不到
+     * 不用给它设置刷新与加载
+     */
+//    private void setRefresh() {
+//        smartRefreshLayout.setRefreshFooter(new BallPulseFooter(getActivity()).setSpinnerStyle(SpinnerStyle.Scale).setAnimatingColor(getResources().getColor(R.color.color04c1ab)).setNormalColor(getResources().getColor(R.color.color04c1ab)));
+//        smartRefreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
+//            @Override
+//            public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
+//                //smartRefreshLayout.setEnableLoadMore(false);
+//                getInitData(1);
+//            }
+//        });
+//    }
 
     private void getInitData(int state) {
         HttpParams httpParams = new HttpParams();
@@ -282,12 +301,14 @@ public class ShopMainFragment extends Fragment implements ShopIF, SortPopupwindo
 
     @OnClick(R.id.shop_main_child_tab1)
     void selectTab1() {
-        setTabStateTrue(1);
+//        setTabStateTrue(1);
+        onclickTypeOrSort.onclickTypeOrSort();
     }
 
     @OnClick(R.id.shop_main_child_tab2)
     void selectTab2() {
-        setTabStateTrue(2);
+//        setTabStateTrue(2);
+        onclickTypeOrSort.onclickTypeOrSort();
     }
 
 
@@ -365,14 +386,18 @@ public class ShopMainFragment extends Fragment implements ShopIF, SortPopupwindo
         }
     }
 
+    /**
+     * 改变 默认分类   或   默认排序的    被选中颜色改变
+     * @param number
+     */
     private void setTabStateFalse(int number) {
         switch (number) {
-            case 1:
+            case 1://默认分类
                 textViewTab1.setTextColor(Color.parseColor("#333333"));
                 imageViewTab1.setImageResource(R.drawable.icon_choose_unselecte);
                 tabIsOpen = false;
                 break;
-            case 2:
+            case 2://默认排序
                 textViewTab2.setTextColor(Color.parseColor("#333333"));
                 imageViewTab2.setImageResource(R.drawable.icon_choose_unselecte);
                 tabIsOpen = false;
@@ -397,7 +422,6 @@ public class ShopMainFragment extends Fragment implements ShopIF, SortPopupwindo
                         textViewShopStar.setText("关注");
                     }
                 }
-
             }
         } catch (Exception e) {
             PgyCrashManager.reportCaughtException(getActivity(), e);
@@ -441,7 +465,7 @@ public class ShopMainFragment extends Fragment implements ShopIF, SortPopupwindo
             text = "时间排序";
             type102SortData = "createTime,DESC";
         }
-        smartRefreshLayout.setEnableLoadMore(true);
+        smartRefreshLayout.setEnableLoadMore(false);
         textViewTab2.setText(text);
         setTabStateFalse(2);
         getInitData(0);
@@ -459,11 +483,18 @@ public class ShopMainFragment extends Fragment implements ShopIF, SortPopupwindo
             type101TypeData = stringBuilder.substring(0, stringBuilder.length() - 1);
         }
         textViewTab1.setText(contentBean.getName());
-        smartRefreshLayout.setEnableLoadMore(true);
+        smartRefreshLayout.setEnableLoadMore(false);
         setTabStateFalse(1);
         getInitData(0);
     }
 
+    /**
+     * 获取商品成功
+     * @param code
+     * @param result
+     * @param isfirst
+     * @param refreshOrLoadmore    -1   此处固定写死
+     */
     @Override
     public void searchGoodsInfoSuccess(int code, String result, boolean isfirst, int refreshOrLoadmore) {
         try {
@@ -530,6 +561,11 @@ public class ShopMainFragment extends Fragment implements ShopIF, SortPopupwindo
 
     }
 
+    /**
+     * 获取配送信息成功
+     * @param code
+     * @param result
+     */
     @Override
     public void getCompanyTansferSucess(int code, String result) {
         try {
@@ -565,7 +601,7 @@ public class ShopMainFragment extends Fragment implements ShopIF, SortPopupwindo
             if (code == 200) {
                 if (result != null && !result.equals("")) {
                     goodsInfo = JSON.parseObject(result, GoodsInfo.class);
-                    cartPopupwindow = new CartPopupwindow(getActivity(), goodsInfo);
+                    cartPopupwindow = new CartPopupwindow(getActivity(), goodsInfo,7);
                     cartPopupwindow.showAtLocation(linearLayoutHead, Gravity.BOTTOM, 0, 0);
                     //ToastUtil.makeText(mContext, searchSGoodsBean.getContent().get(position).getName(), Toast.LENGTH_SHORT).show();
                 }
@@ -581,6 +617,7 @@ public class ShopMainFragment extends Fragment implements ShopIF, SortPopupwindo
     public void getGoodsInfoFailed(int code, String result) {
 
     }
+
 
     @Override
     public void getStarShopSuccess(int code, String result) {
@@ -600,7 +637,6 @@ public class ShopMainFragment extends Fragment implements ShopIF, SortPopupwindo
         } catch (Exception e) {
             PgyCrashManager.reportCaughtException(getActivity(), e);
         }
-
     }
 
     @Override
@@ -663,6 +699,11 @@ public class ShopMainFragment extends Fragment implements ShopIF, SortPopupwindo
         }
     }
 
+    /**
+     * 获取店铺优惠券成功
+     * @param code
+     * @param result
+     */
     @Override
     public void getCouponSuccess(int code, String result) {
         try {
@@ -670,7 +711,7 @@ public class ShopMainFragment extends Fragment implements ShopIF, SortPopupwindo
                 shopCouponInfoList = JSON.parseArray(result, ShopCouponInfo.class);
                 if (shopCouponAdapter == null) {
                     shopCouponAdapter = new ShopCouponAdapter(shopCouponInfoList, getActivity());
-                    shopCouponAdapter.openLoadAnimation();
+                    shopCouponAdapter.openLoadAnimation(BaseQuickAdapter.SLIDEIN_BOTTOM);
                     shopCouponAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
                         @Override
                         public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
@@ -704,6 +745,11 @@ public class ShopMainFragment extends Fragment implements ShopIF, SortPopupwindo
 
     }
 
+    /**
+     * 领取优惠券成功
+     * @param code
+     * @param result
+     */
     @Override
     public void addCouponSuccess(int code, String result) {
         try {
@@ -726,5 +772,16 @@ public class ShopMainFragment extends Fragment implements ShopIF, SortPopupwindo
         if (loadingDialog != null) {
             loadingDialog.dismiss();
         }
+    }
+
+    /**
+     * 定义接口   点击筛选条件跳转第二个Fragment
+     */
+    public interface OnclickTypeOrSort{
+        void onclickTypeOrSort();
+    }
+
+    public void setOnclickTypeOrSort(OnclickTypeOrSort onclickTypeOrSort){
+        this.onclickTypeOrSort = onclickTypeOrSort;
     }
 }

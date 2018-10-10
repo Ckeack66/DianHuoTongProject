@@ -8,6 +8,7 @@ import android.widget.TextView;
 import com.alibaba.fastjson.JSON;
 import com.mhky.dianhuotong.R;
 import com.mhky.dianhuotong.base.BaseApplication;
+import com.mhky.dianhuotong.base.BaseTool;
 import com.mhky.dianhuotong.base.view.BaseActivity;
 import com.mhky.dianhuotong.custom.viewgroup.DianHuoTongBaseTitleBar;
 import com.mhky.dianhuotong.shop.bean.SaleManInfo;
@@ -42,6 +43,7 @@ public class MyWaiterActivity extends BaseActivity implements SaleManIF {
 
     private void inIt() {
         saleManPresenter = new SaleManPresenter(this);
+
         dianHuoTongBaseTitleBar.setLeftImage(R.drawable.icon_back);
         dianHuoTongBaseTitleBar.setCenterTextView("服务专员");
         dianHuoTongBaseTitleBar.setLeftOnclickListener(new View.OnClickListener() {
@@ -50,7 +52,8 @@ public class MyWaiterActivity extends BaseActivity implements SaleManIF {
                 finish();
             }
         });
-        if (BaseApplication.getInstansApp().getPersonInfo() != null && BaseApplication.getInstansApp().getPersonInfo().getSalesmanCode() != null && !"".equals(BaseApplication.getInstansApp().getPersonInfo().getSalesmanCode().toString())) {
+        if (BaseApplication.getInstansApp().getPersonInfo() != null && BaseApplication.getInstansApp().getPersonInfo().getSalesmanCode() != null
+                && !"".equals(BaseApplication.getInstansApp().getPersonInfo().getSalesmanCode().toString())) {
             saleManPresenter.getSaleMan(BaseApplication.getInstansApp().getPersonInfo().getSalesmanCode().toString());
         }
     }
@@ -59,12 +62,14 @@ public class MyWaiterActivity extends BaseActivity implements SaleManIF {
     public void getSaleManSuccess(int code, String result) {
         if (code == 200) {
             SaleManInfo saleManInfo = JSON.parseObject(result, SaleManInfo.class);
-            if (saleManInfo != null) {
+            if (saleManInfo != null)  {
                 textViewSaleName.setText(saleManInfo.getName());
                 textViewSalePhone.setText(saleManInfo.getPhone());
                 StringBuilder stringBuilder = new StringBuilder();
-                stringBuilder.append(saleManInfo.getAddress().getProvince()).append(saleManInfo.getAddress().getCity()).append(saleManInfo.getAddress().getDistrict()).append(saleManInfo.getAddress().getTown()).append(saleManInfo.getAddress().getRoad());
-                textViewSaleArea.setText(stringBuilder.toString());
+                String district = BaseTool.isEmpty(saleManInfo.getAddress().getDistrict()) ? "" : saleManInfo.getAddress().getDistrict();
+                textViewSaleArea.setText(district);
+//                stringBuilder.append(saleManInfo.getAddress().getProvince()).append(saleManInfo.getAddress().getCity()).append(saleManInfo.getAddress().getDistrict()).append(saleManInfo.getAddress().getTown()).append(saleManInfo.getAddress().getRoad());
+//                textViewSaleArea.setText(stringBuilder.toString());
                 if ("EMPLOYEES".equals(saleManInfo.getType())) {
                     if (saleManInfo.getParent() != null) {
                         textViewSaleManager.setText(saleManInfo.getParent().getName());

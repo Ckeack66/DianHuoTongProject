@@ -42,12 +42,12 @@ public class ShopTypePopupwindow extends PopupWindow {
         setContentView(view);
         recyclerView = view.findViewById(R.id.popupwindow_goods3_recycleview);
         setWidth(WindowManager.LayoutParams.MATCH_PARENT);
-        setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
+        setHeight(WindowManager.LayoutParams.MATCH_PARENT);
         setFocusable(false);
         setTouchable(true);
         setClippingEnabled(false);
         setOutsideTouchable(false);
-        setBackgroundDrawable(new ColorDrawable(0));
+        setBackgroundDrawable(new ColorDrawable(0x40000000));
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(linearLayoutManager);

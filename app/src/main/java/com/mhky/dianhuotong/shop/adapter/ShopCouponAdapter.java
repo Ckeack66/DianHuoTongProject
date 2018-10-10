@@ -11,6 +11,10 @@ import com.pgyersdk.crash.PgyCrashManager;
 
 import java.util.List;
 
+/**
+ * 店铺优惠券Adapter
+ */
+
 public class ShopCouponAdapter extends BaseQuickAdapter<ShopCouponInfo, BaseViewHolder> {
     private Context mContext;
 

@@ -12,9 +12,11 @@ import com.mhky.dianhuotong.shop.shopif.ShopCredentialIF;
 
 /**
  * Created by Administrator on 2018/5/2.
+ * 店铺资质 Presenter
  */
 
 public class ShopCredentialPresenter {
+
     private ShopCredentialIF shopCredentialIF;
 
     public ShopCredentialPresenter(ShopCredentialIF shopCredentialIF) {

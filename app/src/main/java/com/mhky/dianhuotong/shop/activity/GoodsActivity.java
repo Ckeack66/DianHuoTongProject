@@ -229,7 +229,7 @@ public class GoodsActivity extends BaseActivity implements GoodsIF ,ShopIF,Compa
                         companyPrecenter.getCompanyTansferInfo(goodsInfo.getShopInfo().getId());
                     }
                     if (!isFirst) {
-                        cartPopupwindow = new CartPopupwindow(this, goodsInfo);
+                        cartPopupwindow = new CartPopupwindow(this, goodsInfo,3);
                         cartPopupwindow.showAtLocation(textViewAddCart, Gravity.BOTTOM, 0, 0);
                     } else {
                         isFirst = false;
@@ -251,22 +251,23 @@ public class GoodsActivity extends BaseActivity implements GoodsIF ,ShopIF,Compa
     //初始化轮播图
     private void initImageBaner(List<?> list) {
         try {
-            if (list!=null&&list.size()>0){
-                bgaBanner.setAdapter(new BGABanner.Adapter() {
-                    @Override
-                    public void fillBannerItem(BGABanner banner, View itemView, @Nullable Object model, int position) {
-                        Uri uri = Uri.parse((String) model);
-                        Picasso.get().load(uri).fit().into((ImageView) itemView);
-                    }
-                });
-
+            bgaBanner.setAdapter(new BGABanner.Adapter() {
+                @Override
+                public void fillBannerItem(BGABanner banner, View itemView, @Nullable Object model, int position) {
+                    Uri uri = Uri.parse((String) model);
+                    Picasso.get().load(uri).error(R.drawable.default_pill_case).fit().into((ImageView) itemView);
+                }
+            });
+            if (list != null &&list.size()>0){
                 bgaBanner.setAutoPlayAble(true);
                 bgaBanner.setData(list, new ArrayList<String>());
+            }else {
+                bgaBanner.setAutoPlayAble(false);
+                bgaBanner.setData(null, null);
             }
         }catch (Exception e){
             PgyCrashManager.reportCaughtException(this,e);
         }
-
     }
 
     @Override

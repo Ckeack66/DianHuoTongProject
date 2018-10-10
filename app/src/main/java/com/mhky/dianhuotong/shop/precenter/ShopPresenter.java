@@ -15,6 +15,7 @@ import com.mhky.dianhuotong.shop.shopif.ShopIF;
  */
 
 public class ShopPresenter {
+
     private ShopIF shopIF;
 
     public ShopPresenter(ShopIF shopIF) {

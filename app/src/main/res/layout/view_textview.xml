@@ -3,7 +3,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:background="@drawable/selector_cart_background"
-    android:layout_margin="@dimen/x6"
+    android:layout_margin="@dimen/x4"
     android:text="Helloworld"
     android:textColor="@drawable/selector_cart_textcolor"
     android:textSize="@dimen/t12">

@@ -10,19 +10,24 @@ import android.widget.TextView;
 
 import com.mhky.dianhuotong.R;
 import com.mhky.dianhuotong.shop.bean.GoodsBaseInfo;
+import com.mhky.dianhuotong.shop.bean.GoodsCategories;
 
 import java.util.List;
 
 /**
  * Created by Administrator on 2018/4/10.
+ * 一级类目  适配器
  */
 
 public class AllGoodsListview1Adapter extends BaseAdapter {
-    private List<GoodsBaseInfo> allGoodsBaseInfos;
-    private Context mContext;
 
-    public AllGoodsListview1Adapter(List<GoodsBaseInfo> allGoodsBaseInfos, Context mContext) {
-        this.allGoodsBaseInfos = allGoodsBaseInfos;
+    private List<GoodsCategories> goodsCategoriesList;
+    private Context mContext;
+    private int indexColor = 0;   //通过index底标来渲染被选中的标签的颜色
+
+
+    public AllGoodsListview1Adapter(List<GoodsCategories> goodsCategoriesList1, Context mContext) {
+        this.goodsCategoriesList = goodsCategoriesList1;
         this.mContext = mContext;
     }
 
@@ -35,13 +40,11 @@ public class AllGoodsListview1Adapter extends BaseAdapter {
         notifyDataSetChanged();
     }
 
-    private int indexColor = 0;
-
 
     @Override
     public int getCount() {
-        if (allGoodsBaseInfos != null) {
-            return allGoodsBaseInfos.size();
+        if (goodsCategoriesList != null) {
+            return goodsCategoriesList.size();
         }
         return 0;
     }
@@ -69,7 +72,7 @@ public class AllGoodsListview1Adapter extends BaseAdapter {
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
-        viewHolder.textView.setText(allGoodsBaseInfos.get(position).getName());
+        viewHolder.textView.setText(goodsCategoriesList.get(position).getName());
         if (position == indexColor) {
             viewHolder.textView.setTextColor(Color.parseColor("#04c1ab"));
             viewHolder.linearLayout.setBackgroundColor(Color.parseColor("#eeeeee"));

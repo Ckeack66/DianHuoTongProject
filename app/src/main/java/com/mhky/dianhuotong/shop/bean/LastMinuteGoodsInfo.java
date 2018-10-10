@@ -155,31 +155,76 @@ public class LastMinuteGoodsInfo  implements Serializable {
          * superviseCode : 国药准字Z37021392
          */
 
-        private String saleProperties;
-        private String description;
-        private String title;
-        private String type;
-        private AduitGoodsInfoBean aduitGoodsInfo;
-        private boolean shelves;
-        private String manufacturer;
-        private String subTitle;
-        private int price;
-        private String model;
-        private int id;
-        private String goodsNo;
-        private ShopInfoBean shopInfo;
-        private String approvalNumber;
-        private String picture;
-        private String barCode;
-        private String createTime;
-        private String instruction;
-        private int brandId;
-        private String lastModifyTime;
-        private String name;
-        private int categoryId;
-        private String superviseCode;
-        private List<Integer> skuIds;
-        private List<PromotionInfosBean> promotionInfos;
+         private String saleProperties;
+         private String description;
+         private String title;
+         private String type;
+         private AduitGoodsInfoBean aduitGoodsInfo;
+         private boolean shelves;
+         private String manufacturer;
+         private String subTitle;
+         private int price;
+         private String model;
+         private int id;
+         private String goodsNo;
+         private ShopInfoBean shopInfo;
+         private String approvalNumber;
+         private String picture;
+         private String barCode;
+         private String createTime;
+         private String instruction;
+         private int brandId;
+         private String lastModifyTime;
+         private String name;
+         private int categoryId;
+         private String superviseCode;
+         private List<Integer> skuIds;
+         private List<PromotionInfosBean> promotionInfos;
+         private String unit;
+         private String expiryDate;
+         private String appDescription;
+         private String letter;
+         private int retail;
+
+        public String getLetter() {
+            return letter;
+        }
+
+        public void setLetter(String letter) {
+            this.letter = letter;
+        }
+
+        public int isRetail() {
+            return retail;
+        }
+
+        public void setRetail(int retail) {
+            this.retail = retail;
+        }
+
+        public String getAppDescription() {
+            return appDescription;
+        }
+
+        public void setAppDescription(String appDescription) {
+            this.appDescription = appDescription;
+        }
+
+        public String getExpiryDate() {
+            return expiryDate;
+        }
+
+        public void setExpiryDate(String expiryDate) {
+            this.expiryDate = expiryDate;
+        }
+
+        public String getUnit() {
+            return unit;
+        }
+
+        public void setUnit(String unit) {
+            this.unit = unit;
+        }
 
         public String getSaleProperties() {
             return saleProperties;
@@ -437,6 +482,24 @@ public class LastMinuteGoodsInfo  implements Serializable {
             private String address;
             private String shopName;
             private String id;
+            private String mainIndustry;
+            private String auditStatus;
+
+            public String getMainIndustry() {
+                return mainIndustry;
+            }
+
+            public void setMainIndustry(String mainIndustry) {
+                this.mainIndustry = mainIndustry;
+            }
+
+            public String getAuditStatus() {
+                return auditStatus;
+            }
+
+            public void setAuditStatus(String auditStatus) {
+                this.auditStatus = auditStatus;
+            }
 
             public String getAddress() {
                 return address;

@@ -4,6 +4,7 @@
     android:layout_height="@dimen/x40"
     android:background="@color/color04c1ab">
 
+    <!--左边返回键图片-->
     <FrameLayout
         android:id="@+id/shop_title_back"
         android:layout_width="@dimen/x50"
@@ -18,6 +19,7 @@
             android:scaleType="fitCenter"
             android:src="@drawable/icon_back" />
     </FrameLayout>
+
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -25,12 +27,15 @@
         android:layout_marginBottom="@dimen/x6"
         android:layout_toEndOf="@id/shop_title_back"
         android:background="@drawable/shape_shop_title">
+
         <RelativeLayout
             android:layout_width="@dimen/x210"
             android:layout_height="@dimen/x30"
-            android:layout_toEndOf="@id/shop_title_back"
-            android:background="@drawable/shape_shop_title">
 
+            android:background="@drawable/shape_shop_title">
+            <!--android:layout_toEndOf="@id/shop_title_back"     上边删掉的一句-->
+
+            <!--二维码图片-->
             <ImageView
                 android:id="@+id/shop_scan_code"
                 android:layout_width="wrap_content"
@@ -40,6 +45,7 @@
                 android:background="@color/colorTransp"
                 android:src="@drawable/icon_scan_code" />
 
+            <!--搜索框-->
             <TextView
                 android:id="@+id/shop_input"
                 android:layout_width="match_parent"
@@ -56,6 +62,7 @@
     </RelativeLayout>
 
 
+    <!--订单image-->
     <FrameLayout
         android:id="@+id/shop_order_fl"
         android:layout_width="@dimen/x40"
@@ -73,6 +80,7 @@
             android:src="@drawable/icon_order" />
     </FrameLayout>
 
+    <!--购物车image-->
     <FrameLayout
         android:id="@+id/shop_car_fl"
         android:layout_width="@dimen/x40"

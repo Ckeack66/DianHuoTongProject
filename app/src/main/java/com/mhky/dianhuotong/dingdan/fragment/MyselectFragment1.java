@@ -3,25 +3,23 @@ package com.mhky.dianhuotong.dingdan.fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.lzy.okgo.model.HttpParams;
 import com.mhky.dianhuotong.R;
 import com.mhky.dianhuotong.base.BaseApplication;
 import com.mhky.dianhuotong.base.BaseTool;
 import com.mhky.dianhuotong.custom.ToastUtil;
-import com.mhky.dianhuotong.dingdan.adapter.MyselectFragmentAdapter;
 import com.mhky.dianhuotong.shop.activity.BalanceActivity;
-import com.mhky.dianhuotong.shop.activity.GoodsActivity;
 import com.mhky.dianhuotong.shop.activity.OrderInfoActivity;
 import com.mhky.dianhuotong.shop.activity.ShopActivity;
 import com.mhky.dianhuotong.shop.adapter.OrderAdapter;
@@ -31,6 +29,12 @@ import com.mhky.dianhuotong.shop.precenter.OrderDataPresenter;
 import com.mhky.dianhuotong.shop.precenter.OrderPrecenter;
 import com.mhky.dianhuotong.shop.shopif.OrderIF;
 import com.pgyersdk.crash.PgyCrashManager;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.constant.SpinnerStyle;
+import com.scwang.smartrefresh.layout.footer.BallPulseFooter;
+import com.scwang.smartrefresh.layout.header.BezierRadarHeader;
+import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,11 +50,14 @@ import butterknife.Unbinder;
  * to handle interaction events.
  * Use the {@link MyselectFragment1#newInstance} factory method to
  * create an instance of this fragment.
+ * 全部采购单  Fragment
  */
-public class MyselectFragment1 extends Fragment {
+public class MyselectFragment1 extends Fragment implements OrderIF{
 
     @BindView(R.id.myselected_fragment1_rv)
     RecyclerView recyclerView;
+    @BindView(R.id.srl_order_form)
+    SmartRefreshLayout srlOrderForm;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -65,6 +72,8 @@ public class MyselectFragment1 extends Fragment {
     private OrderDataPresenter orderDataPresenter;
     private List<OrderInfo> orderInfoList;
     private OrderBaseInfo orderBaseInfo;
+    private int page = 0;
+    private OrderPrecenter orderPrecenter;
 
     public MyselectFragment1() {
     }
@@ -72,7 +81,7 @@ public class MyselectFragment1 extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode==10001){
+        if (resultCode == 10001) {
             //主动更新
         }
     }
@@ -86,10 +95,10 @@ public class MyselectFragment1 extends Fragment {
      * @return A new instance of fragment MyselectFragment1.
      */
     // TODO: Rename and change types and number of parameters
-    public static MyselectFragment1 newInstance(String param1, String param2, OrderBaseInfo orderBaseInfoInit) {
+    public static MyselectFragment1 newInstance(String param1, String param2, OrderBaseInfo orderBaseInfoInit, OrderPrecenter orderPrecenter) {
         MyselectFragment1 fragment = new MyselectFragment1();
         fragment.orderInfoList = new ArrayList<>();
-        fragment.orderBaseInfo=orderBaseInfoInit;
+        fragment.orderBaseInfo = orderBaseInfoInit;
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -112,8 +121,99 @@ public class MyselectFragment1 extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_myselect_fragment1, container, false);
         unbinder = ButterKnife.bind(this, view);
-        setData();
+        try{
+            orderPrecenter = new OrderPrecenter(this);
+            orderDataPresenter = new OrderDataPresenter();
+            orderAdapter = new OrderAdapter(orderInfoList, getActivity());
+            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
+            linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+            recyclerView.setLayoutManager(linearLayoutManager);
+            orderAdapter.openLoadAnimation(BaseQuickAdapter.SLIDEIN_BOTTOM);
+            srlOrderForm.setEnableRefresh(false);
+            srlOrderForm.setRefreshFooter(new BallPulseFooter(getContext()).setSpinnerStyle(SpinnerStyle.Scale).setAnimatingColor(getResources().getColor(R.color.color04c1ab)).setNormalColor(getResources().getColor(R.color.color04c1ab)));
+            recyclerView.setAdapter(orderAdapter);
+            initListener();
+            setData();
+        }catch (Exception e){
+            PgyCrashManager.reportCaughtException(getContext(),e);
+        }
         return view;
+    }
+
+    /**
+     * 点击事件监听
+     */
+    private void initListener() {
+        orderAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+            @Override
+            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                switch (view.getId()) {
+                    case R.id.rl_order_top:
+                        try {
+                            Bundle bundle = new Bundle();
+                            bundle.putString("shopid", orderAdapter.getData().get(position).getOrderTopInfo().getShopID());
+                            BaseTool.goActivityWithData(getActivity(), ShopActivity.class, bundle);
+                        } catch (Exception e) {
+                            PgyCrashManager.reportCaughtException(getActivity(), e);
+                        }
+                        break;
+                    case R.id.order_body_goods:
+                        try {
+                            Bundle bundle1 = new Bundle();
+//                            bundle1.putString("order", orderBaseInfo.getContent().get(orderAdapter.getData().get(position).getParentNumber()).getId());
+                            bundle1.putString("order", orderAdapter.getData().get(position).getParentNumber());
+//                               ToastUtil.makeText(getActivity(),"aa"+orderInfoList.get(position).getParentNumber(),Toast.LENGTH_SHORT).show();
+                            BaseTool.goActivityWithData(getActivity(), OrderInfoActivity.class, bundle1);
+                        } catch (Exception e) {
+                            PgyCrashManager.reportCaughtException(getActivity(), e);
+                        }
+                        //ToastUtil.makeText(getActivity(), "点击了商品" + position, Toast.LENGTH_SHORT).show();
+                        break;
+                    case R.id.order_info_button:
+                        //ToastUtil.makeText(getActivity(), "点击了操作" + position, Toast.LENGTH_SHORT).show();
+                        switch (orderAdapter.getData().get(position).getOrderBottomInfo().getOrderStatus()) {
+                            case "ORDERED":
+                                //ToastUtil.makeText(getActivity(), "待付款" + position, Toast.LENGTH_SHORT).show();
+                                try {
+                                    Bundle bundle2 = new Bundle();
+                                    bundle2.putString("order", orderAdapter.getData().get(position).getOrderBottomInfo().getContentBean().getId());
+                                    double a = orderAdapter.getData().get(position).getOrderBottomInfo().getContentBean().getPayment();
+                                    bundle2.putString("money", String.valueOf(a / 100));
+                                    bundle2.putInt("state", 1);
+                                    Intent intent = new Intent();
+                                    intent.setClass(getActivity(), BalanceActivity.class);
+                                    intent.putExtras(bundle2);
+                                    startActivityForResult(intent, 10001);
+                                } catch (Exception e) {
+                                    PgyCrashManager.reportCaughtException(getActivity(), e);
+                                }
+                                break;
+                            case "PAID":
+                                //ToastUtil.makeText(getActivity(), "已付款" + position, Toast.LENGTH_SHORT).show();
+                                break;
+                            case "COMPLETED":
+                                //ToastUtil.makeText(getActivity(), "已完成" + position, Toast.LENGTH_SHORT).show();
+                                break;
+                            case "CANCELLED":
+                                //ToastUtil.makeText(getActivity(), "已取消" + position, Toast.LENGTH_SHORT).show();
+                                break;
+                        }
+                        break;
+                }
+            }
+        });
+
+        srlOrderForm.setOnLoadMoreListener(new OnLoadMoreListener() {
+            @Override
+            public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
+                page++;
+                HttpParams httpParams = new HttpParams();
+                httpParams.put("buyerId", BaseApplication.getInstansApp().getPersonInfo().getId().toString());
+                httpParams.put("page",page);
+                httpParams.put("size","10");
+                orderPrecenter.getOrder(httpParams);
+            }
+        });
     }
 
     @Override
@@ -148,101 +248,50 @@ public class MyselectFragment1 extends Fragment {
     }
 
     private void doDate(int type) {
-        orderDataPresenter = new OrderDataPresenter();
         if (type == 0) {
             if (orderBaseInfo != null) {
                 orderInfoList = orderDataPresenter.getOrderList(orderBaseInfo);
-                LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
-                linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-                recyclerView.setLayoutManager(linearLayoutManager);
-                orderAdapter = new OrderAdapter(orderInfoList, getActivity());
-                orderAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
-                    @Override
-                    public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-                        switch (view.getId()) {
-                            case R.id.order_head_go:
-                               // ToastUtil.makeText(getActivity(), "点击了店铺" + position, Toast.LENGTH_SHORT).show();
-                                try {
-                                    Bundle bundle = new Bundle();
-                                    bundle.putString("shopid", orderInfoList.get(position).getOrderTopInfo().getShopID());
-                                    BaseTool.goActivityWithData(getActivity(), ShopActivity.class, bundle);
-                                }catch (Exception e){
-                                    PgyCrashManager.reportCaughtException(getActivity(),e);
-                                }
-
-                                break;
-                            case R.id.order_body_goods:
-                                try {
-                                    Bundle bundle1 = new Bundle();
-                                    bundle1.putString("order", orderBaseInfo.getContent().get(orderInfoList.get(position).getParentNumber()).getId());
-//                               ToastUtil.makeText(getActivity(),"aa"+orderInfoList.get(position).getParentNumber(),Toast.LENGTH_SHORT).show();
-                                    BaseTool.goActivityWithData(getActivity(), OrderInfoActivity.class, bundle1);
-                                }catch (Exception e){
-                                    PgyCrashManager.reportCaughtException(getActivity(),e);
-                                }
-                                //ToastUtil.makeText(getActivity(), "点击了商品" + position, Toast.LENGTH_SHORT).show();
-
-                                break;
-                            case R.id.order_info_button:
-                                //ToastUtil.makeText(getActivity(), "点击了操作" + position, Toast.LENGTH_SHORT).show();
-                                switch (orderInfoList.get(position).getOrderBottomInfo().getOrderStatus()) {
-                                    case "ORDERED":
-                                        //ToastUtil.makeText(getActivity(), "待付款" + position, Toast.LENGTH_SHORT).show();
-                                        try {
-                                            Bundle bundle2 = new Bundle();
-                                            bundle2.putString("order",orderInfoList.get(position).getOrderBottomInfo().getContentBean() .getId());
-                                            double a = orderInfoList.get(position).getOrderBottomInfo().getContentBean().getPayment();
-                                            bundle2.putString("money", String.valueOf(a / 100));
-                                            bundle2.putInt("state",1);
-                                            Intent intent = new Intent();
-                                            intent.setClass(getActivity(), BalanceActivity.class);
-                                            intent.putExtras(bundle2);
-                                            startActivityForResult(intent, 10001);
-                                        }catch (Exception e){
-                                            PgyCrashManager.reportCaughtException(getActivity(),e);
-                                        }
-                                        break;
-                                    case "PAID":
-                                        //ToastUtil.makeText(getActivity(), "已付款" + position, Toast.LENGTH_SHORT).show();
-                                        break;
-                                    case "COMPLETED":
-                                        //ToastUtil.makeText(getActivity(), "已完成" + position, Toast.LENGTH_SHORT).show();
-                                        break;
-                                    case "CANCELLED":
-                                        //ToastUtil.makeText(getActivity(), "已取消" + position, Toast.LENGTH_SHORT).show();
-                                        break;
-                                }
-                                break;
-                        }
-                        switch (adapter.getItemViewType(position)) {
-                            case OrderInfo.TOP:
-                                break;
-                            case OrderInfo.BODY:
-                                break;
-                            case OrderInfo.BOTTOM:
-                                break;
-                        }
-                    }
-                });
-                recyclerView.setAdapter(orderAdapter);
+                orderAdapter.setNewData(orderInfoList);
+                if (orderBaseInfo.getNumberOfElements() < 10){
+                    srlOrderForm.setEnableLoadMore(false);
+                }
             }
 
         } else if (type == 1) {
             if (orderBaseInfo != null) {
                 orderInfoList = orderDataPresenter.getOrderList(orderBaseInfo);
                 orderAdapter.setNewData(orderInfoList);
+                if (orderBaseInfo.getNumberOfElements() < 10){
+                    srlOrderForm.setEnableLoadMore(false);
+                }
             }
         }
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
+    @Override
+    public void getOrderSucess(int code, String result) {
+        BaseTool.logPrint("这里能收到么","收到了么？");
+        OrderBaseInfo orderBaseInfo_temp = JSON.parseObject(result, OrderBaseInfo.class);
+        if (orderBaseInfo_temp.getNumberOfElements() == 0){
+            srlOrderForm.finishLoadMore(true);
+            srlOrderForm.setEnableLoadMore(false);
+            ToastUtil.makeText(getContext(), "已加载全部数据", Toast.LENGTH_SHORT).show();
+        }else if(orderBaseInfo_temp.getNumberOfElements() < 10){
+            orderBaseInfo.getContent().addAll(orderBaseInfo_temp.getContent());
+            srlOrderForm.finishLoadMore(true);
+            orderAdapter.addData(orderDataPresenter.getOrderList(orderBaseInfo_temp));
+            srlOrderForm.setEnableLoadMore(false);
+            ToastUtil.makeText(getContext(), "已加载全部数据", Toast.LENGTH_SHORT).show();
+        }else {
+            srlOrderForm.finishLoadMore(666, true, false);
+            orderAdapter.addData(orderDataPresenter.getOrderList(orderBaseInfo_temp));
+            ToastUtil.makeText(getContext(), "加载了更多", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    public void getOrderFaild(int code, String result) {
+
+    }
+
 }

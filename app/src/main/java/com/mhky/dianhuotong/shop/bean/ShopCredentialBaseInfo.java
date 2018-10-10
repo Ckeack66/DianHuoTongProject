@@ -6,6 +6,7 @@ import java.io.Serializable;
 
 /**
  * Created by Administrator on 2018/5/2.
+ * 资质证明  实体类
  */
 
 public class ShopCredentialBaseInfo implements Serializable ,MultiItemEntity{

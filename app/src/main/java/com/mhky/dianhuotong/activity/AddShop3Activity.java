@@ -69,6 +69,7 @@ public class AddShop3Activity extends BaseActivity implements BindShopIF, SaleMa
     private void inIt() {
         personInfoPrecenter = new PersonInfoPrecenter(this);
         saleManPresenter = new SaleManPresenter(this);
+
         dianHuoTongBaseTitleBar.setLeftImage(R.drawable.icon_back);
         dianHuoTongBaseTitleBar.setCenterTextView("加入店铺");
         dianHuoTongBaseTitleBar.setLeftOnclickListener(new View.OnClickListener() {

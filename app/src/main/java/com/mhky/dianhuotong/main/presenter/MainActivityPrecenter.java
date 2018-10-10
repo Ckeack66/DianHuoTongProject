@@ -23,8 +23,11 @@ public class MainActivityPrecenter {
     public MainActivityPrecenter(MainIF mainIF, Context mContext) {
         this.mainIF = mainIF;
         this.context = mContext;
+        //初始化侧滑单的list列表
         inItListViewData();
+        //初始化主页面按钮
         inItGridViewData();
+        //初始化侧滑单的list列表
         initImageList();
     }
 

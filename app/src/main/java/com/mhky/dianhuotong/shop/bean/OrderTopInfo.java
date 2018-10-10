@@ -5,6 +5,10 @@ package com.mhky.dianhuotong.shop.bean;
  */
 
 public class OrderTopInfo {
+
+    private String name;
+    private String shopID;
+
     public String getName() {
         return name;
     }
@@ -20,7 +24,4 @@ public class OrderTopInfo {
     public void setShopID(String shopID) {
         this.shopID = shopID;
     }
-
-    private String name;
-    private String shopID;
 }

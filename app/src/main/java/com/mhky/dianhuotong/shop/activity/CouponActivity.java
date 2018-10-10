@@ -13,16 +13,20 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.lzy.okgo.model.HttpParams;
 import com.mhky.dianhuotong.R;
 import com.mhky.dianhuotong.base.BaseApplication;
+import com.mhky.dianhuotong.base.BaseTool;
 import com.mhky.dianhuotong.base.view.BaseActivity;
 import com.mhky.dianhuotong.custom.AlertDialog.LoadingDialog;
 import com.mhky.dianhuotong.custom.ToastUtil;
 import com.mhky.dianhuotong.custom.viewgroup.DianHuoTongBaseTitleBar;
 import com.mhky.dianhuotong.shop.adapter.CouponAdapter;
 import com.mhky.dianhuotong.shop.bean.BaseCouponInfo;
+import com.mhky.dianhuotong.shop.bean.CouponInfo;
 import com.mhky.dianhuotong.shop.bean.ShopCouponInfo;
 import com.mhky.dianhuotong.shop.precenter.CouponPresenter;
 import com.mhky.dianhuotong.shop.shopif.CounponAddIF;
 import com.mhky.dianhuotong.shop.shopif.CounponGetIF;
+import com.mhky.dianhuotong.shop.shopif.CouponIF;
+import com.mhky.dianhuotong.shop.shopif.HavedCouponIF;
 import com.pgyersdk.crash.PgyCrashManager;
 
 import java.util.HashMap;
@@ -32,14 +36,21 @@ import java.util.Map;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class CouponActivity extends BaseActivity implements CounponGetIF, CounponAddIF {
+/**
+ * 领券中心
+ */
+
+public class CouponActivity extends BaseActivity implements HavedCouponIF,CounponGetIF, CounponAddIF {
+
     @BindView(R.id.coupon_title)
     DianHuoTongBaseTitleBar dianHuoTongBaseTitleBar;
     @BindView(R.id.coupon_recyclerview)
     RecyclerView recyclerView;
+
     private CouponAdapter couponAdapter;
     private CouponPresenter couponPresenter;
     private List<ShopCouponInfo> shopCouponInfoList;
+    private List<CouponInfo> couponInfoList;                                        //用户已领取的优惠券信息列表
     private LoadingDialog loadingDialog;
     private Context mContext;
 
@@ -58,9 +69,8 @@ public class CouponActivity extends BaseActivity implements CounponGetIF, Counpo
 
     private void init() {
         loadingDialog = new LoadingDialog(this);
-        couponPresenter = new CouponPresenter().setCounponGetIF(this).setCounponAddIF(this);
-        Map map = new HashMap();
-        couponPresenter.getCouponByPlatform(map);
+        couponPresenter = new CouponPresenter().setCounponGetIF(this).setCounponAddIF(this).setHavedCouponIF(this);
+        couponPresenter.getHavedCoupon();
         dianHuoTongBaseTitleBar.setLeftImage(R.drawable.icon_back);
         dianHuoTongBaseTitleBar.setCenterTextView("领券中心");
         dianHuoTongBaseTitleBar.setLeftOnclickListener(new View.OnClickListener() {
@@ -72,41 +82,6 @@ public class CouponActivity extends BaseActivity implements CounponGetIF, Counpo
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(linearLayoutManager);
-        couponAdapter.openLoadAnimation(BaseQuickAdapter.SLIDEIN_BOTTOM);
-    }
-
-    @Override
-    public void getCouponSuccess(int code, String result) {
-        if (code == 200) {
-            shopCouponInfoList = JSON.parseArray(result, ShopCouponInfo.class);
-            couponAdapter = new CouponAdapter(shopCouponInfoList, this);
-            couponAdapter.openLoadAnimation();
-            couponAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
-                @Override
-                public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-                    switch (view.getId()) {
-                        case R.id.coupon_get:
-                            //领取优惠券
-                            try {
-                                loadingDialog.show();
-                                Map map = new HashMap();
-                                map.put("promotionId", shopCouponInfoList.get(position).getId());
-                                map.put("shopId", BaseApplication.getInstansApp().getPersonInfo().getShopId());
-                                couponPresenter.bindCouponByShop(map);
-                            } catch (Exception e) {
-                                PgyCrashManager.reportCaughtException(mContext, e);
-                            }
-                            break;
-                    }
-                }
-            });
-            recyclerView.setAdapter(couponAdapter);
-        }
-    }
-
-    @Override
-    public void getCouponFailed(int code, String result) {
-
     }
 
     @Override
@@ -132,5 +107,68 @@ public class CouponActivity extends BaseActivity implements CounponGetIF, Counpo
             loadingDialog.dismiss();
         }
         ToastUtil.makeText(mContext, "领取失败！", Toast.LENGTH_SHORT).show();
+    }
+
+    /**
+     * 获取平台发布的优惠券列表
+     * @param code
+     * @param result
+     */
+    @Override
+    public void getCouponSuccess(int code, String result) {
+        if (code == 200) {
+            shopCouponInfoList = JSON.parseArray(result, ShopCouponInfo.class);
+            couponAdapter = new CouponAdapter(shopCouponInfoList, this, couponInfoList);
+            couponAdapter.openLoadAnimation(BaseQuickAdapter.SLIDEIN_BOTTOM);
+            couponAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+                @Override
+                public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                    switch (view.getId()) {
+                        case R.id.coupon_get:
+                            //领取优惠券
+                            BaseTool.logPrint("sign",couponAdapter.getData().get(position).isHaved() + "");
+                            if (couponAdapter.getData().get(position).isHaved()){
+                                ToastUtil.makeText(CouponActivity.this,"已领取过此优惠券",Toast.LENGTH_SHORT).show();
+                                return;
+                            }
+                            try {
+                                loadingDialog.show();
+                                Map map = new HashMap();
+                                map.put("promotionId", shopCouponInfoList.get(position).getId());
+                                map.put("shopId", BaseApplication.getInstansApp().getPersonInfo().getShopId());
+                                couponPresenter.bindCouponByShop(map);
+                            } catch (Exception e) {
+                                PgyCrashManager.reportCaughtException(mContext, e);
+                            }
+                            break;
+                    }
+                }
+            });
+            recyclerView.setAdapter(couponAdapter);
+        }
+    }
+
+    @Override
+    public void getCouponFailed(int code, String result) {
+
+    }
+
+    /**
+     * 获取用户已领取的优惠券列表
+     * @param code
+     * @param result
+     */
+    @Override
+    public void getHavedCouponSuccess(int code, String result) {
+        if (code == 200){
+            couponInfoList = JSON.parseArray(result,CouponInfo.class);
+            Map map = new HashMap();
+            couponPresenter.getCouponByPlatform(map);
+        }
+    }
+
+    @Override
+    public void getHavedCouponFailed(int code, String result) {
+
     }
 }

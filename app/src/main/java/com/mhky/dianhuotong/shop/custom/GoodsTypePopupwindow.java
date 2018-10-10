@@ -18,6 +18,7 @@ import com.mhky.dianhuotong.base.BaseTool;
 import com.mhky.dianhuotong.custom.ToastUtil;
 import com.mhky.dianhuotong.shop.adapter.Popupwindow1Adapter;
 import com.mhky.dianhuotong.shop.bean.Popuwindow1Info;
+import com.mhky.dianhuotong.shop.bean.Popwindow1InfoNew;
 import com.pgyersdk.crash.PgyCrashManager;
 
 import java.util.List;
@@ -27,7 +28,9 @@ import java.util.List;
  */
 
 public class GoodsTypePopupwindow extends PopupWindow {
-    private List<Popuwindow1Info> popuwindow1InfoList;
+
+    private List<Popuwindow1Info> popuwindow1InfoList;              //popwindow需要加载的数据集合  老的，用不到
+    private List<Popwindow1InfoNew> popwindow1InfoNewList;          //popwindow需要加载的数据集合  新的，会用到
     private RecyclerView recyclerView;
     private Popupwindow1Adapter popupwindow1Adapter;
     private static final String TAG = "GoodsTypePopupwindow";
@@ -46,6 +49,7 @@ public class GoodsTypePopupwindow extends PopupWindow {
         setClippingEnabled(false);
         setOutsideTouchable(false);
         setBackgroundDrawable(new ColorDrawable(0));
+        setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
         try {
             LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
             linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -68,6 +72,7 @@ public class GoodsTypePopupwindow extends PopupWindow {
                     }
                 });
                 recyclerView.setAdapter(popupwindow1Adapter);
+
             }
         } catch (Exception e) {
             PgyCrashManager.reportCaughtException(context, e);
@@ -91,6 +96,6 @@ public class GoodsTypePopupwindow extends PopupWindow {
     }
 
     public interface OnClickPopupwindow1ItemListener {
-        void onclick(Popuwindow1Info popuwindow1Info);
+        void onclick(Popuwindow1Info popwindow1InfoNew);
     }
 }

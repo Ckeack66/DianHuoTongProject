@@ -14,7 +14,7 @@
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="@dimen/x50"
+        android:layout_above="@id/order_info_bottom"
         android:layout_marginTop="@dimen/x40"
         android:background="@color/colorF7F7F7">
         <LinearLayout
@@ -237,6 +237,7 @@
                     android:textColor="@color/color333333"
                     android:textSize="@dimen/t10" />
                 <TextView
+                    android:id="@+id/tv_shop_discount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
@@ -263,6 +264,7 @@
                     android:textColor="@color/color333333"
                     android:textSize="@dimen/t10" />
                 <TextView
+                    android:id="@+id/tv_platform_discount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
@@ -326,6 +328,33 @@
                     android:textColor="@color/color333333"
                     android:textSize="@dimen/t10" />
             </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/order_info_creattime_ll"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorWhite"
+                android:orientation="horizontal"
+                android:paddingStart="@dimen/x16"
+                android:paddingEnd="@dimen/x16"
+                android:paddingTop="@dimen/x6"
+                android:paddingBottom="@dimen/x6">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="创建时间："
+                    android:textColor="@color/color333333"
+                    android:textSize="@dimen/t10" />
+                <TextView
+                    android:id="@+id/order_info_creattime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textColor="@color/color333333"
+                    android:textSize="@dimen/t10" />
+            </LinearLayout>
+
             <LinearLayout
                 android:id="@+id/order_info_pay_ll"
                 android:layout_width="match_parent"
@@ -352,31 +381,7 @@
                     android:textColor="@color/color333333"
                     android:textSize="@dimen/t10" />
             </LinearLayout>
-            <LinearLayout
-                android:id="@+id/order_info_creattime_ll"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/colorWhite"
-                android:orientation="horizontal"
-                android:paddingStart="@dimen/x16"
-                android:paddingEnd="@dimen/x16"
-                android:paddingTop="@dimen/x6"
-                android:paddingBottom="@dimen/x6">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="创建时间："
-                    android:textColor="@color/color333333"
-                    android:textSize="@dimen/t10" />
-                <TextView
-                    android:id="@+id/order_info_creattime"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text=""
-                    android:textColor="@color/color333333"
-                    android:textSize="@dimen/t10" />
-            </LinearLayout>
             <LinearLayout
                 android:id="@+id/order_info_paid_ll"
                 android:layout_width="match_parent"
@@ -403,6 +408,29 @@
                     android:textColor="@color/color333333"
                     android:textSize="@dimen/t10" />
             </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/order_info_tracking_num"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorWhite"
+                android:orientation="horizontal"
+                android:paddingStart="@dimen/x16"
+                android:paddingEnd="@dimen/x16"
+                android:paddingTop="@dimen/x6"
+                android:paddingBottom="@dimen/x6"
+                android:layout_marginBottom="@dimen/x6"
+                android:visibility="gone">
+
+                <TextView
+                    android:id="@+id/tv_tracking_num"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="  *  *  物流:"
+                    android:textColor="@color/color333333"
+                    android:textSize="@dimen/t10" />
+            </LinearLayout>
+
             <LinearLayout
                 android:id="@+id/order_info_transfer_ll"
                 android:layout_width="match_parent"
@@ -423,12 +451,22 @@
                     android:textColor="@color/color333333"
                     android:textSize="@dimen/t10" />
                 <TextView
+                    android:id="@+id/tv_tracking_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text=""
                     android:textColor="@color/color333333"
                     android:textSize="@dimen/t10" />
             </LinearLayout>
+
+            <ImageView
+                android:id="@+id/iv_receipt"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/x160"
+                android:layout_margin="@dimen/x20"
+                android:scaleType="centerInside"
+                android:visibility="gone"/>
+
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
 

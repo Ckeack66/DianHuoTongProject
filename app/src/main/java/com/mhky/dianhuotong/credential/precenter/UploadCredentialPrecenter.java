@@ -14,9 +14,11 @@ import com.mhky.dianhuotong.credential.credentialif.UploadCredentialIF;
 
 /**
  * Created by Administrator on 2018/4/17.
+ * 上传图片
  */
 
 public class UploadCredentialPrecenter {
+
     private UploadCredentialIF uploadCredentialIF;
     private static final String TAG = "UploadCredentialPrecent";
 
@@ -25,6 +27,7 @@ public class UploadCredentialPrecenter {
     }
 
     public void getImageUplaodUrl(HttpParams httpParams) {
+
         OkGo.<String>post(BaseUrlTool.UPLOAD_IMAGE).params(httpParams).execute(new Callback<String>() {
             @Override
             public void onStart(Request<String, ? extends Request> request) {

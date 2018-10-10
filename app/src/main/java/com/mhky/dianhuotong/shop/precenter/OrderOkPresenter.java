@@ -12,7 +12,12 @@ import com.mhky.dianhuotong.shop.shopif.OrderOkIF;
 
 import java.util.HashMap;
 
+/**
+ * 批量获取运费presenter
+ */
+
 public class OrderOkPresenter {
+
     private OrderOkIF orderOkIF;
 
     public OrderOkPresenter(OrderOkIF orderOkIF) {

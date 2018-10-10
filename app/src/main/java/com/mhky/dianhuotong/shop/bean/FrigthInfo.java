@@ -1,5 +1,9 @@
 package com.mhky.dianhuotong.shop.bean;
 
+/**
+ * 运费实体类
+ */
+
 public class FrigthInfo {
     /**
      * sendAccount : 500

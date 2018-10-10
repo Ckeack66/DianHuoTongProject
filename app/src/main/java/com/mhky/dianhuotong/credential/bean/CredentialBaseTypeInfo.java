@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 /**
  * Created by Administrator on 2018/4/18.
+ * 资质名称实体类
  */
 
 public class CredentialBaseTypeInfo implements Serializable {

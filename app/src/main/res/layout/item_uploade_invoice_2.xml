@@ -3,7 +3,9 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/coloreeeeee"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:paddingEnd="@dimen/x16"
+    android:paddingStart="@dimen/x16">
 
     <RelativeLayout
         android:id="@+id/add_credential"

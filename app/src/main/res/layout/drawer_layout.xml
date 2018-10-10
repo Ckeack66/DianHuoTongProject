@@ -72,10 +72,11 @@
         <RelativeLayout
             android:id="@+id/drawer_title"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/x246"
+            android:layout_height="wrap_content"
             android:background="@color/color04c1ab">
 
-            <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+            <de.hdodenhof.circleimageview.CircleImageView
+                xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:id="@+id/main_user_image"
                 android:layout_width="@dimen/x94"
                 android:layout_height="@dimen/x94"

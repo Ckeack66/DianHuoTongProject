@@ -2,6 +2,10 @@ package com.mhky.dianhuotong.shop.bean;
 
 import java.util.List;
 
+/**
+ * 优惠券实体类
+ */
+
 public class CouponInfo {
 
     public String getId() {
@@ -25,8 +29,16 @@ public class CouponInfo {
     private String companyId;
     private String shopId;
     private String grads;
-    private boolean status;
+    private boolean used;
     private String invalidDate;
+
+    public boolean isUsed() {
+        return used;
+    }
+
+    public void setUsed(boolean used) {
+        this.used = used;
+    }
 
     public PromotionItemBean getPromotionItem() {
         return promotionItem;
@@ -60,14 +72,6 @@ public class CouponInfo {
         this.grads = grads;
     }
 
-    public boolean isStatus() {
-        return status;
-    }
-
-    public void setStatus(boolean status) {
-        this.status = status;
-    }
-
     public String getInvalidDate() {
         return invalidDate;
     }
@@ -89,6 +93,7 @@ public class CouponInfo {
          * shopId : 48
          */
 
+        private String id;
         private String name;
         private String startDate;
         private String endDate;
@@ -98,6 +103,14 @@ public class CouponInfo {
         private GradientFullCutBean gradientFullCut;
         private String shopId;
         private List<?> goodsIds;
+
+        public String getId() {
+            return id;
+        }
+
+        public void setId(String id) {
+            this.id = id;
+        }
 
         public String getName() {
             return name;

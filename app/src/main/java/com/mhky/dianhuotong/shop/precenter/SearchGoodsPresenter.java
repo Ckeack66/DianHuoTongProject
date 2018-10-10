@@ -12,8 +12,10 @@ import com.mhky.dianhuotong.base.BaseApplication;
 import com.mhky.dianhuotong.base.BaseTool;
 import com.mhky.dianhuotong.base.BaseUrlTool;
 import com.mhky.dianhuotong.shop.bean.GoodsBaseInfo;
+import com.mhky.dianhuotong.shop.bean.GoodsCategories;
 import com.mhky.dianhuotong.shop.bean.Popuwindow1ChildInfo;
 import com.mhky.dianhuotong.shop.bean.Popuwindow1Info;
+import com.mhky.dianhuotong.shop.bean.Popwindow1InfoNew;
 import com.mhky.dianhuotong.shop.shopif.SearchGoodsIF;
 
 import java.util.ArrayList;
@@ -24,6 +26,7 @@ import java.util.List;
  */
 
 public class SearchGoodsPresenter {
+
     private SearchGoodsIF searchGoodsIF;
     private static final String TAG = "SearchGoodsPresenter";
 
@@ -39,7 +42,6 @@ public class SearchGoodsPresenter {
         OkGo.<String>get(BaseUrlTool.SEARCH_GOODS).params(httpParams).execute(new Callback<String>() {
             @Override
             public void onStart(Request<String, ? extends Request> request) {
-
             }
 
             @Override
@@ -82,8 +84,10 @@ public class SearchGoodsPresenter {
     }
 
     public List<Popuwindow1Info> getPopupwindowData() {
+
         List<Popuwindow1Info> popuwindow1Infos = new ArrayList<>();
-        List<GoodsBaseInfo> childrenBeanXList = BaseApplication.getInstansApp().getAllGoodsBaseInfos();
+//        List<GoodsBaseInfo> childrenBeanXList = BaseApplication.getInstansApp().getAllGoodsBaseInfos();
+        List<GoodsBaseInfo> childrenBeanXList = BaseApplication.getInstansApp().getGoodsType();
         if (childrenBeanXList != null) {
             for (int a = 0; a < childrenBeanXList.size(); a++) {
                 Popuwindow1ChildInfo popuwindow1ChildInfo = new Popuwindow1ChildInfo();
@@ -98,6 +102,33 @@ public class SearchGoodsPresenter {
             }
 
 
+        }
+        return popuwindow1Infos;
+    }
+
+    /**
+     * SearchGoodsActivity 获取类目的新方法
+     * @return
+     */
+    public List<Popwindow1InfoNew> getPopupwindowDataNew() {
+
+        List<Popwindow1InfoNew> popuwindow1Infos = new ArrayList<>();
+        List<GoodsBaseInfo> childrenBeanXList = BaseApplication.getInstansApp().getAllGoodsBaseInfos();
+        List<GoodsCategories> goodsCategoriesList = BaseApplication.getInstansApp().getGoodsCategories();
+
+        if (goodsCategoriesList != null) {
+            for (int a = 0; a < goodsCategoriesList.size(); a++) {
+                Popuwindow1ChildInfo popuwindow1ChildInfo = new Popuwindow1ChildInfo();
+                popuwindow1ChildInfo.setNumber(goodsCategoriesList.get(a).getItems().size() + "种");
+                popuwindow1ChildInfo.setGoodsCategories(goodsCategoriesList.get(a));
+                popuwindow1ChildInfo.setGoodsBaseInfo(childrenBeanXList.get(a));
+                Popwindow1InfoNew popuwindow1Info = new Popwindow1InfoNew(true, goodsCategoriesList.get(a).getName(), popuwindow1ChildInfo);
+                popuwindow1Infos.add(popuwindow1Info);
+                for (int b = 0; b < goodsCategoriesList.get(a).getItems().size(); b++) {
+                    Popwindow1InfoNew popwindow1InfoNew = new Popwindow1InfoNew(goodsCategoriesList.get(a).getItems().get(b));
+                    popuwindow1Infos.add(popwindow1InfoNew);
+                }
+            }
         }
         return popuwindow1Infos;
     }

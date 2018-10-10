@@ -26,32 +26,27 @@
                 android:id="@+id/goods_base_choose_tab1"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:gravity="center">
 
-                <LinearLayout
+                <TextView
+                    android:id="@+id/goods_base_choose_txt1"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_centerHorizontal="true">
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginEnd="@dimen/x6"
+                    android:gravity="center"
+                    android:text="默认分类"
+                    android:textColor="@color/color333333"
+                    android:textSize="@dimen/t12" />
 
-                    <TextView
-                        android:id="@+id/goods_base_choose_txt1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginEnd="@dimen/x6"
-                        android:gravity="center"
-                        android:text="默认分类"
-                        android:textColor="@color/color333333"
-                        android:textSize="@dimen/t12" />
-
-                    <ImageView
-                        android:id="@+id/goods_base_choose_img1"
-                        android:layout_width="@dimen/x10"
-                        android:layout_height="@dimen/x6"
-                        android:layout_gravity="center_vertical"
-                        android:src="@drawable/icon_choose_unselecte" />
-                </LinearLayout>
-
+                <ImageView
+                    android:id="@+id/goods_base_choose_img1"
+                    android:layout_width="@dimen/x10"
+                    android:layout_height="@dimen/x6"
+                    android:layout_centerVertical="true"
+                    android:layout_toEndOf="@+id/goods_base_choose_txt1"
+                    android:src="@drawable/icon_choose_unselecte" />
 
             </RelativeLayout>
 
@@ -59,7 +54,8 @@
                 android:id="@+id/goods_base_choose_tab2"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:gravity="center">
 
                 <TextView
                     android:id="@+id/goods_base_choose_txt2"
@@ -73,7 +69,7 @@
 
                 <ImageView
                     android:id="@+id/goods_base_choose_img2"
-                    android:layout_width="@dimen/x9"
+                    android:layout_width="@dimen/x10"
                     android:layout_height="@dimen/x6"
                     android:layout_centerVertical="true"
                     android:layout_marginStart="@dimen/x6"
@@ -86,7 +82,8 @@
                 android:id="@+id/goods_base_choose_tab3"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:gravity="center">
 
                 <TextView
                     android:id="@+id/goods_base_choose_txt3"
@@ -107,6 +104,36 @@
                     android:layout_centerVertical="true"
                     android:layout_marginStart="@dimen/x6"
                     android:layout_toEndOf="@id/goods_base_choose_txt3"
+                    android:src="@drawable/icon_choose_unselecte" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/goods_base_choose_tab_isRetail"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center">
+
+                <TextView
+                    android:id="@+id/goods_base_choose_txt_isRetail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_centerHorizontal="true"
+                    android:gravity="center"
+                    android:text="整零库区"
+                    android:textColor="@color/color333333"
+                    android:maxLength="5"
+                    android:ellipsize="end"
+                    android:textSize="@dimen/t12" />
+
+                <ImageView
+                    android:id="@+id/goods_base_choose_img_isRetail"
+                    android:layout_width="@dimen/x9"
+                    android:layout_height="@dimen/x6"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="@dimen/x6"
+                    android:layout_toEndOf="@id/goods_base_choose_txt_isRetail"
                     android:src="@drawable/icon_choose_unselecte" />
 
             </RelativeLayout>
@@ -149,7 +176,8 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="@dimen/x0.5"
-            android:background="@color/colorBFBFBF" />
+            android:background="@color/colorBFBFBF"
+            android:layout_alignParentTop="true"/>
     </RelativeLayout>
 
     <com.scwang.smartrefresh.layout.SmartRefreshLayout

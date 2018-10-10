@@ -7,12 +7,13 @@ import android.content.Intent;
 import com.mhky.dianhuotong.base.BaseApplication;
 
 public class BanlanceReciver extends BroadcastReceiver {
+
+    private BanlanceReciverIF banlanceReciverIF;
+
     public BanlanceReciver setBanlanceReciverIF(BanlanceReciverIF banlanceReciverIF) {
         this.banlanceReciverIF = banlanceReciverIF;
         return this;
     }
-
-    private BanlanceReciverIF banlanceReciverIF;
 
     @Override
     public void onReceive(Context context, Intent intent) {

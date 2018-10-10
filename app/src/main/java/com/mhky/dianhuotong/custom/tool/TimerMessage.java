@@ -30,8 +30,6 @@ public class TimerMessage extends CountDownTimer {
             if (millisUntilFinished != 0) {
                 onTimerListener.onTick("已发送"+millisUntilFinished / 1000 + "S");
             }
-
-
         }
     }
 

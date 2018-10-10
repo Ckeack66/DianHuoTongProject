@@ -30,6 +30,7 @@ import butterknife.Unbinder;
  * A simple {@link Fragment} subclass.
  * Use the {@link InvoiceFragment2#newInstance} factory method to
  * create an instance of this fragment.
+ * 发票信息Fragment
  */
 public class InvoiceFragment2 extends Fragment implements BillIF {
     @BindView(R.id.bill_type1)

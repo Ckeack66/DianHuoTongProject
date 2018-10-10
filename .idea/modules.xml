@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/DianHuoTongProject.iml" filepath="$PROJECT_DIR$/.idea/modules/DianHuoTongProject.iml" />
+      <module fileurl="file://$PROJECT_DIR$/GridViewLine/GridViewLine.iml" filepath="$PROJECT_DIR$/GridViewLine/GridViewLine.iml" />
+      <module fileurl="file://$PROJECT_DIR$/SlidingMenu/SlidingMenu.iml" filepath="$PROJECT_DIR$/SlidingMenu/SlidingMenu.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/shapeloading/shapeloading.iml" filepath="$PROJECT_DIR$/shapeloading/shapeloading.iml" />
+      <module fileurl="file://$PROJECT_DIR$/shiyaolibrary/shiyaolibrary.iml" filepath="$PROJECT_DIR$/shiyaolibrary/shiyaolibrary.iml" />
+      <module fileurl="file://$PROJECT_DIR$/stickscrollview/stickscrollview.iml" filepath="$PROJECT_DIR$/stickscrollview/stickscrollview.iml" />
+      <module fileurl="file://$PROJECT_DIR$/takephoto_library/takephoto_library.iml" filepath="$PROJECT_DIR$/takephoto_library/takephoto_library.iml" />
+      <module fileurl="file://$PROJECT_DIR$/viewexplosion/viewexplosion.iml" filepath="$PROJECT_DIR$/viewexplosion/viewexplosion.iml" />
+    </modules>
+  </component>
+</project>

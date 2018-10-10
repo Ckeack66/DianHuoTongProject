@@ -18,9 +18,11 @@ import java.util.Map;
 
 /**
  * Created by Administrator on 2018/4/23.
+ * 购物车presenter
  */
 
 public class CartOpratePresenter implements ShopInfoIF {
+
     private CartOprateIF cartOprateIF;
     private ShopInfoPresenter shopInfoPresenter;
     private String goodsID;
@@ -30,8 +32,13 @@ public class CartOpratePresenter implements ShopInfoIF {
         shopInfoPresenter = new ShopInfoPresenter();
     }
 
+    /**
+     * 添加到购物车
+     * @param map
+     */
     public void addCart(Map map) {
-        OkGo.<String>post(BaseUrlTool.ADD_CART + BaseTool.getUrlParamsByMap(map, false)).execute(new Callback<String>() {
+        OkGo.<String>post(BaseUrlTool.ADD_CART + BaseTool.getUrlParamsByMap(map, false))
+                .execute(new Callback<String>() {
             @Override
             public void onStart(Request<String, ? extends Request> request) {
 
@@ -74,6 +81,10 @@ public class CartOpratePresenter implements ShopInfoIF {
         });
     }
 
+    /**
+     * 删除购物车商品
+     * @param skuid
+     */
     public void deleteCart(String skuid) {
         if (BaseApplication.getInstansApp().getLoginRequestInfo() == null) {
             return;
@@ -124,6 +135,11 @@ public class CartOpratePresenter implements ShopInfoIF {
         });
     }
 
+    /**
+     * 获取购物车内商品
+     * @param Id                    user  id
+     * @param type                  0：还未设置适配器    1：已设置适配器，只更新数据就行
+     */
     public void getCart(String Id, final int type) {
         OkGo.<String>get(BaseUrlTool.getCartInfo(Id)).execute(new Callback<String>() {
             @Override
@@ -168,6 +184,11 @@ public class CartOpratePresenter implements ShopInfoIF {
         });
     }
 
+    /**
+     * 更改购物车商品
+     * @param hashMap
+     * @param type
+     */
     public void alterCart(HashMap hashMap, final int type) {
         //buyerId=19&amount=100000000&checked=true&goodsId=23&skuId=5
         //http://192.168.2.158:9050/cart?buyerId=19&skuId=13&amount=15
@@ -215,9 +236,15 @@ public class CartOpratePresenter implements ShopInfoIF {
         });
     }
 
+    /**
+     * 获取商品属性信息
+     * @param goodsId
+     */
     public void getSku(String goodsId) {
         goodsID = goodsId;
-        if (BaseApplication.getInstansApp().getShopInfoByUserID() != null && BaseApplication.getInstansApp().getShopInfoByUserID().getRegionCode() != null && !"".equals(BaseApplication.getInstansApp().getShopInfoByUserID().getRegionCode())) {
+        if (BaseApplication.getInstansApp().getShopInfoByUserID() != null
+                && BaseApplication.getInstansApp().getShopInfoByUserID().getRegionCode() != null
+                && !"".equals(BaseApplication.getInstansApp().getShopInfoByUserID().getRegionCode())) {
             HashMap hashMap = new HashMap();
             hashMap.put("regionCode", BaseApplication.getInstansApp().getShopInfoByUserID().getRegionCode());
             OkGo.<String>get(BaseUrlTool.getSkuInfo(goodsId) + BaseTool.getUrlParamsByMap(hashMap, false)).execute(new Callback<String>() {
@@ -267,7 +294,11 @@ public class CartOpratePresenter implements ShopInfoIF {
 
     }
 
-
+    /**
+     * 通过UserId获取店铺信息成功
+     * @param code
+     * @param result
+     */
     @Override
     public void getShopInfoSuccess(int code, String result) {
         if (code==200){

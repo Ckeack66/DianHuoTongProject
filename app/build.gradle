@@ -13,17 +13,18 @@ android {
         applicationId "com.mhky.dianhuotong"
         minSdkVersion 18
         targetSdkVersion 26
-        versionName '1.1.5'
+        versionName '1.1.9'
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         signingConfig signingConfigs.config
-        versionCode 15
+        versionCode 19
     }
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             buildConfigField "boolean", "LOG_DEBUG", "false"
-            buildConfigField "String", "WXAppid", '"wx1aa6ee31b052846b"'
+//            buildConfigField "String", "WXAppid", '"wx1aa6ee31b052846b"'
+            buildConfigField "String", "WXAppid", '"wx7df0bb99c5bf9af5"'
             buildConfigField "String", "BDMapAppid", '"123"'
             buildConfigField "String", "HOSTS", '"http://116.255.150.39:"'
             buildConfigField "String", "HOSTS_CART", '"http://116.255.158.91:"'
@@ -33,7 +34,8 @@ android {
         }
         debug {
             buildConfigField "boolean", "LOG_DEBUG", "true"
-            buildConfigField "String", "WXAppid", '"wx1aa6ee31b052846b"'
+//            buildConfigField "String", "WXAppid", '"wx1aa6ee31b052846b"'
+            buildConfigField "String", "WXAppid", '"wx7df0bb99c5bf9af5"'
             buildConfigField "String", "BDMapAppid", '"123"'
             buildConfigField "String", "HOSTS", '"http://192.168.2.158:"'
             buildConfigField "String", "HOSTS_CART", '"http://192.168.2.158:"'
@@ -62,7 +64,7 @@ android {
         javaMaxHeapSize "4g"
     }
     defaultConfig {
-        ndk { abiFilters "armeabi" }
+        ndk { abiFilters "armeabi","armeabi-v7a", "x86_64" }
         multiDexEnabled true
     }
 }
@@ -169,12 +171,13 @@ dependencies {
 
     //倒计时
     compile 'com.sqq.xiaqu:countdownprogress:1.0.0'
+    //支付宝JAR包
     implementation files('libs/alipaySdk-20180403.jar')
 
     //微信支付
     compile 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:+'
 
-    //BaseRecycleViewAdpter
+    //BaseRecycleViewAdpter（只是为了利用内部的basequickadapter）
     compile 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.38'
 
     //下拉刷新
@@ -198,7 +201,9 @@ dependencies {
     implementation project(':stickscrollview')
 
     //蒲公英
-    implementation 'com.pgyersdk:sdk:2.8.1'
+    implementation 'com.pgyersdk:sdk:2.8.4'
+//    implementation 'com.pgyersdk:sdk:3.0.0'
+
     implementation 'com.google.zxing:core:3.3.2'
 
     //数据库
@@ -207,4 +212,7 @@ dependencies {
 
     //implementation 'org.greenrobot:greendao-generator:3.2.2'
     implementation project(':shiyaolibrary')
+
+    //google    gson
+    implementation 'com.google.code.gson:gson:2.8.5'
 }

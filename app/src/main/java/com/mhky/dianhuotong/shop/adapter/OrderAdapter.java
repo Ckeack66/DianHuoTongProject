@@ -17,6 +17,7 @@ import java.util.List;
 
 /**
  * Created by Administrator on 2018/5/10.
+ * 订单Adapter
  */
 
 public class OrderAdapter extends BaseMultiItemQuickAdapter<OrderInfo, BaseViewHolder> {
@@ -42,15 +43,18 @@ public class OrderAdapter extends BaseMultiItemQuickAdapter<OrderInfo, BaseViewH
 
     @Override
     protected void convert(BaseViewHolder helper, OrderInfo item) {
+        helper.setIsRecyclable(false);
         switch (helper.getItemViewType()) {
             case OrderInfo.TOP:
                 helper.setText(R.id.order_head_name, item.getOrderTopInfo().getName());
-                helper.addOnClickListener(R.id.order_head_go);
+//                helper.addOnClickListener(R.id.order_head_go);
+                helper.addOnClickListener(R.id.rl_order_top);
                 break;
             case OrderInfo.BODY:
-                if (item.getOrderBodyInfo().getGoodsInfo().getImageUrl() != null) {
+                if (!BaseTool.isEmpty(item.getOrderBodyInfo().getGoodsInfo().getImageUrl())) {
                     String url = item.getOrderBodyInfo().getGoodsInfo().getImageUrl().split(",")[0];
-                    Picasso.get().load(url).resize(withResult, heightResult).into((ImageView) helper.getView(R.id.order_body_imageview));
+                    Picasso.get().load(url).resize(withResult, heightResult)
+                            .error(R.drawable.default_pill_case).into((ImageView) helper.getView(R.id.order_body_imageview));
                 }
                 helper.setText(R.id.order_body_title, item.getOrderBodyInfo().getGoodsInfo().getName());
                 //helper.setText(R.id.order_body_companay,item.getOrderBodyInfo().getGoodsInfo().)
@@ -68,9 +72,10 @@ public class OrderAdapter extends BaseMultiItemQuickAdapter<OrderInfo, BaseViewH
                 helper.setText(R.id.order_bottom_text2, "合计：￥" + money1);
 //                double c = (double) item.getOrderBottomInfo().getFreightInfoBean().getFreight();
 //                double money2 = c / 100;
-                if (item.getOrderBottomInfo().getFreightInfoBean().getFreight()!=null&&Integer.valueOf(item.getOrderBottomInfo().getFreightInfoBean().getFreight().toString())== 0) {
+                if (item.getOrderBottomInfo().getFreightInfoBean().getFreight() != null
+                        && Integer.valueOf(item.getOrderBottomInfo().getFreightInfoBean().getSendAccount().toString()) <= item.getOrderBottomInfo().getContentBean().getPayment()) {
                     helper.setText(R.id.order_bottom_text3, "（已免邮）");
-                } else if (item.getOrderBottomInfo().getFreightInfoBean().getFreight()==null){
+                } else if (item.getOrderBottomInfo().getFreightInfoBean().getFreight() == null){
                     helper.setText(R.id.order_bottom_text3, "（运费未知）");
                 }else {
                     helper.setText(R.id.order_bottom_text3, "（含运费￥" + Double.valueOf(item.getOrderBottomInfo().getFreightInfoBean().getFreight().toString())/100+"）");
@@ -81,6 +86,12 @@ public class OrderAdapter extends BaseMultiItemQuickAdapter<OrderInfo, BaseViewH
                         break;
                     case "PAID":
                         helper.setText(R.id.order_info_button, "已付款");
+                        break;
+                    case "CONFIRMED":
+                        helper.setText(R.id.order_info_button, "已确认");
+                        break;
+                    case "SHIPPED":
+                        helper.setText(R.id.order_info_button, "已发货");
                         break;
                     case "COMPLETED":
                         helper.setText(R.id.order_info_button, "已完成");

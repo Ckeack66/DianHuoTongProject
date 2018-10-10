@@ -12,7 +12,7 @@
             android:layout_width="@dimen/x84"
             android:layout_height="@dimen/x84"
             android:layout_marginTop="@dimen/x14"
-            android:src="@drawable/image_test" />
+            android:src="@drawable/default_pill_case" />
 
         <LinearLayout
             android:id="@+id/shop_good1_layout"

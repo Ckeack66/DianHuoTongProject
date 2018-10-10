@@ -5,6 +5,14 @@ package com.mhky.dianhuotong.shop.bean;
  */
 
 public class OrderBottomInfo {
+
+    private OrderBaseInfo.ContentBean contentBean;
+    private String orderStatus;
+    private int allGoodsNumber;
+    private int childNumbers;
+    private int money;
+    private OrderBaseInfo.ContentBean.FreightInfoBean freightInfoBean;
+
     public OrderBaseInfo.ContentBean getContentBean() {
         return contentBean;
     }
@@ -12,8 +20,6 @@ public class OrderBottomInfo {
     public void setContentBean(OrderBaseInfo.ContentBean contentBean) {
         this.contentBean = contentBean;
     }
-
-    private OrderBaseInfo.ContentBean contentBean;
     public int getChildNumbers() {
         return childNumbers;
     }
@@ -54,9 +60,4 @@ public class OrderBottomInfo {
         this.orderStatus = orderStatus;
     }
 
-    private String orderStatus;
-    private int allGoodsNumber;
-    private int childNumbers;
-    private int money;
-    private OrderBaseInfo.ContentBean.FreightInfoBean freightInfoBean;
 }

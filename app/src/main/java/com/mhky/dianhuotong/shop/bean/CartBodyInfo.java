@@ -5,6 +5,14 @@ package com.mhky.dianhuotong.shop.bean;
  */
 
 public class CartBodyInfo {
+
+    private int parentNumber = -1;
+    private int childNumber = -1;
+    private boolean isSelectChild = false;
+    private int childIndex=-1;
+    private CartBaseInfo.GoodsItemsBean goodsItemsBean;
+
+
     public int getParentNumber() {
         return parentNumber;
     }
@@ -21,8 +29,6 @@ public class CartBodyInfo {
         isSelectChild = selectChild;
     }
 
-    private int parentNumber = -1;
-
     public int getChildNumber() {
         return childNumber;
     }
@@ -30,10 +36,6 @@ public class CartBodyInfo {
     public void setChildNumber(int childNumber) {
         this.childNumber = childNumber;
     }
-
-    private int childNumber = -1;
-    private boolean isSelectChild = false;
-
     public int getChildIndex() {
         return childIndex;
     }
@@ -41,7 +43,6 @@ public class CartBodyInfo {
     public void setChildIndex(int childIndex) {
         this.childIndex = childIndex;
     }
-    private int childIndex=-1;
 
     public CartBaseInfo.GoodsItemsBean getGoodsItemsBean() {
         return goodsItemsBean;
@@ -50,6 +51,4 @@ public class CartBodyInfo {
     public void setGoodsItemsBean(CartBaseInfo.GoodsItemsBean goodsItemsBean) {
         this.goodsItemsBean = goodsItemsBean;
     }
-
-    private CartBaseInfo.GoodsItemsBean goodsItemsBean;
 }

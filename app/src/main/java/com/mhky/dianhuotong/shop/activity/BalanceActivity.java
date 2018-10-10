@@ -48,7 +48,12 @@ import butterknife.OnClick;
 
 import static com.mhky.dianhuotong.wxapi.Constants.APP_ID;
 
+/**
+ * 选择支付方式界面
+ */
+
 public class BalanceActivity extends BaseActivity implements BanlanceIF, ShopAdressIF, BanlanceReciverIF {
+
     @BindView(R.id.balance_title)
     DianHuoTongBaseTitleBar dianHuoTongBaseTitleBar;
     @BindView(R.id.balance_pay11)
@@ -77,6 +82,7 @@ public class BalanceActivity extends BaseActivity implements BanlanceIF, ShopAdr
     private int state;
     private BanlanceReciver banlanceReciver;
     private final IWXAPI msgApi = WXAPIFactory.createWXAPI(this, null);
+
     @SuppressLint("HandlerLeak")
     private Handler mHandler = new Handler() {
         @SuppressWarnings("unused")
@@ -106,7 +112,6 @@ public class BalanceActivity extends BaseActivity implements BanlanceIF, ShopAdr
                     } else {
                         // 该笔订单真实的支付结果，需要依赖服务端的异步通知。
                         Toast.makeText(BalanceActivity.this, "支付失败", Toast.LENGTH_SHORT).show();
-
                     }
                     break;
                 }
@@ -146,6 +151,7 @@ public class BalanceActivity extends BaseActivity implements BanlanceIF, ShopAdr
         setContentView(R.layout.activity_balance);
         ButterKnife.bind(this);
         msgApi.registerApp(APP_ID);
+//        msgApi.registerApp("wx7df0bb99c5bf9af5");
         try {
             init();
         }catch (Exception e){
@@ -294,7 +300,7 @@ public class BalanceActivity extends BaseActivity implements BanlanceIF, ShopAdr
                                 req.timeStamp = wxPayInfo.getTimestamp();
                                 req.packageValue = "Sign=WXPay";
                                 req.sign = wxPayInfo.getSign();
-                                BaseTool.logPrint("sign", req.sign);
+                                BaseTool.logPrint("sign", req.sign  + "------" + req.appId);
                                 msgApi.sendReq(req);
                             }
                         };
@@ -349,12 +355,12 @@ public class BalanceActivity extends BaseActivity implements BanlanceIF, ShopAdr
     @Override
     public void doBanlance(int code) {
         if (code == 0) {
-            ToastUtil.makeText(this, "支付成功", Toast.LENGTH_SHORT).show();
+            ToastUtil.makeText(this, "支付成功", Toast.LENGTH_LONG).show();
             finish();
         } else if (code == 1) {
-            ToastUtil.makeText(this, "取消支付", Toast.LENGTH_SHORT).show();
+            ToastUtil.makeText(this, "取消支付", Toast.LENGTH_LONG).show();
         } else if (code == -1) {
-            ToastUtil.makeText(this, "支付失败", Toast.LENGTH_SHORT).show();
+            ToastUtil.makeText(this, "支付失败", Toast.LENGTH_LONG).show();
         }
     }
 }

@@ -10,7 +10,12 @@ import com.mhky.dianhuotong.base.BaseUrlTool;
 
 import java.util.HashMap;
 
+/**
+ *banner轮播图presenter
+ */
+
 public class AdvertMainPresenter {
+
     private AdvertMainIF advertMainIF;
 
     public AdvertMainPresenter(AdvertMainIF advertMainIF) {
@@ -20,7 +25,8 @@ public class AdvertMainPresenter {
     public void getAdvertMain() {
         HashMap hashMap = new HashMap();
         hashMap.put("key", "APP_FIRST_BANNER");
-        OkGo.<String>get(BaseUrlTool.GET_ADVERT_MAIN + BaseTool.getUrlParamsByMap(hashMap, false)).execute(new Callback<String>() {
+        OkGo.<String>get(BaseUrlTool.GET_ADVERT_MAIN + BaseTool.getUrlParamsByMap(hashMap, false))
+                .execute(new Callback<String>() {
             @Override
             public void onStart(Request<String, ? extends Request> request) {
 
@@ -62,6 +68,7 @@ public class AdvertMainPresenter {
             }
         });
     }
+
     public void getAdvertShopMain() {
         HashMap hashMap = new HashMap();
         hashMap.put("key", "APP_INDEX_SLIDER");

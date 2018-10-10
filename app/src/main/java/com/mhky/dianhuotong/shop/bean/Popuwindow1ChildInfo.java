@@ -7,6 +7,16 @@ package com.mhky.dianhuotong.shop.bean;
 public class Popuwindow1ChildInfo {
     String number;
     GoodsBaseInfo goodsBaseInfo;
+    GoodsCategories goodsCategories;
+
+    public GoodsCategories getGoodsCategories() {
+        return goodsCategories;
+    }
+
+    public void setGoodsCategories(GoodsCategories goodsCategories) {
+        this.goodsCategories = goodsCategories;
+    }
+
     public String getNumber() {
         return number;
     }

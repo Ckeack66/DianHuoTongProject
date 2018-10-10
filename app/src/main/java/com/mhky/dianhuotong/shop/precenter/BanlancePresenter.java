@@ -14,9 +14,11 @@ import java.util.HashMap;
 
 /**
  * Created by Administrator on 2018/5/8.
+ * 提交生成订单  Presenter
  */
 
 public class BanlancePresenter {
+
     private BanlanceIF banlanceIF;
 
     public BanlancePresenter(BanlanceIF banlanceIF) {

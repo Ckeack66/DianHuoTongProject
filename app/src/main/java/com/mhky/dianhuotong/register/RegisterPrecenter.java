@@ -118,6 +118,7 @@ public class RegisterPrecenter {
     }
 
     public void checkSMS(String phone, String code) {
+
         OkGo.<String>get(BaseUrlTool.CHECK_SMS + BaseTool.changeUrlParameter(phone) + BaseTool.changeUrlParameter(code)).execute(new Callback<String>() {
             @Override
             public void onStart(Request<String, ? extends Request> request) {

@@ -3,11 +3,13 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/colorF7F7F7">
+
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:background="@color/colorWhite">
+
         <RelativeLayout
             android:id="@+id/order_ok_bto_select"
             android:layout_width="match_parent"
@@ -49,13 +51,14 @@
                 android:layout_marginEnd="@dimen/x16"
                 android:textColor="@color/colorE20F12" />
         </RelativeLayout>
+
         <View
             android:layout_width="match_parent"
             android:layout_height="@dimen/x1"
             android:background="@color/colorF7F7F7"
             android:layout_marginStart="@dimen/x16"
-            android:layout_marginEnd="@dimen/x16"
-            />
+            android:layout_marginEnd="@dimen/x16" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/x90"
@@ -92,12 +95,14 @@
                 android:gravity="top|start"
                 android:minLines="6" />
         </LinearLayout>
+
         <View
             android:layout_width="match_parent"
             android:layout_height="@dimen/x1"
             android:background="@color/colorF7F7F7"
             android:layout_marginStart="@dimen/x16"
             android:layout_marginEnd="@dimen/x16"/>
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/x30"
@@ -131,11 +136,12 @@
                 android:layout_marginEnd="@dimen/x4"
                 android:textSize="@dimen/t10"/>
         </RelativeLayout>
+
         <View
             android:layout_width="match_parent"
             android:layout_height="@dimen/x6"
-            android:background="@color/colorF7F7F7"
-            />
+            android:background="@color/colorF7F7F7" />
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/x30"

@@ -3,6 +3,19 @@ package com.mhky.dianhuotong.shop.bean;
 import java.util.List;
 
 public class OrderOkBotttomInfo {
+
+    private OrderBaseInfo.ContentBean.FreightInfoBean freightInfoBean;
+     private String goodsNumber;
+    private String words = "";
+     private int money;
+    private String yH = "";
+     private String parentId;
+     private FrigthInfo frigthInfo;                         //运费实体类
+    private CouponInfo couponInfo;
+     private List<CouponInfo> couponInfoList;
+    private boolean showCoupon=false;
+     private CartBaseInfo.GoodsItemsBean.ShopDTOBean shopDTOBean;
+
     public OrderBaseInfo.ContentBean.FreightInfoBean getFreightInfoBean() {
         return freightInfoBean;
     }
@@ -27,10 +40,6 @@ public class OrderOkBotttomInfo {
         this.words = words;
     }
 
-    private OrderBaseInfo.ContentBean.FreightInfoBean freightInfoBean;
-    private String goodsNumber;
-    private String words = "";
-
     public int getMoney() {
         return money;
     }
@@ -38,8 +47,6 @@ public class OrderOkBotttomInfo {
     public void setMoney(int money) {
         this.money = money;
     }
-
-    private int money;
 
     public String getyH() {
         return yH;
@@ -49,9 +56,6 @@ public class OrderOkBotttomInfo {
         this.yH = yH;
     }
 
-    private String yH = "";
-
-
     public String getParentId() {
         return parentId;
     }
@@ -59,8 +63,6 @@ public class OrderOkBotttomInfo {
     public void setParentId(String parentId) {
         this.parentId = parentId;
     }
-
-    private String parentId;
 
     public FrigthInfo getFrigthInfo() {
         return frigthInfo;
@@ -70,8 +72,6 @@ public class OrderOkBotttomInfo {
         this.frigthInfo = frigthInfo;
     }
 
-    private FrigthInfo frigthInfo;
-
     public CouponInfo getCouponInfo() {
         return couponInfo;
     }
@@ -79,8 +79,6 @@ public class OrderOkBotttomInfo {
     public void setCouponInfo(CouponInfo couponInfo) {
         this.couponInfo = couponInfo;
     }
-
-    private CouponInfo couponInfo;
 
     public List<CouponInfo> getCouponInfoList() {
         return couponInfoList;
@@ -90,8 +88,6 @@ public class OrderOkBotttomInfo {
         this.couponInfoList = couponInfoList;
     }
 
-    private List<CouponInfo> couponInfoList;
-
     public boolean isShowCoupon() {
         return showCoupon;
     }
@@ -100,8 +96,6 @@ public class OrderOkBotttomInfo {
         this.showCoupon = showCoupon;
     }
 
-    private boolean showCoupon=false;
-
     public CartBaseInfo.GoodsItemsBean.ShopDTOBean getShopDTOBean() {
         return shopDTOBean;
     }
@@ -109,6 +103,4 @@ public class OrderOkBotttomInfo {
     public void setShopDTOBean(CartBaseInfo.GoodsItemsBean.ShopDTOBean shopDTOBean) {
         this.shopDTOBean = shopDTOBean;
     }
-
-    private CartBaseInfo.GoodsItemsBean.ShopDTOBean shopDTOBean;
 }

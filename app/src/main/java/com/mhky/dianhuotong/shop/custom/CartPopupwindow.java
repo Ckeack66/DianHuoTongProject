@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -39,31 +40,38 @@ import com.zhy.view.flowlayout.FlowLayout;
 import com.zhy.view.flowlayout.TagAdapter;
 import com.zhy.view.flowlayout.TagFlowLayout;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import butterknife.BindView;
 
 /**
  * Created by Administrator on 2018/4/25.
+ * 添加商品   popwindow
  */
 
 public class CartPopupwindow extends PopupWindow implements View.OnClickListener, CartOprateIF {
-    private ImageView imageViewDismiss;
     private TagFlowLayout tagFlowLayout;
     private LayoutInflater layoutInflater;
     private Context mContext;
-    private int selectNUmber = -1;
-    private int goodsNumber = 0;
-    private int goodsNumberMax = 0;
+    private int selectNUmber = 0;                                   //被选中的规格
+    private int goodsNumber = 0;                                    //购买的数量
+    private int goodsNumberMax = 0;                                 //库存量
+    private int goodsBatchNum = 0;                                  //起批量
+    private ImageView imageViewDismiss;
     private ImageView imageViewReduce;
     private ImageView imageViewPlus;
     private ImageView imageViewGoods;
     private EditText editNumber;
     private TextView textViewGoodsNumber;
+    private TextView tv_is_whole_library;
     private TextView textViewOk;
+    private LinearLayout linearLayout_price;
     private TextView textViewPrice;
     private TextView textViewTitleText;
     private TextView textViewNumberTitle;
@@ -80,10 +88,14 @@ public class CartPopupwindow extends PopupWindow implements View.OnClickListener
     private GoodsInfo goodsInfo;
     private boolean isEditListener = false;
     private static final String TAG = "CompanyPopupwindow";
+    //那个activity弹出来的 sign做标记   1：GoldGoodsActivity
+    private int sign = -1;
+    NumberFormat df = new DecimalFormat("0.00");
 
-    public CartPopupwindow(final Context context, GoodsInfo goodsInfo1) {
+    public CartPopupwindow(final Context context, GoodsInfo goodsInfo1,int sign) {
         super(context);
         mContext = context;
+        this.sign = sign;
         goodsInfo = goodsInfo1;
         View view = View.inflate(context, R.layout.popupwindow_cart, null);
         setContentView(view);
@@ -95,8 +107,10 @@ public class CartPopupwindow extends PopupWindow implements View.OnClickListener
         editNumber = view.findViewById(R.id.cart_popup_numbers);
         textViewGoodsNumber = view.findViewById(R.id.cart_popup_goods_number);
         textViewOk = view.findViewById(R.id.cart_popup_ok);
+        linearLayout_price = view.findViewById(R.id.cart_popup_ll_price);
         textViewPrice = view.findViewById(R.id.cart_popup_price);
         textViewTitleText = view.findViewById(R.id.cart_popup_title_txt);
+        tv_is_whole_library = view.findViewById(R.id.cart_popup_is_whole_library);
         imageViewGoods = view.findViewById(R.id.cart_popup_img);
         textViewNumberTitle = view.findViewById(R.id.cart_popup_number_title);
         textViewFloght = view.findViewById(R.id.cart_popup_type);
@@ -124,6 +138,11 @@ public class CartPopupwindow extends PopupWindow implements View.OnClickListener
         });
         cartOpratePresenter = new CartOpratePresenter(this);
         cartOpratePresenter.getSku(String.valueOf(goodsInfo.getId()));
+        /**
+         * 貌似这个逻辑用不到了
+         * （所以将下方if (isEditListener)    的  isEditListener   直接固定写死为false）
+         *
+         */
         editNumber.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -137,9 +156,10 @@ public class CartPopupwindow extends PopupWindow implements View.OnClickListener
 
             @Override
             public void afterTextChanged(Editable s) {
-                BaseTool.logPrint("aaaa", "执行----s" + selectNUmber);
+                BaseTool.logPrint("aaaa", "执行----s" + selectNUmber + "----" + isEditListener);
                 try {
-                    if (isEditListener) {
+//                    if (isEditListener) {
+                    if (false) {
                         isEditListener = false;
                         if (selectNUmber != -1) {
                             if (!TextUtils.isEmpty(s) && Integer.valueOf(s.toString()) > goodsNumberMax) {
@@ -162,7 +182,7 @@ public class CartPopupwindow extends PopupWindow implements View.OnClickListener
                             }
                             if (goodsNumber > goodsSkuInfoList.get(selectNUmber).getBatchNums()) {
                                 textViewPrice.setText("￥" + goodsSkuInfoList.get(selectNUmber).getWholesalePrice() / 100);
-                                textViewTips.setVisibility(View.VISIBLE);
+                                textViewTips.setVisibility(View.GONE);
                                 textViewTips.setText("当前已达到批发数量" + goodsSkuInfoList.get(selectNUmber).getBatchNums() + ",将以批发价" + "￥" + goodsSkuInfoList.get(selectNUmber).getWholesalePrice() / 100 + "进行结算");
                             } else {
                                 textViewPrice.setText("￥" + goodsSkuInfoList.get(selectNUmber).getRetailPrice() / 100);
@@ -200,16 +220,18 @@ public class CartPopupwindow extends PopupWindow implements View.OnClickListener
     @Override
     public void showAtLocation(View parent, int gravity, int x, int y) {
         super.showAtLocation(parent, gravity, x, y);
-        textViewGoodsNumber.setText("库存：0");
-        textViewPrice.setText("￥0.00");
-        selectNUmber = -1;
-        goodsNumber = 0;
-        goodsNumberMax = 0;
-        editNumber.setText("0");
+//        textViewGoodsNumber.setText("库存：0");
+//        textViewPrice.setText("￥0.00");
+//        selectNUmber = -1;
+//        goodsNumber = 0;
+//        goodsNumberMax = 0;
+//        editNumber.setText("0");
         textViewTitleText.setText(goodsInfo.getTitle());
-        String[] imageDate = goodsInfo.getPicture().split(",");
-        if (imageDate != null && imageDate.length > 0) {
-            Picasso.get().load(imageDate[0]).into(imageViewGoods);
+        if (!BaseTool.isEmpty(goodsInfo.getPicture())){
+            String[] imageDate = goodsInfo.getPicture().split(",");
+            if (imageDate != null && imageDate.length > 0) {
+                Picasso.get().load(imageDate[0]).error(R.drawable.default_pill_case).into(imageViewGoods);
+            }
         }
 
     }
@@ -225,12 +247,15 @@ public class CartPopupwindow extends PopupWindow implements View.OnClickListener
         super.showAsDropDown(anchor);
     }
 
+    /**
+     * 设置药品规格的流式布局
+     * @param strings
+     */
     private void setTagFlowLayout(String[] strings) {
         TagAdapter<String> tagAdapter = new TagAdapter<String>(strings) {
             @Override
             public View getView(FlowLayout parent, int position, String s) {
-                TextView tv = (TextView) layoutInflater.inflate(R.layout.view_textview,
-                        tagFlowLayout, false);
+                TextView tv = (TextView) layoutInflater.inflate(R.layout.view_textview, tagFlowLayout, false);
                 tv.setText(s);
                 return tv;
             }
@@ -239,21 +264,27 @@ public class CartPopupwindow extends PopupWindow implements View.OnClickListener
         tagFlowLayout.setOnTagClickListener(new TagFlowLayout.OnTagClickListener() {
             @Override
             public boolean onTagClick(View view, int position, FlowLayout parent) {
-                BaseTool.logPrint("aaaa", "执行----8" + position + "------------" + selectNUmber);
+                BaseTool.logPrint("aaaa", "执行----8" + position + "------------2" + selectNUmber);
                 if (position == selectNUmber) {
                     setEditState(editNumber, false);
                     selectNUmber = -1;
-                    goodsNumber = 0;
-                    editNumber.setText(goodsNumber + "");
+                    goodsNumber = goodsSkuInfoList.get(position).getBatchNums();
+                    editNumber.setText(goodsSkuInfoList.get(position).getBatchNums() + "");
+                    editNumber.setSelection(editNumber.getText().length());
                     textViewOk.setBackgroundColor(Color.parseColor("#BFBFBF"));
+                    textViewOk.setClickable(false);
                     textViewGoodsNumber.setText("库存：0");
-                    textViewPrice.setText("￥0.00");
-                    textViewPrice2.setText("零售价￥0.00");
-                    textViewPrice1.setText("批发价￥0.00");
+//                    textViewPrice.setText("批发价格￥" + goodsSkuInfoList.get(position).getWholesalePrice() / 100);
+//                    textViewPrice2.setText("零售价￥0.00");
+//                    textViewPrice1.setText("批发价￥0.00");
                     textViewGoodsNumber1.setText("起批量:0");
+                    textViewTips.setVisibility(View.GONE);
                 } else {
-                    setEditState(editNumber, true);
+                    if(goodsSkuInfoList.get(position).getBatchNums() == 1){
+                        setEditState(editNumber, false);
+                    }
                     editNumber.requestFocus();
+                    editNumber.setText(goodsSkuInfoList.get(position).getBatchNums() + "");
                     editNumber.setSelection(editNumber.getText().length());
                     isEditListener = true;
                     selectNUmber = position;
@@ -261,16 +292,18 @@ public class CartPopupwindow extends PopupWindow implements View.OnClickListener
                     goodsNumberMax = goodsSkuInfoList.get(position).getStock();
                     textViewGoodsNumber.setText("库存：" + goodsNumberMax);
                     textViewGoodsNumber1.setText("起批量:" + goodsSkuInfoList.get(selectNUmber).getBatchNums());
-                    if (goodsNumber > goodsSkuInfoList.get(selectNUmber).getBatchNums()) {
-                        textViewPrice.setText("￥" + goodsSkuInfoList.get(selectNUmber).getWholesalePrice() / 100);
-                        textViewTips.setVisibility(View.VISIBLE);
+                    if (goodsNumber >= goodsSkuInfoList.get(selectNUmber).getBatchNums()) {
+//                        textViewPrice.setText("批发价格￥" + goodsSkuInfoList.get(selectNUmber).getWholesalePrice() / 100);
+                        textViewTips.setVisibility(View.GONE);
                         textViewTips.setText("当前已达到批发数量" + goodsSkuInfoList.get(selectNUmber).getBatchNums() + ",将以批发价" + "￥" + goodsSkuInfoList.get(selectNUmber).getWholesalePrice() / 100 + "进行结算");
                     } else {
-                        textViewPrice.setText("￥" + goodsSkuInfoList.get(selectNUmber).getRetailPrice() / 100);
+//                        textViewPrice.setText("￥" + goodsSkuInfoList.get(selectNUmber).getRetailPrice() / 100);
                         textViewTips.setVisibility(View.GONE);
                     }
-                    textViewPrice2.setText("零售价￥" + goodsSkuInfoList.get(selectNUmber).getRetailPrice() / 100);
-                    textViewPrice1.setText("批发价￥" + goodsSkuInfoList.get(selectNUmber).getWholesalePrice() / 100);
+//                    textViewPrice2.setText("零售价￥" + goodsSkuInfoList.get(selectNUmber).getRetailPrice() / 100);
+//                    textViewPrice1.setText("批发价￥" + goodsSkuInfoList.get(selectNUmber).getWholesalePrice() / 100);
+                    textViewOk.setBackgroundColor(Color.parseColor("#04c1ab"));
+                    textViewOk.setClickable(true);
                 }
                 //ToastUtil.makeText(mContext, "选择了" + position + "-----" + selectNUmber, Toast.LENGTH_SHORT).show();
                 return true;
@@ -278,6 +311,11 @@ public class CartPopupwindow extends PopupWindow implements View.OnClickListener
         });
     }
 
+    /**
+     * 设置EditText控件能否获取焦点
+     * @param editText    控件
+     * @param editable    false：不能     true：能
+     */
     private void setEditState(EditText editText, boolean editable) {
         if (!editable) { // disable editing password
             editText.setFocusable(false);
@@ -294,19 +332,21 @@ public class CartPopupwindow extends PopupWindow implements View.OnClickListener
     public void onClick(View v) {
         try {
             switch (v.getId()) {
-                case R.id.cart_popup_reduce:
-                    if (goodsNumber > 1 && selectNUmber != -1) {
-                        goodsNumber--;
+                case R.id.cart_popup_reduce:                                //减号
+                    if (goodsNumber > goodsBatchNum && selectNUmber != -1) {
+                        goodsNumber = goodsNumber - goodsBatchNum;
                     } else {
                         return;
                     }
-                    if (goodsNumber > goodsSkuInfoList.get(selectNUmber).getBatchNums()) {
-                        textViewPrice.setText("￥" + goodsSkuInfoList.get(selectNUmber).getWholesalePrice() / 100);
+                    if (goodsNumber > goodsBatchNum) {                      //点了减号之后的数量与起批量比较
+//                        textViewPrice.setText("批发价格￥" + df.format(goodsSkuInfoList.get(selectNUmber).getWholesalePrice() / 100));
                     } else {
-                        textViewPrice.setText("￥" + goodsSkuInfoList.get(selectNUmber).getRetailPrice() / 100);
-                        textViewTips.setVisibility(View.GONE);
+                        goodsNumber = goodsBatchNum;
+//                        textViewPrice.setText("批发价格￥" + goodsSkuInfoList.get(selectNUmber).getRetailPrice() / 100);
+//                        textViewTips.setVisibility(View.GONE);
                     }
-                    if (goodsNumber > 0) {
+                    editNumber.setText(goodsNumber + "");
+                    if (goodsNumber >= goodsBatchNum) {
                         textViewOk.setBackgroundColor(Color.parseColor("#04c1ab"));
                         textViewOk.setClickable(true);
                     } else {
@@ -315,19 +355,24 @@ public class CartPopupwindow extends PopupWindow implements View.OnClickListener
                     }
                     break;
                 case R.id.cart_popup_plus:
+                    int goodsNumber_old = Integer.parseInt(editNumber.getText().toString());
                     if (goodsNumber < goodsNumberMax && selectNUmber != -1) {
-                        goodsNumber++;
+                        goodsNumber = goodsNumber + goodsBatchNum;
                     } else {
                         return;
                     }
-                    if (goodsNumber > goodsSkuInfoList.get(selectNUmber).getBatchNums()) {
-                        textViewPrice.setText("￥" + goodsSkuInfoList.get(selectNUmber).getWholesalePrice() / 100);
-                        textViewTips.setVisibility(View.VISIBLE);
-                        textViewTips.setText("当前已达到批发数量" + goodsSkuInfoList.get(selectNUmber).getBatchNums() + ",将以批发价" + "￥" + goodsSkuInfoList.get(selectNUmber).getWholesalePrice() / 100 + "进行结算");
-                    } else {
-                        textViewPrice.setText("￥" + goodsSkuInfoList.get(selectNUmber).getRetailPrice() / 100);
+                    if (goodsNumber > goodsNumberMax){
+                        goodsNumber = goodsNumber_old;
                     }
-                    if (goodsNumber > 0) {
+                    editNumber.setText(goodsNumber + "");
+//                    if (goodsNumber > goodsSkuInfoList.get(selectNUmber).getBatchNums()) {
+//                        textViewPrice.setText("￥" + goodsSkuInfoList.get(selectNUmber).getWholesalePrice() / 100);
+//                        textViewTips.setVisibility(View.VISIBLE);
+//                        textViewTips.setText("当前已达到批发数量" + goodsSkuInfoList.get(selectNUmber).getBatchNums() + ",将以批发价" + "￥" + goodsSkuInfoList.get(selectNUmber).getWholesalePrice() / 100 + "进行结算");
+//                    } else {
+//                        textViewPrice.setText("￥" + goodsSkuInfoList.get(selectNUmber).getRetailPrice() / 100);
+//                    }
+                    if (goodsNumber >= goodsBatchNum) {
                         textViewOk.setBackgroundColor(Color.parseColor("#04c1ab"));
                         textViewOk.setClickable(true);
                     } else {
@@ -337,7 +382,11 @@ public class CartPopupwindow extends PopupWindow implements View.OnClickListener
                     break;
                 case R.id.cart_popup_ok:
                     if (BaseApplication.getInstansApp().getLoginRequestInfo() != null) {
-                        if (goodsNumber > 0 && selectNUmber != -1) {
+                        if (BaseApplication.getInstansApp().getUserPhone().equals("13012341234")){
+                            ToastUtil.makeText(mContext,"此账号不允许采购商品",Toast.LENGTH_LONG).show();
+                            return;
+                        }
+                        if (goodsNumber >= goodsBatchNum && selectNUmber != -1) {
                             Map map = new HashMap();
                             map.put("buyerId", BaseApplication.getInstansApp().getLoginRequestInfo().getId());
                             map.put("goodsId", goodsInfo.getId());
@@ -354,7 +403,7 @@ public class CartPopupwindow extends PopupWindow implements View.OnClickListener
                     }
                     break;
             }
-            editNumber.setText(goodsNumber + "");
+//            editNumber.setText(goodsSkuInfoList.get(selectNUmber).getBatchNums() + "");
             editNumber.setSelection(editNumber.getText().length());
         } catch (Exception e) {
             PgyCrashManager.reportCaughtException(mContext, e);
@@ -362,6 +411,11 @@ public class CartPopupwindow extends PopupWindow implements View.OnClickListener
 
     }
 
+    /**
+     * 商品添加到购物车成功
+     * @param code
+     * @param result
+     */
     @Override
     public void addCartSucess(int code, String result) {
         try {
@@ -370,7 +424,7 @@ public class CartPopupwindow extends PopupWindow implements View.OnClickListener
                 BaseApplication.getInstansApp().setUpdateCart(true);
                 dismiss();
             } else {
-                ToastUtil.makeText(mContext, "加购失败-" + code, Toast.LENGTH_SHORT).show();
+                ToastUtil.makeText(mContext, "加购失败" + code, Toast.LENGTH_SHORT).show();
             }
         } catch (Exception e) {
             PgyCrashManager.reportCaughtException(mContext, e);
@@ -381,9 +435,14 @@ public class CartPopupwindow extends PopupWindow implements View.OnClickListener
 
     }
 
+    /**
+     * 添加到购物车失败
+     * @param code
+     * @param result
+     */
     @Override
     public void addCartFaild(int code, String result) {
-        ToastUtil.makeText(mContext, "加购失败-" + code, Toast.LENGTH_SHORT).show();
+        ToastUtil.makeText(mContext, "加购失败" + code, Toast.LENGTH_SHORT).show();
         textViewOk.setBackgroundColor(Color.parseColor("#04c1ab"));
         textViewOk.setClickable(true);
     }
@@ -418,6 +477,11 @@ public class CartPopupwindow extends PopupWindow implements View.OnClickListener
 
     }
 
+    /**
+     * 获取商品属性信息成功
+     * @param code
+     * @param result
+     */
     @Override
     public void getSkuSucess(int code, String result) {
         try {
@@ -427,6 +491,7 @@ public class CartPopupwindow extends PopupWindow implements View.OnClickListener
                     goodsSkuInfoList = JSON.parseArray(result, GoodsSkuInfo.class);
                     ArrayList<String> arrayList = new ArrayList();
                     if (goodsSkuInfoList != null && goodsSkuInfoList.size() > 0) {
+//                    if (false) {
                         for (int a = 0; a < goodsSkuInfoList.size(); a++) {
                             String s = "";
                             for (int b = 0; b < goodsSkuInfoList.get(a).getSalePropertyOptions().size(); b++) {
@@ -436,6 +501,38 @@ public class CartPopupwindow extends PopupWindow implements View.OnClickListener
                         }
                         typeName = arrayList.toArray(new String[0]);
                         setTagFlowLayout(typeName);
+                        //首次进入就达到起批量   可直接添加到购物车
+                        tagFlowLayout.getAdapter().setSelectedList(0);
+//                        linearLayout_price.setVisibility(View.GONE);
+                        textViewPrice2.setText("批号：" + (BaseTool.isEmpty(goodsSkuInfoList.get(selectNUmber).getBatchNo()) ? "" : goodsSkuInfoList.get(selectNUmber).getBatchNo()));
+                        goodsNumberMax = goodsSkuInfoList.get(selectNUmber).getStock();
+                        textViewPrice.setText("批发价格￥" + df.format(goodsSkuInfoList.get(selectNUmber).getWholesalePrice() / 100));
+                        textViewGoodsNumber.setText("库存：" + goodsSkuInfoList.get(selectNUmber).getStock());
+                        goodsBatchNum = goodsSkuInfoList.get(selectNUmber).getBatchNums();
+                        goodsNumber = goodsBatchNum;                        //一开始的订购数量就定位起批量
+                        textViewGoodsNumber1.setText("起批量：" + goodsBatchNum);
+                        BaseTool.logPrint("ck_isretail =",goodsSkuInfoList.get(selectNUmber).getIsRetail() + "");
+                        switch (goodsSkuInfoList.get(selectNUmber).getIsRetail()){//判断零整库   0：整库   1：零库
+                            case 0:
+                                BaseTool.logPrint("进来了","整库"+goodsSkuInfoList.get(selectNUmber).getIsRetail());
+                                tv_is_whole_library.setText("整库");
+                                break;
+                            case 1:
+                                tv_is_whole_library.setText("零库");
+                                break;
+                        }
+                        textViewTips.setVisibility(View.GONE);
+                        editNumber.setText(goodsSkuInfoList.get(selectNUmber).getBatchNums() + "");
+                        BaseTool.logPrint(TAG + "ck","go1" + editNumber.getText());
+                        textViewTips.setText("当前已达到批发数量" + goodsBatchNum
+                                + ",将以批发价" + "￥" + df.format(goodsSkuInfoList.get(selectNUmber).getWholesalePrice() / 100) + "进行结算");
+                        if(goodsSkuInfoList.get(selectNUmber).getStock() < goodsBatchNum){
+                            textViewOk.setClickable(false);
+                            textViewOk.setBackgroundColor(Color.parseColor("#BFBFBF"));
+                        }else {
+                            textViewOk.setBackgroundColor(Color.parseColor("#04c1ab"));
+                            textViewOk.setClickable(true);
+                        }
                     } else {
                         textViewOk.setText("此商品暂不支持您所在地区购买~");
                         textViewPrice.setVisibility(View.GONE);

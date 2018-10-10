@@ -8,6 +8,7 @@
         android:layout_height="@dimen/x10"
         android:background="@color/colorF7F7F7"/>
     <RelativeLayout
+        android:id="@+id/rl_order_top"
         android:layout_width="match_parent"
         android:layout_height="@dimen/x34"
         android:background="@color/colorWhite">

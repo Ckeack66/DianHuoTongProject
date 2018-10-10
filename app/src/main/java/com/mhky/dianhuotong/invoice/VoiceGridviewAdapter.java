@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.mhky.dianhuotong.R;
 import com.mhky.dianhuotong.addshop.bean.QualicationInfo;
+import com.mhky.dianhuotong.base.BaseTool;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -37,7 +38,8 @@ public class VoiceGridviewAdapter extends BaseAdapter {
         if (qualicationInfoArrayList != null) {
             number = qualicationInfoArrayList.size() + 1;
         }
-        notifyDataSetChanged();
+        //为了设置GridView的高度，此行代码移动到Activity出
+//        notifyDataSetChanged();
     }
 
     @Override
@@ -61,7 +63,9 @@ public class VoiceGridviewAdapter extends BaseAdapter {
             convertView = View.inflate(context, R.layout.item_invoice_fragment1_gridview, null);
             ImageView imageView = convertView.findViewById(R.id.voice_gridview_item_image);
             TextView textView1 = convertView.findViewById(R.id.voice_gridview_item_txt1);
-            Picasso.get().load(qualicationInfoArrayList.get(position).getUrl()).into(imageView);
+            if(!BaseTool.isEmpty(qualicationInfoArrayList.get(position).getUrl())){
+                Picasso.get().load(qualicationInfoArrayList.get(position).getUrl()).into(imageView);
+            }
             textView1.setText(qualicationInfoArrayList.get(position).getName());
         } else {
             convertView = View.inflate(context, R.layout.item_uploade_invoice_2, null);

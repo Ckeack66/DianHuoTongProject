@@ -1,7 +1,6 @@
 package com.mhky.dianhuotong.activity;
 
 import android.content.Context;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -11,16 +10,15 @@ import com.gyf.barlibrary.ImmersionBar;
 import com.mhky.dianhuotong.R;
 import com.mhky.dianhuotong.base.BaseTool;
 import com.mhky.dianhuotong.base.view.BaseActivity;
-import com.mhky.dianhuotong.shop.activity.CouponActivity;
-import com.mhky.dianhuotong.shop.activity.OderOkActivity;
-import com.mhky.dianhuotong.shop.activity.SearchActivity;
-import com.mhky.dianhuotong.shop.activity.TransferPostActivity;
 import com.stone.countdownprogress.CountDownProgress;
-
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+
+/**
+ * 冷启动页
+ */
 
 public class WelcomActivity extends BaseActivity {
     @BindView(R.id.welcom_countdown)
@@ -54,7 +52,6 @@ public class WelcomActivity extends BaseActivity {
                 finishs(2);
             }
         });
-
     }
 
     private void finishs(int a) {

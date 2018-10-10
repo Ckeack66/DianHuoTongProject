@@ -15,7 +15,9 @@ import com.mhky.dianhuotong.R;
  */
 
 public class DianHuoTongBottomMenuDialog extends Dialog implements View.OnClickListener {
+
     private DianHuoTongBottomMenuDialogListener dianHuoTongBottomMenuDialogListener;
+
     private TextView textViewCamera;
     private TextView textViewPhoto;
     private TextView textViewCancel;

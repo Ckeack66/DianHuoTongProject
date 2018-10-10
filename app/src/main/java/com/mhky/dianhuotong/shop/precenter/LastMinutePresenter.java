@@ -42,10 +42,12 @@ public class LastMinutePresenter {
                     if (response.code() == 200) {
                         List<LastMinuteInfo> lastMinuteInfoList = JSON.parseArray(BaseTool.getResponsBody(response), LastMinuteInfo.class);
                         StringBuilder stringBuilder = new StringBuilder();
-                        for (int a = 0; a < lastMinuteInfoList.size(); a++) {
-                            for (int b = 0; b < lastMinuteInfoList.get(a).getGoodsIds().size(); b++) {
-                                stringBuilder.append(lastMinuteInfoList.get(a).getGoodsIds().get(b));
-                                stringBuilder.append(",");
+                        if(lastMinuteInfoList != null){
+                            for (int a = 0; a < lastMinuteInfoList.size(); a++) {
+                                for (int b = 0; b < lastMinuteInfoList.get(a).getGoodsIds().size(); b++) {
+                                    stringBuilder.append(lastMinuteInfoList.get(a).getGoodsIds().get(b));
+                                    stringBuilder.append(",");
+                                }
                             }
                         }
                         if (stringBuilder.length() > 1) {

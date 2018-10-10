@@ -23,6 +23,10 @@ import com.pgyersdk.crash.PgyCrashManager;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+/**
+ * 我的资质  Activity
+ */
+
 public class InvoiceActivity extends BaseActivity implements RadioGroup.OnCheckedChangeListener, ShopAdressIF {
 
     @BindView(R.id.invoice_tab)
@@ -43,6 +47,7 @@ public class InvoiceActivity extends BaseActivity implements RadioGroup.OnChecke
     TextView textViewShopName;
     @BindView(R.id.invoice_shop_adress)
     TextView textViewAdress;
+
     private FragmentManager fragmentManager;
     private InvoiceFragment1 invoiceFragment1;
     private InvoiceFragment2 invoiceFragment2;

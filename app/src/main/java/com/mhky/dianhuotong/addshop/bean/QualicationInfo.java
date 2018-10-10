@@ -48,6 +48,11 @@ public class QualicationInfo implements Serializable {
          */
 
         private String id;
+        private String image;
+        private String salesmanCode;
+        private String shop_id;
+        private String truename;
+        private String type;
 
         public String getId() {
             return id;
@@ -55,6 +60,46 @@ public class QualicationInfo implements Serializable {
 
         public void setId(String id) {
             this.id = id;
+        }
+
+        public String getImage() {
+            return image;
+        }
+
+        public void setImage(String image) {
+            this.image = image;
+        }
+
+        public String getSalesmanCode() {
+            return salesmanCode;
+        }
+
+        public void setSalesmanCode(String salesmanCode) {
+            this.salesmanCode = salesmanCode;
+        }
+
+        public String getShop_id() {
+            return shop_id;
+        }
+
+        public void setShop_id(String shop_id) {
+            this.shop_id = shop_id;
+        }
+
+        public String getTruename() {
+            return truename;
+        }
+
+        public void setTruename(String truename) {
+            this.truename = truename;
+        }
+
+        public String getType() {
+            return type;
+        }
+
+        public void setType(String type) {
+            this.type = type;
         }
     }
 
@@ -73,9 +118,66 @@ public class QualicationInfo implements Serializable {
 
         private AddressBean address;
         private String createTime;
+        private String id;
+        private boolean ifShopOwner;
+        private String licenseImg;
         private String mapPoint;
+        private String phone;
+        private String postalcode;
+        private String regionCode;
+        private String salesmanAuditStatus;
+        private String salesmanCode;
         private String shopType;
         private String shopname;
+        private String status;
+
+        public String getId() {
+            return id;
+        }
+
+        public void setId(String id) {
+            this.id = id;
+        }
+
+        public boolean isIfShopOwner() {
+            return ifShopOwner;
+        }
+
+        public void setIfShopOwner(boolean ifShopOwner) {
+            this.ifShopOwner = ifShopOwner;
+        }
+
+        public String getLicenseImg() {
+            return licenseImg;
+        }
+
+        public void setLicenseImg(String licenseImg) {
+            this.licenseImg = licenseImg;
+        }
+
+        public String getSalesmanAuditStatus() {
+            return salesmanAuditStatus;
+        }
+
+        public void setSalesmanAuditStatus(String salesmanAuditStatus) {
+            this.salesmanAuditStatus = salesmanAuditStatus;
+        }
+
+        public String getSalesmanCode() {
+            return salesmanCode;
+        }
+
+        public void setSalesmanCode(String salesmanCode) {
+            this.salesmanCode = salesmanCode;
+        }
+
+        public String getStatus() {
+            return status;
+        }
+
+        public void setStatus(String status) {
+            this.status = status;
+        }
 
         public String getPhone() {
             return phone;
@@ -85,8 +187,6 @@ public class QualicationInfo implements Serializable {
             this.phone = phone;
         }
 
-        private String phone;
-
         public String getPostalcode() {
             return postalcode;
         }
@@ -95,8 +195,6 @@ public class QualicationInfo implements Serializable {
             this.postalcode = postalcode;
         }
 
-        private String postalcode;
-
         public String getRegionCode() {
             return regionCode;
         }
@@ -104,8 +202,6 @@ public class QualicationInfo implements Serializable {
         public void setRegionCode(String regionCode) {
             this.regionCode = regionCode;
         }
-
-        private String regionCode;
 
         public AddressBean getAddress() {
             return address;
@@ -146,6 +242,7 @@ public class QualicationInfo implements Serializable {
         public void setShopname(String shopname) {
             this.shopname = shopname;
         }
+
         public static class AddressBean implements Serializable {
             /**
              * city : string

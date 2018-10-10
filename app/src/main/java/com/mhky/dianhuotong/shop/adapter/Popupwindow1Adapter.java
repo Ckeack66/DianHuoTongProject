@@ -3,8 +3,11 @@ package com.mhky.dianhuotong.shop.adapter;
 import com.chad.library.adapter.base.BaseSectionQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.mhky.dianhuotong.R;
+import com.mhky.dianhuotong.base.BaseTool;
 import com.mhky.dianhuotong.shop.bean.GoodsBaseInfo;
+import com.mhky.dianhuotong.shop.bean.GoodsCategories;
 import com.mhky.dianhuotong.shop.bean.Popuwindow1Info;
+import com.mhky.dianhuotong.shop.bean.Popwindow1InfoNew;
 
 import java.util.List;
 
@@ -21,6 +24,10 @@ public class Popupwindow1Adapter extends BaseSectionQuickAdapter<Popuwindow1Info
      * @param sectionHeadResId The section head layout id for each item
      * @param data             A new list is created out of this one to avoid mutable list
      */
+//    public Popupwindow1Adapter(int layoutResId, int sectionHeadResId, List<Popwindow1InfoNew> data) {
+//        super(layoutResId, sectionHeadResId, data);
+//    }
+
     public Popupwindow1Adapter(int layoutResId, int sectionHeadResId, List<Popuwindow1Info> data) {
         super(layoutResId, sectionHeadResId, data);
     }
@@ -28,14 +35,18 @@ public class Popupwindow1Adapter extends BaseSectionQuickAdapter<Popuwindow1Info
     @Override
     protected void convertHead(BaseViewHolder helper, Popuwindow1Info item) {
         helper.setText(R.id.popupwindow_goods_type_parent_title, item.header);
+//        helper.setText(R.id.popupwindow_goods_type_parent_title, item.getPopuwindow1ChildInfo().getGoodsCategories().getName());
         helper.setText(R.id.popupwindow_goods_type_parent_number, item.getPopuwindow1ChildInfo().getNumber());
         helper.addOnClickListener(R.id.popupwindow_goods1_title);
+        BaseTool.logPrint(TAG + "_size",item.header  + item.getPopuwindow1ChildInfo().getNumber());
     }
 
     @Override
     protected void convert(BaseViewHolder helper, Popuwindow1Info item) {
+//        GoodsCategories.ItemsBean itemsBean = item.t;
         GoodsBaseInfo.ChildrenBeanX childrenBeanX = item.t;
         helper.setText(R.id.popupwindow_goods_type_child_title, childrenBeanX.getName());
+//        helper.setText(R.id.popupwindow_goods_type_child_number, itemsBean.getSubitemData().size() + "");
         helper.setText(R.id.popupwindow_goods_type_child_number, childrenBeanX.getChildren().size() + "");
         helper.addOnClickListener(R.id.popupwindow_goods1_child_title);
     }

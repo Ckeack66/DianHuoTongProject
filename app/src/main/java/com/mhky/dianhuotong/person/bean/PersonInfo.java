@@ -21,15 +21,17 @@ public class PersonInfo implements Serializable{
      * type : null
      */
 
-    private String username;
-    private String mobile;
-    private boolean enabled;
-    private Object image;
-    private Object shopId;
-    private Object shopName;
-    private String  id;
-    private Object truename;
-    private Object type;
+    private String username;                            //账号name
+    private String mobile;                              //账号
+    private boolean enabled;                            //可否使用
+    private Object image;                               //头像url
+    private Object shopId;                              //绑定的店铺id
+    private Object shopName;                            //绑定的店铺名称
+    private String  id;                                 //账号id
+    private Object truename;                            //真实姓名
+    private Object type;                                //账号类型    0：店员    1：店长
+    private Object auditStatus;
+
 
     public Object getAuditStatus() {
         return auditStatus;
@@ -38,8 +40,6 @@ public class PersonInfo implements Serializable{
     public void setAuditStatus(Object auditStatus) {
         this.auditStatus = auditStatus;
     }
-
-    private Object auditStatus;
 
     public Object getSalesmanCode() {
         return salesmanCode;

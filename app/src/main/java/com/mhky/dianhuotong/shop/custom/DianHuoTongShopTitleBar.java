@@ -22,9 +22,11 @@ import com.pgyersdk.crash.PgyCrashManager;
 
 /**
  * Created by Administrator on 2018/4/24.
+ * 典货通  searchbar
  */
 
 public class DianHuoTongShopTitleBar extends RelativeLayout implements View.OnClickListener {
+
     private TextView textViewCenter;
     private FrameLayout frameLayoutBack;
     private FrameLayout frameLayoutOrder;
@@ -75,17 +77,17 @@ public class DianHuoTongShopTitleBar extends RelativeLayout implements View.OnCl
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.shop_title_back:
+            case R.id.shop_title_back:                      //返回按钮
                 activityThis.finish();
                 break;
-            case R.id.shop_scan_code:
+            case R.id.shop_scan_code:                      //二维码扫描按钮
                 try {
                     BaseTool.goActivityNoData(mContext, ScanCodeActivity.class);
                 }catch (Exception e){
                     PgyCrashManager.reportCaughtException(activityThis,e);
                 }
                 break;
-            case R.id.shop_input:
+            case R.id.shop_input:                         //搜索框
                 //ToastUtil.makeText(mContext, "跳转到搜索界面", Toast.LENGTH_SHORT).show();
                 try {
                     BaseTool.goActivityNoData(mContext, SearchActivity.class);
@@ -93,7 +95,7 @@ public class DianHuoTongShopTitleBar extends RelativeLayout implements View.OnCl
                     PgyCrashManager.reportCaughtException(activityThis,e);
                 }
                 break;
-            case R.id.shop_car_fl:
+            case R.id.shop_car_fl:                       //跳转购物车界面
                 //ToastUtil.makeText(mContext, "跳转到购物车界面", Toast.LENGTH_SHORT).show();
                 try {
                     BaseTool.goActivityNoData(mContext, CartActivity.class);

@@ -18,6 +18,7 @@ import com.mhky.dianhuotong.person.personif.PersonIF;
  */
 
 public class PersonInfoPrecenter {
+
     private PersonIF personIF;
 
     public PersonInfoPrecenter(PersonIF personIF) {
@@ -42,7 +43,11 @@ public class PersonInfoPrecenter {
                         BaseApplication.getInstansApp().setPersonInfo(personInfo);
                         personIF.getUserInfoSucess(personInfo);
                     }
-
+                }else {
+                    if (response.code() == 200) {
+                        PersonInfo personInfo = JSON.parseObject(BaseTool.getResponsBody(response), PersonInfo.class);
+                        BaseApplication.getInstansApp().setPersonInfo(personInfo);
+                    }
                 }
             }
 

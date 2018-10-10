@@ -19,7 +19,7 @@
     <RelativeLayout
         android:id="@+id/cart_popup_number"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/x60"
+        android:layout_height="@dimen/x56"
         android:layout_above="@+id/cart_popup_ok"
         android:layout_alignParentStart="true"
         android:background="@color/colorWhite"
@@ -94,8 +94,8 @@
             android:layout_marginEnd="@dimen/x10"
             android:layout_marginStart="@dimen/x10"
             android:background="@color/colorWhite"
-            android:paddingBottom="@dimen/x20"
-            android:paddingTop="@dimen/x20"
+            android:paddingBottom="@dimen/x14"
+            android:paddingTop="@dimen/x14"
             zhy:max_select="1" />
     </FrameLayout>
 
@@ -151,14 +151,14 @@
             android:layout_marginStart="@dimen/x14"
             android:background="@drawable/shape_cart_popupwindow_img"
             android:padding="@dimen/x10"
-            android:scaleType="centerCrop"
-            android:src="@drawable/icon_qq" />
+            android:scaleType="fitCenter"
+            android:src="@drawable/default_pill_case" />
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/x14"
-            android:layout_marginTop="@dimen/x30"
+            android:layout_marginTop="@dimen/x36"
             android:layout_toEndOf="@id/cart_popup_img"
             android:orientation="vertical">
 
@@ -181,6 +181,7 @@
                 android:textColor="@color/colorE20F12"
                 android:textSize="@dimen/t16" />
             <LinearLayout
+                android:id="@+id/cart_popup_ll_price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
@@ -200,9 +201,10 @@
                     android:id="@+id/cart_popup_price1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="批发价：￥0.00"
+                    android:text=""
                     android:textColor="@color/color333333"
-                    android:textSize="@dimen/t10" />
+                    android:textSize="@dimen/t10"
+                    android:visibility="gone"/>
             </LinearLayout>
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -220,6 +222,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="     "/>
+
                 <TextView
                     android:id="@+id/cart_popup_price_goods_number"
                     android:layout_width="wrap_content"
@@ -227,6 +230,15 @@
                     android:text="起批量:0"
                     android:textColor="@color/color333333"
                     android:textSize="@dimen/t10"/>
+
+                <TextView
+                    android:id="@+id/cart_popup_is_whole_library"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/x26"
+                    android:text="整库"
+                    android:textColor="@color/colorE20F12"
+                    android:textSize="@dimen/t16"/>
             </LinearLayout>
 
             <TextView

@@ -10,6 +10,10 @@ import com.mhky.dianhuotong.base.BaseTool;
 import com.mhky.dianhuotong.base.BaseUrlTool;
 import com.mhky.dianhuotong.shop.shopif.ShopAdressIF;
 
+/**
+ * 通过店铺ID获取商铺信息
+ */
+
 public class ShopAdressPresenter {
     private ShopAdressIF shopAdressIF;
 
