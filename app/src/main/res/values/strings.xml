@@ -21,18 +21,13 @@
     <!--个人中心文字-->
     <string name="person_title">个人资料</string>
     <string name="person_header">头像</string>
-    <string name="person_sex">称谓</string>
     <string name="person_username">姓名</string>
     <string name="person_username_internet">昵称</string>
     <string name="person_shop_name">所属店铺</string>
     <string name="person_work">职位</string>
     <string name="person_phone">绑定手机</string>
     <string name="person_username_default">未设置</string>
-    <string name="person_sex_defalut">先生</string>
     <string name="person_username_internet_default">未设置</string>
-    <string name="person_shop_name_default">未设置</string>
-    <string name="person_work_default">店长</string>
-    <string name="person_phone_default">未设置</string>
     <string name="person_update_title">资料修改</string>
     <string name="person_update_save">保存</string>
 
@@ -62,7 +57,6 @@
 
     <!--MyselectedActivity我的采购单-->
     <string name="myselect_title">我的采购单</string>
-    <string name="myselected_right">账单</string>
     <string name="myselect_search_text">药品、商家、订单编号</string>
     <string name="myselect_body1">我的资质</string>
     <string name="myselect_body2">济南国美大药房</string>
@@ -79,10 +73,6 @@
     <string name="myselect_item_money_danwei">0瓶</string>
     <!--账单（BillActivity）文字-->
     <string name="bill_title">账单</string>
-    <string name="title_activity_main">MainActivity</string>
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="action_settings">Settings</string>
     <!--发票信息Invoiceactivity-->
     <string name="invoice_company_name">暂无店铺名称</string>
     <string name="invoice_company_adress">暂无店铺地址</string>

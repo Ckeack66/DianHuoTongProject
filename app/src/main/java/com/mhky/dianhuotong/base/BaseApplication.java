@@ -13,6 +13,7 @@ import com.mhky.dianhuotong.person.bean.PersonInfo;
 import com.mhky.dianhuotong.shop.bean.GoodsBaseInfo;
 import com.mhky.dianhuotong.shop.bean.GoodsCategories;
 import com.mhky.dianhuotong.shop.bean.ShopInfoByUserID;
+import com.mhky.yaolinwang.bean.CustomerInfoBean;
 import com.pgyersdk.crash.PgyCrashManager;
 import com.tencent.smtt.sdk.QbSdk;
 
@@ -35,6 +36,8 @@ public class BaseApplication extends LitePalApplication {
     private static final String DAO_SESSION="search-data";
     private static final String ALL_GOODS_TYPE_NEW = "ALL_GOODS_TYPE_NEW";                          //商品类目(全的)
     private static final String ALL_GOODS_TYPE_OLD = "ALL_GOODS_TYPE_OLD";                          //商品类目(仅仅是商品的)
+    private static final String USER_ROLE = "USER_ROLE";                                            //用户角色，权限区分
+    private static final String CUSTOMER_INFO = "CUSTOMER_INFO";                                    //customer信息
     public static final String wxAction="com.mhky.dianhuotong.balance";
     private static SharedPreferences mSharedPreferences;
     private Context mContext;
@@ -114,6 +117,77 @@ public class BaseApplication extends LitePalApplication {
         this.shopInfoByUserID = shopInfoByUserID;
     }
 
+    /**
+     * 设置登录账号+密码
+     * @param phone
+     * @param pwd
+     */
+    public void setUserLoginInfo(String phone,String pwd){
+        mSharedPreferences.edit().putString(MY_USER_NAME, phone).apply();
+        mSharedPreferences.edit().putString(MY_USER_PWD, pwd).apply();
+    }
+
+    public String getUserPhone(){
+        return mSharedPreferences.getString(MY_USER_NAME, null);
+    }
+    public String getUserPwd(){
+        return mSharedPreferences.getString(MY_USER_PWD, null);
+    }
+
+    /*   设置全部的allGoodsType   */
+    public void setGoodsCategories(List<GoodsCategories> goodsCategories){
+        String s = JSON.toJSONString(goodsCategories);
+        mSharedPreferences.edit().putString(ALL_GOODS_TYPE_NEW,s).apply();
+    }
+
+    public List<GoodsCategories> getGoodsCategories(){
+        if (mSharedPreferences.getString(ALL_GOODS_TYPE_NEW,null) != null){
+            List<GoodsCategories> list = JSON.parseArray(mSharedPreferences.getString(ALL_GOODS_TYPE_NEW,null),GoodsCategories.class);
+            return list;
+        }else {
+            return null;
+        }
+    }
+
+    /*   设置单单商品的allGoodsType   */
+    public void setGoodsType(List<GoodsBaseInfo> goodsBaseInfoList){
+        String s = JSON.toJSONString(goodsBaseInfoList);
+        mSharedPreferences.edit().putString(ALL_GOODS_TYPE_OLD,s).apply();
+    }
+
+    public List<GoodsBaseInfo> getGoodsType(){
+        if (mSharedPreferences.getString(ALL_GOODS_TYPE_NEW,null) != null){
+            List<GoodsBaseInfo> list = JSON.parseArray(mSharedPreferences.getString(ALL_GOODS_TYPE_OLD,null),GoodsBaseInfo.class);
+            return list;
+        }else {
+            return null;
+        }
+    }
+
+    /*   用户角色权限的设置   */
+    public void setUserRole(int role){
+        mSharedPreferences.edit().putInt(USER_ROLE, role).apply();
+    }
+
+    public int getUserRole(){
+        return mSharedPreferences.getInt(USER_ROLE, -1);
+    }
+
+    /*   存储Customer信息实体类   */
+    public void setCustomerInfo(CustomerInfoBean customerInfoBean){
+        String s = JSON.toJSONString(customerInfoBean);
+        mSharedPreferences.edit().putString(CUSTOMER_INFO,s).apply();
+    }
+
+    public CustomerInfoBean getCustomerInfo(){
+        if (mSharedPreferences.getString(CUSTOMER_INFO,null) != null){
+            CustomerInfoBean customerInfoBean = JSON.parseObject(mSharedPreferences.getString(CUSTOMER_INFO,null),CustomerInfoBean.class);
+            return customerInfoBean;
+        }else {
+            return null;
+        }
+    }
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -167,47 +241,6 @@ public class BaseApplication extends LitePalApplication {
         return mSharedPreferences.edit().putString(MY_TOAKEN, toaken).commit();
     }
 
-    public void setUserLoginInfo(String phone,String pwd){
-        mSharedPreferences.edit().putString(MY_USER_NAME, phone).apply();
-        mSharedPreferences.edit().putString(MY_USER_PWD, pwd).apply();
-    }
-
-    public String getUserPhone(){
-        return mSharedPreferences.getString(MY_USER_NAME, null);
-    }
-    public String getUserPwd(){
-        return mSharedPreferences.getString(MY_USER_PWD, null);
-    }
-
-    /*   设置全部的allGoodsType   */
-    public void setGoodsCategories(List<GoodsCategories> goodsCategories){
-        String s = JSON.toJSONString(goodsCategories);
-        mSharedPreferences.edit().putString(ALL_GOODS_TYPE_NEW,s).apply();
-    }
-
-    public List<GoodsCategories> getGoodsCategories(){
-        if (mSharedPreferences.getString(ALL_GOODS_TYPE_NEW,null) != null){
-            List<GoodsCategories> list = JSON.parseArray(mSharedPreferences.getString(ALL_GOODS_TYPE_NEW,null),GoodsCategories.class);
-            return list;
-        }else {
-            return null;
-        }
-    }
-
-    /*   设置单单商品的allGoodsType   */
-    public void setGoodsType(List<GoodsBaseInfo> goodsBaseInfoList){
-        String s = JSON.toJSONString(goodsBaseInfoList);
-        mSharedPreferences.edit().putString(ALL_GOODS_TYPE_OLD,s).apply();
-    }
-
-    public List<GoodsBaseInfo> getGoodsType(){
-        if (mSharedPreferences.getString(ALL_GOODS_TYPE_NEW,null) != null){
-            List<GoodsBaseInfo> list = JSON.parseArray(mSharedPreferences.getString(ALL_GOODS_TYPE_OLD,null),GoodsBaseInfo.class);
-            return list;
-        }else {
-            return null;
-        }
-    }
 
     public boolean clearToaken() {
         BaseApplication.getInstansApp().setLoginRequestInfo(null);

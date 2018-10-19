@@ -3,6 +3,7 @@ package com.mhky.dianhuotong.main.presenter;
 import android.content.Context;
 
 import com.mhky.dianhuotong.R;
+import com.mhky.dianhuotong.base.BaseApplication;
 import com.mhky.dianhuotong.main.MainIF;
 
 import java.util.ArrayList;
@@ -44,16 +45,29 @@ public class MainActivityPrecenter {
     }
 
     private void inItListViewData() {
-        arrayList.add(0, context.getString(R.string.drawer_list_caigou));
-        arrayList.add(1, context.getString(R.string.drawer_list_info_update));
-        arrayList.add(2, context.getString(R.string.drawer_list_kefu));
-        arrayList.add(3, context.getString(R.string.drawer_list_wallet));
+        switch (BaseApplication.getInstansApp().getUserRole()){
+            case 2:
+                arrayList.add(0, context.getString(R.string.drawer_list_caigou));
+                arrayList.add(1, context.getString(R.string.drawer_list_info_update));
+                arrayList.add(2, context.getString(R.string.drawer_list_kefu));
+                arrayList.add(3, context.getString(R.string.drawer_list_wallet));
+                imageArray[0] = R.drawable.icon_selected;
+                imageArray[1] = R.drawable.icon_update_info;
+                imageArray[2] = R.drawable.icon_ear;
+                break;
+            case 4:
+                arrayList.add(0, "我的订单");
+                arrayList.add(1, context.getString(R.string.drawer_list_info_update));
+                arrayList.add(2, "我的收藏");
+                arrayList.add(3, "我的资产");
+                imageArray[0] = R.drawable.icon_selected;
+                imageArray[1] = R.drawable.icon_update_info;
+                imageArray[2] = R.drawable.icon_my_favorite;
+                break;
+        }
         arrayList.add(4, context.getString(R.string.drawer_list_mianze));
         arrayList.add(5, context.getString(R.string.drawer_list_about));
         arrayList.add(6, context.getString(R.string.drawer_list_set));
-        imageArray[0] = R.drawable.icon_selected;
-        imageArray[1] = R.drawable.icon_update_info;
-        imageArray[2] = R.drawable.icon_ear;
         imageArray[3] = R.drawable.icon_wallet;
         imageArray[4] = R.drawable.icon_mianze;
         imageArray[5] = R.drawable.icon_about;

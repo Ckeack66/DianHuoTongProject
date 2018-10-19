@@ -47,8 +47,11 @@ public class LoginPrecenter implements PersonIF, ShopInfoIF {
                     if (loginIF != null) {
                         LoginRequestInfo loginRequestInfo = JSON.parseObject(redult, LoginRequestInfo.class);
                         BaseApplication.getInstansApp().setLoginRequestInfo(loginRequestInfo);
-                        if (loginRequestInfo != null) {
+                        BaseApplication.getInstansApp().setUserRole(loginRequestInfo.getAuthorities().getId());
+                        if (loginRequestInfo != null  && loginRequestInfo.getAuthorities().getId() == 2) {
                             personInfoPrecenter.getPersonInfo(loginRequestInfo.getId());
+                        }else if (loginRequestInfo != null && loginRequestInfo.getAuthorities().getId() == 4){
+                            personInfoPrecenter.getCustomerInfo(loginRequestInfo.getId());
                         }
                     }
 

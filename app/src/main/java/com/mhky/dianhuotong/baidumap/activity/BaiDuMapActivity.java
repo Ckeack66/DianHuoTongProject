@@ -161,7 +161,6 @@ public class BaiDuMapActivity extends BaseActivity implements BaiduMap.OnMapClic
         baiduMap.setOnMapClickListener(this);
         View view = LayoutInflater.from(this).inflate(R.layout.overlay_icon,null);
         bitmapDescriptor = BitmapDescriptorFactory.fromView(view);
-//        bitmapDescriptor = BitmapDescriptorFactory.fromResource(R.drawable.icon_openmap_mark);
         poiSearch = PoiSearch.newInstance();
         dianHuoTongBaseTitleBar.setCenterTextView("坐标选择");
         dianHuoTongBaseTitleBar.setLeftImage(R.drawable.icon_back);

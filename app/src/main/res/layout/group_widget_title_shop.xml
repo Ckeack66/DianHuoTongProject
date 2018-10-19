@@ -2,7 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="@dimen/x40"
-    android:background="@color/color04c1ab">
+    android:background="@color/color04c1ab"
+    android:id="@+id/rl_group_widget_title_shop">
 
     <!--左边返回键图片-->
     <FrameLayout

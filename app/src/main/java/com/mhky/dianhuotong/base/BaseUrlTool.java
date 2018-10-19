@@ -9,20 +9,21 @@ public class BaseUrlTool {
      * 主机
      */
 //release
-    private final static String HOSTS = "http://116.255.150.39:";//release
-    private final static String HOSTS_CART = "http://116.255.158.91:";//release
-    private final static String HOST_IMAGE_URL = "http://116.255.155.156:9040";//release  Imge
-    private final static String HOSTS_ORDER = "http://116.255.158.91:";
-//    private final static String HOSTS_ORDER = "http://192.168.2.237:";
-    private final static String HOST_URL_COUPON = "http://116.255.158.91:" + "9060";
-    private final static String HOST_ACTIVITY = "http://116.255.158.91:9060/promotion/list";
+//    private final static String HOSTS = "http://116.255.150.39:";//release
+//    private final static String HOSTS_CART = "http://116.255.158.91:";//release
+//    private final static String HOST_IMAGE_URL = "http://116.255.155.156:9040";//release  Imge
+//    private final static String HOSTS_ORDER = "http://116.255.158.91:";
+////    private final static String HOSTS_ORDER = "http://192.168.2.237:";
+//    private final static String HOST_URL_COUPON = "http://116.255.158.91:" + "9060";
+//    private final static String HOST_ACTIVITY = "http://116.255.158.91:9060/promotion/list";
+
     //debug
-//    private final static String HOSTS = "http://192.168.2.158:";//debug
-//    private final static String HOSTS_CART = "http://192.168.2.158:";
-//    private final static String HOST_IMAGE_URL = HOSTS + "9040";//debug  Imge
-//    private final static String HOSTS_ORDER = "http://192.168.2.158:";
-//    private final static String HOST_URL_COUPON = "http://192.168.2.158:" + "9060";
-//    private final static String HOST_ACTIVITY="http://192.168.2.158:9060/promotion";
+    private final static String HOSTS = "http://192.168.2.158:";//debug
+    private final static String HOSTS_CART = "http://192.168.2.158:";
+    private final static String HOST_IMAGE_URL = HOSTS + "9040";//debug  Imge
+    private final static String HOSTS_ORDER = "http://192.168.2.163:";
+    private final static String HOST_URL_COUPON = "http://192.168.2.158:" + "9060";
+    private final static String HOST_ACTIVITY="http://192.168.2.158:9060/promotion";
     /**
      * 上传图片地址
      */
@@ -52,7 +53,8 @@ public class BaseUrlTool {
     /**
      * 登陆
      */
-    public static final String LOGIN = HOST_URL + "/user/buyer/login";
+//    public static final String LOGIN = HOST_URL + "/user/buyer/login";
+    public static final String LOGIN = HOST_URL + "/user/b2b2c/login";
     /**
      * 获取商户个人信息
      */
@@ -62,6 +64,11 @@ public class BaseUrlTool {
     public static String getPersonInfoURL(String UserID) {
         return PERSON_INFO + UserID + PERSON_INFO_END;
     }
+
+    /**
+     * 根据id或者手机号获取customer对象信息
+     */
+    public static final String GET_CUSTOMER_INFO = HOST_URL + "/customer/info";
 
     /**
      * 修改商户个人信息
@@ -378,4 +385,21 @@ public class BaseUrlTool {
     public static String uploadBuyersReturnOrders(String orderNo) {
         return HOST_BANLANCE_URL + "/order/" + orderNo + "/receipt ";
     }
+
+    /********************************************   Customer端接口   *******************************************/
+
+    /**
+     * 获取默认收货地址
+     */
+    public static final String GET_DEFAULT_ADDRESS = HOST_URL + "/customer/address/info";
+
+    /**
+     * 获取订单列表
+     */
+    public static final String GET_CUSTOMER_ORDERS = HOST_BANLANCE_URL + "/b2b/order/list";
+
+    /**
+     * 获取订单列表详情
+     */
+    public static final String GET_CUSTOMER_ORDER_DETAILS = HOST_BANLANCE_URL + "/b2b/order/";
 }

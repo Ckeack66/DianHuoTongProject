@@ -54,6 +54,9 @@ import com.mhky.dianhuotong.shop.precenter.AllGoosPrecenter;
 import com.mhky.dianhuotong.shop.precenter.ShopInfoPresenter;
 import com.mhky.dianhuotong.shop.shopif.AllGoodsIF;
 import com.mhky.dianhuotong.shop.shopif.GoodsCategoriesIF;
+import com.mhky.yaolinwang.activity.PersonInfoForCActivity;
+import com.mhky.yaolinwang.activity.YaoLinWangActivity;
+import com.mhky.yaolinwang.order.activity.CustomerOrdersActivity;
 import com.pgyersdk.crash.PgyCrashManager;
 import com.pgyersdk.javabean.AppBean;
 import com.pgyersdk.update.PgyUpdateManager;
@@ -123,6 +126,7 @@ public class MainActivity extends BaseActivity implements MainIF, DrawerLayout.D
     private LoginPrecenter loginPrecenter;
     private LoadingDialog loadingDialog;
     public static String action = "com.mhky.dianhuotong.activity.update";
+    private int role = -1;
 
     public static List<GoodsBaseInfo> list = new ArrayList<>();
 
@@ -192,7 +196,6 @@ public class MainActivity extends BaseActivity implements MainIF, DrawerLayout.D
                 // 返回的 intent 是跳转至**手机管家页面**
                 // .requestPageType(Permissions4M.PageType.ANDROID_SETTING_PAGE)
                 .request();
-
     }
 
     @Override
@@ -270,6 +273,7 @@ public class MainActivity extends BaseActivity implements MainIF, DrawerLayout.D
 
 
     private void inIt() {
+        role = BaseApplication.getInstansApp().getUserRole();
         loadingDialog = new LoadingDialog(this);
         loginPrecenter = new LoginPrecenter(this);
         String u = BaseApplication.getInstansApp().getUserPhone();
@@ -441,10 +445,10 @@ public class MainActivity extends BaseActivity implements MainIF, DrawerLayout.D
      */
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        if (BaseApplication.getInstansApp().getLoginRequestInfo() == null) {
-            dianHuoTongBaseDialog.show();
-            return;
-        }
+//        if (BaseApplication.getInstansApp().getLoginRequestInfo() == null) {
+//            dianHuoTongBaseDialog.show();
+//            return;
+//        }
         switch (parent.getId()) {
             case R.id.main_gridview:
                 switch (position) {
@@ -452,6 +456,10 @@ public class MainActivity extends BaseActivity implements MainIF, DrawerLayout.D
 //                        BaseTool.goActivityNoData(this, ShiYaoQianYanActivity.class);
 //                        break;
                     case 1:
+                        if (BaseApplication.getInstansApp().getUserRole() != 2){
+                            ToastUtil.makeText(this, "终端消费者无法进入~", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
                         if (BaseApplication.getInstansApp().getPersonInfo() != null &&
                                 BaseApplication.getInstansApp().getPersonInfo().getAuditStatus() == null) {  //账号已登录，但是店铺未绑定店铺
                             dianHuoTongBaseDialogAddShop.show();
@@ -464,12 +472,13 @@ public class MainActivity extends BaseActivity implements MainIF, DrawerLayout.D
                             dianHuoTongBaseDialogAddShop.show();
                         }
                         break;
-//                    case 2:
-//                        BaseTool.goActivityNoData(this, YaoLinWangActivity.class);
-//                        break;
-//                    case 3:
+                    case 2:
+                        BaseTool.goActivityNoData(this, YaoLinWangActivity.class);
+                        break;
+                    case 3:
 //                        BaseTool.goActivityNoData(this, MingHuiFuActivity.class);
-//                        break;
+                        BaseTool.goActivityNoData(this, CustomerOrdersActivity.class);
+                        break;
 //                    case 4:
 //                        BaseTool.goActivityNoData(this, JianKang121Activity.class);
 //                        break;
@@ -493,7 +502,11 @@ public class MainActivity extends BaseActivity implements MainIF, DrawerLayout.D
             case R.id.drawer_listview:
                 switch (position) {
                     case 0:
-                        BaseTool.goActivityNoData(this, MyselectedActivity.class);
+                        if(BaseApplication.getInstansApp().getUserRole() == 2){
+                            BaseTool.goActivityNoData(this, MyselectedActivity.class);
+                        }else if(BaseApplication.getInstansApp().getUserRole() == 4){
+                            BaseTool.goActivityNoData(this, CustomerOrdersActivity.class);
+                        }
                         break;
                     case 1:
                         BaseTool.goActivityNoData(this, PersonInfoUpdateActivity.class);
@@ -569,7 +582,17 @@ public class MainActivity extends BaseActivity implements MainIF, DrawerLayout.D
      */
     @OnClick(R.id.main_user_image)
     void goPersonInfoEditActivity() {
-        BaseTool.goActivityNoData(this, PersonInfoActivity.class);
+        switch (role){
+            case 2:
+                BaseTool.goActivityNoData(this, PersonInfoActivity.class);
+                break;
+            case 4:
+                BaseTool.goActivityNoData(this, PersonInfoForCActivity.class);
+                break;
+            default:
+                ToastUtil.makeText(this,"账号有误，请重新登陆~",Toast.LENGTH_SHORT).show();
+                break;
+        }
     }
 
     /**

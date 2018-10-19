@@ -101,7 +101,6 @@ public class OrderAdapter extends BaseMultiItemQuickAdapter<OrderInfo, BaseViewH
                         break;
                 }
                 helper.addOnClickListener(R.id.order_info_button);
-
                 break;
         }
     }

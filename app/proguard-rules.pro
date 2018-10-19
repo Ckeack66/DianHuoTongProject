@@ -57,3 +57,5 @@
 -keep class **$Properties
 
 -keepclassmembers class **$Properties {*;}
+
+-ignorewarnings

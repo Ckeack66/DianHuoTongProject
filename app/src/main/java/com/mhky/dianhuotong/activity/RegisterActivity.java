@@ -69,6 +69,7 @@ public class RegisterActivity extends BaseActivity implements TimerMessage.OnTim
     private DianHuoTongBaseDialog dianHuoTongBaseDialog;
     private SaleManInfo saleManInfo;
     private static final String TAG = "RegisterActivity";
+    private String Authorities = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,6 +97,8 @@ public class RegisterActivity extends BaseActivity implements TimerMessage.OnTim
      * 页面初始化
      */
     private void inIt() {
+        Bundle b = getIntent().getExtras();
+        Authorities = b.getString("authorities");
         loadingDialog = new LoadingDialog(this);
         diaHuiTongBaseTitleBar.setLeftImage(R.drawable.icon_back);
         diaHuiTongBaseTitleBar.setCenterTextView("注册");
@@ -145,6 +148,7 @@ public class RegisterActivity extends BaseActivity implements TimerMessage.OnTim
      */
     @OnClick(R.id.register_register_button)
     void register() {
+
         if (TextUtils.isEmpty(editTextPhone.getText())) {
             ToastUtil.makeText(this, "请输入手机号码", Toast.LENGTH_SHORT).show();
             return;
@@ -170,6 +174,8 @@ public class RegisterActivity extends BaseActivity implements TimerMessage.OnTim
             ToastUtil.makeText(this, "请勾选用户注册协议", Toast.LENGTH_SHORT).show();
             return;
         }
+
+
 //        if (shapeLoadingDialog != null) {
 //            shapeLoadingDialog.show();
 //        }
@@ -337,6 +343,7 @@ public class RegisterActivity extends BaseActivity implements TimerMessage.OnTim
     @Override
     public void checkSmsSuccess(int code, String result) {
         if (code == 200) {
+            registerPostDataInfo.setAuthorities(Authorities);
             registerPostDataInfo.setMobile(editTextPhone.getText().toString());
             registerPostDataInfo.setPassword(String.valueOf(MD5Util.md5(editTextPwd.getText().toString().trim())));
             if (!TextUtils.isEmpty(editTextWaiterCode.getText().toString())) {

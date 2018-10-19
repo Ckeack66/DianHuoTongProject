@@ -2,6 +2,7 @@ package com.mhky.dianhuotong.shop.custom;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.drawable.ColorDrawable;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,6 +33,7 @@ public class DianHuoTongShopTitleBar extends RelativeLayout implements View.OnCl
     private FrameLayout frameLayoutOrder;
     private FrameLayout frameLayoutCart;
     private ImageView imageViewScanCode;
+    private RelativeLayout rl_title_shop;
     private Context mContext;
     private Activity activityThis;
 
@@ -64,6 +66,7 @@ public class DianHuoTongShopTitleBar extends RelativeLayout implements View.OnCl
         frameLayoutBack=findViewById(R.id.shop_title_back);
         frameLayoutOrder=findViewById(R.id.shop_order_fl);
         frameLayoutCart=findViewById(R.id.shop_car_fl);
+        rl_title_shop = findViewById(R.id.rl_group_widget_title_shop);
         textViewCenter.setOnClickListener(this);
         imageViewScanCode.setOnClickListener(this);
         frameLayoutBack.setOnClickListener(this);
@@ -72,6 +75,10 @@ public class DianHuoTongShopTitleBar extends RelativeLayout implements View.OnCl
     }
     public void setCenterText(String text){
         textViewCenter.setText(text);
+    }
+
+    public void setbg(int color){
+        rl_title_shop.setBackground(new ColorDrawable(getResources().getColor(color)));
     }
 
     @Override

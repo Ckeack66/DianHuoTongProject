@@ -108,7 +108,6 @@
         <activity android:name=".activity.CredentialsActivity" />
         <activity android:name=".activity.ShiYaoQianYanActivity" />
         <activity android:name=".activity.DianHuoTongShopActivity" />
-        <activity android:name=".activity.YaoLinWangActivity" />
         <activity android:name=".activity.MingHuiFuActivity" />
         <activity android:name=".activity.JianKang121Activity" />
         <activity android:name=".activity.GuoYiGuanActivity" />
@@ -164,7 +163,6 @@
             android:exported="false"
             android:screenOrientation="behind"
             android:windowSoftInputMode="adjustResize|stateHidden" />
-
         <activity android:name=".shop.activity.GoodsInfoActivity" />
         <activity android:name=".shop.activity.ShopActivity" />
         <activity android:name=".shop.activity.CardActivity" />
@@ -188,22 +186,20 @@
 
         <activity android:name=".shop.activity.OrderInfoActivity" />
         <activity android:name=".activity.FeedBackBaseActivity" />
-
         <activity
             android:name=".wxapi.WXPayEntryActivity"
             android:exported="true"
-            android:launchMode="singleTop" >
-        </activity>
-        <!--<activity-->
-            <!--android:name=".wxapi.WXPayEntryActivity"-->
-            <!--android:exported="true"-->
-            <!--android:launchMode="singleTop" >-->
-            <!--<intent-filter>-->
-                <!--<action android:name="android.intent.action.VIEW"/>-->
-                <!--<category android:name="android.intent.category.DEFAULT"/>-->
-                <!--<data android:scheme="wx1aa6ee31b052846b"/>-->
-            <!--</intent-filter>-->
-        <!--</activity>-->
+            android:launchMode="singleTop" />
+        <!-- <activity -->
+        <!-- android:name=".wxapi.WXPayEntryActivity" -->
+        <!-- android:exported="true" -->
+        <!-- android:launchMode="singleTop" > -->
+        <!-- <intent-filter> -->
+        <!-- <action android:name="android.intent.action.VIEW"/> -->
+        <!-- <category android:name="android.intent.category.DEFAULT"/> -->
+        <!-- <data android:scheme="wx1aa6ee31b052846b"/> -->
+        <!-- </intent-filter> -->
+        <!-- </activity> -->
         <activity
             android:name=".shop.activity.OderOkActivity"
             android:windowSoftInputMode="stateHidden|adjustPan" />
@@ -225,7 +221,12 @@
         <activity android:name=".shop.activity.TransferPostActivity" />
         <activity android:name=".activity.DocumentActivity" />
         <activity android:name=".base.BaseActivityCK" />
-        <activity android:name=".activity.GoldGoodsActivity"></activity>
+        <activity android:name=".activity.GoldGoodsActivity" />
+        <activity android:name="com.mhky.yaolinwang.activity.YaoLinWangActivity" />
+        <activity android:name=".activity.SelectRoleForRegisterActivity" />
+        <activity android:name="com.mhky.yaolinwang.activity.PersonInfoForCActivity" />
+        <activity android:name="com.mhky.yaolinwang.order.activity.CustomerOrdersActivity" />
+        <activity android:name="com.mhky.yaolinwang.order.activity.CustomerOrderDetailsActivity"></activity>
     </application>
 
 </manifest>

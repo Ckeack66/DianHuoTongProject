@@ -60,10 +60,12 @@ public class LoginActivity extends BaseActivity implements LoginIF {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        BaseTool.logPrint("返回结果",resultCode + "");
         if (resultCode == 7){
             Bundle bundle = data.getExtras();
             editTextPhone.setText(bundle.getString("phone"));
             editTextPwd.setText(bundle.getString("pwd"));
+            BaseTool.logPrint("返回结果",bundle.getString("phone") + "--" + bundle.getString("pwd"));
         }
     }
 
@@ -172,7 +174,8 @@ public class LoginActivity extends BaseActivity implements LoginIF {
     @OnClick(R.id.login_go_register)
     void goRegisterActivity() {
 //        BaseTool.goActivityNoData(this, RegisterActivity.class);
-        startActivityForResult(new Intent(this,RegisterActivity.class),6);
+//        startActivityForResult(new Intent(this,RegisterActivity.class),6);
+        startActivityForResult(new Intent(this,SelectRoleForRegisterActivity.class),6);
     }
 
     @OnClick(R.id.login_go_forgetpwd)

@@ -65,7 +65,6 @@ import butterknife.OnClick;
 /**
  * 订单详情Activity
  *
- * 增加注释为了看是否更新
  */
 
 public class OrderInfoActivity extends TakePhotoActivity implements OrderInfoIF, BanlanceReciverIF, DianHuoTongBottomMenuDialog.DianHuoTongBottomMenuDialogListener,

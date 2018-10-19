@@ -17,10 +17,16 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         signingConfig signingConfigs.config
         versionCode 19
+
+        ndk {
+            //设置支持的SO库架构
+            abiFilters 'arm64-v8a', 'armeabi' //, 'x86', , 'x86_64', 'arm64-v8a'
+        }
     }
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             buildConfigField "boolean", "LOG_DEBUG", "false"
 //            buildConfigField "String", "WXAppid", '"wx1aa6ee31b052846b"'
@@ -64,7 +70,7 @@ android {
         javaMaxHeapSize "4g"
     }
     defaultConfig {
-        ndk { abiFilters "armeabi","armeabi-v7a", "x86_64" }
+        ndk { abiFilters "armeabi", "armeabi-v7a", "x86_64" }
         multiDexEnabled true
     }
 }
@@ -215,4 +221,7 @@ dependencies {
 
     //google    gson
     implementation 'com.google.code.gson:gson:2.8.5'
+
+    //等级评分控件
+    compile 'com.github.CB-ysx:CBRatingBar:3.0.1'
 }

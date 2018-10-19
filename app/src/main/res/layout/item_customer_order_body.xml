@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:id="@+id/rl_customer_order_body"
+    android:paddingLeft="@dimen/x16"
+    android:paddingRight="@dimen/x16"
+    android:paddingTop="@dimen/x7"
+    android:paddingBottom="@dimen/x7">
+
+    <ImageView
+        android:id="@+id/iv_good"
+        android:layout_width="@dimen/x84"
+        android:layout_height="@dimen/x84"
+        android:src="@drawable/default_pill_case"
+        android:layout_marginRight="@dimen/x14"/>
+
+    <LinearLayout
+        android:id="@+id/ll_order_body"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_alignTop="@+id/iv_good"
+        android:layout_alignBottom="@+id/iv_good"
+        android:layout_toRightOf="@+id/iv_good">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:id="@+id/order_body_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ellipsize="marquee"
+            android:maxLines="2"
+            android:text="商品名称商品名称商品名称商品名称商品名称商品名称商品名称商品名称"
+            android:textColor="@color/color333333"
+            android:textSize="@dimen/t12"
+            android:textStyle="bold"/>
+
+    </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:layout_gravity="center_vertical">
+
+            <TextView
+                android:id="@+id/tv_good_model"
+                android:layout_width="0dp"
+                android:layout_weight="3"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/order_body_title"
+                android:layout_below="@+id/order_body_title"
+                android:layout_marginTop="@dimen/x6"
+                android:gravity="left|center_vertical"
+                android:textSize="@dimen/t11"
+                android:textColor="@color/color333333"/>
+
+            <TextView
+                android:id="@+id/tv_good_amount"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/order_body_title"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="@dimen/x6"
+                android:gravity="center|right"
+                android:textSize="@dimen/t11"
+                android:textColor="@color/color333333"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:id="@+id/order_body_money"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_toEndOf="@+id/order_body_money_text"
+                android:text="￥00.00"
+                android:textColor="@color/colorE20F12"
+                android:textSize="@dimen/t12" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</RelativeLayout>
