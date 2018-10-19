@@ -3,8 +3,8 @@ package com.mhky.yaolinwang.order.activity;
 import android.content.Context;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -12,19 +12,19 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.alibaba.fastjson.JSON;
 import com.lzy.okgo.model.HttpParams;
 import com.mhky.dianhuotong.R;
 import com.mhky.dianhuotong.base.BaseActivityCK;
 import com.mhky.dianhuotong.base.BaseApplication;
 import com.mhky.dianhuotong.base.BasePresenter;
 import com.mhky.dianhuotong.base.BaseTool;
-import com.mhky.dianhuotong.custom.AlertDialog.LoadingDialog;
 import com.mhky.dianhuotong.custom.viewgroup.DianHuoTongBaseTitleBar;
 import com.mhky.dianhuotong.shop.adapter.OrderInfoAdapter;
 import com.mhky.dianhuotong.shop.bean.OrderBaseInfo;
-import com.mhky.dianhuotong.shop.precenter.OrderInfoPresenter;
 import com.mhky.dianhuotong.shop.receiver.BanlanceReciver;
 import com.mhky.dianhuotong.shop.receiver.BanlanceReciverIF;
+import com.mhky.yaolinwang.adapter.CustomerOrderDetailsAdapter;
 import com.mhky.yaolinwang.order.bean.CustomerOrderBean;
 import com.mhky.yaolinwang.order.presenter.CustomerOrderDetailsPresenter;
 import com.mhky.yaolinwang.order.view.CustomerOrderDetailsView;
@@ -35,12 +35,13 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * 订单详情
  */
 
-public class CustomerOrderDetailsActivity extends BaseActivityCK implements CustomerOrderDetailsView,BanlanceReciverIF {
+public class CustomerOrderDetailsActivity extends BaseActivityCK implements CustomerOrderDetailsView, BanlanceReciverIF {
 
     @BindView(R.id.order_ok_title)
     DianHuoTongBaseTitleBar orderOkTitle;
@@ -121,7 +122,7 @@ public class CustomerOrderDetailsActivity extends BaseActivityCK implements Cust
     private List<BasePresenter> presenterList = new ArrayList<>();
     private CustomerOrderDetailsPresenter customerOrderDetailsPresenter;
     private CustomerOrderBean.ContentBean contentBean;
-    private OrderInfoAdapter orderInfoAdapter;
+    private CustomerOrderDetailsAdapter customerOrderDetailsAdapter;
     private String orderId;
     private OrderBaseInfo orderBaseInfo;
     private Context mContext;
@@ -159,6 +160,14 @@ public class CustomerOrderDetailsActivity extends BaseActivityCK implements Cust
 
         orderOkTitle.setLeftImage(R.drawable.icon_back);
         orderOkTitle.setCenterTextView("订单详情");
+
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        rvCustomerOrder.setNestedScrollingEnabled(false);
+        rvCustomerOrder.setHasFixedSize(true);
+        rvCustomerOrder.setLayoutManager(linearLayoutManager);
+        customerOrderDetailsAdapter = new CustomerOrderDetailsAdapter(contentBean.getOrderDetailSet(), mContext);
+        rvCustomerOrder.setAdapter(customerOrderDetailsAdapter);
     }
 
     private void initListener() {
@@ -170,20 +179,34 @@ public class CustomerOrderDetailsActivity extends BaseActivityCK implements Cust
         });
     }
 
+    @OnClick({R.id.order_info_change_address, R.id.order_info_go_shop, R.id.order_ok_submit})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.order_info_change_address://更改地址
+                break;
+            case R.id.order_info_go_shop://跳转店铺
+                break;
+            case R.id.order_ok_submit://结算按钮
+                break;
+        }
+    }
+
     private void initData() {
         if (!BaseTool.isEmpty(orderId)) {
             HttpParams httpParams = new HttpParams();
-            httpParams.put("orderId",orderId);
+            httpParams.put("orderId", orderId);
             customerOrderDetailsPresenter.getCustomerOrderDetails(httpParams);
         }
     }
 
     /**
      * 获取订单详情成功
+     *
      * @param data
      */
     @Override
     public void getCustomerOrderDetailsSuccess(String data) {
+        contentBean = JSON.parseObject(data,CustomerOrderBean.ContentBean.class);
 
     }
 
@@ -194,10 +217,12 @@ public class CustomerOrderDetailsActivity extends BaseActivityCK implements Cust
 
     /**
      * 付款广播
+     *
      * @param code
      */
     @Override
     public void doBanlance(int code) {
 
     }
+
 }
